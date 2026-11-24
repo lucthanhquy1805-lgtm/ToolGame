@@ -34,14 +34,18 @@ The dev machine has no game; the bot will run on a separate game PC.
 - UI: `python tests/test_ui.py`; preview pictures of every tab: `python tests/ui_screenshots.py` → docs/ui_v7/.
 - Monster catalogs / name reading / labels / export (PLAN 0.14-0.16): `python tests/test_monsters.py`.
   New zone or monster: `docs/ADD_NEW_MAP.md` (catalog `lineage_auto/data/monsters/<key>.json` + name pictures).
-- Real hunt replays (PLAN 0.27/0.28): `python tests/test_hunt_records.py` (engage/targeting/exploration on the saved
-  frames of records_game/20261124_183803_hunt + 190646 with a fake clock; minimap reader on 183803 frames 511-654;
-  the 54 s stuck fight of 190646 must end in <= 10 s).
+- Real hunt replays (PLAN 0.27/0.28/0.31): `python tests/test_hunt_records.py` (engage/targeting/exploration on the
+  saved frames of records_game/20261124_183803_hunt + 190646 + 223510 with a fake clock; minimap reader on 183803
+  frames 511-654; the 54 s melee fight of 190646 ends at the melee cap scan.melee_max_sec = 25 s; 223510: no melee
+  fight ends no_progress, candidates nearest first without the character's own box, every chat kill line counted once).
 - Remote stop (PLAN 0.28): `python tests/test_remote_stop.py` (Windows; SendInput mouse/ESC like TeamViewer ->
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. Fight endings + unreachable: `features/combat.py`.
-- Detection benchmark: `python tests/eval_detection.py [-v] [--conf X]` (recall / false positives / ms on
-  `docs/game_reference` with `tests/data/monster_labels.json`). Run before/after any vision change.
+- Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi]` (recall / false positives
+  / ms on `docs/game_reference` with `tests/data/monster_labels.json`). Run before/after any vision change.
+- Detector thread (PLAN 0.31): `runtime/detector.DetectorThread` runs YOLOX non-stop (scan.detect_fps / input_size /
+  detect_roi); `TargetingFeature._detect` reads its newest result (detects inline when it is None: tests, replays).
+  Smaller inputs = `model/<name>_<size>.onnx` from `train/export_onnx.py --size` (only blessed_orc has 416/320).
 - Orc model (PLAN 0.20): `tests/prelabel.py` (pick frames + box suggestions) → `tests/label_tool.py <rec> --review`
   → `train/train_orc.ps1` (GPU, `.venv_train` + `train/YOLOX`, not shipped) → `model/yolox_tiny_blessed_orc.onnx`.
   `HuntMap.trial=True` models are never packed by main.spec. See docs/TRAINING.md section 6.
@@ -77,7 +81,9 @@ Each iteration, while holding the mouse arbiter:
 4. `targeting.rehover_last` (keep the current lock) else `targeting.acquire`
    (YOLOX centers → hover each → confirm by the *attack* cursor hash)
 5. target → `combat.engage` (hold-left + drag auto-attack, follow the YOLOX box, attack skills
-   on nameplates, ends on corpse cursor / lost / 150 bursts); nothing → `exploration.wander`.
+   on nameplates, ends on kill line / corpse cursor / lost / switch to a much closer monster / caps; melee = lock
+   < 70 px + attack cursor is never left before scan.melee_max_sec); nothing → `exploration.wander`.
+   Kills (PLAN 0.31): one per chat kill line + one per corpse ending no line confirmed within 3 s (`combat._tally`).
 
 ## Conventions / gotchas
 - Features only talk to their `BotContext`; never reach for globals. That is what makes

@@ -107,6 +107,26 @@ def test_kill_lines():
     assert set(kills) == {m["name"] for m in monsters.for_real_map(ORC).monsters[:5]}
 
 
+def test_kill_lines_v13_hunt():
+    """PLAN 0.31: 223510 (1334x1008, "아데나 [9] 획득" with square brackets) read 0 kill lines live; the chat shows
+    "오염된 오크" then "오염된 오크 도끼병" on f_00024 and f_00058. Two identical new lines = two kills."""
+    rec = os.path.join(ROOT, "records_game", "20261124_223510_hunt")
+    if not os.path.isdir(rec):
+        return
+    reader = nr.NameReader(monsters.for_real_map(ORC), "chat")
+    for name in ("f_00024.jpg", "f_00058.jpg"):
+        frame = cv2.imread(os.path.join(rec, name))
+        read = [n for _mask, n in reader.chat_lines(frame)]
+        assert read[-2:] == ["오염된 오크", "오염된 오크 도끼병"] and sum(map(bool, read)) == 2, (name, read)
+    lines = [(nr.line_sig(m), n, m) for m, n in reader.chat_lines(cv2.imread(os.path.join(rec, "f_00024.jpg")))]
+    axe = lines[-1]
+    assert [n for _s, n, _m in nr.scrolled_lines(lines, lines[2:] + [axe, axe])] == [axe[1], axe[1]]
+    assert nr.scrolled_lines(lines, lines) == []
+    watcher = nr.KillWatcher(reader)
+    watcher.update(cv2.imread(os.path.join(rec, "f_00022.jpg")))
+    assert watcher.update(cv2.imread(os.path.join(rec, "f_00024.jpg"))) == ["오염된 오크 도끼병"] and watcher.readable
+
+
 def test_no_catalog_reads_nothing():
     reader = nr.NameReader(None)
     frame = np.zeros((890, 1187, 3), np.uint8)
@@ -362,6 +382,7 @@ def test_orc_model_packed():
     assert orc_map.key == "blessed_orc" and orc_map.channels == "bgr" and not orc_map.trial and orc_map.conf == 0.2
     packed = [os.path.basename(src) for src, _dst in hunt_maps.pyinstaller_onnx_datas(os.path.join(ROOT, "model"))]
     assert "yolox_tiny_blessed_orc.onnx" in packed and "yolox_tiny_dragon_valley.onnx" in packed
+    assert {"yolox_tiny_blessed_orc_416.onnx", "yolox_tiny_blessed_orc_320.onnx"} <= set(packed)  # PLAN 0.31 sizes
     zone = monsters.for_real_map(ORC)
     assert zone.hunt_map == "blessed_orc" and zone.has_model == hunt_maps.model_exists("blessed_orc")
 

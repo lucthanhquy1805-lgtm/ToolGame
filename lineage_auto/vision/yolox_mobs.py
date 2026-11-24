@@ -30,6 +30,7 @@ MONSTER_CLASS = 0
 FIGURE_CLASS = 1
 DIE_CLASS = 2
 INPUT_SIZE = 640
+EXPORT_SIZES = (320, 416, 640)  # model/<name>_<size>.onnx (train/export_onnx.py --size), 640 = <name>.onnx
 PAD_VALUE = 114
 
 _LAST_FIGURES = []
@@ -116,30 +117,55 @@ def session_device(sess):
     return names[0] if names else _CPU_PROVIDER
 
 
+# PLAN 0.31: onnxruntime threads. 0 = auto (half the cores, 2..4): the detector thread runs non-stop next to the
+# game, all cores would slow the client down. Set by the session from scan.detect_threads before the first load.
+THREADS = 0
+
+
+def ort_threads():
+    if THREADS > 0:
+        return THREADS
+    return max(2, min(4, (os.cpu_count() or 4) // 2))
+
+
 def _create_onnx_session(path):
     """CPU only. No CUDA / DirectML — driver mismatch made GPU boxes unstable."""
     import onnxruntime as ort
 
-    return ort.InferenceSession(path, providers=[_CPU_PROVIDER])
+    opts = ort.SessionOptions()
+    opts.intra_op_num_threads = ort_threads()
+    return ort.InferenceSession(path, opts, providers=[_CPU_PROVIDER])
 
 
-def ensure_session(map_key):
-    """Load and cache the ONNX session for this hunt map."""
+def model_path(map_key, size=INPUT_SIZE):
+    """ONNX for this map at this input side: <name>.onnx is 640, <name>_<size>.onnx a smaller export
+    (train/export_onnx.py --size). None when that size was not exported."""
+    path = hunt_maps.onnx_path(hunt_maps.get(map_key).key)
+    if size and size != INPUT_SIZE:
+        path = f"{os.path.splitext(path)[0]}_{size}.onnx"
+    return path if os.path.exists(path) else None
+
+
+def ensure_session(map_key, size=INPUT_SIZE):
+    """Load and cache the ONNX session for this hunt map (falls back to 640 when ``size`` was not exported)."""
     key = hunt_maps.get(map_key).key
-    sess = _SESSIONS.get(key)
-    if sess is not None:
-        return sess
-
-    path = hunt_maps.onnx_path(key)
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"YOLOX model not found: {path}")
-    sess = _create_onnx_session(path)
-    _SESSIONS[key] = sess
+    path = model_path(key, size) or model_path(key)
+    if path is None:
+        raise FileNotFoundError(f"YOLOX model not found: {hunt_maps.onnx_path(key)}")
+    sess = _SESSIONS.get(path)
+    if sess is None:
+        sess = _SESSIONS[path] = _create_onnx_session(path)
     return sess
 
 
-def _infer_onnx(blob, map_key=None):
-    sess = ensure_session(map_key or hunt_maps.DEFAULT_MAP_KEY)
+def session_size(sess):
+    """Input side of a loaded session (640 for the shipped models)."""
+    shape = sess.get_inputs()[0].shape
+    return int(shape[-1]) if isinstance(shape[-1], int) else INPUT_SIZE
+
+
+def _infer_onnx(blob, map_key=None, size=INPUT_SIZE):
+    sess = ensure_session(map_key or hunt_maps.DEFAULT_MAP_KEY, size)
     name = sess.get_inputs()[0].name
     return sess.run(None, {name: blob})[0]
 
@@ -167,36 +193,62 @@ def class_layout(pred):
     return (None, 1) if n == 2 else (None, None)
 
 
-def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=None, conf=None):
+# PLAN 0.31: detect only on the play area around the character (no minimap, skill bar, bottom HUD). 223510: 95% of the
+# boxes are within 456 px sideways and -332..+319 px vertically of the character on a 1334x1008 window.
+ROI_HALF_W = 0.36
+ROI_UP = 0.38
+ROI_DOWN = 0.36
+
+
+def roi_box(gw, gh, cx, cy):
+    """(x0, y0, x1, y1) of the detection crop around the character."""
+    x0, x1 = max(0, int(cx - ROI_HALF_W * gw)), min(int(gw * MINIMAP_LEFT_FRAC), int(cx + ROI_HALF_W * gw))
+    y0, y1 = max(0, int(cy - ROI_UP * gh)), min(int(gh * SKILLBAR_TOP_FRAC), int(cy + ROI_DOWN * gh))
+    return x0, y0, x1, y1
+
+
+def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=INPUT_SIZE, roi=False):
+    """(monsters, figures, dies) centers nearest (cx, cy) inside radius, in frame coordinates.
+
+    ``size`` picks the ONNX export (falls back to 640); ``roi`` crops the play area around the character first.
+    Thread-safe (no module state): the detector thread uses this."""
+    if frame_bgr is None or frame_bgr.size == 0:
+        return [], [], []
+    hunt = hunt_maps.get(map_key)
+    if infer is None:
+        sess = ensure_session(hunt.key, size)
+        size = session_size(sess)
+        name = sess.get_inputs()[0].name
+        infer = lambda b: sess.run(None, {name: b})[0]  # noqa: E731
+    img = _blank_play_hud(frame_bgr)
+    ox = oy = 0
+    if roi:
+        ox, oy, x1, y1 = roi_box(img.shape[1], img.shape[0], cx, cy)
+        img = img[oy:y1, ox:x1]
+    gh, gw = img.shape[:2]
+    canvas, scale, _dx, _dy = letterbox(img, size)
+    if hunt.channels == "rgb":
+        canvas = canvas[:, :, ::-1]
+    pred = infer(np.ascontiguousarray(canvas.transpose(2, 0, 1)[None], dtype=np.float32))
+    lcx, lcy = cx - ox, cy - oy
+
+    def project(class_id, c=DETECT_CONF):
+        return [(x + ox, y + oy) for x, y in _project_class(pred, class_id, scale, gw, gh, lcx, lcy, radius, conf=c)]
+
+    figure_id, die_id = class_layout(pred)
+    conf = conf or hunt.conf
+    return (project(MONSTER_CLASS, conf), project(figure_id) if figure_id is not None else [],
+            project(die_id, conf) if die_id is not None else [])
+
+
+def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=None, conf=None, size=INPUT_SIZE,
+                   roi=False):
     """Monster box-center hover points, nearest (cx, cy), inside radius.
 
     ``conf`` None/0 uses the hunt map's threshold. Figures from the same frame
     are stored on ``_LAST_FIGURES``.
     """
     global _LAST_FIGURES, _LAST_DIES
-    _LAST_FIGURES = []
-    _LAST_DIES = []
-    if frame_bgr is None or frame_bgr.size == 0:
-        return []
-    gh, gw = frame_bgr.shape[:2]
-    hunt = hunt_maps.get(map_key)
-    canvas, scale, _dx, _dy = letterbox(_blank_play_hud(frame_bgr))
-    if hunt.channels == "rgb":
-        canvas = canvas[:, :, ::-1]
-    blob = np.ascontiguousarray(canvas.transpose(2, 0, 1)[None], dtype=np.float32)
-    if infer is not None:
-        pred = infer(blob)
-    else:
-        pred = _infer_onnx(blob, map_key)
-    figure_id, die_id = class_layout(pred)
-    if figure_id is not None:
-        _LAST_FIGURES = _project_class(pred, figure_id, scale, gw, gh, cx, cy, radius)
-
-    conf = conf or hunt.conf
-    points = _project_class(pred, MONSTER_CLASS, scale, gw, gh, cx, cy, radius, conf=conf)
-    if die_id is not None:
-        _LAST_DIES = _project_class(pred, die_id, scale, gw, gh, cx, cy, radius, conf=conf)
-
-    if max_n is None:
-        return points
-    return points[:max_n]
+    points, _LAST_FIGURES, _LAST_DIES = detect(frame_bgr, cx, cy, radius, infer=infer, map_key=map_key, conf=conf,
+                                               size=size, roi=roi)
+    return points if max_n is None else points[:max_n]

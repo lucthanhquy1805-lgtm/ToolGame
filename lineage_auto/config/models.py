@@ -168,12 +168,16 @@ class HealthSettings:
         )
 
 
+MAX_PROBE_POINTS = 2
+INPUT_SIZES = (320, 416, 640)
+
+
 @dataclass
 class ScanSettings:
     """Target scan tuning (PLAN 0.1). Timings in seconds."""
 
     misses_before_wander: int = 2
-    max_probe_points: int = 6
+    max_probe_points: int = 2  # PLAN 0.31: hover-confirm only the 1-2 nearest boxes (MAX_PROBE_POINTS)
     hover_settle: float = 0.04
     hover_retry: float = 0.04
     hover_reads: int = 4
@@ -182,6 +186,12 @@ class ScanSettings:
     # PLAN 0.27: the hunt map detect_conf was typed for. A value from another map (or from a config
     # older than v12, e.g. 0.5 typed for Dragon Valley) is ignored: the zone's model uses its own conf.
     conf_map: str = ""
+    # PLAN 0.31: detector thread rate, ONNX input side (model/<name>_<size>.onnx, 640 if not exported), crop the play
+    # area around the character, and the longest melee (target < 70 px + attack cursor) before leaving it.
+    detect_fps: int = 5
+    input_size: int = 416
+    detect_roi: bool = True
+    melee_max_sec: float = 25.0
 
     def conf_for(self, map_key):
         """Threshold to pass to detect_centers: 0 (= the map's own conf) unless set for this map."""
@@ -192,13 +202,17 @@ class ScanSettings:
         data = data or {}
         return cls(
             misses_before_wander=max(1, int(data.get("misses_before_wander", 2))),
-            max_probe_points=max(1, int(data.get("max_probe_points", 6))),
+            max_probe_points=min(MAX_PROBE_POINTS, max(1, int(data.get("max_probe_points", 2)))),
             hover_settle=max(0.0, float(data.get("hover_settle", 0.04))),
             hover_retry=max(0.0, float(data.get("hover_retry", 0.04))),
             hover_reads=max(1, int(data.get("hover_reads", 4))),
             miss_ttl=max(0.0, float(data.get("miss_ttl", 4.0))),
             detect_conf=min(1.0, max(0.0, float(data.get("detect_conf", 0.0)))),
             conf_map=str(data.get("conf_map", "")),
+            detect_fps=min(15, max(1, int(data.get("detect_fps", 5)))),
+            input_size=int(data.get("input_size", 416)) if int(data.get("input_size", 416)) in INPUT_SIZES else 416,
+            detect_roi=bool(data.get("detect_roi", True)),
+            melee_max_sec=min(120.0, max(5.0, float(data.get("melee_max_sec", 25.0)))),
         )
 
 

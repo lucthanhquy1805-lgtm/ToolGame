@@ -2,6 +2,8 @@
 
   records_game/20261124_183803_hunt  (wizard, night, 654 frames, minimap on in frames 511-654)
   records_game/20261124_190646_hunt  (wizard, day, 625 frames; one orc in tall grass held 54 s at t 390-444)
+  records_game/20261124_223510_hunt  (v13, wizard, night, 1334x1008, 729 frames; PLAN 0.31: 51 no_progress, 40 of
+                                      them next to the character, 66 side steps, 0 chat kill lines read live)
 
 The real CombatFeature.engage / TargetingFeature / ExplorationFeature run on the saved frames with a fake clock:
   * every fight starts where the v11 bot hovered an attack cursor (hovers.jsonl) and may run until the next one;
@@ -11,7 +13,8 @@ The real CombatFeature.engage / TargetingFeature / ExplorationFeature run on the
   * the cursor under the mouse = "attack" when a YOLOX box (orc conf 0.2) is within CURSOR_R px, else ground
     (the real cursor exists only at hover time) -> an approximation: the picture keeps showing what the v11 bot did.
 Measured per recording: how fights end and how long they last vs v11, chat kill lines inside a simulated fight,
-targets blacklisted; on 183803 also the minimap reader and the wander direction on the minimap frames.
+targets blacklisted; on 183803 also the minimap reader and the wander direction on the minimap frames; on 223510
+(PLAN 0.31) the melee rule, nearest-first candidates without the character's own box, and the kill count.
 Usage: python tests/test_hunt_records.py   (a recording that is not on this machine is skipped)
 """
 import json
@@ -55,6 +58,9 @@ def read_jsonl(path):
 
 class Replay:
     def __init__(self, rec):
+        global CHAR
+        meta = json.load(open(os.path.join(rec, "meta.json"), encoding="utf-8"))
+        w, h = meta.get("window") or (1280, 960)
         from lineage_auto import monsters
         from lineage_auto.config.models import AccountSettings
         from lineage_auto.features import combat as cb
@@ -65,6 +71,7 @@ class Replay:
 
         self.rec, self.cb, self.tg = rec, cb, tg
         self.frames = read_jsonl(os.path.join(rec, "frames.jsonl"))
+        CHAR = tuple(self.frames[0]["char"]) if self.frames[0].get("char") else (640, 380)
         self.hovers = read_jsonl(os.path.join(rec, "hovers.jsonl"))
         self.times = [f["t"] for f in self.frames]
         self.clock = clock = Clock()
@@ -82,7 +89,7 @@ class Replay:
             mx, my = mouse["xy"]
             return "attack" if any(abs(x - mx) <= CURSOR_R and abs(y - my) <= CURSOR_R for x, y in hits) else "ground"
 
-        self.rect = ClientRect(0, 0, 1280, 960)
+        self.rect = ClientRect(0, 0, w, h)
         self.clicks = []
         inp = types.SimpleNamespace(
             move=lambda x, y: mouse.update(xy=(x, y)), hold_left=lambda: None, release_left=lambda: None,
@@ -129,8 +136,7 @@ class Replay:
             if clock.now > h["t"]:
                 continue  # the previous simulated fight was still running: the v11 bot re-hovered meanwhile
             clock.now = h["t"]
-            self.targeting.see(self.frame_at(clock.now), CHAR)  # chat baseline at the start
-            self.targeting.pop_kills()
+            self.targeting.see(self.frame_at(clock.now), CHAR)  # chat lines since the last fight: combat counts them
             ctx.running = True
             self.mouse["xy"] = tuple(h["point"])
             orig_sleep = clock.sleep
@@ -157,7 +163,7 @@ class Replay:
                   if self.offline.get(f["file"], {}).get("kills")]
         inside = sum(any(a - 0.5 <= t <= b + 1.5 for a, b, _o in windows) for t in chat_t)
         name = os.path.basename(self.rec)
-        print(f"== {name}: {len(windows)} simulated fights (v11: {v11})")
+        print(f"== {name}: {len(windows)} simulated fights (recorded: {v11})")
         for g, d in sorted(groups.items(), key=lambda kv: -len(kv[1])):
             print(f"   {g:12s} {len(d):3d}  avg {sum(d) / len(d):5.1f}s  max {max(d):5.1f}s")
         print(f"   chat kill lines {len(chat_t)} ({inside} inside a simulated fight); blacklisted "
@@ -184,7 +190,7 @@ def check_183803(rec):
     windows = r.fights()
     groups = r.report(windows, "139 = 133 lost + 6 corpse, median 2 s")
     assert len(groups.get("lost", [])) <= 0.3 * len(windows), groups  # v11: 96% "lost"
-    assert max(b - a for a, b, _o in windows) <= r.cb.MAX_FIGHT_SEC + 2 * BEAT_COST + 1
+    assert max(b - a for a, b, _o in windows) <= r.ctx.account.scan.melee_max_sec + 2 * BEAT_COST + 1
 
     # Wander on the minimap frames: score the 8 directions as the bot would after an empty scan.
     tgt, ctx = r.targeting, r.ctx
@@ -217,13 +223,64 @@ def check_190646(rec):
     assert stuck, "the stuck fight was not replayed"
     a, b, o = stuck[0]
     print(f"   f_00340-395 fight (v11 54 s, cap): {o} after {b - a:.1f}s")
-    assert b - a <= 10.0 and o in ("no_progress", "unreachable", "gone", "lost") or o in r.cb.KILL_OUTCOMES, stuck
-    assert max(w[1] - w[0] for w in windows) <= r.cb.MAX_FIGHT_SEC + 2 * BEAT_COST + 1
+    # PLAN 0.31: in melee with the sword up -> kept until the melee cap (25 s), no longer left after 8 s
+    melee_max = r.ctx.account.scan.melee_max_sec
+    assert b - a <= melee_max + 2 * BEAT_COST + 1 or o in r.cb.KILL_OUTCOMES, stuck
+    assert max(w[1] - w[0] for w in windows) <= melee_max + 2 * BEAT_COST + 1
+
+
+def check_223510(rec):
+    """PLAN 0.31: v13 left monsters it was hitting (no_progress next to the character, side steps) and read no kill
+    line live. Replayed: no melee fight ends no_progress / side steps; candidates nearest first, never the character's
+    own box; every kill line counted exactly once, body/cursor kills only without a line."""
+    from lineage_auto.features import targeting as tg
+
+    r = Replay(rec)
+    counts, events = Counter(), []
+    r.ctx.recorder = types.SimpleNamespace(
+        count=lambda k, n=1: counts.update({k: n}), event=lambda kind, **d: events.append(dict(d, kind=kind)),
+        fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+        path=os.path.join(ROOT, "records_game", "_check"))
+    windows = r.fights()
+    r.combat.on_stop()
+    r.report(windows, "118 = 34 corpse + 3 frozen + 51 no_progress + 15 unreachable + 13 gone + 2 cap")
+    ends = [e for e in events if e["kind"] == "fight_end"]
+    bad = [e for e in ends if e["outcome"] in ("no_progress", "unreachable") and (e["melee"] or e["dist"] <= tg.MELEE_DIST)]
+    near = sum(1 for e in ends if e["dist"] is not None and e["dist"] <= tg.MELEE_DIST)
+    steps = sum("side step" in str(line) for line in r.logs)
+    print(f"   fights ending <= {tg.MELEE_DIST}px: {near}; no_progress/unreachable there: {len(bad)} (v13: 38); "
+          f"side steps {steps} (v13: 66)")
+    assert not bad, bad[:3]
+    st = r.ctx.state
+    print(f"   kills {st.get('kills', 0)} = chat {st.get('kills_chat', 0)} + corpse only "
+          f"{st.get('kills_corpse_only', 0)}; kill lines read {counts['chat_kill_lines']} (v13 live: 0)")
+    assert st.get("kills_chat", 0) == counts["chat_kill_lines"] > 0, (st, counts)  # every line once
+    assert st.get("kills", 0) == st.get("kills_chat", 0) + st.get("kills_corpse_only", 0)
+
+    # Candidates on every 6th frame: nearest first, never within SELF_R of the character, nothing near skipped.
+    tgt = tg.TargetingFeature(r.ctx, clock=r.clock.time)
+    tgt.kill_watch = None
+    r.ctx.recorder = None
+    r.ctx.account.scan.max_probe_points = 2
+    selfbox = checked = 0
+    for f in r.frames[::6]:
+        r.clock.now = f["t"]
+        tgt._misses = [(x, y, 1e9) for x, y in f["hits"]]  # every box already missed once
+        pts, _ = tgt.candidates(r.rect, CHAR)
+        d = [((x - CHAR[0]) ** 2 + (y - CHAR[1]) ** 2) ** 0.5 for x, y in tgt.last_monsters]
+        assert all(v > tg.SELF_R for v in d), d
+        near_pts = [p for p, v in zip(tgt.last_monsters, d) if v <= tg.NEAR_KEEP]
+        assert tgt.last_monsters[:len(near_pts)] == near_pts and pts == tgt.last_monsters[:2], (f["file"], pts, d)
+        selfbox += any(((x - CHAR[0]) ** 2 + (y - CHAR[1]) ** 2) ** 0.5 <= tg.SELF_R for x, y in f["hits"])
+        checked += 1
+    print(f"   candidates on {checked} frames: nearest first, near boxes kept after a miss, "
+          f"{selfbox} frames had a box on the character (dropped)")
 
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
-    for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646)):
+    for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
+                        ("20261124_223510_hunt", check_223510)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

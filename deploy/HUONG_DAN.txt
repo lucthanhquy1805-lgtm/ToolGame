@@ -1,5 +1,39 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 24/11/2026 (bản 12) — SỬA BOT SĂN SAU LẦN SĂN THẬT ĐẦU TIÊN (18:34–18:50). Cài đè như bản 11 (mục 2):
+Bản build: 24/11/2026 (bản 14) — sửa sau lần săn 15 phút bản 13 (22:35–22:50). Cài đè như cũ (mục 2).
+  ★★★★ MỚI Ở BẢN 14:
+    a) NHẬN DIỆN NHANH: nhận diện quái chạy liên tục ở luồng riêng (mặc định 5 lần/giây), chỉ trên vùng quanh nhân
+       vật, đầu vào 416 (máy dev 22 ms thay vì 48 ms; máy game bản 13 = 165 ms). Log ghi "[detect] size 416 roi on
+       threads N ...: X ms avg" sau 10 giây rồi mỗi phút → GỬI session_log.txt để xem ms thật trên máy game.
+       Nếu X > 80: Tab Săn → Quét → Nâng cao → "Kích thước đầu vào" = 320 (nhanh hơn, nhận diện kém hơn một chút).
+       Chỉ rê chuột xác nhận 1–2 con gần nhất.
+    b) LUÔN ĐÁNH CON GẦN NHẤT: con đang đánh ở sát nhân vật (< 70 px) + con trỏ kiếm/cung → KHÔNG bước sang bên,
+       KHÔNG bỏ sau 8 giây; chỉ dừng khi nó chết / mất, hoặc sau 25 giây ("Đánh giáp lá tối đa"). Có con khác gần hơn
+       nhiều ở sát bên → chuyển sang con đó. Không bỏ qua con nào trong 100 px quanh nhân vật. Bản 13 hay "đánh"
+       chính nhân vật mình (hộp nhận diện trên nhân vật) — nay bỏ hộp đó.
+    c) ĐẾM GIẾT ĐÚNG: mỗi dòng chat "아데나 [n] 획득: <tên>" = 1 con; con trỏ thánh giá / quái ngã chỉ tính khi không
+       có dòng chat trong ~3 giây. Bản 13 KHÔNG đọc được chat khi săn (0 dòng) — bản 14 đọc chat như ảnh đã lưu; nếu
+       vẫn không đọc được, log ghi "chat not read: ..." và lưu 3 ảnh records\<bản ghi>\raw\chat_fail_*.png → gửi về.
+       summary.json: kills_chat / kills_corpse_only / kills_total.
+    d) LẦN SĂN TỚI: săn 15 phút ở 오크의 땅 như lần trước, BẬT ghi khi săn, rồi gửi bản ghi + session_log.txt.
+  ★★★ MỚI Ở BẢN 13:
+    a) DỪNG TỪ XA CHẮC CHẮN NHẤT = GỬI FILE "STOP" QUA TEAMVIEWER FILE TRANSFER:
+       1. Trên máy của bạn tạo 1 file rỗng tên đúng là STOP (không đuôi .txt; mẫu có sẵn: records_game\_stop\STOP).
+       2. TeamViewer → File Transfer → gửi file đó vào thư mục C:\LineageAuto\main\ của máy game.
+       3. Trong ~1 giây tool dừng bot (cả chế độ quan sát), tự xóa file STOP, log ghi "[ENGINE] stop: STOP file".
+       (Lối tắt "DUNG Lineage Auto" trên Desktop máy game làm đúng việc này nếu bấm được.)
+    b) Bản 12: rê chuột/click/ESC qua TeamViewer KHÔNG dừng được bot. Bản 13 thêm: (1) dừng khi con trỏ chuột bị dời
+       ≥40 px mà bot không di chuột (không cần cờ "injected"), (2) 10 giây đầu mỗi lần săn, log ghi mọi sự kiện
+       chuột/phím mà tool thấy ("[HOTKEY] input seen: ..."). LẦN SĂN TỚI: trong 10 giây đầu hãy RÊ CHUỘT + BẤM ESC
+       qua TeamViewer rồi gửi session_log.txt — để biết TeamViewer gửi kiểu gì. Vẫn dùng file STOP làm cách chắc chắn.
+    c) Quái chết = dòng chat "아데나 (n) 획득: <tên>" (tín hiệu số 1); thánh giá chỉ là dự phòng (xác biến mất <1 s).
+       summary.json ghi "fights": kill_chat / kill_fall / kill_corpse_cursor / gone / no_progress / unreachable +
+       "chat_kill_lines" (số dòng giết trong chat) để đối chiếu.
+    d) Dòng chat "마법 사용: 실패! 올바른 대상이 아니거나 취소함": bot ghi log phím vừa bấm (ở bản 12 dòng này xuất hiện
+       ngay sau HỒI MÁU F5 / buff lúc bắt đầu, KHÔNG phải skill tấn công) và tạm ngừng skill tấn công 5 giây.
+       → Kiểm tra lại cách hồi máu F5 / buff F6, F10, F11 trong game (cần chọn mục tiêu?).
+    e) Khu mới "오크 숲" trong danh sách Khu săn (chưa có model → chỉ QUAN SÁT/thu dữ liệu). Ở 오크 숲 hãy chạy
+       "Bắt đầu quan sát" ~15 phút, tự săn bằng tay, rê chuột lên quái (아투바/네루가/두다-마라/간디 오크...) rồi gửi về.
+(bản 12: SỬA BOT SĂN SAU LẦN SĂN THẬT ĐẦU TIÊN (18:34–18:50))
   cấu hình, con trỏ đã đăng ký và bản ghi cũ được GIỮ NGUYÊN. Cách săn khu orc giữ như ★ bên dưới.
   ★★ MỚI Ở BẢN 12:
     a) BẬT MINIMAP TRONG GAME (bản đồ nhỏ góc trên trái, như lúc 18:47 trong lần săn trước). Bot đọc minimap để:
@@ -89,7 +123,7 @@ HP/MP hiện số thật; tool thu nhỏ được (thanh cuộn ngang); Quái = 
 ======================================================================================
 1. CHUẨN BỊ
 ======================================================================================
-1-1. Dùng TeamViewer File Transfer chép LineageAuto_20261124_v12.zip sang Desktop máy game.
+1-1. Dùng TeamViewer File Transfer chép LineageAuto_20261125_v14.zip sang Desktop máy game.
 1-2. Chuột phải file zip → Extract All → Extract.
      KHÔNG chạy trực tiếp bên trong zip, phải giải nén trước.
      Sau khi giải nén có: thư mục main, thư mục Interception, 1_CAI_DAT.bat, 2_GUI_SO_LIEU.bat,

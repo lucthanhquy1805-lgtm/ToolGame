@@ -225,7 +225,7 @@ def report(arg, meta, summary, frames, hovers):
     if events:
         print(f"event frames: {dict(events)}")
     counts = summary.get("counts", {})
-    for key in ("engage", "kills", "rescan", "wander", "scans", "grid_sweeps", "chat_frames", "chat_lines"):
+    for key in ("engage", "kills", "rescan", "wander", "scans", "grid_sweeps", "chat_frames", "chat_lines", "detections"):
         if key in counts:
             print(f"{key}: {counts[key]}")
     ends = {k[4:]: v for k, v in counts.items() if k.startswith("end_")}
@@ -247,6 +247,45 @@ def report(arg, meta, summary, frames, hovers):
                   f"walk avg {sum(walk) / max(1, len(walk)):.1f}s")
     if summary.get("avg_ms"):
         print(f"avg ms: {summary['avg_ms']}")
+    time_report(summary, events)
+
+
+KILL_ENDS = ("corpse_cursor", "die_box", "frozen", "chat_kill", "vanished")
+
+
+def time_report(summary, events):
+    """PLAN 0.31: where the hunt time went, scan rate, and kills by source."""
+    duration = summary.get("duration_sec") or 0
+    if not duration:
+        return
+    counts = summary.get("counts", {})
+    ends = [e for e in events if e.get("kind") == "fight_end"]
+    by = {}
+    for e in ends:
+        n, t = by.get(e["outcome"], (0, 0.0))
+        by[e["outcome"]] = (n + 1, t + (e.get("seconds") or 0))
+    fight_s = sum(t for _n, t in by.values())
+    print(f"time: fighting {fight_s:.0f}s ({fight_s / duration:.0%}), not fighting (scan / hover / wander / loot) "
+          f"{duration - fight_s:.0f}s of {duration:.0f}s")
+    if by:
+        print("  by ending: " + ", ".join(f"{k} {n}x {t:.0f}s" for k, (n, t) in sorted(by.items(), key=lambda kv: -kv[1][1])))
+    melee = [e for e in ends if "melee" in e]  # v14+
+    if melee:
+        near = Counter(e["outcome"] for e in melee if e.get("dist") is not None and e["dist"] <= 70)
+        print(f"  endings with the lock <= 70 px: {dict(near)}; melee at the end: {sum(bool(e['melee']) for e in melee)}")
+    minutes = duration / 60
+    rate = f"scans {counts.get('scans', 0) / minutes:.1f}/min"
+    if counts.get("detections"):
+        rate += f", detections {counts['detections'] / minutes:.0f}/min ({counts['detections'] / duration:.1f}/s)"
+    print(f"{rate}; detect ms avg {summary.get('avg_ms', {}).get('detect_ms', '-')}")
+    if "kills_total" in summary:
+        print(f"kills {summary['kills_total']} = chat {summary['kills_chat']} + corpse only "
+              f"{summary['kills_corpse_only']} (kill lines seen {summary.get('chat_kill_lines', 0)}, "
+              f"chat unreadable frames {counts.get('chat_unreadable', 0)}/{counts.get('chat_frames', 0)})")
+    else:  # before v14: one kill per kill ending
+        chat = by.get("chat_kill", (0, 0))[0]
+        body = sum(by.get(k, (0, 0))[0] for k in KILL_ENDS if k != "chat_kill")
+        print(f"kills {chat + body} = chat {chat} + corpse/fall {body} (kill lines seen {summary.get('chat_kill_lines', 0)})")
 
 
 def has_hand_work(path):

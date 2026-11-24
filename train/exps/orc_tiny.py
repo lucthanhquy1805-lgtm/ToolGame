@@ -45,7 +45,8 @@ class Exp(MyExp):
     def __init__(self):
         super().__init__()
         self.depth, self.width = 0.33, 0.375  # tiny
-        self.num_classes = 1
+        # PLAN 0.30 / 2: ORC_CLASSES=2 for orc_v2 (orc + corpse, export_dataset --classes corpse)
+        self.num_classes = int(os.environ.get("ORC_CLASSES", 1))
         self.input_size = self.test_size = (640, 640)
         self.data_dir = os.environ.get("ORC_DATA", os.path.join(ROOT, "datasets", "orc_trial"))
         self.train_ann, self.val_ann = "instances_train2017.json", "instances_val2017.json"

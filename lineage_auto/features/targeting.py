@@ -7,6 +7,7 @@ on the stale last-hover pixel. In melee it only follows a 32px wobble.
 """
 
 import math
+import os
 import time
 from dataclasses import dataclass
 
@@ -52,6 +53,19 @@ BLOCK_RADIUS = 48  # client px
 CORPSE_SKIP_RADIUS = 20
 # PLAN 0.29: a "마법 사용: 실패" chat line pauses the attack skills this long.
 SKILL_PAUSE_SEC = 5.0
+# PLAN 0.31: a box centred this close to the character is the character itself (223510: 22 fights "sword=no" there).
+SELF_R = 25
+# Monsters this close to the character are never skipped (miss / blacklist) and come first, whatever the minimap says.
+NEAR_KEEP = 100
+# Extra rescans (instead of wandering off) while something stays detected within NEAR_KEEP.
+NEAR_RESCANS = 3
+# Another monster under this share of the lock's distance, inside MELEE_DIST, is fought first (combat switches).
+SWITCH_SHARE = 0.5
+MELEE_DIST = 70
+# Longest wait in a fight beat for the detector thread's next result.
+DETECT_WAIT = 0.3
+CHAT_FAIL_LOG = 10.0  # s between two "chat not read" log lines
+CHAT_FAIL_PNGS = 3
 
 
 def pick_chase_center(last_xy, hits, char_xy=None, chase_radius=None):
@@ -139,6 +153,11 @@ class TargetingFeature(Feature):
         self.name_reader = None  # vision.name_reader.NameReader (names over monsters), set by the session
         self.chat_kills = []  # (time, name) of kill lines seen since the last pop_kills()
         self._blocked = []  # (x, y, expires_at, epoch or None for client coordinates)
+        self.detector = None  # runtime.detector.DetectorThread (PLAN 0.31), set by the session; None = detect inline
+        self._seen_seq = 0
+        self._near_hit = False
+        self._chat_fail_t = -CHAT_FAIL_LOG
+        self._chat_fail_pngs = 0
 
     @property
     def scan(self):
@@ -157,8 +176,9 @@ class TargetingFeature(Feature):
         )
 
     def should_rescan(self):
-        """Detections were seen but none confirmed, fewer than N times in a row."""
-        return 0 < self.miss_streak < self.scan.misses_before_wander
+        """Detections were seen but none confirmed, fewer than N times in a row (more while one is next to us)."""
+        limit = self.scan.misses_before_wander + (NEAR_RESCANS if self._near_hit else 0)
+        return 0 < self.miss_streak < limit
 
     def reset_misses(self):
         """Before wandering: the view shifts, so local miss spots are stale."""
@@ -178,11 +198,33 @@ class TargetingFeature(Feature):
             for name in names:
                 self.chat_kills.append((self.clock(), name))
             rec = self.ctx.recorder
+            if rec:
+                rec.count("chat_frames")
+            if not watch.readable:
+                self._chat_fail(frame, watch.fail_reason)
             if names and rec:
                 rec.count("chat_kill_lines", len(names))  # every kill line seen, to compare with the fights
             if watch.magic_fail:
                 watch.magic_fail = 0
                 self._magic_fail()
+
+    def _chat_fail(self, frame, reason):
+        """PLAN 0.31: chat not read -> one log line per CHAT_FAIL_LOG s; the first CHAT_FAIL_PNGS lossless
+        chat pictures go to the recording (raw/chat_fail_*.png) to compare with its JPEG frames."""
+        rec = self.ctx.recorder
+        if rec:
+            rec.count("chat_unreadable")
+        now = self.clock()
+        if now - self._chat_fail_t < CHAT_FAIL_LOG:
+            return
+        self._chat_fail_t = now
+        self.log(f"chat not read: {reason}")
+        if rec and self._chat_fail_pngs < CHAT_FAIL_PNGS:
+            from ..winapi.cursor import save_png
+
+            self._chat_fail_pngs += 1
+            h = frame.shape[0]
+            save_png(os.path.join(rec.path, "raw", f"chat_fail_{self._chat_fail_pngs}.png"), frame[int(0.75 * h):])
 
     def _magic_fail(self):
         """PLAN 0.29: "마법 사용: 실패! 올바른 대상이 아니거나 취소함" in the chat -> pause attack skills, name the key."""
@@ -305,23 +347,46 @@ class TargetingFeature(Feature):
     def _hunt_map_key(self):
         return getattr(self.ctx.account, "hunt_map", None) or hunt_maps.DEFAULT_MAP_KEY
 
+    def _detect(self, rect, char, radius, wait=0.0):
+        """(frame, hits, figures, dies, detect_ms) of the newest detection, hits nearest ``char`` within radius.
+
+        PLAN 0.31: from the detector thread when it runs (``wait`` s at most for a result newer than the last one
+        used; detect_ms None = already counted by the thread), else grab + detect here. Boxes on the character
+        itself are dropped. The chat / minimap are read once per new picture."""
+        det = self.detector
+        found = det.newest(self._seen_seq, wait) if det is not None else None
+        if found is not None:
+            new = found.seq != self._seen_seq
+            self._seen_seq = found.seq
+            frame, figures, dies, detect_ms = found.frame, found.figures, found.dies, None
+            hits = [p for p in found.hits if math.hypot(p[0] - char[0], p[1] - char[1]) <= radius]
+        else:
+            new = True
+            frame = self.ctx.grabber.grab_bgr(rect)
+            map_key = self._hunt_map_key()
+            t0 = time.perf_counter()
+            hits = detect_centers(frame, char[0], char[1], radius=radius, map_key=map_key,
+                                  conf=self.scan.conf_for(map_key))
+            figures, dies = list(yolox_mobs._LAST_FIGURES), list(yolox_mobs._LAST_DIES)
+            detect_ms = 1000 * (time.perf_counter() - t0)
+        hits = [p for p in hits if math.hypot(p[0] - char[0], p[1] - char[1]) > SELF_R]
+        if new:
+            self.see(frame, char)
+        return frame, hits, figures, dies, detect_ms
+
     def candidates(self, rect, char, max_r=None):
         """YOLOX box centers, nearest first. No spiral, no nameplates."""
         if max_r is None:
             max_r = play_max_radius(rect.w, rect.h, char[0], char[1])
-        frame = self.ctx.grabber.grab_bgr(rect)
         unique = []
         self.last_skipped = 0
-        map_key = self._hunt_map_key()
-        t0 = time.perf_counter()
-        hits = detect_centers(frame, char[0], char[1], radius=max_r, map_key=map_key, conf=self.scan.conf_for(map_key))
-        dies = list(yolox_mobs._LAST_DIES)
-        detect_ms = 1000 * (time.perf_counter() - t0)
-        self.see(frame, char)
+        frame, hits, figures, dies, detect_ms = self._detect(rect, char, max_r)
         rec = self.ctx.recorder
         if rec:
             rec.begin_scan()
             rec.frame(frame, hits, char=char, detect_ms=detect_ms, extra=self._rec_extra())
+        near = lambda p: math.hypot(p[0] - char[0], p[1] - char[1]) <= NEAR_KEEP  # noqa: E731
+        self._near_hit = any(near(p) for p in hits)
         for tx, ty in hits:
             # Corpse skipping is disabled (see mark_corpse); kept as a hook.
             if self._is_corpse_blob((tx, ty)):
@@ -329,7 +394,7 @@ class TargetingFeature(Feature):
             # A standing box on a lying ("die") box is the corpse being drawn, not a new monster.
             if any(math.hypot(tx - dx, ty - dy) < CORPSE_SKIP_RADIUS for dx, dy in dies):
                 continue
-            if self._recent_miss((tx, ty)) or self.is_blocked((tx, ty)):
+            if not near((tx, ty)) and (self._recent_miss((tx, ty)) or self.is_blocked((tx, ty))):
                 self.last_skipped += 1
                 continue
             if any(math.hypot(tx - ax, ty - ay) < MOTION_DEDUPE for ax, ay in unique):
@@ -338,27 +403,26 @@ class TargetingFeature(Feature):
         if self.minimap is not None:
             # PLAN 0.27: same side of the fence first; only ordering, the walk itself decides "unreachable".
             # Straight-line test only: a BFS per box would cost up to ~30 ms each.
-            unique.sort(key=lambda p: not self.minimap.clear_to(char, p))  # stable: nearest first
+            # PLAN 0.31: never ahead of a monster next to the character.
+            unique.sort(key=lambda p: not near(p) and not self.minimap.clear_to(char, p))  # stable: nearest first
         self.last_monsters = list(unique)
-        self.last_figures = list(yolox_mobs._LAST_FIGURES)
+        self.last_figures = list(figures)
+        self.last_dies = list(dies)
         self.last_scan_points = len(unique)
         return unique[:self.scan.max_probe_points], max_r
 
     def track_current(self, rect, last_xy, search_radius=None, char=None):
         """Follow the locked YOLOX box. None if it is gone."""
-        frame = self.ctx.grabber.grab_bgr(rect)
         radius = search_radius if search_radius is not None else CHASE_RADIUS
-        map_key = self._hunt_map_key()
         origin = char if char is not None else last_xy
         scan_r = play_max_radius(rect.w, rect.h, origin[0], origin[1])
-        hits = detect_centers(frame, origin[0], origin[1], radius=scan_r, map_key=map_key, conf=self.scan.conf_for(map_key))
-        self.see(frame, char)
+        frame, hits, figures, dies, detect_ms = self._detect(rect, origin, scan_r, wait=DETECT_WAIT)
         if self.ctx.recorder:
-            self.ctx.recorder.frame(frame, hits, char=char, extra=self._rec_extra())
+            self.ctx.recorder.frame(frame, hits, char=char, detect_ms=detect_ms, extra=self._rec_extra())
 
         self.last_monsters = list(hits)
-        self.last_figures = list(yolox_mobs._LAST_FIGURES)
-        self.last_dies = list(yolox_mobs._LAST_DIES)
+        self.last_figures = list(figures)
+        self.last_dies = list(dies)
         picked = pick_chase_center(last_xy, hits, char_xy=char, chase_radius=radius)
 
         if picked is None:
@@ -366,6 +430,18 @@ class TargetingFeature(Feature):
         tx, ty = picked
         screen_x, screen_y = rect.to_screen(tx, ty)
         return Target(tx, ty, screen_x, screen_y)
+
+    def closer_than(self, anchor, char):
+        """PLAN 0.31: a monster of the last detection next to the character (inside MELEE_DIST) and under
+        SWITCH_SHARE of the lock's distance -> its point, else None. The lock's own box does not count."""
+        lock_d = math.hypot(anchor[0] - char[0], anchor[1] - char[1])
+        for x, y in self.last_monsters:  # nearest first
+            d = math.hypot(x - char[0], y - char[1])
+            if d > MELEE_DIST or d >= SWITCH_SHARE * lock_d:
+                return None
+            if d > SELF_R and math.hypot(x - anchor[0], y - anchor[1]) > LOCK_FOLLOW_RADIUS:
+                return int(x), int(y)
+        return None
 
     def _attack_cursor(self):
         return self.ctx.cursors.is_attack(CursorProbe.current_hash())

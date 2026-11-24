@@ -470,18 +470,44 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
          (UIPI) — log v12 sẽ cho biết ("remote input watch=True" + dòng stop).
        • 1_CAI_DAT.bat: mở tool xong thì đóng cửa sổ cmd (chỉ còn pause khi lỗi / cài driver).
        • HUONG_DAN/GUIDE_KO: bật minimap, thu nhỏ bảng TeamViewer, rê chuột trên TeamViewer = dừng.)
-- [ ] 0.29 v12 SĂN Ở "오크 숲" (24/11 20:55, người dùng báo "đi vòng vòng"): góc trái dưới ghi 오크 숲 (bãi ngoài trời, KHÔNG
+- [x] 0.29 v12 SĂN Ở "오크 숲" (24/11 20:55, người dùng báo "đi vòng vòng"): góc trái dưới ghi 오크 숲 (bãi ngoài trời, KHÔNG
       phải 오염된 축복의 땅), quái gần nhân vật "아투바 오크" (orc thường, không phát sáng xanh) → model orc_v1 (học orc
       오염된 phát sáng) gần như không thấy → 0 giết sau ~2 phút, wander liên tục. Minimap TẮT. Chat có "마법 사용: 실패!
       올바른 대상이 아니거나 취소함" → bot bấm skill tấn công khi không có mục tiêu hợp lệ. Đây là bằng chứng đầu tiên cho
       0.20: orc khu khác (khác màu) chưa được model nhận. Việc: thu quan sát ở 오크 숲 (아투바/네루가/두다마라/간디 오크…),
       đo model offline, fine-tune chung; thêm khu 오크 숲 vào danh sách; không bấm skill tấn công khi chưa khóa mục tiêu.
-- [ ] 0.30 v12 TRÊN MÁY GAME (24/11 20:54–20:59, 오크 숲): dừng qua TeamViewer bằng rê chuột/click/ESC KHÔNG ăn; log có
+- [x] 0.30 v12 TRÊN MÁY GAME (24/11 20:54–20:59, 오크 숲): dừng qua TeamViewer bằng rê chuột/click/ESC KHÔNG ăn; log có
       "remote input watch=True" (20:54:49) nhưng KHÔNG bắt được rê chuột/click/ESC từ TeamViewer (có thể TeamViewer gửi qua
       driver riêng nên không mang cờ injected, hoặc game giữ chuột). File STOP gửi qua TeamViewer File Transfer vào C:\LineageAuto\main\STOP → dừng ngay
       ("[ENGINE] stop: STOP file"). Cách dừng chắc chắn từ xa hiện tại = File Transfer gửi file STOP (mẫu ở
       records_game/_stop/STOP). Phiên này: 583 lượt quét, 528 wander, chỉ 3 trận; luật 8s "no progress → blacklist" và
       "side step" đã chạy đúng. Sửa: ghi log mỗi sự kiện chuột/phím mà watcher thấy (nguồn, cờ) để biết TeamViewer gửi kiểu gì.
+      (24/11 khuya, v13 — XONG trên máy dev, CHỜ KIỂM TRÊN MÁY GAME:
+       • 1 TÍN HIỆU GIẾT: chat "아데나 (n) 획득: <tên>" = số 1 (đã có từ v12: chat_kill); nay so tên dòng giết với tên đọc
+         trên đầu con đang khóa lúc bắt đầu trận (log "= locked" / "!= locked X", cần khuôn tên của khu). Box mất ≥1,5 s
+         không còn kiếm: chế độ nhặt "auto" + chat đọc được → "gone"; server rơi đất (walk_f4/walk_click) → "vanished" =
+         GIẾT + vị trí xác (combat.last_anchor) cho nhặt đồ. summary.json "fights": kill_chat / kill_fall (die_box,
+         vanished, frozen) / kill_corpse_cursor / gone / no_progress / unreachable / cap / lost + "chat_kill_lines".
+         KHÔNG làm được "theo dõi box 5 lần/giây": YOLOX đầu vào cố định 640×640 (~37 ms máy dev, ~160 ms máy game) nên
+         cắt vùng quanh mục tiêu không nhanh hơn; cần xuất model nhỏ hơn (320) nếu muốn. Dáng "nằm" = lớp corpse của orc_v2.
+       • 2 MODEL NHẬN XÁC: label_tool --corpse (lượt 2 trên khung ĐÃ duyệt, khung ±2 quanh con trỏ thánh giá hiện trước,
+         phím 8 = corpse, Enter = "corpse_done"); export_dataset --classes corpse (orc=0, corpse=1); train_orc.ps1
+         -Classes corpse (ORC_CLASSES=2); bot đọc bố cục lớp theo bề rộng đầu ra ONNX (yolox_mobs.class_layout:
+         6 = orc_v1, 7 = orc+corpse, 8+ = monster/figure/die) → hộp corpse bỏ khỏi ứng viên + tín hiệu chết + vị trí
+         nhặt. 4 bản ghi đã duyệt có 0 hộp corpse → CHƯA TRAIN orc_v2, v13 đóng gói orc_v1. docs/TRAINING.md 6.7.
+       • 3 Nhặt đồ server rơi đất: dùng vị trí "vanished"/die_box (không cần thấy xác); đi tới / F4 / click / chờ "획득"
+         như v12 (bỏ nếu xa, sau tường, quá wait).
+       • 4 "마법 사용: 실패": KillWatcher nhận dòng này (khuôn data/chat/magic_fail.png cắt từ 183803 f_00100, điểm 1,0 /
+         các dòng khác ≤0,24) → log "chat: 마법 사용: 실패 (F5 pressed 0.3s before)" + tạm ngừng skill tấn công 5 s.
+         ĐO: 1 dòng/bản ghi (183803 f_00002, 190646 f_00069 = 3 s sau "heal skill F5" 19:07:58); log 20:49–20:59 KHÔNG
+         có lần bấm skill tấn công nào (cấu hình tắt hết) → nguồn là HỒI MÁU F5 / buff tự-cast lúc bắt đầu (cả 3 buff
+         "icon not seen"), không phải skill tấn công. Skill tấn công vốn chỉ bấm trong engage (sau con trỏ xác nhận).
+       • 5 Dừng từ xa: winapi/hotkeys.CursorWatch — con trỏ dời >40 px khi bot không di chuột (InputController.last_move_t,
+         đặt cả trước và sau move) = người dùng → dừng; không cần cờ injected. 10 s đầu mỗi lần săn log "[HOTKEY] input
+         seen: mouse msg=… flags=… extra=… xN". test_remote_stop: SendInput rê → dừng 80 ms, ESC → dừng, SetCursorPos
+         (không cờ injected) → dừng. File STOP qua File Transfer = cách chắc chắn, ghi trong HUONG_DAN/GUIDE_KO.
+       • 6 Khu "오크 숲": data/monsters/orc_forest.json (hunt_map null → thu dữ liệu). Chỉ "아투바 오크" đã thấy trong game;
+         네루가/두다-마라/간디 오크, 오크 궁수, 오크 스카우트 ghi "verify". Bản ghi 205449 chưa kéo về → chưa đo orc_v1.)
 Giai đoạn 1 — Săn cơ bản
 - [ ] 1.1 Đánh "nhấn–kéo nhẹ–thả" (mặc định) / "kéo vào khung chat"; đánh lại nếu quái chạy xa (A6)
 - [ ] 1.1b ĐÁNH TỪNG CON: chọn con gần nhất, giết xong mới sang con khác, không đánh lan; ưu tiên con đang đánh mình (A8)
@@ -542,6 +568,57 @@ Kiểm tra thêm
 - [ ] Xem thư mục log của game (C:\Program Files (x86)\NC\Lineage Classic\log) có ghi chat không → nếu có, đọc log thay vì OCR
 
 ---------------------------------------------------------------------------------------------------
+- [x] 0.31 v13 SĂN 15 PHÚT (24/11 22:35–22:50, 오크의 땅, wizard Lv30, bản ghi records_game/20261124_223510_hunt):
+  37 lượt "giết" (34 corpse_cursor + 3 frozen) = ~2,5 con/phút. 51 trận kết thúc no_progress (TB 9,9s = ~505s ≈ 56% thời gian),
+  15 unreachable, 13 gone, 2 cap. Dừng bằng rê chuột (displacement) HOẠT ĐỘNG (2 lần 22:34:30, 22:34:59). detect_ms TB 165 ms (bench 38 ms).
+  LỖI A: 40/51 no_progress có anchor cách nhân vật <66px (nhân vật ở ~(667,385) trên cửa sổ 1334x1008) = đang ĐÁNH GIÁP LÁ, bị vây
+         3–4 con (f_00058) mà quy tắc 8s vẫn bỏ quái → sửa: mục tiêu kề bên + con trỏ kiếm/cung = đang đánh, KHÔNG tính no_progress
+         (chỉ cap ~25s); kiểm tra luôn box có trùng chính nhân vật không (22 trận sword=no).
+  NGUYÊN NHÂN LỖI A (người dùng: "không đánh quái dù nó ở gần"): combat.py coi "đứng giáp lá không phải tiến triển" →
+         5s side step 60px (66 lần!) kéo nhân vật RA KHỎI con đang đánh, 8s bỏ + skip chỗ đó (miss_ttl, toạ độ màn hình)
+         → các con đang vây đánh nhân vật bị bỏ qua. Nhận diện KHÔNG kém hơn: hits/khung 4,87 (v11: 1,16–2,76), 723/729 khung có quái,
+         590 khung có quái trong 150px. Chỉ có 143 lần quét / 906s (bám sai mục tiêu quá lâu).
+  YÊU CẦU NGƯỜI DÙNG (24/11 23:08): (1) nhận diện quái NHANH, (2) luôn tấn công con GẦN NHẤT, (3) kết liễu 1 con = đếm 1 lần giết
+         (đếm chính xác, không trùng, không đếm lượt bỏ quái).
+  LỖI B: chat_kill_lines = 0 dù khung chat hiện rõ "아데나 [9] 획득: 오염된 오크 / 도끼병" (f_00024) → KillWatcher không đọc được
+         trong chế độ săn (chú ý chữ hiện "[9]" ngoặc vuông, cửa sổ 1334x1008); cần test với ảnh f_00024/f_00058.
+  (24/11 khuya, v14 — XONG trên máy dev, CHỜ KIỂM TRÊN MÁY GAME; dist/LineageAuto_20261125_v14.zip):
+   • 1 NHẬN DIỆN NHANH: runtime/detector.DetectorThread chạy YOLOX liên tục ở luồng riêng (scan.detect_fps=5), vòng săn
+     dùng kết quả mới nhất (TargetingFeature._detect; mỗi nhịp đánh chờ ≤0,3 s kết quả MỚI, quét tìm thì không chờ).
+     Xuất lại orc_v1 với đầu vào 416 và 320 (train/export_onnx.py --size → model/yolox_tiny_blessed_orc_416/_320.onnx;
+     các khu khác chưa có .pth → vẫn 640). ROI = vùng quanh nhân vật ±0,36w, -0,38h..+0,36h, bỏ minimap/skill/HUD dưới
+     (223510: 95% hộp nằm trong vùng này). onnxruntime intra_op_num_threads = nửa số lõi, 2..4.
+     ĐO (máy dev 16 lõi, 4 luồng, ms/khung): 640 toàn khung 49 · 416+ROI 24 · 320+ROI 16 (1 luồng: 144 / 62 / 39).
+     Độ chính xác trên tập test orc (193903 ngày + 133425 đêm, nhãn đã duyệt), recall quái ≤150 px / ≤300 px quanh nhân
+     vật: 640 toàn khung 84% / 88% (fp 21) · 416+ROI 83% / 87% (fp 17) · 320+ROI 77% / 79% (fp 13) → MẶC ĐỊNH 416+ROI.
+     Máy game bản 13 đo 165 ms ở 640 → ước ~80 ms ở 416+ROI; CHƯA ĐO TRÊN MÁY GAME: log "[detect] size .. roi .. threads
+     ..: X ms avg, Y/s" sau 10 s rồi mỗi phút; nếu X > 80 ms ở lần đo đầu → tự hạ xuống 320 (1 lần, có log).
+     Xác nhận con trỏ chỉ 1–2 con gần nhất (scan.max_probe_points ≤ 2). Cấu hình (Quét → Nâng cao): detect_fps,
+     input_size (320/416/640), detect_roi, melee_max_sec.
+   • 2 GẦN NHẤT TRƯỚC: hộp có tâm ≤25 px quanh nhân vật = chính nhân vật → bỏ (f_00024: hộp (673,422) là "con quái" bản 13
+     đánh 14,3 s rồi no_progress). ≤100 px: không bao giờ bỏ qua vì miss/blacklist, luôn đứng đầu (minimap chỉ xếp
+     các con xa hơn), còn hộp gần thì quét lại thêm 3 lần trước khi đi lang thang. MELEE = khóa ≤70 px + con trỏ
+     kiếm/cung: không side step, không no_progress/unreachable, không blacklist; chỉ hết khi chết / mất hộp / trần
+     scan.melee_max_sec 25 s. Luật 0.28 (side step 5 s, bỏ 8 s) chỉ còn cho khóa >70 px. Đang đánh mà có con
+     ≤70 px và < 50% khoảng cách khóa → kết thúc "switch", khóa sang con đó (rehover_last xác nhận bằng con trỏ).
+   • 3 ĐẾM GIẾT: LỖI B = đọc chat ảnh THÔ. Observe 222830 trên máy game: chat_lines 174 / 174 khung (≈1 dòng/khung — chỉ
+     dòng ghim trên cùng) trong khi JPEG cùng khung đọc 5 dòng; 223510 JPEG đọc offline 20 dòng giết, live 0. JPEG
+     (lấy mẫu màu 4:2:0) làm nhạt màu chữ kem mảnh; ảnh thô quá bão hòa cho whiteness → chat_bands đọc vùng chat qua
+     đúng JPEG q92 của recorder (lưới 16 px): live = offline. Chưa có ảnh thô để kiểm chứng → khi chat không đọc được
+     (<2 dòng): log "chat not read: <lý do>" ≤1 dòng/10 s + lưu 3 ảnh raw/chat_fail_*.png vào bản ghi.
+     Đếm (combat._tally): kills = kills_chat (1/dòng 획득, đánh lan 2 dòng = 2) + kills_corpse_only (corpse_cursor/die_box/
+     frozen/vanished không có dòng). Dòng đến ≤3 s sau khi trận kết thúc không có dòng → của trận đó (xác → đổi thành
+     chat, vẫn 1); no_progress/unreachable/gone/switch không bao giờ tự cộng. Dòng thấy lúc đi lang thang = +1.
+     summary.json: kills_chat / kills_corpse_only / kills_total / detections_per_min; UI "Đã giết" = kills_total.
+     events.jsonl fight_end: dist, melee, kill_source (chat/corpse/none); "kill_line" cho dòng đến trễ.
+   • Kiểm tra: test_monsters.test_kill_lines_v13_hunt (f_00024/f_00058 đọc đúng 오염된 오크 + 오염된 오크 도끼병; 2 dòng
+     giống nhau liên tiếp = 2). test_hunt_records chạy lại 223510: 0 trận melee kết thúc no_progress/unreachable (bản 13:
+     38), side step 1 (bản 13: 66), 20/20 dòng giết đếm đúng 1 lần, ứng viên gần nhất trước + không có hộp nhân vật;
+     190646: trận 54 s nay hết ở trần melee 25 s (trước: ≤10 s theo luật 0.28 — người dùng đổi luật). analyze_records:
+     thời gian theo loại kết thúc, đánh / không đánh, quét/phút, detections/phút, detect_ms, giết chat vs xác
+     (bản 13: đánh 835 s/906 s, trong đó no_progress 503 s; 9,5 quét/phút).
+     CÒN: đo ms thật + kiểm đọc chat trên máy game (bản ghi săn 15 phút tiếp theo + session_log.txt).)
+
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 
 ### 0.1 Nhận diện chậm và bot "đứng im" không săn  [ƯU TIÊN CAO NHẤT]

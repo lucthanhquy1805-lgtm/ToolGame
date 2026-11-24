@@ -157,7 +157,7 @@ from lineage_auto.runtime.session import AccountSession, SessionState
 from lineage_auto.config.models import ScanSettings
 assert AccountSettings.from_dict(AccountSettings().to_dict()).scan==ScanSettings()
 assert AccountSettings.from_dict({}).scan.misses_before_wander==2  # old configs get the defaults
-fake_hits=[(640+30*i,380) for i in range(10)]                   # 10 false detections (NPC, rocks...)
+fake_hits=[(760+30*i,380) for i in range(10)]                   # 10 false detections (NPC, rocks...) > 100 px away
 tg.detect_centers=lambda *a,**k: list(fake_hits)
 tg.CursorProbe.current_hash=staticmethod(lambda: 'ground')     # never the attack cursor
 class Cur:
@@ -206,7 +206,7 @@ def counted(r,c): calls.append('scan'); return orig_acquire(r,c)
 tf.acquire=counted
 t=time.time(); sess._run(); dt=time.time()-t
 assert calls==['scan','scan','wander'], calls
-moves=tctx.input.moves; assert len(moves)==10 and len(set(moves))==10, moves   # 6 points, then only the 4 not yet missed
+moves=tctx.input.moves; assert len(moves)==4 and len(set(moves))==4, moves   # PLAN 0.31: 2 nearest per scan, then 2 not yet missed
 assert tf.miss_streak==0 and not tf._misses                    # reset before wander
 print(f'scan: 2 unconfirmed scans -> wander OK ({dt/2:.2f}s per failed scan)')
 assert dt/2<1.5, dt
@@ -222,8 +222,14 @@ from lineage_auto.runtime.manager import SessionManager
 import subprocess
 Cur.classify=lambda s,h,md5=None: {'attack':'attack','ground':'ground'}.get(h)
 rroot=tempfile.mkdtemp()
-fake_hits[:]=[(640+30*i,380) for i in range(10)]
+# PLAN 0.31: within 100 px nothing is skipped and the bot rescans 3 more times before wandering; the box on the
+# character itself (< 25 px) is never a candidate
+fake_hits[:]=[(645,382),(700,380),(720,380)]
 tg.CursorProbe.current_hash=staticmethod(lambda: 'ground')
+tctx.running=True; tctx.input.moves.clear(); calls.clear(); sess._run()
+assert calls==['scan']*5+['wander'] and set(tctx.input.moves)=={(700,380),(720,380)}, (calls,tctx.input.moves)
+print('scan: near boxes rescanned, never skipped, self box dropped OK')
+fake_hits[:]=[(760+30*i,380) for i in range(10)]
 tctx.running=True; tctx.input.moves.clear(); calls.clear()
 tctx.account.record.interval_sec=0.5
 tctx.recorder=recmod.Recorder(tctx.account,'hunt',rect=tctx.rect(),root=rroot)
@@ -231,9 +237,9 @@ hunt_dir=tctx.recorder.path
 sess._run()
 assert tctx.recorder is None                                     # closed in _run's finally
 summ=json.load(open(os.path.join(hunt_dir,'summary.json')))
-assert summ['counts']['hover_ground']==10 and summ['counts']['rescan']==1 and summ['counts']['wander']==1 and summ['hover_confirm_rate']==0, summ
+assert summ['counts']['hover_ground']==4 and summ['counts']['rescan']==1 and summ['counts']['wander']==1 and summ['hover_confirm_rate']==0, summ
 hov=[json.loads(l) for l in open(os.path.join(hunt_dir,'hovers.jsonl'))]
-assert len(hov)==10 and hov[0]['frame']=='f_00001.jpg' and hov[0]['kind']=='ground' and hov[-1]['scan']==2, hov[-1]
+assert len(hov)==4 and hov[0]['frame']=='f_00001.jpg' and hov[0]['kind']=='ground' and hov[-1]['scan']==2, hov[-1]
 print('record while hunting: hovers + summary OK', summ['counts'])
 # observe: no mouse moves, frames capped by max_frames, ESC/stop_all does not stop it
 octx=TCtx(); octx.account.record.interval_sec=0.5; octx.account.record.max_frames=3; octx.window.attached=True
@@ -311,9 +317,10 @@ class CIn:
 class FakeTg:
     def __init__(s,track,crops,dies=(),kill_at=None):
         s.track=list(track); s.crops=list(crops); s.last_dies=list(dies); s.last_figures=[]
-        s.kill_at=kill_at; s.pops=0; s.kill_watch=None; s.blocked=[]
-    def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call
-        s.pops+=1; return [(0.0,'오염된 오크 전사')] if s.pops==s.kill_at else []
+        s.kill_at=kill_at; s.pops=0; s.kill_watch=None; s.blocked=[]; s.closer=None; s.locks=[]; s.lines=1
+    def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call (s.lines lines: a splash kill)
+        s.pops+=1; return [(time.time(),'오염된 오크 전사')]*s.lines if s.pops==s.kill_at else []
+    def closer_than(s,anchor,char): return s.closer
     def route(s,xy): return None,None
     def world(s,xy): return None
     def block(s,xy): s.blocked.append(xy)
@@ -322,40 +329,67 @@ class FakeTg:
         v=s.track.pop(0) if s.track else None
         return None if v is None else Target(v[0],v[1],v[0],v[1])
     def crop_gray_at(s,rect,xy): return s.crops.pop(0) if s.crops else np.zeros((80,80),np.uint8)
-    def note_lock(s,xy): pass
+    def note_lock(s,xy): s.locks.append(xy)
     def clear_lock(s): pass
-def fight(cursor, track, crops=(), dies=(), dead_char=False, kill_at=None, tgo=None, start=(700,400), mode='auto'):
+def fight(cursor, track, crops=(), dies=(), dead_char=False, kill_at=None, tgo=None, start=(700,400), mode='auto', melee_max=25.0, cf=None):
     c=TCtx(); c.input=CIn(); c.state={}; c.character=c.account.character; c.can_cast=lambda *a: True; c.account.loot.mode=mode
+    c.account.scan.melee_max_sec=melee_max
     c.recorder=recmod.Recorder(c.account,'hunt',rect=c.rect(),root=rroot)
     tg.CursorProbe.current_hash=staticmethod(lambda: cursor)
     h=types.SimpleNamespace(check_death=lambda r: dead_char, just_acted=False)
-    f=cb.CombatFeature(c,health=h,targeting=tgo or FakeTg(track,crops,dies,kill_at))
+    f=cf or cb.CombatFeature(c,health=h,targeting=tgo or FakeTg(track,crops,dies,kill_at))
+    f.ctx=c; f.targeting=tgo or f.targeting
     cb.CursorProbe.current_hash=tg.CursorProbe.current_hash
     f.engage(Target(*start,*start),c.rect(),(640,380))
     return f.last_outcome, c.state.get('kills',0), c.recorder.counts
 moving=[np.full((80,80),v,np.uint8) for v in (0,60,0,60)]; still=[np.full((80,80),9,np.uint8)]*6
 assert fight('corpse',[])[:2]==('corpse_cursor',1)
-assert fight('ground',[(700,400)]*200,dies=[(712,418)])[:2]==('cap',0)     # monster box still there: not dead
+assert fight('ground',[(700,400)]*500,dies=[(712,418)])[:2]==('cap',0)     # monster box still there: not dead
 assert fight('ground',[None],dies=[(712,418)])[:2]==('die_box',1)             # box gone + die box at lock
 cb.VANISH_CONFIRM=0
 # PLAN 0.27: box gone, no sword at the lock for VANISH_CONFIRM, chat not readable -> vanished = kill
 assert fight('ground',[None,None],dies=[(900,700)])[:2]==('vanished',1)
 o=fight('ground',[(700,400)]*20,kill_at=4); assert o[:2]==('chat_kill',1) and o[2]['end_chat_kill']==1  # kill line
 assert fight('attack',[None]*200)[:2]==('cap',0)          # box flickers off but the sword is under the mouse: keep
-chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5)
+chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)
 assert fight('ground',[],tgo=chat_ok)[0]=='gone'          # auto-to-bag server, chat read, no kill line: walked off
-chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5)
+chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)
 assert fight('ground',[],tgo=chat_ok,mode='walk_f4')[:2]==('vanished',1)  # drop server: the fall is the kill
 cb.UNREACH_SEC=0; cb.DETOUR_AFTER=10
 far=FakeTg([(720,400)]*400,[]); o=fight('ground',[],tgo=far)
 assert o[:2]==('unreachable',0) and far.blocked==[(720,400)], o                    # 80 px (beyond melee), never closer
 assert fight('ground',[(900,400)]*400,start=(720,400))[0]=='lost'     # 80 px -> 260 px: ran off, lost (no blacklist)
 cb.UNREACH_SEC=2.5; cb.DETOUR_AFTER=1.2
-# PLAN 0.28: in melee with the sword up but no kill line -> one side step, then leave + blacklist
-cb.SIDESTEP_AFTER=0; o=fight('attack',[(700,400)]*400); assert o[0]=='cap' and o[2]['sidestep']==1, o
-cb.NO_PROGRESS_SEC=0; stuck=FakeTg([(700,400)]*400,[]); o=fight('attack',[],tgo=stuck)
-assert o[:2]==('no_progress',0) and stuck.blocked==[(700,400)], o
-cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
+# PLAN 0.31: MELEE (lock < 70 px + sword) never side steps / gives up / blacklists; only the melee cap ends it
+cb.SIDESTEP_AFTER=0; cb.NO_PROGRESS_SEC=0
+mel=FakeTg([(700,400)]*400,[]); o=fight('attack',[],tgo=mel)
+assert o[0]=='cap' and 'sidestep' not in o[2] and not mel.blocked, o
+o=fight('attack',[(700,400)]*400,melee_max=0.0); assert o[0]=='cap', o                  # melee cap (scan.melee_max_sec)
+# ... the PLAN 0.28 rules stay for a lock still far away (122 px, sword up, never closer): side step, then leave
+cb.UNREACH_SEC=99; far=FakeTg([(760,400)]*400,[]); o=fight('attack',[],tgo=far,start=(760,400))
+assert o[:2]==('no_progress',0) and far.blocked==[(760,400)], o
+ev=[json.loads(l) for l in open(os.path.join(recmod.latest_record(rroot),'events.jsonl'),encoding='utf-8')]
+assert ev[-1]['melee'] is False and ev[-1]['dist']==122 and ev[-1]['kill_source']=='none', ev[-1]
+cb.NO_PROGRESS_SEC=99; o=fight('attack',[(760,400)]*500,start=(760,400)); assert o[0]=='cap' and o[2]['sidestep']==1, o
+cb.UNREACH_SEC=2.5; cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
+# PLAN 0.31 / 2: a monster much closer than the lock, next to the character -> leave for it (lock moved there)
+sw=FakeTg([(760,400)]*20,[]); sw.closer=(660,392); o=fight('attack',[],tgo=sw,start=(760,400))
+assert o[0]=='switch' and sw.locks[-1]==(660,392) and o[1]==0, (o,sw.locks)
+# PLAN 0.31 / 3: one kill = one count. A splash kill with 2 lines = 2; corpse + a line <= 3 s later = 1 (chat);
+# no_progress + a late line = 1 (chat); no_progress without a line = 0
+spl=FakeTg([(700,400)]*20,[],kill_at=3); spl.lines=2; o=fight('ground',[],tgo=spl)
+assert o[0]=='chat_kill' and o[1]==2 and o[2]['kills_chat']==2, o
+cf=cb.CombatFeature(TCtx(),targeting=FakeTg([],[]))
+o=fight('corpse',[],cf=cf); assert o[:2]==('corpse_cursor',1) and cf.ctx.state['kills_corpse_only']==1
+late=FakeTg([(700,400)]*5,[],kill_at=1); o=fight('ground',[],tgo=late,cf=cf)               # its line comes now
+assert cf.ctx.state['kills_chat']==1 and cf.ctx.state['kills_corpse_only']==0 and o[1]==1 and o[0]!='chat_kill', (o,cf.ctx.state)
+cb.NO_PROGRESS_SEC=0; cb.UNREACH_SEC=99
+cf=cb.CombatFeature(TCtx(),targeting=FakeTg([],[]))
+o=fight('ground',[],tgo=FakeTg([(760,400)]*400,[]),start=(760,400),cf=cf); assert o[:2]==('no_progress',0), o
+fight('ground',[],tgo=FakeTg([(760,400)]*400,[],kill_at=1),start=(760,400),cf=cf)
+assert cf.ctx.state['kills']==1 and cf.ctx.state['kills_chat']==1, cf.ctx.state
+cb.NO_PROGRESS_SEC=8.0; cb.UNREACH_SEC=2.5
+print('combat 0.31: melee kept / far rules / switch / kill tally (splash 2, corpse+chat 1, late chat 1) OK')
 r=recmod.Recorder(TCtx().account,'hunt',root=rroot); r.fight('chat_kill',4,True); r.fight('vanished',2,True); r.fight('no_progress',8)
 assert r.summary()['fights']=={'kill_chat':{'n':1,'avg_s':4.0},'kill_fall':{'n':1,'avg_s':2.0},'no_progress':{'n':1,'avg_s':8.0}}, r.summary()['fights']
 assert fight('ground',[(700,400)]*12,crops=moving+still)[:2]==('frozen',1)    # moved, then 4 still beats
@@ -460,4 +494,22 @@ assert seen['b'][0,0,150,300]==255 and seen['b'][0,2,150,300]==0      # BGR: blu
 assert all(m.channels=='rgb' for m in hunt_maps.all_maps() if m.key!='blessed_orc') and hunt_maps.NEW_MODEL_CHANNELS=='bgr'
 assert hunt_maps.get('blessed_orc').channels=='bgr'                  # first model trained here (PLAN 0.20)
 print('yolox: per-model channel order (shipped rgb, new bgr) OK')
+# PLAN 0.31: YOLOX on its own thread (416 + ROI); targeting reads the newest result, never the character's own box
+from lineage_auto.runtime.detector import DetectorThread
+importlib.reload(tg)  # the scan tests above replaced tg.detect_centers / CursorProbe
+dframe=cv2.imread('records_game/20261124_223510_hunt/f_00024.jpg')
+if dframe is not None:
+    dctx2=TCtx(); dctx2.account.hunt_map='blessed_orc'
+    dctx2.rect=lambda: ClientRect(0,0,1334,1008); dctx2.char_pos=lambda r: (667,404)
+    dctx2.grabber=types.SimpleNamespace(grab_bgr=lambda r: dframe, close_thread=lambda: None)
+    det=DetectorThread(dctx2); assert det.size==416 and det.roi, det.describe()
+    det.start(); first=det.newest(0,wait=5.0); second=det.newest(first.seq,wait=5.0)
+    assert first and second.seq>first.seq and first.hits, (first, second)
+    tf2=tg.TargetingFeature(dctx2); tf2.detector=det
+    pts,_=tf2.candidates(dctx2.rect(),(667,404))
+    assert pts and all(math.hypot(x-667,y-404)>tg.SELF_R for x,y in tf2.last_monsters), tf2.last_monsters
+    det.stop(); assert not det._thread.is_alive()
+    det._step_down(60); assert det.size==416                     # fast enough on the first log: kept for good
+    det._stepped=False; det._step_down(95); det._step_down(300); assert det.size==320   # > 80 ms: one step down
+    print(f'detector thread: {det.describe()}, {first.ms:.0f} ms, hits {first.hits[:3]} OK')
 print('ALL SMOKE TESTS PASSED')

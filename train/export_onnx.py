@@ -3,7 +3,7 @@ torch.onnx._export (gone in recent PyTorch).
 
 Usage (training venv, from train/YOLOX with PYTHONPATH=.):
   python ../export_onnx.py -f ../exps/orc_tiny.py -c <best_ckpt.pth> -o <out.onnx>
-Output: input "images" [1,3,640,640] (0..255, BGR), output "output" [1,8400,5+classes] already decoded.
+Output: input "images" [1,3,S,S] (S = --size, default the exp's 640; the bot loads <name>_<S>.onnx for scan.input_size S) (0..255, BGR), output "output" [1,8400,5+classes] already decoded.
 """
 import argparse
 import importlib.util
@@ -27,6 +27,7 @@ def main():
     parser.add_argument("-c", "--ckpt", required=True)
     parser.add_argument("-o", "--out", required=True)
     parser.add_argument("--opset", type=int, default=11)
+    parser.add_argument("--size", type=int, default=0, help="input side (PLAN 0.31: 416 / 320 = faster scans)")
     args = parser.parse_args()
     exp = load_exp(args.exp)
     model = exp.get_model()
@@ -36,7 +37,8 @@ def main():
     model.eval()
     model = replace_module(model, nn.SiLU, SiLU)
     model.head.decode_in_inference = True
-    dummy = torch.zeros(1, 3, *exp.test_size)
+    size = (args.size, args.size) if args.size else exp.test_size
+    dummy = torch.zeros(1, 3, *size)
     torch.onnx.export(model, dummy, args.out, input_names=["images"], output_names=["output"],
                       opset_version=args.opset, dynamo=False)
     print(f"wrote {args.out}")

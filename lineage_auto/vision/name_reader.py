@@ -31,6 +31,13 @@ CHAT_ROI = (0.17, 0.825, 0.72, 0.985)  # right edge stops before the chat scroll
 CHAT_BASE_W = 1187
 LINE_MIN_H, LINE_MAX_H = 7, 26
 LINE_WIDTH_TOL = 3  # px: the same chat line read twice (re-rendered while scrolling)
+# PLAN 0.31: the game PC read 1 chat line per live frame (observe 222830: chat_lines 174 in 174 frames, hunt 223510:
+# 0 kill lines) where the saved JPEG of the same frames reads 5 lines and 20 kills. The JPEG's colour subsampling
+# greys the thin cream text; raw pixels stay too saturated for ``whiteness``. The chat is read through the same JPEG
+# as the recorder (and the template cuts): live = offline. JPEG blocks are 16 px: the crop starts on that grid.
+CHAT_JPEG_QUALITY = 92
+JPEG_GRID = 16
+CHAT_MIN_LINES = 2  # fewer text lines than this in the chat box = not read (the pinned top line alone is 1)
 
 
 # Darkest channel of the text: names over monsters ~240 (bright sand reaches ~170), chat lines ~200 on a dark box.
@@ -197,7 +204,8 @@ def chat_bands(frame_bgr):
     top = chat_top(frame_bgr)
     top = CHAT_ROI[1] if top is None else top
     x0, y0, x1, y1 = (int(CHAT_ROI[0] * w), int(top * h), int(CHAT_ROI[2] * w), int(CHAT_ROI[3] * h))
-    roi = frame_bgr[y0:y1, x0:x1]
+    gx, gy = x0 - x0 % JPEG_GRID, y0 - y0 % JPEG_GRID
+    roi = jpeg_roundtrip(frame_bgr[gy:y1, gx:x1])[y0 - gy:, x0 - gx:]
     if w != CHAT_BASE_W and roi.size:
         roi = cv2.resize(roi, None, fx=CHAT_BASE_W / w, fy=CHAT_BASE_W / w, interpolation=cv2.INTER_AREA)
     white = whiteness(roi, CHAT_WHITE)
@@ -212,6 +220,14 @@ def chat_bands(frame_bgr):
                 out.append((white[max(0, start - PAD_Y - 2):i + PAD_Y + 2], white[start:i]))
             start = None
     return out
+
+
+def jpeg_roundtrip(bgr, quality=CHAT_JPEG_QUALITY):
+    """The picture as the recorder's JPEG would give it back (see CHAT_JPEG_QUALITY)."""
+    if bgr.size == 0:
+        return bgr
+    ok, buf = cv2.imencode(".jpg", bgr, [cv2.IMWRITE_JPEG_QUALITY, quality])
+    return cv2.imdecode(buf, cv2.IMREAD_COLOR) if ok else bgr
 
 
 def words(white, gap=CHAT_WORD_GAP):
@@ -343,8 +359,13 @@ class KillWatcher:
         self.last_lines = 0
         self.new_lines = 0  # every new chat line, kill or not, summed until the caller resets it (loot wait)
         self.magic_fail = 0  # new "마법 사용: 실패" lines, summed until the caller resets it
+        self.fail_reason = ""  # why the last frame was not readable (PLAN 0.31 log)
         if KillWatcher.MAGIC_FAIL is None:
             KillWatcher.MAGIC_FAIL = _phrase_template("magic_fail.png")
+
+    @property
+    def readable(self):
+        return self.last_lines >= CHAT_MIN_LINES
 
     def update(self, frame_bgr):
         """Names of the kill lines that were not in the chat at the previous call ([] the first time).
@@ -353,6 +374,13 @@ class KillWatcher:
         good enough for labels, not for an exact kill counter."""
         lines = [(line_sig(mask), name, mask) for mask, name in self.reader.chat_lines(frame_bgr)]
         self.last_lines = len(lines)  # PLAN 0.21: live diagnostics (0 = chat box not read at all)
+        if not self.readable:
+            from .hud_numbers import chat_top
+
+            found = chat_top(frame_bgr) is not None
+            self.fail_reason = (f"{len(lines)} text line(s) in the chat box (box top "
+                                f"{'found' if found else 'not found, default used'}, window {frame_bgr.shape[1]}x"
+                                f"{frame_bgr.shape[0]})")
         prev, self._prev = self._prev, lines
         if prev is None:
             return []

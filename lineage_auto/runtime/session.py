@@ -19,6 +19,7 @@ from ..vision.yolox_mobs import detect_centers, ensure_session, session_device
 from ..winapi.cursor import CursorProbe, save_png
 from ..winapi.hotkeys import poll_escape
 from .context import BotContext
+from .detector import DetectorThread
 from .recorder import Recorder
 
 # Seconds a session waits for the shared mouse before skipping its turn.
@@ -96,6 +97,7 @@ class AccountSession:
         self.started_at = time.monotonic()
         self.ctx.state["kills"] = 0
         self.ctx.state["kills_chat"] = 0  # kills confirmed by a kill line (loot auto-detect, PLAN 0.27 / 7)
+        self.ctx.state["kills_corpse_only"] = 0  # PLAN 0.31: corpse cursor / fall without a kill line
         minutes = self.account.record.auto_stop_min
         self._deadline = time.monotonic() + 60 * minutes if minutes else None
 
@@ -121,7 +123,7 @@ class AccountSession:
             return False
 
         try:
-            yolox_sess = ensure_session(self.account.hunt_map)
+            yolox_sess = ensure_session(self.account.hunt_map, self.account.scan.input_size)
         except FileNotFoundError as exc:
             self.ctx.log(str(exc))
             return False
@@ -155,6 +157,15 @@ class AccountSession:
                 self.ctx.log(f"recording -> {self.ctx.recorder.path}")
             except Exception as exc:
                 self.ctx.log(f"record start error: {exc}")
+        # PLAN 0.31: YOLOX on its own thread; targeting / combat read its newest result.
+        try:
+            self.targeting.detector = DetectorThread(self.ctx)
+            self.ctx.log(f"detector thread: {self.targeting.detector.describe()}")
+        except Exception as exc:
+            self.targeting.detector = None
+            self.ctx.log(f"detector thread off ({exc}), detecting in the loop")
+        if self.targeting.detector is not None:
+            self.targeting.detector.start()
         self._thread = threading.Thread(target=self._run, daemon=True, name=f"session-{self.account.id}")
         self._thread.start()
         self._set_state(SessionState.RUNNING)
@@ -347,6 +358,9 @@ class AccountSession:
             self._set_state(SessionState.ERROR)
         finally:
             self.ctx.input.release_all()
+            if self.targeting.detector is not None:
+                self.targeting.detector.stop()
+                self.targeting.detector = None
             for feature in self._features():
                 feature.on_stop()
             self._close_recorder()

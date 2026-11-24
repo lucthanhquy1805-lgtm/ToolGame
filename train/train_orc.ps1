@@ -12,7 +12,10 @@ param(
     [string[]]$Train = @("records_game\20261124_111355_observe", "records_game\20261124_130457_observe",
                          "records_game\20261124_133425_observe"),
     [string[]]$Test = @("records_game\20261123_193903_observe", "records_game\20261124_133425_observe"),
-    [string]$Out = "model\yolox_tiny_blessed_orc.onnx"
+    [string]$Out = "model\yolox_tiny_blessed_orc.onnx",
+    # PLAN 0.30 / 2: "corpse" = orc_v2, two classes orc + corpse (label_tool --corpse first); the bot reads the
+    # class layout from the ONNX output width (vision/yolox_mobs.class_layout)
+    [ValidateSet("single", "corpse")][string]$Classes = "single"
 )
 $ErrorActionPreference = "Stop"
 $root = (Get-Location).Path
@@ -21,7 +24,7 @@ $env:PYTHONIOENCODING = "utf-8"
 
 # 1. dataset: picked train frames, one class "orc" (test frames never go in)
 if (Test-Path $data) { Remove-Item -Recurse -Force $data }
-$exportArgs = @("tests\export_dataset.py", $data) + $Train + @("--classes", "single", "--split", "train", "--val-every", "6")
+$exportArgs = @("tests\export_dataset.py", $data) + $Train + @("--classes", $Classes, "--split", "train", "--val-every", "6")
 if ($Trial) { $exportArgs += "--use-suggestions" }
 & "$root\.venv\Scripts\python.exe" @exportArgs
 if ($LASTEXITCODE -ne 0) { throw "export failed" }
@@ -30,6 +33,7 @@ if ($LASTEXITCODE -ne 0) { throw "export failed" }
 $env:ORC_DATA = $data
 $env:ORC_EPOCHS = "$Epochs"
 $env:ORC_NAME = $Name
+$env:ORC_CLASSES = $(if ($Classes -eq "corpse") { "2" } else { "1" })
 $env:PYTHONPATH = Join-Path $root "train\YOLOX"
 Push-Location (Join-Path $root "train\YOLOX")
 try {

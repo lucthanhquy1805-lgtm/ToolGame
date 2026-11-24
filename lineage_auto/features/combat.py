@@ -15,7 +15,7 @@ from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
-from .targeting import LOCK_FOLLOW_RADIUS, MELEE_LOCK_DIST
+from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
 
 DRAG_OFFSET = 15
 BURST_INTERVAL = 0.1
@@ -25,7 +25,7 @@ HOLD_MOVE_SETTLE = 0.02
 HOLD_DOWN_SETTLE = 0.04
 # Consecutive beats without the lock in view before giving up on it.
 LOST_NAME_STREAK = 2
-MAX_COMBAT_BURSTS = 150  # safety net; MAX_FIGHT_SEC is the real cap (PLAN 0.28)
+MAX_COMBAT_BURSTS = 400  # safety net; MAX_FIGHT_SEC / scan.melee_max_sec are the real caps (PLAN 0.28 / 0.31)
 # Wait after a detour click before re-arming the attack.
 DETOUR_SETTLE = 0.12
 # PLAN 0.4: a YOLOX "die" box this close to the lost lock means the mob died there.
@@ -34,6 +34,8 @@ DIE_NEAR_RADIUS = 40
 # PLAN 0.27: chat_kill = a new "아데나 (n) 획득: <name>" line during the fight; vanished = the box left the lock
 # and stayed away VANISH_CONFIRM s while the cursor there was not a sword (zones whose chat cannot be read).
 KILL_OUTCOMES = ("corpse_cursor", "die_box", "frozen", "chat_kill", "vanished")
+# PLAN 0.31 / 3: the backup kill signals (body / cursor), used when no kill line confirms the fight.
+CORPSE_OUTCOMES = ("corpse_cursor", "die_box", "frozen", "vanished")
 VANISH_CONFIRM = 1.5
 # A kill line this soon after a fight that ended without a kill belongs to that fight.
 LATE_KILL_SEC = 3.0
@@ -43,9 +45,11 @@ DETOUR_AFTER = 1.2  # s without progress before walking to the minimap gap once
 PROGRESS_PX = 16
 MAX_DETOURS = 2
 DETOUR_WALK = 0.6  # s given to the walk to the gap before re-arming
-# PLAN 0.28 (190646: one orc in tall grass held 54 s with the sword up, no kill): progress = a kill line or the
-# character getting closer. Being in melee is not progress. No progress for NO_PROGRESS_SEC (sword or not) -> leave
-# and blacklist the spot; one side step at SIDESTEP_AFTER first. No fight lasts longer than MAX_FIGHT_SEC.
+# PLAN 0.28: progress = a kill line or the character getting closer. No progress for NO_PROGRESS_SEC -> leave and
+# blacklist the spot; one side step at SIDESTEP_AFTER first. No fight lasts longer than MAX_FIGHT_SEC.
+# PLAN 0.31 (223510: 40/51 no_progress were < 66 px from the character, 66 side steps pulled it off the monster it was
+# hitting): MELEE = lock within MELEE_DIST + attack cursor -> no side step, no no_progress, no blacklist; it ends on
+# the kill / the box gone, or after scan.melee_max_sec (25 s). The 0.28 rules are only for a lock still far away.
 # (No monster HP bar to read: the red bar over the head in the recordings is the character's own, it follows HUD HP.)
 NO_PROGRESS_SEC = 8.0
 SIDESTEP_AFTER = 5.0
@@ -68,6 +72,10 @@ class CombatFeature(Feature):
         self.last_world = None
         self._ended_at = 0.0
         self._fight_start = 0.0
+        self._last_source = "none"  # kill source of the last fight: chat / corpse / none
+        self._prev_outcome = None  # last_outcome is reset when a fight starts; this one is not
+        self._dist = None
+        self._melee = False
 
     def active_skills(self):
         keys = []
@@ -152,8 +160,20 @@ class CombatFeature(Feature):
         dies = getattr(self.targeting, "last_dies", None) or []
         return any(math.hypot(x - anchor[0], y - anchor[1]) <= DIE_NEAR_RADIUS for x, y in dies)
 
-    def _finish(self, target, outcome, anchor=None, detail=""):
-        """Leave the fight; record why (kills feed stats, loot and the field log)."""
+    def _tally(self, key, n=1):
+        """PLAN 0.31 / 3: kills = kills_chat (one per kill line) + kills_corpse_only (body/cursor, no line)."""
+        state = self.ctx.state
+        state[key] = state.get(key, 0) + n
+        state["kills"] = state.get("kills_chat", 0) + state.get("kills_corpse_only", 0)
+        rec = getattr(self.ctx, "recorder", None)
+        if rec:
+            rec.count(key, n)
+
+    def _finish(self, target, outcome, anchor=None, detail="", lines=1):
+        """Leave the fight; record why (kills feed stats, loot and the field log).
+
+        A chat_kill counts its ``lines`` kill lines (a splash can kill two), a body/cursor ending counts 1 until a
+        kill line within LATE_KILL_SEC turns it into a chat kill (never 2 for one monster), the rest count 0."""
         self.last_outcome = outcome
         self._ended_at = time.time()
         seconds = self._ended_at - self._fight_start
@@ -162,45 +182,62 @@ class CombatFeature(Feature):
             self.last_world = self.targeting.world(anchor) if self.targeting is not None else None
         self._clear_lock()
         note = f" ({detail})" if detail else ""
+        source = "chat" if outcome == "chat_kill" else "corpse" if outcome in CORPSE_OUTCOMES else "none"
+        self._last_source, self._prev_outcome = source, outcome
+        if source == "chat":
+            self._tally("kills_chat", lines)
+        elif source == "corpse":
+            self._tally("kills_corpse_only")
         if outcome in KILL_OUTCOMES:
-            self.ctx.state["kills"] = self.ctx.state.get("kills", 0) + 1
-            if outcome == "chat_kill":
-                self.ctx.state["kills_chat"] = self.ctx.state.get("kills_chat", 0) + 1
             self.log(f"monster dead ({outcome}){note}")
         else:
             self.log({"lost": "lost target", "cap": f"fight cap {seconds:.0f}s, leaving lock",
                       "gone": "target gone, no kill line", "unreachable": "target unreachable, blacklisted",
-                      "no_progress": "no progress, blacklisted"}
+                      "no_progress": "no progress, blacklisted", "switch": "closer monster, switching"}
                      .get(outcome, outcome) + note)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
             rec.count(f"end_{outcome}")
-            if outcome in KILL_OUTCOMES:
-                rec.count("kills")
             rec.event("fight_end", outcome=outcome, detail=detail, seconds=round(seconds, 1),
-                      anchor=list(anchor) if anchor is not None else None)
+                      anchor=list(anchor) if anchor is not None else None,
+                      dist=round(self._dist) if self._dist is not None else None, melee=self._melee,
+                      kill_source=source)
             rec.fight(outcome, seconds, outcome in KILL_OUTCOMES)
         return target
 
-    def _late_kills(self):
-        """Kill lines that arrived after the last fight ended without a kill: that fight was a kill (PLAN 0.27)."""
-        if self.targeting is None:
-            return
-        late = self.targeting.pop_kills()
-        if not late or self.last_outcome in KILL_OUTCOMES or time.time() - self._ended_at > LATE_KILL_SEC:
-            return
-        self.ctx.state["kills"] = self.ctx.state.get("kills", 0) + 1
-        self.ctx.state["kills_chat"] = self.ctx.state.get("kills_chat", 0) + 1
-        self.log(f"late kill line {late[-1][1]} -> previous fight ({self.last_outcome}) was a kill")
-        rec = getattr(self.ctx, "recorder", None)
-        if rec:
-            rec.count("kills")
-            rec.count("late_chat_kill")
-        self.last_outcome = "chat_kill"
+    def _kill_lines(self, during=True):
+        """New kill lines that belong to the fight under way; the others are counted here (PLAN 0.31 / 3).
+
+        A line within LATE_KILL_SEC of the end of a fight that had no kill line belongs to that fight (the bot left
+        before the line came): the first one turns its body/cursor kill into a chat kill (counted once), the
+        others / a non-kill ending count +1 each. A line older than that (seen while wandering) counts +1.
+        ``during`` False (fight start): no line belongs to the new fight yet."""
+        lines = self.targeting.pop_kills() if self.targeting is not None else []
+        mine = []
+        for t, name in lines:
+            late = bool(self._prev_outcome) and t - self._ended_at <= LATE_KILL_SEC and self._last_source != "chat"
+            if during and not late and t >= self._fight_start:
+                mine.append((t, name))
+                continue
+            if late and self._last_source == "corpse":
+                self._tally("kills_corpse_only", -1)
+            self._tally("kills_chat")
+            what = f"previous fight ({self._prev_outcome})" if late else "no fight"
+            self.log(f"kill line {name} -> {what}")
+            rec = getattr(self.ctx, "recorder", None)
+            if rec:
+                rec.count("late_chat_kill" if late else "chat_kill_outside")
+                rec.event("kill_line", name=name, fight=self._prev_outcome if late else None)
+            if late:
+                self._last_source = "chat"
+        return mine
+
+    def on_stop(self):
+        self._kill_lines()  # lines of the last fight still waiting
 
     def _chat_readable(self):
         watch = getattr(self.targeting, "kill_watch", None)
-        return watch is not None and watch.last_lines > 0
+        return watch is not None and watch.readable
 
     def _try_detour(self, rect, anchor):
         """No progress toward the lock: walk to the minimap gap once. True when it clicked."""
@@ -242,7 +279,11 @@ class CombatFeature(Feature):
         screen_x, screen_y = target.screen
         self._note_lock(anchor)
 
-        self._late_kills()
+        self._fight_start = time.time()
+        self._kill_lines(during=False)
+        self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
+        melee_seen = False
+        melee_max = self.account.scan.melee_max_sec
         # PLAN 0.29 / 1: the chat kill line names the monster; compare with the one we lock (when readable).
         locked_name = self.targeting.read_name(anchor) if self.targeting is not None else None
         self._detour_if_blocked(rect, char, target)
@@ -256,10 +297,12 @@ class CombatFeature(Feature):
         best = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
         detours = 0
         gone_since = None
-        self._fight_start = started = fight_progress_t = time.time()
+        started = fight_progress_t = self._fight_start
         sidestepped = False
         try:
-            while self.ctx.running and bursts < MAX_COMBAT_BURSTS and time.time() - started < MAX_FIGHT_SEC:
+            while self.ctx.running and bursts < MAX_COMBAT_BURSTS:
+                if time.time() - started >= (melee_max if melee_seen else MAX_FIGHT_SEC):
+                    break
                 poll_escape(self.ctx)
                 if not self.ctx.running:
                     break
@@ -306,12 +349,17 @@ class CombatFeature(Feature):
                         lost = 0
                         gone_since = None
 
-                kills = self.targeting.pop_kills() if self.targeting is not None else []
+                dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
+                melee = sword and dist <= MELEE_DIST
+                melee_seen = melee_seen or melee
+                self._dist, self._melee = dist, melee
+
+                kills = self._kill_lines()
                 if kills:
                     killed = kills[-1][1] or ""
                     match = "" if not locked_name else (" = locked" if killed == locked_name else
                                                          f" != locked {locked_name}")
-                    return self._finish(target, "chat_kill", anchor, killed + match)
+                    return self._finish(target, "chat_kill", anchor, killed + match, lines=len(kills))
 
                 # Body stopped moving under the lock and the sword is gone: dead.
                 crop = self.targeting.crop_gray_at(rect, anchor) if self.targeting is not None else None
@@ -319,11 +367,19 @@ class CombatFeature(Feature):
                     return self._finish(target, "frozen", anchor)
 
                 now = time.time()
+                closer = self.targeting.closer_than(anchor, char) if self.targeting is not None else None
+                if closer is not None:
+                    # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.
+                    self._finish(target, "switch", anchor, f"{closer} at "
+                                 f"{math.hypot(closer[0] - char[0], closer[1] - char[1]):.0f}px, lock {dist:.0f}px")
+                    self._note_lock(closer)
+                    return target
+                if melee:
+                    fight_progress_t = progress_t = now  # hitting it: never no_progress / side step / unreachable
                 if updated is not None:
-                    dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
                     if dist < best - PROGRESS_PX:
-                        fight_progress_t = now  # closer = progress; melee alone is not (PLAN 0.28)
-                    if dist <= MELEE_LOCK_DIST or dist < best - PROGRESS_PX:
+                        fight_progress_t = now  # closer = progress
+                    if dist <= MELEE_DIST or dist < best - PROGRESS_PX:
                         best, progress_t = min(best, dist), now
                     elif now - progress_t > UNREACH_SEC and dist > best + 4 * PROGRESS_PX:
                         return self._finish(target, "lost", anchor, f"ran off to {dist:.0f}px")
@@ -337,12 +393,12 @@ class CombatFeature(Feature):
                         progress_t = time.time()
                         self._hold_and_drag(screen_x, screen_y)
 
-                if now - fight_progress_t > NO_PROGRESS_SEC:
+                if dist > MELEE_DIST and now - fight_progress_t > NO_PROGRESS_SEC:
                     if self.targeting is not None:
                         self.targeting.block(anchor)
                     return self._finish(target, "no_progress", anchor,
                                         f"{now - fight_progress_t:.1f}s, sword={'yes' if sword else 'no'}")
-                if now - fight_progress_t > SIDESTEP_AFTER and not sidestepped:
+                if dist > MELEE_DIST and now - fight_progress_t > SIDESTEP_AFTER and not sidestepped:
                     sidestepped = True
                     self._sidestep(rect, char, anchor)
                     self._hold_and_drag(screen_x, screen_y)

@@ -1,6 +1,6 @@
 """Detection benchmark (PLAN 0.5): recall / false positives / ms per frame.
 
-Usage:  python tests/eval_detection.py [--maps abandoned,toi] [--conf 0.15] [-v]
+Usage:  python tests/eval_detection.py [--maps abandoned,toi] [--conf 0.15] [--size 416] [--roi] [-v]
 Labels: tests/data/monster_labels.json (images in docs/game_reference/).
 Runs the same code path as the bot (yolox_mobs.detect_centers, radius from the
 character), so every detection change must report these numbers before/after.
@@ -42,8 +42,8 @@ def score(hits, monsters, ignore):
     return tp, fp
 
 
-def evaluate(map_key, labels, verbose=False, conf=None, images=IMAGES):
-    yolox_mobs.ensure_session(map_key)
+def evaluate(map_key, labels, verbose=False, conf=None, images=IMAGES, size=640, roi=False):
+    yolox_mobs.ensure_session(map_key, size)
     stats = {"day": [0, 0], "night": [0, 0]}  # [found, total]
     fp_total, ms = 0, []
     for name, lab in labels.items():
@@ -52,7 +52,8 @@ def evaluate(map_key, labels, verbose=False, conf=None, images=IMAGES):
         h, w = frame.shape[:2]
         char = char_anchor(w, h)
         t = time.perf_counter()
-        hits = yolox_mobs.detect_centers(frame, *char, radius=play_max_radius(w, h, *char), map_key=map_key, conf=conf)
+        hits = yolox_mobs.detect_centers(frame, *char, radius=play_max_radius(w, h, *char), map_key=map_key, conf=conf,
+                                         size=size, roi=roi)
         ms.append(1000 * (time.perf_counter() - t))
         tp, fp = score(hits, lab["monster"], lab.get("ignore", []))
         bucket = stats["night" if lab.get("night") else "day"]
@@ -75,6 +76,8 @@ def main():
     parser.add_argument("--conf", type=float, default=None, help="override every map's threshold")
     parser.add_argument("--labels", default=LABELS, help="labels json (e.g. from analyze_records.py)")
     parser.add_argument("--images", default=IMAGES, help="folder holding the labelled images")
+    parser.add_argument("--size", type=int, default=640, help="ONNX input side (PLAN 0.31: model/<name>_<size>.onnx)")
+    parser.add_argument("--roi", action="store_true", help="crop the play area around the character first")
     parser.add_argument("-v", "--verbose", action="store_true")
     parser.add_argument("--split", help="only frames tests/prelabel.py picked for this split (e.g. test)")
     args = parser.parse_args()
@@ -84,7 +87,7 @@ def main():
     todo = [n for n, lab in labels.items() if lab.get("todo")]
     if todo:
         print(f"warning: {len(todo)} frames still marked todo (recall is not meaningful until labelled)")
-    print(f"conf={args.conf or 'per map'} images={len(labels)} match_r={MATCH_R}px")
+    print(f"size={args.size} roi={args.roi} conf={args.conf or 'per map'} images={len(labels)} match_r={MATCH_R}px")
     # precision = found / (found + fp): only meaningful on reviewed frames (todo=false: every monster has a label)
     print(f"{'model':16s} {'conf':>5s} {'recall all':>14s} {'day':>14s} {'night':>12s} {'fp':>4s} {'precision':>9s} "
           f"{'ms/frame':>9s}")
@@ -92,7 +95,7 @@ def main():
         if not hunt_maps.model_exists(key):
             print(f"{key:16s} model missing")
             continue
-        stats, fp, med = evaluate(key, labels, args.verbose, args.conf, args.images)
+        stats, fp, med = evaluate(key, labels, args.verbose, args.conf, args.images, args.size, args.roi)
         found = stats["day"][0] + stats["night"][0]
         total = stats["day"][1] + stats["night"][1]
         print(f"{key:16s} {args.conf or hunt_maps.get(key).conf:5.2f} {pct(found, total):>14s} {pct(*stats['day']):>14s} {pct(*stats['night']):>12s} "

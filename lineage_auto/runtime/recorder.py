@@ -92,7 +92,7 @@ class Recorder:
             "real_map": self.real_map,
             "channels": hunt.channels,
             "conf": account.scan.conf_for(hunt.key) or hunt.conf,  # the threshold really used (PLAN 0.27)
-            "scan": asdict(account.scan),
+            "scan": asdict(account.scan),  # detect_fps / input_size / detect_roi (PLAN 0.31)
             "record": asdict(account.record),
             "window": [rect.w, rect.h] if rect is not None else None,
             "cursor_classifier": CURSOR_CLASSIFIER,
@@ -122,7 +122,7 @@ class Recorder:
             if kill:
                 g = kill_kind.get(k, "kill_fall")  # die_box / vanished / frozen: the body fell / vanished
             else:
-                g = k if k in ("gone", "unreachable", "no_progress", "cap", "lost") else "other"
+                g = k if k in ("gone", "unreachable", "no_progress", "cap", "lost", "switch") else "other"
             gn, gt = groups.get(g, (0, 0.0))
             groups[g] = (gn + n, gt + t)
         return per, {g: {"n": n, "avg_s": round(t / n, 1)} for g, (n, t) in groups.items()}
@@ -209,6 +209,11 @@ class Recorder:
             "fights": self.fight_summary()[1],
             "fight_endings": self.fight_summary()[0],
             "chat_kill_lines": self.counts.get("chat_kill_lines", 0),  # every kill line the chat showed
+            # PLAN 0.31 / 3: kills = one per kill line + one per body/cursor kill no line confirmed
+            "kills_chat": self.counts.get("kills_chat", 0),
+            "kills_corpse_only": self.counts.get("kills_corpse_only", 0),
+            "kills_total": self.counts.get("kills_chat", 0) + self.counts.get("kills_corpse_only", 0),
+            "detections_per_min": round(60 * self.counts.get("detections", 0) / max(1e-6, self.clock() - self.started), 1),
             "avg_ms": {k: round(total / n, 1) for k, (total, n) in self._timings.items() if n},
         }
 

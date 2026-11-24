@@ -1,0 +1,16 @@
+{
+ "_doc": "PLAN 0.29: 오크 숲 (outdoor orc forest, NOT 오염된 축복의 땅). No model yet -> data collection (observe). Names: only 아투바 오크 was seen in game (v12 hunt 24/11 20:55); the others are the classic orc-forest clans, 'verify' = check against the name over the monster / the kill line once a recording from here exists, then add name pictures (docs/ADD_NEW_MAP.md). Orcs here are ordinary orcs (no green glow): orc_v1 barely sees them (PLAN 0.20 check).",
+ "key": "orc_forest",
+ "real_map": "오크 숲",
+ "name_en": "Orc Forest",
+ "hunt_map": null,
+ "group": "orc",
+ "monsters": [
+  {"name": "아투바 오크", "class": "orc_atuba", "level": null, "attack": "melee", "note": "seen in game 24/11"},
+  {"name": "네루가 오크", "class": "orc_neruga", "level": null, "attack": null, "note": "verify"},
+  {"name": "두다-마라 오크", "class": "orc_dudamara", "level": null, "attack": null, "note": "verify"},
+  {"name": "간디 오크", "class": "orc_gandi", "level": null, "attack": null, "note": "verify"},
+  {"name": "오크 궁수", "class": "orc_archer", "level": null, "attack": "ranged", "note": "verify"},
+  {"name": "오크 스카우트", "class": "orc_scout", "level": null, "attack": null, "note": "verify"}
+ ]
+}

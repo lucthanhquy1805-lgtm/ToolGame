@@ -1,0 +1,129 @@
+{"t": 7.02, "kind": "fight_end", "scan": 1, "frame": "f_00006.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 6.5, "anchor": [732, 348]}
+{"t": 14.96, "kind": "fight_end", "scan": 2, "frame": "f_00013.jpg", "outcome": "unreachable", "detail": "116px away for 4.2s", "seconds": 7.5, "anchor": [757, 331]}
+{"t": 29.79, "kind": "fight_end", "scan": 3, "frame": "f_00024.jpg", "outcome": "no_progress", "detail": "8.0s, sword=yes", "seconds": 14.3, "anchor": [675, 423]}
+{"t": 34.06, "kind": "fight_end", "scan": 4, "frame": "f_00028.jpg", "outcome": "gone", "detail": "box gone 1.8s", "seconds": 3.7, "anchor": [792, 313]}
+{"t": 42.72, "kind": "fight_end", "scan": 5, "frame": "f_00035.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.1, "anchor": [502, 598]}
+{"t": 43.35, "kind": "wander", "scan": 7, "frame": "f_00036.jpg", "to": [507, 564], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 57.68, "kind": "fight_end", "scan": 8, "frame": "f_00047.jpg", "outcome": "no_progress", "detail": "8.3s, sword=no", "seconds": 13.7, "anchor": [719, 379]}
+{"t": 70.92, "kind": "fight_end", "scan": 9, "frame": "f_00058.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 12.8, "anchor": [673, 423]}
+{"t": 80.16, "kind": "fight_end", "scan": 10, "frame": "f_00065.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 8.8, "anchor": [623, 402]}
+{"t": 89.45, "kind": "fight_end", "scan": 11, "frame": "f_00073.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 8.8, "anchor": [621, 400]}
+{"t": 99.94, "kind": "fight_end", "scan": 12, "frame": "f_00082.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 10.0, "anchor": [713, 404]}
+{"t": 108.68, "kind": "fight_end", "scan": 13, "frame": "f_00089.jpg", "outcome": "no_progress", "detail": "8.2s, sword=yes", "seconds": 8.2, "anchor": [632, 400]}
+{"t": 117.77, "kind": "fight_end", "scan": 14, "frame": "f_00097.jpg", "outcome": "no_progress", "detail": "8.1s, sword=no", "seconds": 8.6, "anchor": [619, 402]}
+{"t": 127.33, "kind": "fight_end", "scan": 15, "frame": "f_00104.jpg", "outcome": "no_progress", "detail": "8.1s, sword=no", "seconds": 9.0, "anchor": [717, 402]}
+{"t": 136.28, "kind": "fight_end", "scan": 16, "frame": "f_00112.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 8.4, "anchor": [909, 577]}
+{"t": 139.51, "kind": "fight_end", "scan": 17, "frame": "f_00114.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 2.7, "anchor": [1080, 402]}
+{"t": 151.98, "kind": "fight_end", "scan": 18, "frame": "f_00124.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 11.9, "anchor": [717, 394]}
+{"t": 152.67, "kind": "wander", "scan": 20, "frame": "f_00125.jpg", "to": [507, 244], "dir": "NW", "why": "minimap", "reason": "NW score=3.07 {'heat': 4.3, 'new': 0.67, 'in': -0.99, 'out': False, 'clear': True}"}
+{"t": 153.13, "kind": "wander", "scan": 21, "frame": null, "to": [507, 244], "dir": "NW", "why": "minimap", "reason": "NW score=3.07 {'heat': 4.27, 'new': 0.67, 'in': -0.99, 'out': False, 'clear': True}"}
+{"t": 153.92, "kind": "wander", "scan": 23, "frame": "f_00126.jpg", "to": [827, 404], "dir": "E", "why": "minimap", "reason": "E score=4.36 {'heat': 3.58, 'new': 1.0, 'in': 0.6, 'out': False, 'clear': True}"}
+{"t": 154.36, "kind": "wander", "scan": 24, "frame": null, "to": [827, 404], "dir": "E", "why": "minimap", "reason": "E score=4.36 {'heat': 4.01, 'new': 1.0, 'in': 0.6, 'out': False, 'clear': True}"}
+{"t": 155.23, "kind": "wander", "scan": 26, "frame": "f_00127.jpg", "to": [827, 244], "dir": "NE", "why": "minimap", "reason": "NE score=3.93 {'heat': 5.96, 'new': 1.0, 'in': -0.11, 'out': False, 'clear': True}"}
+{"t": 161.31, "kind": "fight_end", "scan": 28, "frame": "f_00132.jpg", "outcome": "unreachable", "detail": "388px away for 5.1s", "seconds": 5.1, "anchor": [283, 350]}
+{"t": 170.21, "kind": "fight_end", "scan": 29, "frame": "f_00139.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 8.4, "anchor": [88, 550]}
+{"t": 175.71, "kind": "fight_end", "scan": 30, "frame": "f_00144.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 5.0, "anchor": [738, 498]}
+{"t": 180.49, "kind": "fight_end", "scan": 31, "frame": "f_00147.jpg", "outcome": "frozen", "detail": "", "seconds": 4.2, "anchor": [463, 513]}
+{"t": 189.13, "kind": "fight_end", "scan": 32, "frame": "f_00154.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 8.2, "anchor": [878, 54]}
+{"t": 202.36, "kind": "fight_end", "scan": 33, "frame": "f_00165.jpg", "outcome": "no_progress", "detail": "8.3s, sword=no", "seconds": 12.7, "anchor": [661, 419]}
+{"t": 212.2, "kind": "fight_end", "scan": 34, "frame": "f_00173.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 9.3, "anchor": [717, 398]}
+{"t": 219.3, "kind": "fight_end", "scan": 35, "frame": "f_00179.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 6.6, "anchor": [607, 415]}
+{"t": 230.62, "kind": "fight_end", "scan": 36, "frame": "f_00188.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 10.8, "anchor": [669, 421]}
+{"t": 241.75, "kind": "fight_end", "scan": 37, "frame": "f_00197.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 10.6, "anchor": [667, 429]}
+{"t": 242.85, "kind": "fight_end", "scan": 38, "frame": "f_00198.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.6, "anchor": [700, 444]}
+{"t": 243.45, "kind": "fight_end", "scan": 39, "frame": "f_00199.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [619, 436]}
+{"t": 252.75, "kind": "fight_end", "scan": 40, "frame": "f_00206.jpg", "outcome": "no_progress", "detail": "8.4s, sword=yes", "seconds": 8.9, "anchor": [627, 415]}
+{"t": 259.9, "kind": "fight_end", "scan": 41, "frame": "f_00212.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 6.7, "anchor": [669, 421]}
+{"t": 263.12, "kind": "fight_end", "scan": 42, "frame": "f_00215.jpg", "outcome": "unreachable", "detail": "85px away for 2.7s", "seconds": 2.7, "anchor": [746, 373]}
+{"t": 269.31, "kind": "fight_end", "scan": 43, "frame": "f_00220.jpg", "outcome": "unreachable", "detail": "93px away for 2.7s", "seconds": 5.7, "anchor": [755, 375]}
+{"t": 281.14, "kind": "fight_end", "scan": 44, "frame": "f_00229.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 11.3, "anchor": [623, 359]}
+{"t": 293.31, "kind": "fight_end", "scan": 45, "frame": "f_00240.jpg", "outcome": "unreachable", "detail": "74px away for 4.3s", "seconds": 11.6, "anchor": [740, 394]}
+{"t": 293.96, "kind": "wander", "scan": 47, "frame": "f_00241.jpg", "to": [636, 550], "dir": "SE", "why": "minimap_gap", "reason": "SE via gap {'heat': 11.46, 'new': 1.0, 'in': 0.97, 'out': False, 'clear': False}"}
+{"t": 303.53, "kind": "fight_end", "scan": 48, "frame": "f_00248.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 9.0, "anchor": [621, 440]}
+{"t": 315.6, "kind": "fight_end", "scan": 49, "frame": "f_00257.jpg", "outcome": "no_progress", "detail": "8.0s, sword=no", "seconds": 11.5, "anchor": [873, 521]}
+{"t": 328.33, "kind": "fight_end", "scan": 50, "frame": "f_00267.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 12.2, "anchor": [615, 350]}
+{"t": 334.44, "kind": "fight_end", "scan": 51, "frame": "f_00272.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 5.6, "anchor": [682, 413]}
+{"t": 336.84, "kind": "fight_end", "scan": 52, "frame": "f_00274.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.9, "anchor": [671, 415]}
+{"t": 337.49, "kind": "fight_end", "scan": 53, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [515, 388]}
+{"t": 339.36, "kind": "fight_end", "scan": 54, "frame": "f_00276.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.4, "anchor": [592, 392]}
+{"t": 339.98, "kind": "fight_end", "scan": 55, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [542, 363]}
+{"t": 348.89, "kind": "fight_end", "scan": 56, "frame": "f_00283.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 8.3, "anchor": [707, 402]}
+{"t": 349.5, "kind": "wander", "scan": 58, "frame": null, "to": [507, 404], "dir": "W", "why": "minimap", "reason": "W score=3.66 {'heat': 7.15, 'new': 1.0, 'in': -0.56, 'out': False, 'clear': True}"}
+{"t": 360.74, "kind": "fight_end", "scan": 59, "frame": "f_00293.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 10.6, "anchor": [723, 409]}
+{"t": 370.84, "kind": "fight_end", "scan": 61, "frame": "f_00301.jpg", "outcome": "unreachable", "detail": "89px away for 4.0s", "seconds": 9.2, "anchor": [688, 317]}
+{"t": 379.62, "kind": "fight_end", "scan": 62, "frame": "f_00308.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 8.3, "anchor": [629, 409]}
+{"t": 385.79, "kind": "fight_end", "scan": 63, "frame": "f_00313.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 5.6, "anchor": [671, 425]}
+{"t": 393.78, "kind": "fight_end", "scan": 64, "frame": "f_00319.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 7.5, "anchor": [629, 373]}
+{"t": 402.73, "kind": "fight_end", "scan": 65, "frame": "f_00326.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 8.4, "anchor": [788, 402]}
+{"t": 411.53, "kind": "fight_end", "scan": 66, "frame": "f_00334.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 8.3, "anchor": [913, 594]}
+{"t": 418.09, "kind": "fight_end", "scan": 67, "frame": "f_00339.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 6.1, "anchor": [627, 396]}
+{"t": 419.78, "kind": "fight_end", "scan": 68, "frame": "f_00340.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.2, "anchor": [640, 386]}
+{"t": 423.27, "kind": "fight_end", "scan": 69, "frame": "f_00343.jpg", "outcome": "gone", "detail": "box gone 2.0s", "seconds": 2.9, "anchor": [413, 331]}
+{"t": 423.97, "kind": "wander", "scan": 71, "frame": null, "to": [507, 404], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 428.76, "kind": "fight_end", "scan": 72, "frame": "f_00347.jpg", "outcome": "unreachable", "detail": "267px away for 4.2s", "seconds": 4.2, "anchor": [607, 144]}
+{"t": 429.4, "kind": "wander", "scan": 74, "frame": null, "to": [507, 404], "dir": "W", "why": "minimap", "reason": "W score=3.56 {'heat': 10.19, 'new': 1.0, 'in': -0.74, 'out': False, 'clear': True}"}
+{"t": 439.92, "kind": "fight_end", "scan": 75, "frame": "f_00356.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 9.9, "anchor": [634, 381]}
+{"t": 455.58, "kind": "fight_end", "scan": 76, "frame": "f_00369.jpg", "outcome": "no_progress", "detail": "8.1s, sword=no", "seconds": 15.2, "anchor": [961, 321]}
+{"t": 463.71, "kind": "fight_end", "scan": 77, "frame": "f_00375.jpg", "outcome": "unreachable", "detail": "208px away for 2.9s", "seconds": 7.6, "anchor": [463, 361]}
+{"t": 467.67, "kind": "fight_end", "scan": 78, "frame": "f_00378.jpg", "outcome": "frozen", "detail": "", "seconds": 3.5, "anchor": [644, 254]}
+{"t": 483.23, "kind": "fight_end", "scan": 79, "frame": "f_00391.jpg", "outcome": "cap", "detail": "", "seconds": 15.0, "anchor": null}
+{"t": 483.91, "kind": "wander", "scan": 81, "frame": null, "to": [507, 404], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 492.3, "kind": "fight_end", "scan": 82, "frame": "f_00398.jpg", "outcome": "unreachable", "detail": "137px away for 6.1s", "seconds": 7.7, "anchor": [673, 267]}
+{"t": 501.59, "kind": "fight_end", "scan": 83, "frame": "f_00404.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 8.8, "anchor": [700, 396]}
+{"t": 510.72, "kind": "fight_end", "scan": 84, "frame": "f_00411.jpg", "outcome": "no_progress", "detail": "8.1s, sword=no", "seconds": 8.6, "anchor": [650, 415]}
+{"t": 519.99, "kind": "fight_end", "scan": 85, "frame": "f_00418.jpg", "outcome": "no_progress", "detail": "8.4s, sword=yes", "seconds": 8.8, "anchor": [644, 361]}
+{"t": 527.36, "kind": "fight_end", "scan": 86, "frame": "f_00423.jpg", "outcome": "unreachable", "detail": "146px away for 2.7s", "seconds": 6.9, "anchor": [788, 323]}
+{"t": 530.44, "kind": "fight_end", "scan": 87, "frame": "f_00425.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.5, "anchor": [786, 419]}
+{"t": 539.6, "kind": "fight_end", "scan": 88, "frame": "f_00433.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.6, "anchor": [629, 363]}
+{"t": 545.09, "kind": "fight_end", "scan": 89, "frame": "f_00438.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 5.0, "anchor": [698, 409]}
+{"t": 554.49, "kind": "fight_end", "scan": 90, "frame": "f_00445.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.9, "anchor": [634, 367]}
+{"t": 556.82, "kind": "fight_end", "scan": 91, "frame": "f_00447.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.8, "anchor": [719, 346]}
+{"t": 560.32, "kind": "fight_end", "scan": 92, "frame": "f_00450.jpg", "outcome": "unreachable", "detail": "85px away for 2.6s", "seconds": 3.0, "anchor": [586, 379]}
+{"t": 561.01, "kind": "fight_end", "scan": 93, "frame": "f_00451.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [727, 311]}
+{"t": 574.49, "kind": "fight_end", "scan": 94, "frame": "f_00462.jpg", "outcome": "no_progress", "detail": "8.2s, sword=yes", "seconds": 13.0, "anchor": [644, 363]}
+{"t": 584.08, "kind": "fight_end", "scan": 95, "frame": "f_00470.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 9.1, "anchor": [709, 400]}
+{"t": 584.7, "kind": "fight_end", "scan": 96, "frame": "f_00471.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [640, 294]}
+{"t": 594.21, "kind": "fight_end", "scan": 97, "frame": "f_00478.jpg", "outcome": "no_progress", "detail": "8.5s, sword=no", "seconds": 9.0, "anchor": [707, 400]}
+{"t": 603.96, "kind": "fight_end", "scan": 98, "frame": "f_00486.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 9.2, "anchor": [707, 365]}
+{"t": 614.15, "kind": "fight_end", "scan": 99, "frame": "f_00494.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 9.7, "anchor": [629, 356]}
+{"t": 616.15, "kind": "fight_end", "scan": 100, "frame": "f_00496.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.5, "anchor": [767, 194]}
+{"t": 621.14, "kind": "fight_end", "scan": 101, "frame": "f_00500.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.5, "anchor": [888, 63]}
+{"t": 629.69, "kind": "fight_end", "scan": 102, "frame": "f_00507.jpg", "outcome": "no_progress", "detail": "8.1s, sword=no", "seconds": 8.1, "anchor": [1042, 461]}
+{"t": 638.57, "kind": "fight_end", "scan": 103, "frame": "f_00514.jpg", "outcome": "no_progress", "detail": "8.4s, sword=no", "seconds": 8.4, "anchor": [590, 167]}
+{"t": 641.67, "kind": "fight_end", "scan": 104, "frame": "f_00516.jpg", "outcome": "gone", "detail": "box gone 1.8s", "seconds": 2.7, "anchor": [719, 500]}
+{"t": 646.7, "kind": "fight_end", "scan": 105, "frame": "f_00521.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 4.5, "anchor": [677, 429]}
+{"t": 655.4, "kind": "fight_end", "scan": 106, "frame": "f_00528.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 8.2, "anchor": [723, 404]}
+{"t": 671.08, "kind": "fight_end", "scan": 107, "frame": "f_00541.jpg", "outcome": "cap", "detail": "", "seconds": 15.1, "anchor": null}
+{"t": 679.7, "kind": "fight_end", "scan": 108, "frame": "f_00548.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.1, "anchor": [663, 417]}
+{"t": 689.46, "kind": "fight_end", "scan": 109, "frame": "f_00556.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 9.2, "anchor": [636, 381]}
+{"t": 698.59, "kind": "fight_end", "scan": 110, "frame": "f_00564.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.6, "anchor": [627, 392]}
+{"t": 699.76, "kind": "fight_end", "scan": 111, "frame": "f_00565.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.6, "anchor": [1078, 298]}
+{"t": 710.01, "kind": "fight_end", "scan": 112, "frame": "f_00574.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 9.7, "anchor": [627, 359]}
+{"t": 719.02, "kind": "fight_end", "scan": 113, "frame": "f_00581.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.5, "anchor": [725, 356]}
+{"t": 724.29, "kind": "fight_end", "scan": 115, "frame": "f_00585.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.4, "anchor": [686, 436]}
+{"t": 726.44, "kind": "fight_end", "scan": 116, "frame": "f_00587.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.6, "anchor": [452, 450]}
+{"t": 735.84, "kind": "fight_end", "scan": 117, "frame": "f_00595.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 8.9, "anchor": [629, 369]}
+{"t": 745.31, "kind": "fight_end", "scan": 118, "frame": "f_00603.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 9.0, "anchor": [665, 515]}
+{"t": 745.99, "kind": "fight_end", "scan": 119, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.1, "anchor": [496, 254]}
+{"t": 751.39, "kind": "fight_end", "scan": 120, "frame": "f_00607.jpg", "outcome": "gone", "detail": "box gone 1.8s", "seconds": 4.9, "anchor": [406, 211]}
+{"t": 758.46, "kind": "fight_end", "scan": 121, "frame": "f_00613.jpg", "outcome": "unreachable", "detail": "107px away for 2.7s", "seconds": 6.6, "anchor": [769, 373]}
+{"t": 768.73, "kind": "fight_end", "scan": 122, "frame": "f_00621.jpg", "outcome": "gone", "detail": "box gone 1.9s", "seconds": 9.8, "anchor": [652, 421]}
+{"t": 770.74, "kind": "fight_end", "scan": 123, "frame": "f_00622.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.5, "anchor": [527, 471]}
+{"t": 776.1, "kind": "fight_end", "scan": 124, "frame": "f_00626.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.8, "anchor": [1000, 417]}
+{"t": 779.32, "kind": "fight_end", "scan": 125, "frame": "f_00629.jpg", "outcome": "unreachable", "detail": "149px away for 2.7s", "seconds": 2.7, "anchor": [565, 513]}
+{"t": 792.71, "kind": "fight_end", "scan": 126, "frame": "f_00639.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 12.8, "anchor": [730, 406]}
+{"t": 797.63, "kind": "fight_end", "scan": 127, "frame": "f_00643.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.4, "anchor": [677, 431]}
+{"t": 804.86, "kind": "fight_end", "scan": 128, "frame": "f_00649.jpg", "outcome": "unreachable", "detail": "83px away for 2.8s", "seconds": 6.7, "anchor": [750, 398]}
+{"t": 808.89, "kind": "fight_end", "scan": 130, "frame": "f_00652.jpg", "outcome": "unreachable", "detail": "361px away for 2.7s", "seconds": 3.1, "anchor": [1009, 519]}
+{"t": 818.43, "kind": "fight_end", "scan": 131, "frame": "f_00660.jpg", "outcome": "no_progress", "detail": "8.1s, sword=yes", "seconds": 9.1, "anchor": [669, 421]}
+{"t": 832.12, "kind": "fight_end", "scan": 132, "frame": "f_00670.jpg", "outcome": "gone", "detail": "box gone 1.8s", "seconds": 13.2, "anchor": [640, 400]}
+{"t": 845.35, "kind": "fight_end", "scan": 133, "frame": "f_00681.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 12.7, "anchor": [715, 406]}
+{"t": 847.89, "kind": "fight_end", "scan": 134, "frame": "f_00683.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.0, "anchor": [682, 409]}
+{"t": 849.86, "kind": "fight_end", "scan": 136, "frame": "f_00685.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.1, "anchor": [909, 490]}
+{"t": 860.0, "kind": "fight_end", "scan": 137, "frame": "f_00693.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 9.6, "anchor": [634, 415]}
+{"t": 862.05, "kind": "fight_end", "scan": 138, "frame": "f_00695.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.5, "anchor": [792, 484]}
+{"t": 874.39, "kind": "fight_end", "scan": 139, "frame": "f_00704.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 11.8, "anchor": [771, 373]}
+{"t": 881.35, "kind": "fight_end", "scan": 140, "frame": "f_00710.jpg", "outcome": "frozen", "detail": "", "seconds": 6.4, "anchor": [1021, 446]}
+{"t": 884.41, "kind": "fight_end", "scan": 141, "frame": "f_00712.jpg", "outcome": "gone", "detail": "box gone 1.6s", "seconds": 2.5, "anchor": [865, 565]}
+{"t": 895.99, "kind": "fight_end", "scan": 142, "frame": "f_00721.jpg", "outcome": "no_progress", "detail": "8.3s, sword=yes", "seconds": 11.1, "anchor": [625, 409]}
+{"t": 905.99, "kind": "fight_end", "scan": 143, "frame": "f_00729.jpg", "outcome": "no_progress", "detail": "8.4s, sword=yes", "seconds": 9.5, "anchor": [675, 417]}

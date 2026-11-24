@@ -261,3 +261,18 @@ chọn khu `오염된 축복의 땅 - 오크의 땅` → bãi `blessed_orc`, b�
 Giả lập săn (`tests/test_hunt_replay.py`: `TargetingFeature.acquire` thật trên ảnh test, con trỏ = attack khi chuột
 nằm trong box đã duyệt): có mục tiêu ở 48/50 ảnh ngày (96%) và 32/34 ảnh đêm có orc (94%); lần rê đầu trúng orc
 45/48 và 27/32.
+
+### 6.7 orc_v2 — thêm lớp "corpse" (PLAN 0.30 / 2, CHƯA TRAIN: chưa có nhãn xác)
+Lần duyệt đầu đã XÓA các orc đang nằm → 4 bản ghi đã duyệt có 0 hộp corpse. Duyệt lại nhanh, chỉ thêm xác:
+
+    .venv\Scripts\python.exe tests\label_tool.py records_game\20261124_133425_observe --corpse
+    (lặp lại cho 111355, 130457, 193903; khung gần con trỏ thánh giá hiện trước; vẽ hộp quanh orc nằm/đang ngã,
+     phím 8 = corpse, Enter = xong khung này cho lượt xác; khung đã duyệt lượt đầu vẫn giữ nhãn orc)
+
+Train 2 lớp (orc = 0, corpse = 1; người chơi/NPC bỏ ra):
+
+    powershell -ExecutionPolicy Bypass -File train\train_orc.ps1 -Name orc_v2 -Classes corpse -Out model\yolox_tiny_orc_v2.onnx
+
+Bot không cần sửa mã: `vision/yolox_mobs.class_layout` đọc số lớp từ đầu ra ONNX (6 = 1 lớp, 7 = orc+corpse,
+8+ = monster/figure/die). Hộp corpse → bỏ khỏi ứng viên (targeting, ≤20 px) + tín hiệu chết "die_box" (kill_fall)
++ vị trí cho nhặt đồ. Đo: eval_detection hiện chỉ chấm lớp orc; recall/precision lớp corpse cần thêm vào khi có nhãn.
