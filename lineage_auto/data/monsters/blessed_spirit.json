@@ -1,0 +1,9 @@
+{
+ "_doc": "Empty template: fill 'monsters' (name/class/level/attack) and add name pictures, see docs/ADD_NEW_MAP.md",
+ "key": "blessed_spirit",
+ "real_map": "오염된 축복의 땅 - 정령의 땅",
+ "name_en": "Blessed Land (polluted) - spirit area",
+ "hunt_map": null,
+ "group": "monster",
+ "monsters": []
+}

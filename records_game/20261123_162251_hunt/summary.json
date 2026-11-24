@@ -1,0 +1,14 @@
+{
+ "mode": "hunt",
+ "duration_sec": 463.8,
+ "frames_saved": 133,
+ "counts": {
+  "scans": 642,
+  "wander": 642
+ },
+ "hover_confirm_rate": null,
+ "avg_ms": {
+  "detect_ms": 162.5,
+  "probe_ms": 0.0
+ }
+}

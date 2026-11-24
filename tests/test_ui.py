@@ -1,0 +1,112 @@
+"""UI v7 test: tabs, bottom bar, mode, locking while running, saved window state, i18n.
+
+Usage:  python tests/test_ui.py      (needs Tk with a display; a temporary data folder, the real config is untouched)
+"""
+import json
+import os
+import shutil
+import sys
+import tempfile
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    import tkinter as tk
+
+    from lineage_auto import app_paths
+    from lineage_auto.ui.i18n import I18N
+
+    assert set(I18N["ko"]) == set(I18N["en"]) == set(I18N["vi"])
+    tmp = tempfile.mkdtemp(prefix="la_ui_")
+    app_paths.data_path = lambda name: os.path.join(tmp, name)
+    old = {"lang": "vi", "accounts": [{"name": "Account 1", "record": {"real_map": "오염된 축복의 땅 - 오크의 땅",
+                                                                     "grid_step": 60, "interval_sec": 2}}]}
+    json.dump(old, open(os.path.join(tmp, app_paths.CONFIG_FILE), "w", encoding="utf-8"))
+
+    from lineage_auto.config.models import UI_TABS
+    from lineage_auto.runtime.session import SessionState
+    from lineage_auto.ui.main_window import MainWindow
+
+    root = tk.Tk()
+    app = MainWindow(root)
+    tab = app.current_tab
+    root.update()
+    try:
+        assert tab.notebook.index("end") == 6
+        titles = [tab.notebook.tab(i, "text") for i in range(6)]
+        assert titles[0].startswith("Chính") and titles[0].endswith("⚠"), titles  # no game window -> warning
+        assert titles[4].startswith("Con trỏ") and titles[4].endswith("⚠")  # nothing registered
+        # Old keys still land in the moved widgets.
+        assert tab.zone.real_map.get() == "오염된 축복의 땅 - 오크의 땅" and tab.grid.grid_step.get() == 60
+        assert tab.record.interval.get() == 2
+        # Orc zone now has its model: picking it clears "no model" and selects the orc hunt map.
+        tab.record.no_model.set(True)
+        tab.zone._zone_selected()
+        assert not tab.record.no_model.get() and tab.account.hunt_map == "blessed_orc"
+
+        # Mode -> big button text and what it starts.
+        calls = []
+        tab.toggle_observe = lambda: calls.append("observe")
+        tab.toggle_session = lambda: calls.append("hunt")
+        tab.status.mode.set("observe")
+        tab.status._mode_changed()
+        assert tab.control.button.cget("text") == app.translator.t("start_observe")
+        tab.run_selected()
+        tab.status.mode.set("hunt")
+        tab.status._mode_changed()
+        assert tab.control.button.cget("text") == app.translator.t("start_hunt")
+        tab.run_selected()
+        assert calls == ["observe", "hunt"] and app.settings.ui.mode == "hunt"
+
+        # HP/MP in the bottom bar.
+        tab.session.ctx.state["hp_abs"] = (156, 190)
+        tab.show_hp(82)
+        assert tab.control.lbl_live.cget("text") == "HP 156/190 (82%)"
+
+        # Running locks the same widgets as before (+ the moved ones).
+        for panel in tab.panels():
+            panel.set_busy(True)
+        for widget in (tab.zone.combo_map, tab.grid.chk_grid, tab.grid.spin_grid_step, tab.record.spin_interval,
+                       tab.record.chk_no_model, tab.scan.spins[0], tab.window.btn_refresh, tab.character.combo,
+                       tab.status.radios["observe"], tab.cursor.buttons["attack"]):
+            assert str(widget.cget("state")) == "disabled", widget
+        for panel in tab.panels():
+            panel.set_busy(False)
+        tab.session.state = SessionState.STOPPED
+
+        # Language: tab names follow.
+        app.toggle_language()  # vi -> ko
+        assert tab.notebook.tab(1, "text").startswith("사냥")
+        app.toggle_language()
+        app.toggle_language()
+
+        # Tab, topmost, geometry are saved.
+        tab.select_page("cursor")
+        root.update()
+        assert app.settings.ui.tab == "cursor"
+        app.topmost.set(True)
+        app._apply_topmost()
+        assert root.attributes("-topmost") == 1
+        root.geometry("500x700+30+40")
+        root.update()
+        app.on_close()
+        saved = json.load(open(os.path.join(tmp, app_paths.CONFIG_FILE), encoding="utf-8"))
+        assert saved["ui"]["tab"] == "cursor" and saved["ui"]["topmost"] is True
+        assert saved["ui"]["geometry"].startswith("500x700"), saved["ui"]
+        rec = saved["accounts"][0]["record"]
+        assert rec["real_map"] == "오염된 축복의 땅 - 오크의 땅" and rec["grid_step"] == 60
+        assert set(UI_TABS) == {"main", "hunt", "heal", "skills", "cursor", "data"}
+    finally:
+        try:
+            root.destroy()
+        except tk.TclError:
+            pass
+        shutil.rmtree(tmp, ignore_errors=True)
+    print("ui tests OK")
+
+
+if __name__ == "__main__":
+    main()

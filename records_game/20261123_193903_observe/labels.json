@@ -1,0 +1,6117 @@
+{
+ "_doc": "auto labels from cursor checks; finish the todo frames with tests/label_tool.py",
+ "images": {
+  "f_00001.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00002.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00003.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00004.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00005.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00006.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00007.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00008.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     611,
+     308
+    ],
+    [
+     588,
+     624
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [
+    [
+     590,
+     269,
+     632,
+     346,
+     0,
+     "orc"
+    ],
+    [
+     552,
+     575,
+     623,
+     672,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 10.1
+  },
+  "f_00009.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00010.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00011.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00012.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     676,
+     62
+    ],
+    [
+     1110,
+     76
+    ],
+    [
+     405,
+     355
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [
+    [
+     650,
+     22,
+     703,
+     101,
+     0,
+     "orc"
+    ],
+    [
+     1073,
+     43,
+     1146,
+     110,
+     0,
+     "orc"
+    ],
+    [
+     376,
+     319,
+     434,
+     391,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 62.3
+  },
+  "f_00013.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00014.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00015.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     1152,
+     459
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [
+    [
+     1131,
+     413,
+     1173,
+     505,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.3
+  },
+  "f_00016.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00017.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     520,
+     577
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [
+    [
+     495,
+     524,
+     545,
+     630,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.7
+  },
+  "f_00018.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00019.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     413,
+     494
+    ],
+    [
+     648,
+     303
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [
+    [
+     381,
+     438,
+     445,
+     551,
+     0,
+     "orc"
+    ],
+    [
+     616,
+     258,
+     679,
+     348,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.3
+  },
+  "f_00020.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00021.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00022.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00023.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00024.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00025.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00026.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00027.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00028.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00029.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00030.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00031.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     442,
+     154
+    ],
+    [
+     525,
+     337
+    ],
+    [
+     962,
+     378
+    ]
+   ],
+   "monster_names": [
+    [
+     524,
+     372,
+     "orc"
+    ]
+   ],
+   "boxes": [
+    [
+     403,
+     109,
+     480,
+     200,
+     0,
+     "orc"
+    ],
+    [
+     501,
+     276,
+     549,
+     398,
+     0,
+     "orc"
+    ],
+    [
+     938,
+     333,
+     986,
+     422,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 9.4
+  },
+  "f_00032.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00033.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00034.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00035.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00036.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00037.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00038.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00039.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00040.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00041.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00042.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00043.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00044.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     810,
+     515
+    ],
+    [
+     746,
+     406
+    ],
+    [
+     627,
+     528
+    ],
+    [
+     1006,
+     538
+    ],
+    [
+     920,
+     604
+    ],
+    [
+     887,
+     592
+    ]
+   ],
+   "monster_names": [
+    [
+     744,
+     401,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     778,
+     479,
+     841,
+     551,
+     0,
+     "orc"
+    ],
+    [
+     711,
+     350,
+     780,
+     462,
+     0,
+     "orc_spear"
+    ],
+    [
+     605,
+     482,
+     649,
+     575,
+     0,
+     "orc"
+    ],
+    [
+     970,
+     488,
+     1041,
+     588,
+     0,
+     "orc"
+    ],
+    [
+     904,
+     557,
+     936,
+     651,
+     0,
+     "orc"
+    ],
+    [
+     858,
+     544,
+     916,
+     641,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 12.0
+  },
+  "f_00045.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00046.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     640,
+     355
+    ],
+    [
+     770,
+     600
+    ],
+    [
+     889,
+     592
+    ],
+    [
+     368,
+     664
+    ],
+    [
+     138,
+     509
+    ]
+   ],
+   "monster_names": [
+    [
+     633,
+     346,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     611,
+     309,
+     668,
+     401,
+     0,
+     "orc_spear"
+    ],
+    [
+     739,
+     553,
+     801,
+     648,
+     0,
+     "orc"
+    ],
+    [
+     857,
+     541,
+     921,
+     643,
+     0,
+     "orc"
+    ],
+    [
+     344,
+     626,
+     391,
+     702,
+     0,
+     "orc"
+    ],
+    [
+     114,
+     471,
+     162,
+     547,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 10.8
+  },
+  "f_00047.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00048.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     583,
+     437
+    ],
+    [
+     536,
+     452
+    ],
+    [
+     362,
+     652
+    ],
+    [
+     708,
+     614
+    ]
+   ],
+   "monster_names": [
+    [
+     583,
+     437,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     513,
+     409,
+     560,
+     495,
+     0,
+     "orc"
+    ],
+    [
+     335,
+     612,
+     389,
+     692,
+     0,
+     "orc"
+    ],
+    [
+     675,
+     575,
+     741,
+     652,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.1
+  },
+  "f_00049.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00050.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00051.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00052.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00053.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00054.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00055.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00056.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00057.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00058.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00059.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00060.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00061.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00062.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00063.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00064.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00065.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     868,
+     477
+    ]
+   ],
+   "monster_names": [
+    [
+     868,
+     477,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00066.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     818,
+     426
+    ],
+    [
+     634,
+     458
+    ],
+    [
+     772,
+     423
+    ],
+    [
+     776,
+     599
+    ],
+    [
+     858,
+     637
+    ],
+    [
+     1017,
+     605
+    ],
+    [
+     445,
+     618
+    ],
+    [
+     602,
+     654
+    ],
+    [
+     350,
+     554
+    ],
+    [
+     516,
+     336
+    ],
+    [
+     534,
+     292
+    ],
+    [
+     405,
+     311
+    ],
+    [
+     100,
+     179
+    ],
+    [
+     78,
+     252
+    ],
+    [
+     8,
+     252
+    ]
+   ],
+   "monster_names": [
+    [
+     818,
+     426,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     595,
+     407,
+     672,
+     509,
+     0,
+     "orc"
+    ],
+    [
+     742,
+     375,
+     801,
+     471,
+     0,
+     "orc"
+    ],
+    [
+     738,
+     550,
+     815,
+     648,
+     0,
+     "orc"
+    ],
+    [
+     834,
+     586,
+     881,
+     688,
+     0,
+     "orc"
+    ],
+    [
+     980,
+     553,
+     1054,
+     657,
+     0,
+     "orc"
+    ],
+    [
+     408,
+     575,
+     482,
+     662,
+     0,
+     "orc"
+    ],
+    [
+     572,
+     613,
+     631,
+     694,
+     0,
+     "orc"
+    ],
+    [
+     327,
+     499,
+     372,
+     608,
+     0,
+     "orc"
+    ],
+    [
+     497,
+     286,
+     535,
+     387,
+     0,
+     "orc"
+    ],
+    [
+     519,
+     261,
+     550,
+     324,
+     0,
+     "orc"
+    ],
+    [
+     374,
+     268,
+     436,
+     354,
+     0,
+     "orc"
+    ],
+    [
+     67,
+     145,
+     133,
+     213,
+     0,
+     "orc"
+    ],
+    [
+     56,
+     212,
+     99,
+     291,
+     0,
+     "orc"
+    ],
+    [
+     -4,
+     216,
+     19,
+     289,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 41.8
+  },
+  "f_00067.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     692,
+     386
+    ]
+   ],
+   "monster_names": [
+    [
+     692,
+     386,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00068.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00069.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00070.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     522,
+     195
+    ],
+    [
+     430,
+     218
+    ],
+    [
+     366,
+     180
+    ],
+    [
+     102,
+     278
+    ],
+    [
+     70,
+     302
+    ],
+    [
+     198,
+     538
+    ],
+    [
+     242,
+     570
+    ],
+    [
+     294,
+     608
+    ],
+    [
+     592,
+     429
+    ],
+    [
+     626,
+     544
+    ],
+    [
+     780,
+     543
+    ],
+    [
+     1079,
+     613
+    ]
+   ],
+   "monster_names": [
+    [
+     789,
+     535,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     485,
+     156,
+     558,
+     234,
+     0,
+     "orc"
+    ],
+    [
+     405,
+     176,
+     455,
+     260,
+     0,
+     "orc"
+    ],
+    [
+     344,
+     132,
+     389,
+     227,
+     0,
+     "orc"
+    ],
+    [
+     97,
+     200,
+     139,
+     279,
+     0,
+     "orc"
+    ],
+    [
+     79,
+     235,
+     124,
+     320,
+     0,
+     "orc"
+    ],
+    [
+     51,
+     251,
+     89,
+     352,
+     0,
+     "orc"
+    ],
+    [
+     182,
+     480,
+     215,
+     597,
+     0,
+     "orc"
+    ],
+    [
+     221,
+     516,
+     263,
+     624,
+     0,
+     "orc"
+    ],
+    [
+     282,
+     560,
+     307,
+     656,
+     0,
+     "orc"
+    ],
+    [
+     566,
+     387,
+     617,
+     471,
+     0,
+     "orc"
+    ],
+    [
+     594,
+     499,
+     658,
+     590,
+     0,
+     "orc"
+    ],
+    [
+     757,
+     488,
+     803,
+     598,
+     0,
+     "orc_warrior"
+    ],
+    [
+     1058,
+     551,
+     1100,
+     675,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 21.1
+  },
+  "f_00071.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00072.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00073.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00074.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00075.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00076.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00077.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00078.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00079.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00080.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     514,
+     248
+    ],
+    [
+     555,
+     304
+    ],
+    [
+     506,
+     314
+    ],
+    [
+     522,
+     521
+    ],
+    [
+     447,
+     429
+    ],
+    [
+     116,
+     411
+    ],
+    [
+     236,
+     76
+    ]
+   ],
+   "monster_names": [
+    [
+     551,
+     314,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     490,
+     217,
+     538,
+     278,
+     0,
+     "orc"
+    ],
+    [
+     533,
+     260,
+     577,
+     348,
+     0,
+     "orc_warrior"
+    ],
+    [
+     482,
+     278,
+     529,
+     351,
+     0,
+     "orc"
+    ],
+    [
+     494,
+     477,
+     550,
+     565,
+     0,
+     "orc"
+    ],
+    [
+     407,
+     378,
+     487,
+     480,
+     0,
+     "orc"
+    ],
+    [
+     89,
+     359,
+     142,
+     463,
+     0,
+     "orc"
+    ],
+    [
+     213,
+     37,
+     258,
+     116,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 120
+  },
+  "f_00081.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     544,
+     309
+    ]
+   ],
+   "monster_names": [
+    [
+     544,
+     309,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00082.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     580,
+     330
+    ],
+    [
+     511,
+     319
+    ],
+    [
+     550,
+     316
+    ],
+    [
+     588,
+     290
+    ],
+    [
+     544,
+     150
+    ],
+    [
+     370,
+     71
+    ],
+    [
+     120,
+     534
+    ]
+   ],
+   "monster_names": [
+    [
+     580,
+     330,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     495,
+     289,
+     527,
+     349,
+     0,
+     "orc"
+    ],
+    [
+     528,
+     272,
+     572,
+     361,
+     0,
+     "orc"
+    ],
+    [
+     566,
+     257,
+     609,
+     322,
+     0,
+     "orc"
+    ],
+    [
+     513,
+     109,
+     574,
+     190,
+     0,
+     "orc"
+    ],
+    [
+     338,
+     34,
+     402,
+     108,
+     0,
+     "orc"
+    ],
+    [
+     93,
+     484,
+     147,
+     585,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 11.2
+  },
+  "f_00083.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00084.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00085.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00086.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00087.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00088.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     641,
+     327
+    ]
+   ],
+   "monster_names": [
+    [
+     641,
+     327,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00089.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     634,
+     296
+    ],
+    [
+     556,
+     207
+    ],
+    [
+     570,
+     640
+    ]
+   ],
+   "monster_names": [
+    [
+     656,
+     340,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     609,
+     250,
+     659,
+     342,
+     0,
+     "orc_spear"
+    ],
+    [
+     531,
+     164,
+     581,
+     250,
+     0,
+     "orc"
+    ],
+    [
+     535,
+     600,
+     606,
+     679,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.0
+  },
+  "f_00090.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     643,
+     332
+    ]
+   ],
+   "monster_names": [
+    [
+     643,
+     332,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00091.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00092.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00093.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00094.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00095.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00096.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00097.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00098.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     467,
+     106
+    ]
+   ],
+   "monster_names": [
+    [
+     467,
+     106,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00099.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     520,
+     234
+    ],
+    [
+     398,
+     566
+    ],
+    [
+     461,
+     623
+    ],
+    [
+     1146,
+     267
+    ]
+   ],
+   "monster_names": [
+    [
+     528,
+     247,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     491,
+     195,
+     550,
+     272,
+     0,
+     "orc_spear"
+    ],
+    [
+     368,
+     519,
+     428,
+     612,
+     0,
+     "orc"
+    ],
+    [
+     445,
+     576,
+     477,
+     670,
+     0,
+     "orc"
+    ],
+    [
+     1116,
+     224,
+     1175,
+     310,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 10.7
+  },
+  "f_00100.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     528,
+     251
+    ]
+   ],
+   "monster_names": [
+    [
+     528,
+     251,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00101.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     528,
+     251
+    ],
+    [
+     550,
+     309
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     988,
+     336
+    ]
+   ],
+   "monster_names": [
+    [
+     528,
+     251,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     523,
+     259,
+     578,
+     359,
+     0,
+     "orc"
+    ],
+    [
+     313,
+     301,
+     363,
+     387,
+     0,
+     "orc"
+    ],
+    [
+     958,
+     282,
+     1019,
+     390,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.2
+  },
+  "f_00102.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00103.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00104.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     136,
+     484
+    ],
+    [
+     556,
+     346
+    ],
+    [
+     1120,
+     409
+    ]
+   ],
+   "monster_names": [
+    [
+     153,
+     483,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     108,
+     434,
+     165,
+     534,
+     0,
+     "orc_spear"
+    ],
+    [
+     530,
+     299,
+     581,
+     393,
+     0,
+     "orc"
+    ],
+    [
+     1101,
+     363,
+     1140,
+     455,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.0
+  },
+  "f_00105.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00106.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00107.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00108.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     558,
+     336
+    ]
+   ],
+   "monster_names": [
+    [
+     571,
+     345,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     531,
+     286,
+     585,
+     385,
+     0,
+     "orc_spear"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 4.6
+  },
+  "f_00109.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00110.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00111.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     854,
+     74
+    ]
+   ],
+   "monster_names": [
+    [
+     852,
+     95,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     827,
+     37,
+     881,
+     111,
+     0,
+     "orc_spear"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.2
+  },
+  "f_00112.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00113.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     757,
+     240
+    ],
+    [
+     720,
+     257
+    ]
+   ],
+   "monster_names": [
+    [
+     757,
+     240,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     693,
+     216,
+     748,
+     298,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 3.8
+  },
+  "f_00114.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00115.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00116.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     715,
+     462
+    ],
+    [
+     203,
+     188
+    ]
+   ],
+   "monster_names": [
+    [
+     711,
+     438,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     690,
+     410,
+     740,
+     515,
+     0,
+     "orc_spear"
+    ],
+    [
+     166,
+     136,
+     240,
+     239,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 5.1
+  },
+  "f_00117.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00118.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     649,
+     352
+    ],
+    [
+     414,
+     76
+    ]
+   ],
+   "monster_names": [
+    [
+     643,
+     349,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     619,
+     306,
+     679,
+     399,
+     0,
+     "orc_spear"
+    ],
+    [
+     378,
+     41,
+     449,
+     112,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 4.4
+  },
+  "f_00119.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     643,
+     349
+    ]
+   ],
+   "monster_names": [
+    [
+     643,
+     349,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00120.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     643,
+     349
+    ],
+    [
+     406,
+     85
+    ]
+   ],
+   "monster_names": [
+    [
+     643,
+     349,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     379,
+     42,
+     433,
+     128,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 4.9
+  },
+  "f_00121.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00122.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     788,
+     381
+    ],
+    [
+     740,
+     340
+    ],
+    [
+     886,
+     532
+    ],
+    [
+     593,
+     501
+    ]
+   ],
+   "monster_names": [
+    [
+     788,
+     381,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [
+    [
+     716,
+     283,
+     764,
+     398,
+     0,
+     "orc"
+    ],
+    [
+     862,
+     484,
+     910,
+     581,
+     0,
+     "orc"
+    ],
+    [
+     571,
+     460,
+     615,
+     542,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 9.2
+  },
+  "f_00123.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00124.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     745,
+     355
+    ],
+    [
+     694,
+     356
+    ],
+    [
+     814,
+     428
+    ],
+    [
+     780,
+     599
+    ]
+   ],
+   "monster_names": [
+    [
+     745,
+     355,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [
+    [
+     672,
+     305,
+     717,
+     407,
+     0,
+     "orc"
+    ],
+    [
+     785,
+     381,
+     844,
+     475,
+     0,
+     "orc"
+    ],
+    [
+     754,
+     547,
+     806,
+     651,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.1
+  },
+  "f_00125.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00126.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00127.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     764,
+     358
+    ]
+   ],
+   "monster_names": [
+    [
+     764,
+     358,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00128.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00129.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00130.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     670,
+     80
+    ],
+    [
+     1148,
+     586
+    ],
+    [
+     740,
+     619
+    ],
+    [
+     673,
+     339
+    ]
+   ],
+   "monster_names": [
+    [
+     670,
+     347,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     637,
+     37,
+     703,
+     123,
+     0,
+     "orc"
+    ],
+    [
+     1118,
+     542,
+     1177,
+     630,
+     0,
+     "orc"
+    ],
+    [
+     717,
+     576,
+     763,
+     662,
+     0,
+     "orc"
+    ],
+    [
+     647,
+     297,
+     699,
+     381,
+     0,
+     "orc_spear"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.6
+  },
+  "f_00131.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00132.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00133.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00134.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00135.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     660,
+     330
+    ],
+    [
+     696,
+     322
+    ]
+   ],
+   "monster_names": [
+    [
+     660,
+     330,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     671,
+     267,
+     721,
+     377,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.0
+  },
+  "f_00136.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00137.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00138.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     762,
+     337
+    ],
+    [
+     842,
+     122
+    ]
+   ],
+   "monster_names": [
+    [
+     762,
+     337,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     816,
+     70,
+     868,
+     174,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.4
+  },
+  "f_00139.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00140.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00141.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00142.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00143.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00144.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00145.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00146.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00147.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00148.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00149.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     382,
+     509
+    ],
+    [
+     442,
+     478
+    ],
+    [
+     592,
+     475
+    ],
+    [
+     33,
+     260
+    ]
+   ],
+   "monster_names": [
+    [
+     435,
+     511,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     354,
+     459,
+     410,
+     559,
+     0,
+     "orc"
+    ],
+    [
+     413,
+     441,
+     471,
+     514,
+     0,
+     "orc_spear"
+    ],
+    [
+     562,
+     428,
+     623,
+     522,
+     0,
+     "orc"
+    ],
+    [
+     7,
+     197,
+     59,
+     322,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 64.3
+  },
+  "f_00150.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00151.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00152.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     626,
+     315
+    ],
+    [
+     671,
+     332
+    ],
+    [
+     546,
+     351
+    ],
+    [
+     382,
+     508
+    ],
+    [
+     255,
+     226
+    ],
+    [
+     342,
+     208
+    ]
+   ],
+   "monster_names": [
+    [
+     662,
+     336,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     610,
+     274,
+     641,
+     356,
+     0,
+     "orc"
+    ],
+    [
+     654,
+     291,
+     688,
+     372,
+     0,
+     "orc_warrior"
+    ],
+    [
+     522,
+     300,
+     570,
+     402,
+     0,
+     "orc"
+    ],
+    [
+     347,
+     458,
+     416,
+     558,
+     0,
+     "orc"
+    ],
+    [
+     239,
+     177,
+     271,
+     275,
+     0,
+     "orc"
+    ],
+    [
+     318,
+     162,
+     367,
+     254,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.6
+  },
+  "f_00153.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     669,
+     340
+    ]
+   ],
+   "monster_names": [
+    [
+     669,
+     340,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00154.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00155.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     628,
+     318
+    ],
+    [
+     382,
+     508
+    ],
+    [
+     276,
+     484
+    ]
+   ],
+   "monster_names": [
+    [
+     640,
+     330,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     605,
+     269,
+     652,
+     368,
+     0,
+     "orc_warrior"
+    ],
+    [
+     344,
+     459,
+     421,
+     556,
+     0,
+     "orc"
+    ],
+    [
+     247,
+     427,
+     304,
+     541,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.2
+  },
+  "f_00156.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00157.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00158.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     378,
+     501
+    ],
+    [
+     330,
+     438
+    ],
+    [
+     734,
+     106
+    ]
+   ],
+   "monster_names": [
+    [
+     378,
+     501,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [
+    [
+     303,
+     389,
+     357,
+     488,
+     0,
+     "orc"
+    ],
+    [
+     705,
+     55,
+     762,
+     156,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 5.4
+  },
+  "f_00159.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00160.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00161.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00162.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00163.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00164.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00165.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00166.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00167.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00168.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     630,
+     264
+    ],
+    [
+     401,
+     328
+    ],
+    [
+     236,
+     404
+    ],
+    [
+     92,
+     430
+    ],
+    [
+     10,
+     402
+    ],
+    [
+     419,
+     609
+    ],
+    [
+     678,
+     466
+    ],
+    [
+     771,
+     438
+    ],
+    [
+     826,
+     432
+    ],
+    [
+     818,
+     516
+    ],
+    [
+     892,
+     550
+    ],
+    [
+     959,
+     594
+    ],
+    [
+     962,
+     512
+    ],
+    [
+     986,
+     474
+    ],
+    [
+     1084,
+     562
+    ],
+    [
+     1046,
+     644
+    ],
+    [
+     827,
+     286
+    ],
+    [
+     740,
+     252
+    ],
+    [
+     780,
+     209
+    ],
+    [
+     838,
+     198
+    ],
+    [
+     856,
+     170
+    ],
+    [
+     920,
+     158
+    ]
+   ],
+   "monster_names": [
+    [
+     637,
+     284,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     602,
+     216,
+     657,
+     312,
+     0,
+     "orc_warrior"
+    ],
+    [
+     371,
+     282,
+     431,
+     374,
+     0,
+     "orc"
+    ],
+    [
+     202,
+     359,
+     269,
+     448,
+     0,
+     "orc"
+    ],
+    [
+     71,
+     391,
+     113,
+     470,
+     0,
+     "orc"
+    ],
+    [
+     -4,
+     360,
+     24,
+     445,
+     0,
+     "orc"
+    ],
+    [
+     390,
+     563,
+     448,
+     655,
+     0,
+     "orc"
+    ],
+    [
+     650,
+     418,
+     707,
+     514,
+     0,
+     "orc"
+    ],
+    [
+     754,
+     392,
+     788,
+     483,
+     0,
+     "orc"
+    ],
+    [
+     811,
+     396,
+     841,
+     469,
+     0,
+     "orc"
+    ],
+    [
+     801,
+     467,
+     835,
+     564,
+     0,
+     "orc"
+    ],
+    [
+     872,
+     501,
+     912,
+     599,
+     0,
+     "orc"
+    ],
+    [
+     941,
+     550,
+     977,
+     638,
+     0,
+     "orc"
+    ],
+    [
+     943,
+     462,
+     982,
+     562,
+     0,
+     "orc"
+    ],
+    [
+     965,
+     434,
+     1008,
+     515,
+     0,
+     "orc"
+    ],
+    [
+     1058,
+     502,
+     1109,
+     623,
+     0,
+     "orc"
+    ],
+    [
+     1027,
+     607,
+     1066,
+     682,
+     0,
+     "orc"
+    ],
+    [
+     802,
+     244,
+     852,
+     328,
+     0,
+     "orc"
+    ],
+    [
+     719,
+     203,
+     762,
+     302,
+     0,
+     "orc"
+    ],
+    [
+     768,
+     166,
+     793,
+     252,
+     0,
+     "orc"
+    ],
+    [
+     821,
+     165,
+     855,
+     232,
+     0,
+     "orc"
+    ],
+    [
+     839,
+     128,
+     873,
+     213,
+     0,
+     "orc"
+    ],
+    [
+     899,
+     119,
+     941,
+     196,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 37.6
+  },
+  "f_00169.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     592,
+     215
+    ]
+   ],
+   "monster_names": [
+    [
+     592,
+     215,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00170.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     644,
+     407
+    ],
+    [
+     373,
+     434
+    ],
+    [
+     408,
+     456
+    ],
+    [
+     450,
+     406
+    ],
+    [
+     535,
+     382
+    ],
+    [
+     520,
+     578
+    ],
+    [
+     876,
+     542
+    ],
+    [
+     932,
+     514
+    ],
+    [
+     930,
+     580
+    ],
+    [
+     968,
+     597
+    ],
+    [
+     1049,
+     494
+    ],
+    [
+     1146,
+     472
+    ],
+    [
+     931,
+     163
+    ],
+    [
+     762,
+     258
+    ],
+    [
+     779,
+     182
+    ],
+    [
+     668,
+     100
+    ],
+    [
+     732,
+     142
+    ]
+   ],
+   "monster_names": [
+    [
+     644,
+     407,
+     "orc_axe"
+    ]
+   ],
+   "boxes": [
+    [
+     351,
+     385,
+     395,
+     484,
+     0,
+     "orc"
+    ],
+    [
+     392,
+     405,
+     425,
+     506,
+     0,
+     "orc"
+    ],
+    [
+     434,
+     359,
+     465,
+     454,
+     0,
+     "orc"
+    ],
+    [
+     512,
+     334,
+     558,
+     429,
+     0,
+     "orc"
+    ],
+    [
+     497,
+     532,
+     542,
+     623,
+     0,
+     "orc"
+    ],
+    [
+     858,
+     495,
+     894,
+     590,
+     0,
+     "orc"
+    ],
+    [
+     916,
+     479,
+     947,
+     549,
+     0,
+     "orc"
+    ],
+    [
+     911,
+     527,
+     948,
+     633,
+     0,
+     "orc"
+    ],
+    [
+     950,
+     558,
+     986,
+     636,
+     0,
+     "orc"
+    ],
+    [
+     1030,
+     444,
+     1068,
+     544,
+     0,
+     "orc"
+    ],
+    [
+     1123,
+     426,
+     1168,
+     518,
+     0,
+     "orc"
+    ],
+    [
+     911,
+     126,
+     951,
+     200,
+     0,
+     "orc"
+    ],
+    [
+     738,
+     218,
+     786,
+     298,
+     0,
+     "orc"
+    ],
+    [
+     748,
+     136,
+     810,
+     228,
+     0,
+     "orc"
+    ],
+    [
+     651,
+     65,
+     684,
+     136,
+     0,
+     "orc"
+    ],
+    [
+     714,
+     108,
+     750,
+     177,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 25.5
+  },
+  "f_00171.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00172.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00173.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00174.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00175.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00176.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00177.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00178.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00179.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00180.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00181.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00182.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00183.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00184.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00185.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00186.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00187.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00188.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00189.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00190.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00191.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00192.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     638,
+     360
+    ],
+    [
+     670,
+     336
+    ],
+    [
+     224,
+     286
+    ],
+    [
+     990,
+     417
+    ],
+    [
+     44,
+     614
+    ]
+   ],
+   "monster_names": [
+    [
+     638,
+     360,
+     "orc_axe"
+    ]
+   ],
+   "boxes": [
+    [
+     648,
+     291,
+     693,
+     381,
+     0,
+     "orc"
+    ],
+    [
+     206,
+     238,
+     242,
+     333,
+     0,
+     "orc"
+    ],
+    [
+     957,
+     358,
+     1022,
+     476,
+     0,
+     "orc"
+    ],
+    [
+     19,
+     564,
+     68,
+     665,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 11.0
+  },
+  "f_00193.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00194.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00195.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00196.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00197.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     224,
+     664
+    ],
+    [
+     78,
+     544
+    ],
+    [
+     318,
+     500
+    ],
+    [
+     370,
+     520
+    ],
+    [
+     513,
+     332
+    ],
+    [
+     562,
+     422
+    ],
+    [
+     725,
+     412
+    ],
+    [
+     801,
+     372
+    ],
+    [
+     884,
+     334
+    ],
+    [
+     922,
+     310
+    ],
+    [
+     1070,
+     242
+    ],
+    [
+     1002,
+     426
+    ],
+    [
+     916,
+     480
+    ]
+   ],
+   "monster_names": [
+    [
+     555,
+     415,
+     "orc"
+    ]
+   ],
+   "boxes": [
+    [
+     197,
+     623,
+     251,
+     705,
+     0,
+     "orc"
+    ],
+    [
+     61,
+     500,
+     95,
+     588,
+     0,
+     "orc"
+    ],
+    [
+     303,
+     445,
+     332,
+     555,
+     0,
+     "orc"
+    ],
+    [
+     354,
+     472,
+     386,
+     569,
+     0,
+     "orc"
+    ],
+    [
+     493,
+     293,
+     533,
+     371,
+     0,
+     "orc"
+    ],
+    [
+     537,
+     372,
+     586,
+     472,
+     0,
+     "orc"
+    ],
+    [
+     699,
+     360,
+     751,
+     465,
+     0,
+     "orc"
+    ],
+    [
+     767,
+     321,
+     835,
+     424,
+     0,
+     "orc"
+    ],
+    [
+     860,
+     282,
+     909,
+     386,
+     0,
+     "orc"
+    ],
+    [
+     898,
+     257,
+     945,
+     362,
+     0,
+     "orc"
+    ],
+    [
+     1041,
+     191,
+     1099,
+     294,
+     0,
+     "orc"
+    ],
+    [
+     975,
+     376,
+     1029,
+     477,
+     0,
+     "orc"
+    ],
+    [
+     891,
+     425,
+     941,
+     534,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 22.1
+  },
+  "f_00198.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00199.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     633,
+     390
+    ]
+   ],
+   "monster_names": [
+    [
+     633,
+     390,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00200.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00201.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00202.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     560,
+     320
+    ],
+    [
+     486,
+     434
+    ],
+    [
+     281,
+     557
+    ],
+    [
+     260,
+     583
+    ],
+    [
+     667,
+     426
+    ],
+    [
+     740,
+     436
+    ],
+    [
+     917,
+     304
+    ],
+    [
+     966,
+     253
+    ],
+    [
+     1086,
+     122
+    ]
+   ],
+   "monster_names": [
+    [
+     557,
+     290,
+     "orc_axe"
+    ]
+   ],
+   "boxes": [
+    [
+     538,
+     281,
+     582,
+     359,
+     0,
+     "orc_axe"
+    ],
+    [
+     462,
+     390,
+     509,
+     479,
+     0,
+     "orc"
+    ],
+    [
+     256,
+     512,
+     306,
+     602,
+     0,
+     "orc"
+    ],
+    [
+     244,
+     529,
+     276,
+     637,
+     0,
+     "orc"
+    ],
+    [
+     650,
+     370,
+     684,
+     483,
+     0,
+     "orc"
+    ],
+    [
+     709,
+     383,
+     772,
+     488,
+     0,
+     "orc"
+    ],
+    [
+     894,
+     253,
+     940,
+     356,
+     0,
+     "orc"
+    ],
+    [
+     933,
+     201,
+     999,
+     305,
+     0,
+     "orc"
+    ],
+    [
+     1063,
+     80,
+     1108,
+     163,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 17.6
+  },
+  "f_00203.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     567,
+     363
+    ]
+   ],
+   "monster_names": [
+    [
+     567,
+     363,
+     "orc_axe"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00204.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00205.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00206.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00207.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     454,
+     518
+    ],
+    [
+     274,
+     599
+    ],
+    [
+     879,
+     363
+    ],
+    [
+     934,
+     344
+    ],
+    [
+     891,
+     224
+    ],
+    [
+     592,
+     360
+    ],
+    [
+     661,
+     304
+    ]
+   ],
+   "monster_names": [
+    [
+     591,
+     361,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     425,
+     468,
+     482,
+     568,
+     0,
+     "orc"
+    ],
+    [
+     252,
+     546,
+     297,
+     652,
+     0,
+     "orc"
+    ],
+    [
+     849,
+     314,
+     909,
+     412,
+     0,
+     "orc"
+    ],
+    [
+     907,
+     287,
+     960,
+     401,
+     0,
+     "orc"
+    ],
+    [
+     854,
+     170,
+     928,
+     278,
+     0,
+     "orc"
+    ],
+    [
+     568,
+     323,
+     615,
+     396,
+     0,
+     "orc_warrior"
+    ],
+    [
+     640,
+     262,
+     682,
+     345,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 14.3
+  },
+  "f_00208.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00209.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00210.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     559,
+     310
+    ],
+    [
+     405,
+     278
+    ],
+    [
+     443,
+     254
+    ],
+    [
+     508,
+     186
+    ]
+   ],
+   "monster_names": [
+    [
+     562,
+     280,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     535,
+     257,
+     583,
+     363,
+     0,
+     "orc_warrior"
+    ],
+    [
+     379,
+     232,
+     431,
+     325,
+     0,
+     "orc"
+    ],
+    [
+     420,
+     205,
+     466,
+     304,
+     0,
+     "orc"
+    ],
+    [
+     485,
+     146,
+     530,
+     227,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 11.5
+  },
+  "f_00211.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00212.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00213.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00214.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00215.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     820,
+     482
+    ],
+    [
+     1070,
+     194
+    ]
+   ],
+   "monster_names": [
+    [
+     819,
+     490,
+     "orc_axe"
+    ]
+   ],
+   "boxes": [
+    [
+     794,
+     434,
+     847,
+     530,
+     0,
+     "orc_axe"
+    ],
+    [
+     1043,
+     140,
+     1097,
+     247,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.7
+  },
+  "f_00216.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00217.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00218.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00219.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00220.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00221.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00222.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00223.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00224.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00225.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00226.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00227.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00228.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00229.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00230.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     892,
+     208
+    ]
+   ],
+   "monster_names": [
+    [
+     875,
+     237,
+     "orc"
+    ]
+   ],
+   "boxes": [
+    [
+     857,
+     155,
+     928,
+     261,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 5.7
+  },
+  "f_00231.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00232.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00233.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00234.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00235.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00236.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00237.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     690,
+     321
+    ],
+    [
+     563,
+     320
+    ],
+    [
+     640,
+     308
+    ]
+   ],
+   "monster_names": [
+    [
+     690,
+     321,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     547,
+     274,
+     579,
+     367,
+     0,
+     "orc"
+    ],
+    [
+     620,
+     258,
+     660,
+     359,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.9
+  },
+  "f_00238.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     659,
+     337
+    ]
+   ],
+   "monster_names": [
+    [
+     659,
+     337,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00239.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00240.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00241.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00242.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00243.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00244.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     447,
+     186
+    ],
+    [
+     630,
+     128
+    ]
+   ],
+   "monster_names": [
+    [
+     461,
+     197,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     419,
+     141,
+     475,
+     231,
+     0,
+     "orc_spear"
+    ],
+    [
+     594,
+     71,
+     666,
+     185,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.8
+  },
+  "f_00245.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00246.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00247.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     629,
+     236
+    ],
+    [
+     818,
+     404
+    ]
+   ],
+   "monster_names": [
+    [
+     823,
+     419,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     602,
+     186,
+     656,
+     287,
+     0,
+     "orc"
+    ],
+    [
+     790,
+     344,
+     847,
+     465,
+     0,
+     "orc_spear"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 5.7
+  },
+  "f_00248.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00249.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     677,
+     369
+    ],
+    [
+     634,
+     360
+    ],
+    [
+     374,
+     206
+    ]
+   ],
+   "monster_names": [
+    [
+     651,
+     358,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     651,
+     322,
+     703,
+     416,
+     0,
+     "orc_spear"
+    ],
+    [
+     618,
+     316,
+     649,
+     404,
+     0,
+     "orc"
+    ],
+    [
+     347,
+     145,
+     400,
+     266,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.3
+  },
+  "f_00250.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     634,
+     337
+    ]
+   ],
+   "monster_names": [
+    [
+     634,
+     337,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00251.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     677,
+     398
+    ],
+    [
+     628,
+     350
+    ]
+   ],
+   "monster_names": [
+    [
+     677,
+     398,
+     "orc_spear"
+    ]
+   ],
+   "boxes": [
+    [
+     604,
+     296,
+     652,
+     403,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 6.4
+  },
+  "f_00252.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00253.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00254.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00255.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00256.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00257.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00258.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00259.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00260.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00261.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00262.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00263.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00264.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00265.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00266.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00267.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00268.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00269.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00270.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00271.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00272.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00273.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00274.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00275.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00276.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00277.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00278.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00279.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00280.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00281.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00282.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     673,
+     156
+    ],
+    [
+     725,
+     162
+    ]
+   ],
+   "monster_names": [
+    [
+     673,
+     156,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [
+    [
+     686,
+     108,
+     764,
+     216,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 8.3
+  },
+  "f_00283.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00284.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00285.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00286.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00287.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     1042,
+     304
+    ],
+    [
+     700,
+     305
+    ],
+    [
+     457,
+     147
+    ],
+    [
+     296,
+     436
+    ]
+   ],
+   "monster_names": [
+    [
+     693,
+     338,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     1005,
+     235,
+     1079,
+     372,
+     0,
+     "orc"
+    ],
+    [
+     671,
+     234,
+     730,
+     376,
+     0,
+     "orc_warrior"
+    ],
+    [
+     407,
+     94,
+     507,
+     200,
+     0,
+     "orc"
+    ],
+    [
+     267,
+     384,
+     324,
+     489,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.4
+  },
+  "f_00288.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00289.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00290.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     548,
+     304
+    ],
+    [
+     551,
+     41
+    ]
+   ],
+   "monster_names": [
+    [
+     559,
+     306,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     527,
+     239,
+     570,
+     368,
+     0,
+     "orc_warrior"
+    ],
+    [
+     524,
+     17,
+     578,
+     65,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 7.9
+  },
+  "f_00291.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00292.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00293.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00294.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00295.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00296.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00297.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00298.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00299.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00300.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00301.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00302.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00303.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00304.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00305.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00306.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [
+    [
+     634,
+     319
+    ],
+    [
+     702,
+     232
+    ],
+    [
+     740,
+     93
+    ],
+    [
+     678,
+     86
+    ],
+    [
+     623,
+     95
+    ],
+    [
+     426,
+     62
+    ],
+    [
+     261,
+     414
+    ],
+    [
+     88,
+     218
+    ]
+   ],
+   "monster_names": [
+    [
+     676,
+     282,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [
+    [
+     600,
+     258,
+     667,
+     380,
+     0,
+     "orc"
+    ],
+    [
+     668,
+     180,
+     735,
+     283,
+     0,
+     "orc_warrior"
+    ],
+    [
+     720,
+     47,
+     761,
+     139,
+     0,
+     "orc"
+    ],
+    [
+     657,
+     45,
+     698,
+     128,
+     0,
+     "orc"
+    ],
+    [
+     593,
+     42,
+     653,
+     148,
+     0,
+     "orc"
+    ],
+    [
+     393,
+     19,
+     459,
+     106,
+     0,
+     "orc"
+    ],
+    [
+     219,
+     347,
+     303,
+     481,
+     0,
+     "orc"
+    ],
+    [
+     56,
+     176,
+     121,
+     261,
+     0,
+     "orc"
+    ]
+   ],
+   "ignore": [],
+   "todo": false,
+   "split": "test",
+   "suggest": [],
+   "review_sec": 28.0
+  },
+  "f_00307.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅 - 오크의 땅",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  }
+ }
+}

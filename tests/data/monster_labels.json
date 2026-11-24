@@ -1,0 +1,15 @@
+{
+  "_doc": "Hand labels (body center, client px, 1280x960) for tests/eval_detection.py. monster = living mob that must be found; ignore = corpse / half off-screen / unsure (a detection there is neither hit nor false positive). Labelled by eye on a 100px grid, ~20px accuracy; review in docs/game_reference before trusting small differences.",
+  "images": {
+    "frame_0030s.png":          {"night": false, "monster": [[597,150],[710,370],[680,640]], "ignore": [[620,430],[580,655]]},
+    "frame_0090s.png":          {"night": false, "monster": [[355,160],[720,350],[1170,235]], "ignore": []},
+    "frame_0270s.png":          {"night": false, "monster": [[700,390]], "ignore": []},
+    "frame_0345s.png":          {"night": false, "monster": [[960,295],[580,625]], "ignore": []},
+    "frame_0735s.png":          {"night": false, "monster": [], "ignore": [[1265,680]]},
+    "night_A0060s.png":         {"night": true,  "monster": [[720,370],[670,410],[1095,40],[20,550]], "ignore": [[1240,520]]},
+    "arrow_attack_B0400s.png":  {"night": false, "monster": [[515,165],[935,245]], "ignore": [[685,345]]},
+    "buff_tooltip_A0940s.png":  {"night": false, "monster": [], "ignore": [[535,370]]},
+    "chat_buff_msg_B0420s.png": {"night": false, "monster": [[435,240],[870,620]], "ignore": [[295,225]]},
+    "hotbar_A1040s.png":        {"night": false, "monster": [[355,235],[715,250],[640,410],[940,385]], "ignore": [[715,15]]}
+  }
+}

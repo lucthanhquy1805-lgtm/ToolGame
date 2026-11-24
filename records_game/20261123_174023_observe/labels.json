@@ -1,0 +1,2447 @@
+{
+ "_doc": "auto labels from cursor checks; finish the todo frames with tests/label_tool.py",
+ "images": {
+  "f_00001.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00002.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00003.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00004.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00005.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00006.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00007.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00008.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00009.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00010.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00011.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00012.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00013.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00014.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00015.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00016.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00017.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00018.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00019.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00020.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00021.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00022.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00023.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00024.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00025.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00026.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00027.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00028.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00029.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00030.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00031.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00032.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00033.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00034.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00035.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00036.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00037.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     635,
+     355
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00038.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     634,
+     346
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00039.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00040.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00041.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00042.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00043.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00044.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00045.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     550,
+     327
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00046.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     625,
+     310
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00047.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     609,
+     353
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00048.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00049.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     636,
+     319
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00050.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00051.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00052.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00053.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00054.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00055.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00056.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00057.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00058.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00059.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00060.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00061.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00062.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00063.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00064.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00065.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00066.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00067.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00068.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00069.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00070.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00071.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00072.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00073.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00074.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00075.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00076.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00077.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     632,
+     305
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00078.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00079.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00080.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00081.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00082.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00083.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     572,
+     342
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00084.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00085.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     566,
+     344
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00086.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00087.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00088.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00089.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     542,
+     368
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00090.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00091.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     641,
+     388
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00092.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     590,
+     395
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00093.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00094.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00095.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00096.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00097.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00098.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00099.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     539,
+     293
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00100.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     666,
+     332
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00101.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00102.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00103.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00104.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00105.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00106.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00107.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00108.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00109.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00110.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00111.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00112.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00113.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00114.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     566,
+     342
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00115.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00116.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     583,
+     280
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00117.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     759,
+     374
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00118.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00119.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00120.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00121.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00122.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00123.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00124.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00125.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     742,
+     522
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00126.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00127.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00128.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00129.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00130.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00131.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00132.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00133.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00134.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00135.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00136.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00137.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00138.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00139.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00140.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00141.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00142.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00143.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00144.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00145.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     670,
+     329
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00146.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00147.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     636,
+     359
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00148.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00149.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     503,
+     321
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00150.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00151.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00152.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00153.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00154.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00155.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00156.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00157.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00158.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00159.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00160.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00161.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00162.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00163.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00164.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00165.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00166.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00167.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00168.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00169.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00170.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00171.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00172.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00173.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00174.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00175.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00176.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00177.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00178.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00179.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00180.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00181.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00182.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00183.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00184.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00185.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00186.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00187.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00188.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00189.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00190.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00191.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00192.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00193.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     660,
+     339
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00194.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00195.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00196.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00197.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00198.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00199.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00200.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00201.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00202.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00203.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00204.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00205.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00206.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00207.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00208.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00209.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00210.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00211.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00212.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00213.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00214.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00215.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00216.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00217.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00218.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00219.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00220.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00221.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00222.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00223.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00224.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00225.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00226.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00227.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00228.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00229.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00230.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00231.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00232.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00233.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00234.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00235.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00236.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     572,
+     346
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00237.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     661,
+     303
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00238.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     507,
+     330
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00239.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     555,
+     336
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00240.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00241.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00242.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00243.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00244.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00245.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00246.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00247.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     587,
+     320
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00248.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     659,
+     347
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00249.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     637,
+     340
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00250.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     575,
+     351
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00251.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00252.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00253.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00254.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00255.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00256.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00257.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00258.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00259.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00260.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00261.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00262.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     835,
+     582
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00263.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00264.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00265.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00266.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00267.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00268.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00269.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00270.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00271.jpg": {
+   "night": true,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00272.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00273.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00274.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00275.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00276.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00277.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00278.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00279.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00280.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00281.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00282.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     672,
+     280
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00283.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00284.jpg": {
+   "night": false,
+   "map": "오염된 축복의 땅",
+   "monster": [
+    [
+     637,
+     372
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  }
+ }
+}

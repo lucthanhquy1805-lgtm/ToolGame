@@ -1,0 +1,19 @@
+{
+ "_doc": "Monster catalog of one hunting zone (PLAN 0.16, docs/ADD_NEW_MAP.md). Source: docs/game_reference/ORC_MONSTERS.md",
+ "key": "blessed_orc",
+ "real_map": "오염된 축복의 땅 - 오크의 땅",
+ "name_en": "Blessed Land (polluted) - Orc area",
+ "hunt_map": "blessed_orc",
+ "group": "orc",
+ "monsters": [
+  {"name": "오염된 오크", "class": "orc", "level": 3, "attack": "melee"},
+  {"name": "오염된 오크 도끼병", "class": "orc_axe", "level": 6, "attack": "melee"},
+  {"name": "오염된 오크 전사", "class": "orc_warrior", "level": 10, "attack": "melee"},
+  {"name": "오염된 오크 궁수", "class": "orc_archer", "level": 13, "attack": "ranged"},
+  {"name": "오염된 오크 창병", "class": "orc_spear", "level": 16, "attack": "melee", "note": "long reach"},
+  {"name": "오염된 오크 근위병", "class": "orc_guard", "level": null, "attack": null, "note": "old docs only, not seen in game yet"},
+  {"name": "네루가 오크", "class": "npc", "npc": true, "no_attack": true, "note": "friendly orc NPC? verify in game"},
+  {"name": "두다-마라 오크", "class": "npc", "npc": true, "no_attack": true, "note": "friendly orc NPC? verify in game"},
+  {"name": "스피리드", "class": "boss_spirid", "level": 30, "boss": true, "no_attack": true, "note": "zone raid boss"}
+ ]
+}

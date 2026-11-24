@@ -1,0 +1,26 @@
+{
+ "mode": "hunt",
+ "started": "20261123_162251",
+ "account": "Account 1",
+ "class": "wizard",
+ "hunt_map": "dragon_valley",
+ "conf": 0.5,
+ "scan": {
+  "misses_before_wander": 2,
+  "max_probe_points": 5,
+  "hover_settle": 0.01,
+  "hover_retry": 0.02,
+  "hover_reads": 2,
+  "miss_ttl": 4.0,
+  "detect_conf": 0.5
+ },
+ "record": {
+  "while_hunting": true,
+  "interval_sec": 3.0,
+  "max_frames": 600
+ },
+ "window": [
+  1187,
+  890
+ ]
+}

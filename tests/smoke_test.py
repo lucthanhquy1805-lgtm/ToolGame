@@ -1,0 +1,463 @@
+"""Offline smoke test: runs on any OS (Windows APIs are stubbed).
+
+Usage:  python tests/smoke_test.py
+Needs numpy, opencv-python(-headless), onnxruntime and the model/*.onnx files.
+"""
+import sys, types, ctypes, os, json, tempfile, time
+sys.stdout.reconfigure(encoding="utf-8")  # Korean monster names in logs (the app logs to a utf-8 file)
+# ---- stubs for Windows-only modules ----
+class _Fn:
+    def __init__(s,ret=0): s.ret=ret; s.argtypes=None
+    def __call__(s,*a,**k): return s.ret
+class _Dll:
+    def __getattr__(s,n): f=_Fn(); setattr(s,n,f); return f
+class _Windll:
+    def __getattr__(s,n): d=_Dll(); setattr(s,n,d); return d
+ctypes.windll=_Windll()
+import ctypes.wintypes
+for name in ('win32gui','win32con','win32process','pyautogui','keyboard','mss'):
+    m=types.ModuleType(name); sys.modules[name]=m
+sys.modules['win32con'].SW_RESTORE=9
+g=sys.modules['win32gui']
+g.IsWindow=lambda h:True; g.ClientToScreen=lambda h,p:(100,50); g.GetClientRect=lambda h:(0,0,1280,960)
+g.GetForegroundWindow=lambda:1; g.ShowWindow=lambda *a:None; g.SetForegroundWindow=lambda *a:None
+sys.modules['win32process'].GetWindowThreadProcessId=lambda h:(0,1)
+ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); sys.path.insert(0,ROOT); os.chdir(ROOT)
+import importlib, pkgutil, lineage_auto
+mods=[]
+for m in pkgutil.walk_packages(lineage_auto.__path__,'lineage_auto.'):
+    importlib.import_module(m.name); mods.append(m.name)
+print('imported',len(mods),'modules OK')
+
+from lineage_auto.config import ConfigStore, AppSettings
+from lineage_auto.config.models import AccountSettings
+d=tempfile.mkdtemp()
+# legacy v1 config migration
+json.dump({'hp_threshold_pct':40,'skill_hp_enabled':True,'hp_skill_key':'F5','pot_hp_enabled':False,'hp_pot_key':'F7',
+  'cursor_hashes':{'sword':'abc','cross':'def'},'skills':{'F8':{'enabled':True,'self_cast':True},'F9':{'enabled':True}},'lang':'en'},
+  open(os.path.join(d,'bot_config.json'),'w'))
+st=ConfigStore(os.path.join(d,'cfg.json'),os.path.join(d,'bot_config.json'))
+s=st.load(); a=s.accounts[0]
+assert a.health.threshold_pct==40 and a.cursor_hashes['attack']=='abc' and a.cursor_hashes['corpse']=='def'
+assert a.buff('F8').enabled and a.attack('F9').enabled and s.lang=='en'
+st.save(s); s2=st.load(); assert s2.to_dict()==s.to_dict(); print('config: legacy import + round-trip OK')
+# exclusivity
+a.attack('F10').enabled=a.buff('F10').enabled=a.utility('F10').enabled=True; a.enforce_skill_exclusivity()
+assert a.buff('F10').enabled and not a.attack('F10').enabled and not a.utility('F10').enabled; print('skill exclusivity OK')
+
+from lineage_auto.skills import get_catalog, classify_role, parse_mp_cost, can_afford_mp
+c=get_catalog(); print('catalog skills:',len(c._skills),'elf skills:',len(c.skills_for('elf')),'icon 385:',os.path.basename(c.icon_path('385') or '-'))
+assert parse_mp_cost('MP 15')==15 and parse_mp_cost('HP 10')==0 and can_afford_mp(0,5) is False and can_afford_mp(None,5)
+assert classify_role('Hồi Máu','',None)=='heal'
+
+from lineage_auto.winapi.cursor import fingerprint_gray, prints_match, hamming_hex
+import numpy as np
+g1=np.zeros((32,32),np.uint8); g1[4:20,4:12]=255
+h1=fingerprint_gray(g1); h2=fingerprint_gray(np.roll(g1,1,axis=1))
+print('aHash',h1,h2,'dist',hamming_hex(h1,h2),'match',prints_match(h1,h2))
+from lineage_auto.runtime.cursor_profile import CursorProfile
+cp=CursorProfile({'attack':h1,'corpse':'','ground':'','npc':''}); assert cp.classify(h1)=='attack' and cp.classify(h2)=='unknown' and cp.ready  # 4 bits off is another cursor (PLAN 0.11)
+
+from lineage_auto.vision import geometry as geo
+pts,maxr=geo.sweep_points(640,380,1280,960); print('sweep points',len(pts),'max_r',maxr)
+
+# real YOLOX model through the reconstructed code
+from lineage_auto.vision import yolox_mobs
+from lineage_auto import hunt_maps
+for hm in [m for m in hunt_maps.all_maps() if hunt_maps.model_exists(m.key) or not m.trial]:   # trial models may be absent
+    sess=yolox_mobs.ensure_session(hm.key)
+    frame=(np.random.default_rng(0).integers(0,255,(960,1280,3))).astype(np.uint8)
+    t=time.time(); pts=yolox_mobs.detect_centers(frame,640,380,800,map_key=hm.key)
+    print(f'yolox {hm.key}: provider={yolox_mobs.session_device(sess)} out={sess.get_outputs()[0].shape} hits={len(pts)} {1000*(time.time()-t):.0f}ms')
+
+# stat bar on a synthetic HUD using the shipped HP template
+import cv2
+from lineage_auto.vision.stat_bar import StatBarReader, BarColor
+from lineage_auto.winapi.window import ClientRect
+tpl=cv2.imread('hp_template.png'); th,tw=tpl.shape[:2]
+frame=np.zeros((960,1280,4),np.uint8); y,x=850,300
+frame[y:y+th,x:x+tw,:3]=tpl
+class G:
+    def grab_bgra(s,r): return frame
+r=StatBarReader('hp_template.png',BarColor.RED,'HP')
+print('HP read on template-only HUD:',r.read_percent(G(),ClientRect(0,0,1280,960)),'% match',round(r.last_match,3))
+
+# feature logic with a fake context
+from lineage_auto.features.survival import HealthFeature
+from lineage_auto.features.buff import BuffFeature
+class In:
+    def __init__(s): s.log=[]
+    def double_press(s,k): s.log.append(('dbl',k))
+    def press(s,k): s.log.append(('press',k))
+    def release_left(s): pass
+    def release_all(s): pass
+class HR:
+    def __init__(s,v): s.v=v; s.last_fill_is_green=False
+    def read_percent(s,g,r): return s.v
+class Ctx:
+    def __init__(s,acc,hp):
+        s.account=acc; s.input=In(); s.hp_reader=HR(hp); s.grabber=None; s.state={}; s.running=True
+    def read_mp(s,r): return None
+    def read_hp(s,r): s.state['hp_source']='bar'; return s.hp_reader.v
+    def can_cast(s,i,r=None): return True
+    def log(s,m): print('   log:',m)
+    def rect(s): return None
+acc=AccountSettings(); ctx=Ctx(acc,30)
+h=HealthFeature(ctx); h.tick(None); assert ctx.input.log==[('dbl','F5')]
+ctx.hp_reader.v=0
+assert not h.check_death(None) and not h.check_death(None) and h.check_death(None); print('health: heal + death confirm OK')
+# PLAN 1.3: off by default; on -> heal first, scroll after 2 low reads, pressed once, stop; 0 HP stays "dead"
+acc3=AccountSettings(); ctx3=Ctx(acc3,30); h3=HealthFeature(ctx3)
+assert not h3.check_death(None) and not h3.check_death(None) and 'F8' not in str(ctx3.input.log)
+acc3.health.return_town=True; ctx3.input.log.clear(); h3=HealthFeature(ctx3)
+assert not h3.check_death(None) and ctx3.input.log==[('dbl','F5')]
+assert h3.check_death(None) and h3.returned and not h3.dead and ctx3.input.log[-1]==('press','F8')
+assert h3.check_death(None) and ctx3.input.log.count(('press','F8'))==1
+h3.on_start(); ctx3.hp_reader.v=40; assert not h3.check_death(None) and not h3.check_death(None)
+ctx3.hp_reader.v=0; h3.check_death(None); h3.check_death(None); assert h3.check_death(None) and h3.dead and not h3.returned
+assert AccountSettings.from_dict(acc3.to_dict()).health.return_town; print('health: return to town OK')
+# PLAN 1.4: extra potions (off by default), HP/MP, own threshold + cooldown, heal tick wins, one press per tick
+acc4=AccountSettings(); assert len(acc4.health.potions)==3 and not any(p.enabled for p in acc4.health.potions)
+acc4.health.use_skill=acc4.health.use_potion=False
+p0,p1=acc4.health.potions[0],acc4.health.potions[1]
+p0.enabled=True; p0.key='F7'; p0.pct=60; p0.cooldown=0.1
+p1.enabled=True; p1.stat='mp'; p1.key='F10'; p1.pct=30; p1.cooldown=0.1
+ctx4=Ctx(acc4,50); mp4=[20]; ctx4.read_mp=lambda r: mp4[0]; h4=HealthFeature(ctx4)
+h4.tick(None); assert ctx4.input.log==[('press','F7')] and h4.just_acted          # HP slot first
+h4.tick(None); assert ctx4.input.log[-1]==('press','F10')                          # HP on cooldown -> MP
+h4.tick(None); assert len(ctx4.input.log)==2                                        # both cooling down
+time.sleep(0.12); ctx4.hp_reader.v=90; h4.tick(None); assert ctx4.input.log[-1]==('press','F10')
+time.sleep(0.12); mp4[0]=None; h4.tick(None); assert len(ctx4.input.log)==3          # MP unreadable -> no drink
+ctx4.hp_reader.v=0; h4.tick(None); assert len(ctx4.input.log)==3                    # 0 HP = dead, no drink
+acc4.health.use_potion=True; ctx4.hp_reader.v=40; h4.tick(None); assert ctx4.input.log[-1]==('press','F6')
+d=AccountSettings.from_dict(acc4.to_dict()).health.potions; assert d[1].stat=='mp' and d[1].key=='F10' and len(d)==3
+assert len(AccountSettings.from_dict({}).health.potions)==3; print('health: extra potions OK')
+# PLAN 1.5: pick-up key only after a kill outcome, off by default, stops when the session stops
+from lineage_auto.features.loot import LootFeature
+acc5=AccountSettings(); ctx5=Ctx(acc5,100); lf=LootFeature(ctx5)
+assert not acc5.loot.enabled and not lf.after_fight('corpse_cursor') and ctx5.input.log==[]
+acc5.loot.mode='walk_f4'; acc5.loot.gap=0.01  # PLAN 0.27 / 7: the mode decides (enabled mirrors it)
+for o in ('lost','cap','stopped','char_dead','town',None): assert not lf.after_fight(o)
+assert lf.after_fight('die_box') and ctx5.input.log==[('press','F4')]*2 and ctx5.state['loot_presses']==2
+ctx5.running=False; assert not lf.after_fight('frozen') and len(ctx5.input.log)==2
+l=AccountSettings.from_dict(acc5.to_dict()).loot; assert l.enabled and l.mode=='walk_f4' and l.key=='F4' and l.presses==2
+assert not AccountSettings.from_dict({}).loot.enabled and AccountSettings.from_dict({}).loot.mode=='auto'
+assert AccountSettings.from_dict({'loot':{'enabled':True}}).loot.mode=='walk_f4'  # v11 config "press F4" kept
+from lineage_auto.features.loot import suggest_mode
+assert suggest_mode(3,3) is None and suggest_mode(10,9)=='auto' and suggest_mode(10,1)=='walk_f4'
+print('loot: modes + F4 after kill OK')
+acc.buff('F9').enabled=True; acc.buff('F9').skill_id='385'; acc.buff('F9').duration_min=20
+ctx2=Ctx(acc,100); b=BuffFeature(ctx2,health=None,icon_present=lambda sid:True,cast_gap=0)
+b.on_start(); assert ctx2.input.log==[('dbl','F9')] and b.remaining('F9')>1190
+b.tick(None); assert len(ctx2.input.log)==1; print('buff: start cast + timer hold OK')
+# PLAN 0.1: unconfirmed detections -> rescan N-1 times, then wander; missed spots are not re-hovered
+import contextlib
+from lineage_auto.features import targeting as tg
+from lineage_auto.runtime.session import AccountSession, SessionState
+from lineage_auto.config.models import ScanSettings
+assert AccountSettings.from_dict(AccountSettings().to_dict()).scan==ScanSettings()
+assert AccountSettings.from_dict({}).scan.misses_before_wander==2  # old configs get the defaults
+fake_hits=[(640+30*i,380) for i in range(10)]                   # 10 false detections (NPC, rocks...)
+tg.detect_centers=lambda *a,**k: list(fake_hits)
+tg.CursorProbe.current_hash=staticmethod(lambda: 'ground')     # never the attack cursor
+class Cur:
+    ready=True
+    def is_attack(s,h): return h=='attack'
+    def is_corpse(s,h): return h=='corpse'
+class Mv:
+    def __init__(s): s.moves=[]
+    def move(s,x,y): s.moves.append((x,y))
+    def release_left(s): pass
+    def release_all(s): pass
+class Win:
+    def is_alive(s): return True
+    def is_foreground(s): return True
+class Arb:
+    @contextlib.contextmanager
+    def hold(s,i,timeout=0): yield True
+class TCtx:
+    def __init__(s):
+        s.account=AccountSettings(); s.running=True; s.input=Mv(); s.cursors=Cur(); s.window=Win(); s.arbiter=Arb()
+        s.recorder=None; s.state={}
+        s.grabber=types.SimpleNamespace(grab_bgr=lambda r: np.zeros((960,1280,3),np.uint8), close_thread=lambda:None)
+    def request_stop(s): s.running=False
+    def sleep(s,t): time.sleep(t); return s.running
+    def log(s,m): print('   log:',m)
+    def rect(s): return ClientRect(0,0,1280,960)
+    def char_pos(s,r): return (640,380)
+    def read_hud(s,r): return {'hp':None,'mp':None}
+class Noop:
+    def tick(s,*a): pass
+    def check_death(s,*a): return False
+    def on_stop(s): pass
+    def after_fight(s,*a): return False
+tctx=TCtx(); tf=tg.TargetingFeature(tctx)
+calls=[]
+class Expl(Noop):
+    def wander(s,r,c): calls.append('wander'); tctx.running=False
+    def observe(s): pass
+sess=object.__new__(AccountSession)
+sess.ctx=tctx; sess.account=tctx.account; sess.state=SessionState.RUNNING; sess.on_state_change=None; sess._deadline=None
+from lineage_auto.features.grid_scan import GridScanFeature
+sess.grid=GridScanFeature(tctx)
+sess.cure=sess.health=sess.buff=sess.combat=sess.loot=Noop(); sess.exploration=Expl(); sess.targeting=tf
+orig_acquire=tf.acquire
+def counted(r,c): calls.append('scan'); return orig_acquire(r,c)
+tf.acquire=counted
+t=time.time(); sess._run(); dt=time.time()-t
+assert calls==['scan','scan','wander'], calls
+moves=tctx.input.moves; assert len(moves)==10 and len(set(moves))==10, moves   # 6 points, then only the 4 not yet missed
+assert tf.miss_streak==0 and not tf._misses                    # reset before wander
+print(f'scan: 2 unconfirmed scans -> wander OK ({dt/2:.2f}s per failed scan)')
+assert dt/2<1.5, dt
+# a confirmed target resets the streak; a scan with no detections at all goes straight to wander
+tctx.running=True; tf.miss_streak=1
+tg.CursorProbe.current_hash=staticmethod(lambda: 'attack')
+assert orig_acquire(tctx.rect(),(640,380)) is not None and tf.miss_streak==0
+fake_hits.clear(); assert orig_acquire(tctx.rect(),(640,380)) is None and not tf.should_rescan()
+print('scan: streak reset on hit / empty scan wanders OK')
+# PLAN 0.6 recorder: mode 2 (while hunting) logs scans + hover labels, mode 1 (observe) saves frames, no input
+from lineage_auto.runtime import recorder as recmod
+from lineage_auto.runtime.manager import SessionManager
+import subprocess
+Cur.classify=lambda s,h,md5=None: {'attack':'attack','ground':'ground'}.get(h)
+rroot=tempfile.mkdtemp()
+fake_hits[:]=[(640+30*i,380) for i in range(10)]
+tg.CursorProbe.current_hash=staticmethod(lambda: 'ground')
+tctx.running=True; tctx.input.moves.clear(); calls.clear()
+tctx.account.record.interval_sec=0.5
+tctx.recorder=recmod.Recorder(tctx.account,'hunt',rect=tctx.rect(),root=rroot)
+hunt_dir=tctx.recorder.path
+sess._run()
+assert tctx.recorder is None                                     # closed in _run's finally
+summ=json.load(open(os.path.join(hunt_dir,'summary.json')))
+assert summ['counts']['hover_ground']==10 and summ['counts']['rescan']==1 and summ['counts']['wander']==1 and summ['hover_confirm_rate']==0, summ
+hov=[json.loads(l) for l in open(os.path.join(hunt_dir,'hovers.jsonl'))]
+assert len(hov)==10 and hov[0]['frame']=='f_00001.jpg' and hov[0]['kind']=='ground' and hov[-1]['scan']==2, hov[-1]
+print('record while hunting: hovers + summary OK', summ['counts'])
+# observe: no mouse moves, frames capped by max_frames, ESC/stop_all does not stop it
+octx=TCtx(); octx.account.record.interval_sec=0.5; octx.account.record.max_frames=3; octx.window.attached=True
+octx.account.hunt_map='dragon_valley'
+osess=object.__new__(AccountSession); osess.ctx=octx; osess.account=octx.account; osess.on_state_change=None
+osess.state=SessionState.OBSERVING; osess._thread=None; osess._deadline=None
+octx.recorder=recmod.Recorder(octx.account,'observe',rect=octx.rect(),root=rroot)
+obs_dir=octx.recorder.path
+mgr=object.__new__(SessionManager); mgr._sessions={'a':osess}; mgr.stop_all(); assert octx.running   # ESC ignored
+t=time.time(); osess._run_observe(); dt=time.time()-t
+assert octx.input.moves==[] and osess.state==SessionState.STOPPED
+fr=[json.loads(l) for l in open(os.path.join(obs_dir,'frames.jsonl'))]
+assert len(fr)==3 and all(os.path.exists(os.path.join(obs_dir,f['file'])) for f in fr) and fr[0]['detect_ms']>0
+print(f'observe: 3 frames, no input, ESC ignored OK ({dt:.1f}s)')
+z=recmod.zip_record(obs_dir); assert os.path.getsize(z)>0
+out=subprocess.run([sys.executable,'tests/analyze_records.py',hunt_dir],capture_output=True,text=True)
+assert out.returncode==0 and 'precision 0%' in out.stdout, out.stdout+out.stderr
+out=subprocess.run([sys.executable,'tests/analyze_records.py',z],capture_output=True,text=True)
+assert out.returncode==0 and 'frames 3' in out.stdout, out.stdout+out.stderr
+print('analyze_records on folder + zip OK')
+# PLAN 0.2: pick the game window by process (LC.exe), never File Explorer / browser / tool
+from lineage_auto.winapi.window import WindowPicker as WP
+wins={'lineage_auto_src - File Explorer (869x1032) [explorer.exe:25888]':1,
+      'Lineage Classic (1296x999) [lc.exe:100]':2,'Lineage Classic (1296x999) [lc.exe:200]':3,
+      'Lineage wiki - Chrome (1936x1048) [chrome.exe:7]':4,'LC (1296x999) [?:9]':5}
+assert WP.guess_game_titles(wins)==['Lineage Classic (1296x999) [lc.exe:100]','Lineage Classic (1296x999) [lc.exe:200]']
+del wins['Lineage Classic (1296x999) [lc.exe:100]'], wins['Lineage Classic (1296x999) [lc.exe:200]']
+assert WP.guess_game_titles(wins)==[]                       # no LC.exe: explorer/chrome never guessed
+wins['Lineage II (800x600) [?:11]']=6                         # unreadable exe: fall back to the title
+assert WP.guess_game_titles(wins)==['Lineage II (800x600) [?:11]']
+assert WP.label_exe('old style (1280x960)')=='' and WP.label_exe('a [b] (1x1) [LC.exe:5]')=='lc.exe'
+print('window picker: LC.exe first, explorer/browser excluded OK')
+# PLAN 0.3: exact HUD "HP:x/y" text -> fast, trustworthy character death
+sys.path.insert(0,os.path.join(ROOT,'tests'))
+from build_hud_glyphs import TRUTH as HUD_TRUTH
+from lineage_auto.vision import hud_numbers as hn
+from lineage_auto.runtime.context import BotContext
+hud=hn.HudNumberReader(); assert hud.available
+for f,(h,m) in HUD_TRUTH.items():
+    v=hud.read(cv2.imread('docs/game_reference/'+f))
+    assert v=={'hp':tuple(map(int,h.split('/'))),'mp':tuple(map(int,m.split('/')))}, (f,v)
+assert hn.percent((1,432))==1 and hn.percent((0,432))==0 and hn.parse_pair('5/3') is None
+def hud_frame(hp_text):
+    """frame_0030 with the HP digits replaced by hp_text (glyph templates pasted in place)."""
+    fr=cv2.imread('docs/game_reference/frame_0030s.png'); bg=fr[765:777,428:438].copy()
+    for k in range(11):
+        x=438+30+10*k
+        cell=bg if k>=len(hp_text) else cv2.cvtColor(cv2.imread(os.path.join(hn.GLYPH_DIR,hn.glyph_file(hp_text[k])),0),cv2.COLOR_GRAY2BGR)
+        fr[765:777,x:x+10]=cell
+    return fr
+assert hud.read(hud_frame('0/432'))['hp']==(0,432) and hud.read(hud_frame('7/432'))['hp']==(7,432)
+recmod.records_root=lambda: rroot                                 # death screenshots go to the temp dir
+dctx=object.__new__(BotContext)
+dctx.account=AccountSettings(); dctx.account.health.use_skill=dctx.account.health.use_potion=False   # healing off
+dctx.hud=hud; dctx._hud_cache=(0.0,None); dctx.state={}; dctx.input=In(); dctx.hp_reader=HR(100)
+dctx.mp_reader=types.SimpleNamespace(available=False)
+dctx.log=lambda m: print('   log:',m)
+frame_now={'f':hud_frame('1/432')}
+dctx.grabber=types.SimpleNamespace(grab_bgr=lambda r: frame_now['f'])
+hf=HealthFeature(dctx)
+assert not hf.check_death(None) and hf.last_hp==1 and dctx.state['hp_source']=='hud'      # 1 HP: alive
+frame_now['f']=hud_frame('0/432'); time.sleep(0.06)
+assert not hf.check_death(None); time.sleep(0.06)
+assert hf.check_death(None), 'HUD HP:0 twice = dead (bar would need 3 and healing on)'
+assert len(os.listdir(os.path.join(rroot,'deaths')))==1 and recmod.latest_record(rroot).endswith('_observe')
+dctx.account.health.read_hud_numbers=False; dctx._hud_cache=(0.0,None)
+assert dctx.read_hp(None)==100 and dctx.state['hp_source']=='bar'                        # toggle off -> bar
+print('hud numbers: 10/10 frames, HP:0 -> dead in 2 reads with healing off, snapshot saved OK')
+# PLAN 0.4: why a fight ended - corpse cursor / YOLOX die box at the lock / body frozen / lost
+from lineage_auto.features import combat as cb
+from lineage_auto.features.targeting import Target
+cb.BURST_INTERVAL=0; cb.HOLD_MOVE_SETTLE=cb.HOLD_DOWN_SETTLE=0
+class CIn:
+    def __getattr__(s,n): return lambda *a,**k: None
+class FakeTg:
+    def __init__(s,track,crops,dies=(),kill_at=None):
+        s.track=list(track); s.crops=list(crops); s.last_dies=list(dies); s.last_figures=[]
+        s.kill_at=kill_at; s.pops=0; s.kill_watch=None; s.blocked=[]
+    def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call
+        s.pops+=1; return [(0.0,'오염된 오크 전사')] if s.pops==s.kill_at else []
+    def route(s,xy): return None,None
+    def world(s,xy): return None
+    def block(s,xy): s.blocked.append(xy)
+    def read_name(s,xy): return None
+    def track_current(s,rect,anchor,char=None):
+        v=s.track.pop(0) if s.track else None
+        return None if v is None else Target(v[0],v[1],v[0],v[1])
+    def crop_gray_at(s,rect,xy): return s.crops.pop(0) if s.crops else np.zeros((80,80),np.uint8)
+    def note_lock(s,xy): pass
+    def clear_lock(s): pass
+def fight(cursor, track, crops=(), dies=(), dead_char=False, kill_at=None, tgo=None, start=(700,400), mode='auto'):
+    c=TCtx(); c.input=CIn(); c.state={}; c.character=c.account.character; c.can_cast=lambda *a: True; c.account.loot.mode=mode
+    c.recorder=recmod.Recorder(c.account,'hunt',rect=c.rect(),root=rroot)
+    tg.CursorProbe.current_hash=staticmethod(lambda: cursor)
+    h=types.SimpleNamespace(check_death=lambda r: dead_char, just_acted=False)
+    f=cb.CombatFeature(c,health=h,targeting=tgo or FakeTg(track,crops,dies,kill_at))
+    cb.CursorProbe.current_hash=tg.CursorProbe.current_hash
+    f.engage(Target(*start,*start),c.rect(),(640,380))
+    return f.last_outcome, c.state.get('kills',0), c.recorder.counts
+moving=[np.full((80,80),v,np.uint8) for v in (0,60,0,60)]; still=[np.full((80,80),9,np.uint8)]*6
+assert fight('corpse',[])[:2]==('corpse_cursor',1)
+assert fight('ground',[(700,400)]*200,dies=[(712,418)])[:2]==('cap',0)     # monster box still there: not dead
+assert fight('ground',[None],dies=[(712,418)])[:2]==('die_box',1)             # box gone + die box at lock
+cb.VANISH_CONFIRM=0
+# PLAN 0.27: box gone, no sword at the lock for VANISH_CONFIRM, chat not readable -> vanished = kill
+assert fight('ground',[None,None],dies=[(900,700)])[:2]==('vanished',1)
+o=fight('ground',[(700,400)]*20,kill_at=4); assert o[:2]==('chat_kill',1) and o[2]['end_chat_kill']==1  # kill line
+assert fight('attack',[None]*200)[:2]==('cap',0)          # box flickers off but the sword is under the mouse: keep
+chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5)
+assert fight('ground',[],tgo=chat_ok)[0]=='gone'          # auto-to-bag server, chat read, no kill line: walked off
+chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5)
+assert fight('ground',[],tgo=chat_ok,mode='walk_f4')[:2]==('vanished',1)  # drop server: the fall is the kill
+cb.UNREACH_SEC=0; cb.DETOUR_AFTER=10
+far=FakeTg([(720,400)]*400,[]); o=fight('ground',[],tgo=far)
+assert o[:2]==('unreachable',0) and far.blocked==[(720,400)], o                    # 80 px (beyond melee), never closer
+assert fight('ground',[(900,400)]*400,start=(720,400))[0]=='lost'     # 80 px -> 260 px: ran off, lost (no blacklist)
+cb.UNREACH_SEC=2.5; cb.DETOUR_AFTER=1.2
+# PLAN 0.28: in melee with the sword up but no kill line -> one side step, then leave + blacklist
+cb.SIDESTEP_AFTER=0; o=fight('attack',[(700,400)]*400); assert o[0]=='cap' and o[2]['sidestep']==1, o
+cb.NO_PROGRESS_SEC=0; stuck=FakeTg([(700,400)]*400,[]); o=fight('attack',[],tgo=stuck)
+assert o[:2]==('no_progress',0) and stuck.blocked==[(700,400)], o
+cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
+r=recmod.Recorder(TCtx().account,'hunt',root=rroot); r.fight('chat_kill',4,True); r.fight('vanished',2,True); r.fight('no_progress',8)
+assert r.summary()['fights']=={'kill_chat':{'n':1,'avg_s':4.0},'kill_fall':{'n':1,'avg_s':2.0},'no_progress':{'n':1,'avg_s':8.0}}, r.summary()['fights']
+assert fight('ground',[(700,400)]*12,crops=moving+still)[:2]==('frozen',1)    # moved, then 4 still beats
+assert fight('attack',[(700,400)]*12,crops=moving+still+still)[0]!='frozen'   # sword still up: keep hitting
+o=fight('corpse',[],dead_char=True); assert o[:2]==('char_dead',0) and o[2]=={'end_char_dead':1}
+print('combat outcomes: corpse cursor / die box / frozen / chat kill / vanished / unreachable / lost / char dead OK')
+# PLAN 0.8c grid sweep: YOLOX 0 -> hover a grid, label sword points, never click; then wander as before
+import math
+from lineage_auto.features.grid_scan import grid_points
+from lineage_auto.config.models import RecordSettings
+pts=grid_points(640,380,1280,960,40,200); assert pts and (640,380) not in pts and all(math.hypot(x-640,y-380)<=200 for x,y in pts)
+assert math.hypot(pts[0][0]-640,pts[0][1]-380)==40                       # nearest first
+fake_hits.clear(); tctx.running=True; tctx.input.moves.clear(); calls.clear(); tf.last_skipped=0
+tctx.account.record.grid_scan=True
+tg.CursorProbe.current_hash=staticmethod(lambda: 'attack' if tctx.input.moves and tctx.input.moves[-1][0]>700 else 'ground')
+tctx.recorder=recmod.Recorder(tctx.account,'hunt',rect=tctx.rect(),root=rroot); gdir=tctx.recorder.path
+sess._run()
+assert calls==['scan','wander'] and len(tctx.input.moves)==len(pts), (calls,len(tctx.input.moves))
+gs=json.load(open(os.path.join(gdir,'summary.json')))['counts']
+gh=[json.loads(l) for l in open(os.path.join(gdir,'hovers.jsonl'))]
+assert gs['grid_sweeps']==1 and gs['grid_points']==len(pts) and gs['grid_attack']>0 and 'hover_attack' not in gs, gs
+assert all(h['src']=='grid' and h['frame'] for h in gh)
+gf=[json.loads(l) for l in open(os.path.join(gdir,'frames.jsonl'))]; assert gf[-1]['grid']==len(pts) and 'night' in gf[-1]
+tctx.account.record.grid_scan=False
+print(f"grid sweep: {len(pts)} points, {gs['grid_attack']} sword labels, no click OK")
+out=subprocess.run([sys.executable,'tests/analyze_records.py',gdir,hunt_dir],capture_output=True,text=True,encoding='utf-8')
+assert out.returncode==0 and 'grid points' in out.stdout and 'totals per hunting ground' in out.stdout, out.stdout+out.stderr
+glab=json.load(open(os.path.join(gdir,'labels.json'),encoding='utf-8'))['images'][gf[-1]['file']]
+assert 0<len(glab['monster'])<gs['grid_attack'] and glab['boxes']==[] and 'map' in glab, glab   # grid hits merged per monster
+# PLAN 0.7 auto stop: deadline passed -> loop ends at once
+tctx.running=True; calls.clear(); sess._deadline=time.monotonic()-1; sess._run(); assert calls==[]; sess._deadline=None
+assert RecordSettings.from_dict({}).auto_stop_min==15 and RecordSettings.from_dict({'stop_key':'F12'}).stop_key=='Pause'
+# observe: no model, player's cursor + events (corpse cross, HP 0), stop key / STOP file stop observe too
+import itertools
+Cur.classify=lambda s,h,md5=None: h if h in ('attack','corpse','ground') else None
+seq=itertools.chain(['ground','corpse','corpse','ground'],itertools.repeat('ground'))
+def fake_cursor():
+    tg.CursorProbe.last_pos=(700,400); return next(seq)
+tg.CursorProbe.current_hash=staticmethod(fake_cursor)
+octx2=TCtx(); octx2.window.attached=True; octx2.account.record.no_model=True; octx2.account.record.real_map='오염된 축복의 땅'
+octx2.account.record.interval_sec=60; octx2.account.record.max_frames=3
+hud_seq=itertools.chain([None,None,None,(0,190)],itertools.repeat((5,190)))
+octx2.read_hud=lambda r: {'hp':next(hud_seq),'mp':None}
+osess2=object.__new__(AccountSession); osess2.ctx=octx2; osess2.account=octx2.account; osess2.on_state_change=None
+osess2.state=SessionState.OBSERVING; osess2._thread=None; osess2._deadline=None
+octx2.recorder=recmod.Recorder(octx2.account,'observe',rect=octx2.rect(),root=rroot); o2=octx2.recorder.path
+osess2._run_observe()
+fr=[json.loads(l) for l in open(os.path.join(o2,'frames.jsonl'),encoding='utf-8')]
+assert [f.get('event') for f in fr]==[None,'corpse','hp0',None,None], fr   # PLAN 0.19: event frames are outside the 3-frame cap
+assert fr[0]['mouse']==[700,400] and fr[0]['cursor']=='ground' and fr[1]['cursor']=='corpse' and fr[0]['hits']==[] and fr[0]['detect_ms'] is None
+assert fr[0]['real_map']=='오염된 축복의 땅' and json.load(open(os.path.join(o2,'meta.json'),encoding='utf-8'))['model'] is None
+print('observe: no model, cursor labels, corpse/HP0 event frames OK')
+osess.state=SessionState.OBSERVING; octx.running=True
+mgr.stop_all(include_observe=True); assert not octx.running
+from lineage_auto.winapi import hotkeys as hk
+stopf=os.path.join(rroot,'STOP'); open(stopf,'w').close(); reasons=[]
+hk.stop_file_path=lambda: stopf; hk._listen_interception_escape=lambda *a: None
+ev=hk.start_escape_threads(lambda *a: None, lambda: False, stop_vk=lambda: 0x13, on_stop=reasons.append)
+t=time.time()
+while os.path.exists(stopf) and time.time()-t<3: time.sleep(0.05)
+ev.set(); assert reasons==['STOP file'] and not os.path.exists(stopf), reasons
+print('stop: STOP file consumed, observe stopped by stop_all(include_observe) OK')
+# HUD numbers on the game PC's 1187x890 window (scaled HUD)
+ref=cv2.imread('docs/game_reference/'+sorted(f for f in os.listdir('docs/game_reference') if f.endswith(('.png','.jpg')))[0])
+small=cv2.resize(ref,(1187,890),interpolation=cv2.INTER_AREA)
+assert hud.read(small)['hp']==hud.read(ref)['hp'] and hud.read(ref)['hp'] is not None, (hud.read(small),hud.read(ref))
+print('hud numbers: 1187x890 window reads like 1280x960 OK')
+# label_tool boxes -> export_dataset (COCO + YOLO txt), finished frames only
+sys.path.insert(0,'tests'); import label_tool as lt, export_dataset as ed
+lab_dir=tempfile.mkdtemp(); cv2.imwrite(os.path.join(lab_dir,'f_00001.jpg'),small); cv2.imwrite(os.path.join(lab_dir,'f_00002.jpg'),small)
+ld=lt.load_labels(os.path.join(lab_dir,'labels.json'),lab_dir); lt.add_box(ld['images']['f_00001.jpg'],lt.click_box(500,300))
+ld['images']['f_00001.jpg']['todo']=False; lt.save_labels(os.path.join(lab_dir,'labels.json'),ld)
+exp=tempfile.mkdtemp(); c=ed.export(exp,[lab_dir],val_every=99)
+coco=json.load(open(os.path.join(exp,'annotations','instances_train2017.json')))
+assert c=={'train':(1,1),'val':(0,0)} and coco['annotations'][0]['bbox']==[478,264,44,72] and coco['annotations'][0]['category_id']==1
+yt=open(os.path.join(exp,'labels','train2017',os.path.basename(lab_dir)+'_f_00001.txt')).read().split()
+assert yt[0]=='0' and abs(float(yt[1])-500/1187)<1e-3, yt
+print('label_tool -> export_dataset COCO/YOLO OK')
+# 3 label classes: monster / corpse / player-NPC; only monster boxes feed eval's "monster" points
+e3={'monster':[[100,100]],'boxes':[]}
+lt.add_box(e3,[80,60,120,130]); lt.add_box(e3,lt.click_box(300,300,lt.DIE),lt.DIE); lt.add_box(e3,lt.click_box(500,300,lt.FIGURE),lt.FIGURE)
+assert e3['monster']==[[100,95]] and [lt.box_class(b) for b in e3['boxes']]==[0,2,1] and e3['boxes'][1][:4]==[270,282,330,318]
+assert lt.remove_near(e3,300,300) and e3['monster']==[[100,95]] and lt.remove_near(e3,100,95) and e3['monster']==[]
+ld['images']['f_00002.jpg']['boxes']=[[10,10,50,50,2],[60,60,90,140,1],[5,5,9,9]]; ld['images']['f_00002.jpg']['todo']=False
+lt.save_labels(os.path.join(lab_dir,'labels.json'),ld)
+exp2=tempfile.mkdtemp(); ed.export(exp2,[lab_dir],val_every=99)
+cats=[a_['category_id'] for a_ in json.load(open(os.path.join(exp2,'annotations','instances_train2017.json')))['annotations']]
+assert sorted(cats)==[1,1,2,3], cats                                  # monster, old 4-number box = monster, figure, die
+print('label_tool 3 classes -> export category ids OK')
+# per-model colour order: shipped models stay RGB, a "bgr" model gets the frame as captured
+import dataclasses
+seen={}
+blob_of=lambda b: seen.__setitem__('b',b) or np.zeros((1,8400,8),np.float32)
+px=np.zeros((960,1280,3),np.uint8); px[200:400,400:800]=(255,0,0)   # blue block in BGR (outside blanked HUD)
+yolox_mobs.detect_centers(px,640,380,500,infer=blob_of,map_key='dragon_valley')
+assert seen['b'][0,2,150,300]==255 and seen['b'][0,0,150,300]==0      # RGB: blue lands in channel 2
+orig_get=yolox_mobs.hunt_maps.get
+yolox_mobs.hunt_maps.get=lambda k: dataclasses.replace(orig_get(k),channels='bgr')
+yolox_mobs.detect_centers(px,640,380,500,infer=blob_of,map_key='dragon_valley')
+yolox_mobs.hunt_maps.get=orig_get
+assert seen['b'][0,0,150,300]==255 and seen['b'][0,2,150,300]==0      # BGR: blue stays in channel 0
+assert all(m.channels=='rgb' for m in hunt_maps.all_maps() if m.key!='blessed_orc') and hunt_maps.NEW_MODEL_CHANNELS=='bgr'
+assert hunt_maps.get('blessed_orc').channels=='bgr'                  # first model trained here (PLAN 0.20)
+print('yolox: per-model channel order (shipped rgb, new bgr) OK')
+print('ALL SMOKE TESTS PASSED')

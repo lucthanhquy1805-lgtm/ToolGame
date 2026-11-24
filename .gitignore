@@ -1,0 +1,35 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+build/
+dist/
+# Per-machine runtime files written next to the program
+lineage_auto_config.json
+bot_config.json
+session_log.txt
+
+# Recordings
+*.mp4
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# Heavy / regenerable (do not push to GitHub)
+.venv_train/
+.scratch/
+datasets/
+train/YOLOX/
+train/YOLOX_outputs/
+train/*.log
+train/orc_smoke.onnx
+l30.txt
+# Game recordings: keep only labels + metadata, not images/zips
+records_game/**/*.jpg
+records_game/**/*.png
+records_game/**/*.zip
+records_game/*.zip
+records_game/*.exe
+records_game/numpy/
+records_game/_handoff/
+records_game/**/raw/

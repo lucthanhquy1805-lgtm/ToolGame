@@ -1,0 +1,654 @@
+{"file": "f_00001.jpg", "t": 0.21, "scan": 1, "char": [640, 380], "hits": [[956, 356]], "detect_ms": 155.3, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00002.jpg", "t": 1.36, "scan": 3, "char": [640, 380], "hits": [[922, 332]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00003.jpg", "t": 2.36, "scan": 3, "char": [640, 380], "hits": [[884, 334]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00004.jpg", "t": 3.64, "scan": 3, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00005.jpg", "t": 4.83, "scan": 5, "char": [640, 380], "hits": [], "detect_ms": 148.5, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00006.jpg", "t": 6.03, "scan": 8, "char": [640, 380], "hits": [], "detect_ms": 155.5, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00007.jpg", "t": 7.24, "scan": 11, "char": [640, 380], "hits": [], "detect_ms": 143.7, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00008.jpg", "t": 8.5, "scan": 14, "char": [640, 380], "hits": [], "detect_ms": 179.8, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00009.jpg", "t": 9.71, "scan": 15, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00010.jpg", "t": 10.81, "scan": 17, "char": [640, 380], "hits": [], "detect_ms": 157.0, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00011.jpg", "t": 12.09, "scan": 20, "char": [640, 380], "hits": [[700, 384], [1032, 238]], "detect_ms": 156.4, "brightness": 35.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00012.jpg", "t": 13.28, "scan": 20, "char": [640, 380], "hits": [[938, 246]], "detect_ms": null, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00013.jpg", "t": 14.34, "scan": 20, "char": [640, 380], "hits": [[640, 392], [712, 392]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00014.jpg", "t": 15.37, "scan": 21, "char": [640, 380], "hits": [], "detect_ms": 205.8, "brightness": 39.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00015.jpg", "t": 16.63, "scan": 24, "char": [640, 380], "hits": [], "detect_ms": 221.7, "brightness": 38.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00016.jpg", "t": 17.83, "scan": 27, "char": [640, 380], "hits": [[1042, 544]], "detect_ms": 156.2, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00017.jpg", "t": 18.88, "scan": 28, "char": [640, 380], "hits": [[680, 380], [1008, 600]], "detect_ms": 164.1, "brightness": 39.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00018.jpg", "t": 20.04, "scan": 28, "char": [640, 380], "hits": [[686, 378], [1002, 574]], "detect_ms": null, "brightness": 39.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00019.jpg", "t": 21.09, "scan": 28, "char": [640, 380], "hits": [[684, 378]], "detect_ms": null, "brightness": 39.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00020.jpg", "t": 22.12, "scan": 28, "char": [640, 380], "hits": [[682, 378], [1004, 572]], "detect_ms": null, "brightness": 40.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00021.jpg", "t": 23.13, "scan": 28, "char": [640, 380], "hits": [[692, 380], [1044, 638]], "detect_ms": null, "brightness": 40.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00022.jpg", "t": 24.23, "scan": 28, "char": [640, 380], "hits": [[686, 380], [994, 562], [976, 660]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00023.jpg", "t": 25.24, "scan": 28, "char": [640, 380], "hits": [[670, 390], [1006, 576], [940, 670]], "detect_ms": null, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00024.jpg", "t": 26.24, "scan": 29, "char": [640, 380], "hits": [[706, 390], [998, 570]], "detect_ms": 166.9, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00025.jpg", "t": 27.38, "scan": 30, "char": [640, 380], "hits": [[954, 560]], "detect_ms": 129.0, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00026.jpg", "t": 28.52, "scan": 30, "char": [640, 380], "hits": [[960, 550]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00027.jpg", "t": 29.88, "scan": 30, "char": [640, 380], "hits": [[962, 554]], "detect_ms": null, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00028.jpg", "t": 31.28, "scan": 32, "char": [640, 380], "hits": [], "detect_ms": 159.1, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00029.jpg", "t": 32.5, "scan": 35, "char": [640, 380], "hits": [], "detect_ms": 169.6, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00030.jpg", "t": 33.76, "scan": 37, "char": [640, 380], "hits": [[742, 568], [902, 686]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00031.jpg", "t": 34.83, "scan": 38, "char": [640, 380], "hits": [[764, 532], [924, 656]], "detect_ms": 160.4, "brightness": 39.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00032.jpg", "t": 35.97, "scan": 38, "char": [640, 380], "hits": [[766, 530], [924, 662]], "detect_ms": null, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00033.jpg", "t": 37.33, "scan": 38, "char": [640, 380], "hits": [[762, 536], [922, 652]], "detect_ms": null, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00034.jpg", "t": 38.35, "scan": 38, "char": [640, 380], "hits": [[764, 532], [920, 650]], "detect_ms": null, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00035.jpg", "t": 39.43, "scan": 38, "char": [640, 380], "hits": [[760, 532]], "detect_ms": null, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00036.jpg", "t": 40.76, "scan": 38, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00037.jpg", "t": 41.93, "scan": 41, "char": [640, 380], "hits": [], "detect_ms": 172.2, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00038.jpg", "t": 43.13, "scan": 44, "char": [640, 380], "hits": [], "detect_ms": 146.8, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00039.jpg", "t": 44.33, "scan": 47, "char": [640, 380], "hits": [], "detect_ms": 128.6, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00040.jpg", "t": 45.56, "scan": 50, "char": [640, 380], "hits": [], "detect_ms": 148.6, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00041.jpg", "t": 46.77, "scan": 53, "char": [640, 380], "hits": [], "detect_ms": 151.1, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00042.jpg", "t": 48.0, "scan": 56, "char": [640, 380], "hits": [], "detect_ms": 142.1, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00043.jpg", "t": 49.24, "scan": 59, "char": [640, 380], "hits": [], "detect_ms": 170.5, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00044.jpg", "t": 50.51, "scan": 62, "char": [640, 380], "hits": [], "detect_ms": 153.4, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00045.jpg", "t": 51.72, "scan": 65, "char": [640, 380], "hits": [], "detect_ms": 161.1, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00046.jpg", "t": 52.94, "scan": 66, "char": [640, 380], "hits": [[1036, 178]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00047.jpg", "t": 54.04, "scan": 67, "char": [640, 380], "hits": [[1028, 188]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00048.jpg", "t": 55.37, "scan": 67, "char": [640, 380], "hits": [[1044, 178]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00049.jpg", "t": 56.66, "scan": 67, "char": [640, 380], "hits": [[1028, 188]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00050.jpg", "t": 57.69, "scan": 67, "char": [640, 380], "hits": [[1028, 188]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00051.jpg", "t": 58.99, "scan": 67, "char": [640, 380], "hits": [[1032, 218]], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00052.jpg", "t": 60.35, "scan": 69, "char": [640, 380], "hits": [], "detect_ms": 156.8, "brightness": 34.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00053.jpg", "t": 61.57, "scan": 72, "char": [640, 380], "hits": [], "detect_ms": 142.1, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00054.jpg", "t": 62.82, "scan": 75, "char": [640, 380], "hits": [[804, 60]], "detect_ms": 179.0, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00055.jpg", "t": 64.04, "scan": 76, "char": [640, 380], "hits": [[888, 110]], "detect_ms": 137.1, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00056.jpg", "t": 65.15, "scan": 76, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00057.jpg", "t": 66.23, "scan": 78, "char": [640, 380], "hits": [[16, 400]], "detect_ms": 149.9, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00058.jpg", "t": 67.43, "scan": 81, "char": [640, 380], "hits": [[866, 356], [182, 482]], "detect_ms": 198.4, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00059.jpg", "t": 68.74, "scan": 82, "char": [640, 380], "hits": [[782, 436], [398, 540]], "detect_ms": 167.7, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00060.jpg", "t": 69.83, "scan": 83, "char": [640, 380], "hits": [[748, 456], [564, 538]], "detect_ms": 168.7, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00061.jpg", "t": 70.95, "scan": 83, "char": [640, 380], "hits": [[686, 482]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00062.jpg", "t": 71.98, "scan": 83, "char": [640, 380], "hits": [[640, 432], [728, 456]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00063.jpg", "t": 73.11, "scan": 83, "char": [640, 380], "hits": [[640, 402]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00064.jpg", "t": 74.16, "scan": 83, "char": [640, 380], "hits": [[630, 394], [684, 382]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00065.jpg", "t": 75.18, "scan": 83, "char": [640, 380], "hits": [[612, 396], [680, 394]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00066.jpg", "t": 76.21, "scan": 83, "char": [640, 380], "hits": [[676, 382], [42, 196]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00067.jpg", "t": 77.22, "scan": 83, "char": [640, 380], "hits": [[692, 384], [342, 32], [42, 222]], "detect_ms": null, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00068.jpg", "t": 78.25, "scan": 83, "char": [640, 380], "hits": [[692, 384], [42, 218]], "detect_ms": null, "brightness": 36.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00069.jpg", "t": 79.31, "scan": 83, "char": [640, 380], "hits": [[694, 382], [42, 220]], "detect_ms": null, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00070.jpg", "t": 80.38, "scan": 83, "char": [640, 380], "hits": [[690, 384], [1042, 512], [42, 218]], "detect_ms": null, "brightness": 39.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00071.jpg", "t": 81.43, "scan": 83, "char": [640, 380], "hits": [[684, 380], [1040, 516], [42, 222]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00072.jpg", "t": 82.45, "scan": 83, "char": [640, 380], "hits": [[668, 386], [894, 556], [1042, 518], [44, 220]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00073.jpg", "t": 83.47, "scan": 83, "char": [640, 380], "hits": [[666, 386], [44, 220]], "detect_ms": null, "brightness": 39.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00074.jpg", "t": 84.56, "scan": 83, "char": [640, 380], "hits": [[668, 388], [1088, 604], [42, 222]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00075.jpg", "t": 85.6, "scan": 83, "char": [640, 380], "hits": [[668, 388], [894, 556], [1038, 656], [42, 220]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00076.jpg", "t": 86.62, "scan": 83, "char": [640, 380], "hits": [[670, 388], [936, 608], [42, 220]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00077.jpg", "t": 87.7, "scan": 83, "char": [640, 380], "hits": [[690, 382], [896, 554], [856, 606], [44, 186]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00078.jpg", "t": 88.72, "scan": 83, "char": [640, 380], "hits": [[690, 382], [792, 610], [894, 552]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00079.jpg", "t": 89.77, "scan": 83, "char": [640, 380], "hits": [[690, 382], [722, 606]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00080.jpg", "t": 90.86, "scan": 83, "char": [640, 380], "hits": [[690, 382]], "detect_ms": null, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00081.jpg", "t": 91.92, "scan": 83, "char": [640, 380], "hits": [[694, 386]], "detect_ms": null, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00082.jpg", "t": 92.94, "scan": 83, "char": [640, 380], "hits": [[686, 380], [598, 620]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00083.jpg", "t": 93.97, "scan": 83, "char": [640, 380], "hits": [[682, 382]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00084.jpg", "t": 94.98, "scan": 83, "char": [640, 380], "hits": [[666, 384]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00085.jpg", "t": 95.99, "scan": 83, "char": [640, 380], "hits": [[668, 384]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00086.jpg", "t": 97.07, "scan": 83, "char": [640, 380], "hits": [[674, 382]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00087.jpg", "t": 98.17, "scan": 83, "char": [640, 380], "hits": [[694, 380], [948, 682]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00088.jpg", "t": 99.27, "scan": 83, "char": [640, 380], "hits": [[692, 380]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00089.jpg", "t": 100.61, "scan": 83, "char": [640, 380], "hits": [[688, 376], [372, 600]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00090.jpg", "t": 101.69, "scan": 83, "char": [640, 380], "hits": [[678, 368], [402, 586]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00091.jpg", "t": 102.7, "scan": 83, "char": [640, 380], "hits": [[692, 368], [438, 576]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00092.jpg", "t": 103.81, "scan": 84, "char": [640, 380], "hits": [[496, 570]], "detect_ms": 225.4, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00093.jpg", "t": 104.89, "scan": 84, "char": [640, 380], "hits": [[534, 576]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00094.jpg", "t": 106.18, "scan": 84, "char": [640, 380], "hits": [[534, 576]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00095.jpg", "t": 107.22, "scan": 84, "char": [640, 380], "hits": [[538, 574]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00096.jpg", "t": 108.32, "scan": 84, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00097.jpg", "t": 109.36, "scan": 86, "char": [640, 380], "hits": [], "detect_ms": 153.9, "brightness": 34.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00098.jpg", "t": 110.56, "scan": 89, "char": [640, 380], "hits": [], "detect_ms": 143.9, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00099.jpg", "t": 111.77, "scan": 92, "char": [640, 380], "hits": [], "detect_ms": 155.2, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00100.jpg", "t": 113.0, "scan": 95, "char": [640, 380], "hits": [], "detect_ms": 192.8, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00101.jpg", "t": 114.2, "scan": 98, "char": [640, 380], "hits": [], "detect_ms": 150.0, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00102.jpg", "t": 115.38, "scan": 101, "char": [640, 380], "hits": [], "detect_ms": 132.6, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00103.jpg", "t": 116.56, "scan": 104, "char": [640, 380], "hits": [], "detect_ms": 164.0, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00104.jpg", "t": 117.76, "scan": 107, "char": [640, 380], "hits": [], "detect_ms": 133.2, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00105.jpg", "t": 118.97, "scan": 110, "char": [640, 380], "hits": [], "detect_ms": 133.6, "brightness": 36.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00106.jpg", "t": 120.16, "scan": 113, "char": [640, 380], "hits": [], "detect_ms": 161.3, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00107.jpg", "t": 121.37, "scan": 116, "char": [640, 380], "hits": [], "detect_ms": 148.9, "brightness": 36.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00108.jpg", "t": 122.59, "scan": 119, "char": [640, 380], "hits": [], "detect_ms": 154.6, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00109.jpg", "t": 123.86, "scan": 122, "char": [640, 380], "hits": [], "detect_ms": 211.9, "brightness": 36.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00110.jpg", "t": 125.13, "scan": 123, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00111.jpg", "t": 126.22, "scan": 126, "char": [640, 380], "hits": [], "detect_ms": 159.4, "brightness": 37.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00112.jpg", "t": 127.46, "scan": 127, "char": [640, 380], "hits": [[596, 382]], "detect_ms": null, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00113.jpg", "t": 128.5, "scan": 127, "char": [640, 380], "hits": [[576, 394]], "detect_ms": null, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00114.jpg", "t": 129.57, "scan": 127, "char": [640, 380], "hits": [[584, 382]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00115.jpg", "t": 130.61, "scan": 127, "char": [640, 380], "hits": [[592, 390]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00116.jpg", "t": 131.65, "scan": 127, "char": [640, 380], "hits": [[586, 392]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00117.jpg", "t": 132.95, "scan": 127, "char": [640, 380], "hits": [[580, 386]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00118.jpg", "t": 134.27, "scan": 127, "char": [640, 380], "hits": [[592, 388]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00119.jpg", "t": 135.58, "scan": 127, "char": [640, 380], "hits": [[586, 390]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00120.jpg", "t": 136.9, "scan": 127, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00121.jpg", "t": 138.02, "scan": 130, "char": [640, 380], "hits": [[642, 398]], "detect_ms": 162.5, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00122.jpg", "t": 139.22, "scan": 133, "char": [640, 380], "hits": [], "detect_ms": 147.4, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00123.jpg", "t": 140.49, "scan": 134, "char": [640, 380], "hits": [[80, 472]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00124.jpg", "t": 141.51, "scan": 134, "char": [640, 380], "hits": [[174, 306], [170, 472]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00125.jpg", "t": 142.7, "scan": 134, "char": [640, 380], "hits": [[252, 472]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00126.jpg", "t": 143.91, "scan": 134, "char": [640, 380], "hits": [[390, 460]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00127.jpg", "t": 145.05, "scan": 134, "char": [640, 380], "hits": [[466, 434]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00128.jpg", "t": 146.38, "scan": 134, "char": [640, 380], "hits": [[726, 316], [524, 402]], "detect_ms": null, "brightness": 36.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00129.jpg", "t": 147.59, "scan": 134, "char": [640, 380], "hits": [[564, 388], [726, 318]], "detect_ms": null, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00130.jpg", "t": 148.64, "scan": 134, "char": [640, 380], "hits": [[592, 390], [726, 316]], "detect_ms": null, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00131.jpg", "t": 149.66, "scan": 134, "char": [640, 380], "hits": [[578, 392]], "detect_ms": null, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00132.jpg", "t": 150.99, "scan": 134, "char": [640, 380], "hits": [[604, 258], [348, 328]], "detect_ms": null, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00133.jpg", "t": 152.08, "scan": 135, "char": [640, 380], "hits": [[402, 352], [1066, 298]], "detect_ms": null, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00134.jpg", "t": 153.31, "scan": 135, "char": [640, 380], "hits": [[480, 350], [1074, 296]], "detect_ms": null, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00135.jpg", "t": 154.53, "scan": 135, "char": [640, 380], "hits": [[1074, 296]], "detect_ms": null, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00136.jpg", "t": 155.63, "scan": 136, "char": [640, 380], "hits": [[1074, 296]], "detect_ms": null, "brightness": 37.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00137.jpg", "t": 156.99, "scan": 136, "char": [640, 380], "hits": [[1082, 296]], "detect_ms": null, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00138.jpg", "t": 158.01, "scan": 136, "char": [640, 380], "hits": [[1012, 296]], "detect_ms": null, "brightness": 36.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00139.jpg", "t": 159.19, "scan": 137, "char": [640, 380], "hits": [], "detect_ms": 174.7, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00140.jpg", "t": 160.52, "scan": 140, "char": [640, 380], "hits": [], "detect_ms": 249.5, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00141.jpg", "t": 161.72, "scan": 142, "char": [640, 380], "hits": [[570, 306]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00142.jpg", "t": 163.07, "scan": 142, "char": [640, 380], "hits": [[576, 386]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00143.jpg", "t": 164.19, "scan": 143, "char": [640, 380], "hits": [[592, 328]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00144.jpg", "t": 165.57, "scan": 144, "char": [640, 380], "hits": [[570, 384]], "detect_ms": null, "brightness": 34.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00145.jpg", "t": 166.75, "scan": 145, "char": [640, 380], "hits": [], "detect_ms": 160.3, "brightness": 34.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00146.jpg", "t": 167.96, "scan": 148, "char": [640, 380], "hits": [], "detect_ms": 142.3, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00147.jpg", "t": 169.23, "scan": 151, "char": [640, 380], "hits": [], "detect_ms": 183.2, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00148.jpg", "t": 170.48, "scan": 152, "char": [640, 380], "hits": [[516, 366]], "detect_ms": null, "brightness": 34.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00149.jpg", "t": 171.54, "scan": 153, "char": [640, 380], "hits": [[558, 362]], "detect_ms": null, "brightness": 34.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00150.jpg", "t": 172.67, "scan": 153, "char": [640, 380], "hits": [[886, 448]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00151.jpg", "t": 173.88, "scan": 153, "char": [640, 380], "hits": [[762, 216]], "detect_ms": null, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00152.jpg", "t": 174.97, "scan": 154, "char": [640, 380], "hits": [[884, 362]], "detect_ms": null, "brightness": 34.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00153.jpg", "t": 176.05, "scan": 155, "char": [640, 380], "hits": [[886, 318]], "detect_ms": null, "brightness": 36.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00154.jpg", "t": 177.07, "scan": 156, "char": [640, 380], "hits": [], "detect_ms": 147.2, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00155.jpg", "t": 178.36, "scan": 159, "char": [640, 380], "hits": [], "detect_ms": 159.8, "brightness": 40.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00156.jpg", "t": 179.63, "scan": 161, "char": [640, 380], "hits": [[560, 332], [796, 216]], "detect_ms": null, "brightness": 40.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00157.jpg", "t": 180.95, "scan": 161, "char": [640, 380], "hits": [[590, 336], [792, 216]], "detect_ms": null, "brightness": 40.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00158.jpg", "t": 182.05, "scan": 161, "char": [640, 380], "hits": [[594, 338], [796, 216]], "detect_ms": null, "brightness": 40.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00159.jpg", "t": 183.18, "scan": 162, "char": [640, 380], "hits": [[606, 334], [800, 228], [236, 238]], "detect_ms": null, "brightness": 40.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00160.jpg", "t": 184.21, "scan": 162, "char": [640, 380], "hits": [[606, 334], [800, 222]], "detect_ms": null, "brightness": 40.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00161.jpg", "t": 185.53, "scan": 162, "char": [640, 380], "hits": [[590, 336], [244, 322]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00162.jpg", "t": 186.56, "scan": 162, "char": [640, 380], "hits": [[594, 340]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00163.jpg", "t": 187.59, "scan": 162, "char": [640, 380], "hits": [[556, 340]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00164.jpg", "t": 188.6, "scan": 162, "char": [640, 380], "hits": [[532, 346]], "detect_ms": null, "brightness": 40.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00165.jpg", "t": 189.62, "scan": 162, "char": [640, 380], "hits": [[108, 416]], "detect_ms": null, "brightness": 40.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00166.jpg", "t": 190.72, "scan": 163, "char": [640, 380], "hits": [[82, 426]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00167.jpg", "t": 191.8, "scan": 163, "char": [640, 380], "hits": [[86, 434]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00168.jpg", "t": 193.13, "scan": 163, "char": [640, 380], "hits": [[78, 424]], "detect_ms": null, "brightness": 40.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00169.jpg", "t": 194.17, "scan": 163, "char": [640, 380], "hits": [[94, 428]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00170.jpg", "t": 195.21, "scan": 163, "char": [640, 380], "hits": [[94, 428]], "detect_ms": null, "brightness": 40.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00171.jpg", "t": 196.49, "scan": 163, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 40.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00172.jpg", "t": 197.55, "scan": 165, "char": [640, 380], "hits": [], "detect_ms": 157.4, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00173.jpg", "t": 198.79, "scan": 168, "char": [640, 380], "hits": [], "detect_ms": 194.4, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00174.jpg", "t": 200.02, "scan": 171, "char": [640, 380], "hits": [[182, 532]], "detect_ms": 154.9, "brightness": 36.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00175.jpg", "t": 201.14, "scan": 172, "char": [640, 380], "hits": [[286, 570]], "detect_ms": 116.6, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00176.jpg", "t": 202.22, "scan": 172, "char": [640, 380], "hits": [[276, 564]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00177.jpg", "t": 203.57, "scan": 172, "char": [640, 380], "hits": [[286, 568]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00178.jpg", "t": 204.59, "scan": 172, "char": [640, 380], "hits": [[282, 566]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00179.jpg", "t": 205.6, "scan": 172, "char": [640, 380], "hits": [[286, 568]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00180.jpg", "t": 206.92, "scan": 172, "char": [640, 380], "hits": [[290, 564]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00181.jpg", "t": 207.93, "scan": 172, "char": [640, 380], "hits": [[256, 610]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00182.jpg", "t": 209.03, "scan": 174, "char": [640, 380], "hits": [], "detect_ms": 209.6, "brightness": 35.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00183.jpg", "t": 210.24, "scan": 177, "char": [640, 380], "hits": [], "detect_ms": 158.4, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00184.jpg", "t": 211.46, "scan": 179, "char": [640, 380], "hits": [[452, 544]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00185.jpg", "t": 212.51, "scan": 180, "char": [640, 380], "hits": [[480, 514]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00186.jpg", "t": 213.55, "scan": 180, "char": [640, 380], "hits": [[478, 516]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00187.jpg", "t": 214.88, "scan": 180, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00188.jpg", "t": 215.9, "scan": 180, "char": [640, 380], "hits": [[488, 414]], "detect_ms": null, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00189.jpg", "t": 216.92, "scan": 180, "char": [640, 380], "hits": [[516, 408]], "detect_ms": null, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00190.jpg", "t": 218.25, "scan": 180, "char": [640, 380], "hits": [[566, 390]], "detect_ms": null, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00191.jpg", "t": 219.59, "scan": 180, "char": [640, 380], "hits": [[590, 376]], "detect_ms": null, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00192.jpg", "t": 220.89, "scan": 180, "char": [640, 380], "hits": [[600, 378], [94, 520]], "detect_ms": null, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00193.jpg", "t": 222.18, "scan": 180, "char": [640, 380], "hits": [[600, 376]], "detect_ms": null, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00194.jpg", "t": 223.6, "scan": 181, "char": [640, 380], "hits": [[162, 232]], "detect_ms": null, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00195.jpg", "t": 224.8, "scan": 181, "char": [640, 380], "hits": [[248, 232]], "detect_ms": null, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00196.jpg", "t": 225.82, "scan": 181, "char": [640, 380], "hits": [[244, 230]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00197.jpg", "t": 227.2, "scan": 181, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00198.jpg", "t": 228.26, "scan": 183, "char": [640, 380], "hits": [], "detect_ms": 158.5, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00199.jpg", "t": 229.48, "scan": 186, "char": [640, 380], "hits": [], "detect_ms": 158.3, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00200.jpg", "t": 230.66, "scan": 189, "char": [640, 380], "hits": [[494, 298]], "detect_ms": 152.6, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00201.jpg", "t": 231.86, "scan": 190, "char": [640, 380], "hits": [[218, 514]], "detect_ms": 155.6, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00202.jpg", "t": 232.96, "scan": 190, "char": [640, 380], "hits": [[804, 94], [232, 518]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00203.jpg", "t": 234.0, "scan": 190, "char": [640, 380], "hits": [[248, 516]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00204.jpg", "t": 235.29, "scan": 190, "char": [640, 380], "hits": [[800, 82], [232, 518]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00205.jpg", "t": 236.31, "scan": 190, "char": [640, 380], "hits": [[248, 516]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00206.jpg", "t": 237.63, "scan": 190, "char": [640, 380], "hits": [[248, 516]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00207.jpg", "t": 238.92, "scan": 190, "char": [640, 380], "hits": [[248, 516]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00208.jpg", "t": 240.24, "scan": 190, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00209.jpg", "t": 241.24, "scan": 192, "char": [640, 380], "hits": [], "detect_ms": 153.9, "brightness": 34.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00210.jpg", "t": 242.49, "scan": 195, "char": [640, 380], "hits": [[922, 350]], "detect_ms": 161.3, "brightness": 34.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00211.jpg", "t": 243.62, "scan": 197, "char": [640, 380], "hits": [[750, 412], [246, 464]], "detect_ms": null, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00212.jpg", "t": 244.73, "scan": 198, "char": [640, 380], "hits": [[596, 394], [512, 460], [202, 500], [1036, 80]], "detect_ms": null, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00213.jpg", "t": 245.73, "scan": 198, "char": [640, 380], "hits": [[606, 388], [518, 460], [202, 502], [1034, 80]], "detect_ms": null, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00214.jpg", "t": 246.76, "scan": 198, "char": [640, 380], "hits": [[608, 394], [518, 436], [196, 492], [1036, 78]], "detect_ms": null, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00215.jpg", "t": 247.77, "scan": 199, "char": [640, 380], "hits": [[900, 82], [204, 494]], "detect_ms": 148.9, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00216.jpg", "t": 248.99, "scan": 199, "char": [640, 380], "hits": [[606, 390], [800, 72], [198, 496]], "detect_ms": null, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00217.jpg", "t": 250.22, "scan": 200, "char": [640, 380], "hits": [[596, 380], [912, 426], [726, 104], [356, 208], [196, 492]], "detect_ms": null, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00218.jpg", "t": 251.3, "scan": 200, "char": [640, 380], "hits": [[596, 380], [796, 436], [720, 130], [206, 494]], "detect_ms": null, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00219.jpg", "t": 252.43, "scan": 200, "char": [640, 380], "hits": [[598, 388], [678, 434], [486, 276], [196, 494]], "detect_ms": null, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00220.jpg", "t": 253.49, "scan": 200, "char": [640, 380], "hits": [[608, 386], [724, 258], [200, 496]], "detect_ms": null, "brightness": 40.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00221.jpg", "t": 254.52, "scan": 200, "char": [640, 380], "hits": [[598, 382], [444, 428], [200, 496]], "detect_ms": null, "brightness": 42.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00222.jpg", "t": 255.57, "scan": 200, "char": [640, 380], "hits": [[606, 380], [194, 492]], "detect_ms": null, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00223.jpg", "t": 256.94, "scan": 200, "char": [640, 380], "hits": [[606, 386], [198, 496]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00224.jpg", "t": 258.0, "scan": 200, "char": [640, 380], "hits": [[596, 380], [250, 508], [196, 492]], "detect_ms": null, "brightness": 43.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00225.jpg", "t": 259.13, "scan": 200, "char": [640, 380], "hits": [[596, 374], [240, 514]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00226.jpg", "t": 260.17, "scan": 200, "char": [640, 380], "hits": [[598, 366], [252, 506], [46, 446]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00227.jpg", "t": 261.54, "scan": 201, "char": [640, 380], "hits": [[596, 332], [252, 508], [196, 470]], "detect_ms": 203.1, "brightness": 44.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00228.jpg", "t": 262.91, "scan": 202, "char": [640, 380], "hits": [[374, 444], [248, 508]], "detect_ms": null, "brightness": 45.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00229.jpg", "t": 264.24, "scan": 202, "char": [640, 380], "hits": [[234, 506]], "detect_ms": null, "brightness": 45.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00230.jpg", "t": 265.42, "scan": 203, "char": [640, 380], "hits": [[248, 506]], "detect_ms": null, "brightness": 46.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00231.jpg", "t": 266.56, "scan": 204, "char": [640, 380], "hits": [[248, 510]], "detect_ms": null, "brightness": 44.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00232.jpg", "t": 267.67, "scan": 204, "char": [640, 380], "hits": [[234, 506]], "detect_ms": null, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00233.jpg", "t": 268.7, "scan": 204, "char": [640, 380], "hits": [[248, 508]], "detect_ms": null, "brightness": 39.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00234.jpg", "t": 269.8, "scan": 204, "char": [640, 380], "hits": [[248, 510]], "detect_ms": null, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00235.jpg", "t": 271.16, "scan": 206, "char": [640, 380], "hits": [], "detect_ms": 169.0, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00236.jpg", "t": 272.4, "scan": 209, "char": [640, 380], "hits": [], "detect_ms": 135.3, "brightness": 34.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00237.jpg", "t": 273.66, "scan": 212, "char": [640, 380], "hits": [], "detect_ms": 198.1, "brightness": 34.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00238.jpg", "t": 274.94, "scan": 215, "char": [640, 380], "hits": [], "detect_ms": 149.8, "brightness": 34.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00239.jpg", "t": 276.14, "scan": 218, "char": [640, 380], "hits": [], "detect_ms": 130.8, "brightness": 35.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00240.jpg", "t": 277.39, "scan": 221, "char": [640, 380], "hits": [], "detect_ms": 146.8, "brightness": 35.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00241.jpg", "t": 278.64, "scan": 224, "char": [640, 380], "hits": [], "detect_ms": 141.2, "brightness": 35.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00242.jpg", "t": 279.88, "scan": 227, "char": [640, 380], "hits": [], "detect_ms": 178.0, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00243.jpg", "t": 281.09, "scan": 230, "char": [640, 380], "hits": [], "detect_ms": 155.7, "brightness": 35.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00244.jpg", "t": 282.34, "scan": 233, "char": [640, 380], "hits": [], "detect_ms": 157.5, "brightness": 35.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00245.jpg", "t": 283.63, "scan": 236, "char": [640, 380], "hits": [], "detect_ms": 194.3, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00246.jpg", "t": 284.85, "scan": 239, "char": [640, 380], "hits": [], "detect_ms": 140.8, "brightness": 36.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00247.jpg", "t": 286.11, "scan": 242, "char": [640, 380], "hits": [], "detect_ms": 179.7, "brightness": 36.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00248.jpg", "t": 287.34, "scan": 245, "char": [640, 380], "hits": [], "detect_ms": 179.3, "brightness": 36.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00249.jpg", "t": 288.65, "scan": 248, "char": [640, 380], "hits": [], "detect_ms": 154.9, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00250.jpg", "t": 289.87, "scan": 251, "char": [640, 380], "hits": [], "detect_ms": 170.8, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00251.jpg", "t": 291.13, "scan": 254, "char": [640, 380], "hits": [], "detect_ms": 151.5, "brightness": 36.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00252.jpg", "t": 292.36, "scan": 257, "char": [640, 380], "hits": [], "detect_ms": 168.3, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00253.jpg", "t": 293.54, "scan": 260, "char": [640, 380], "hits": [[322, 46]], "detect_ms": 147.0, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00254.jpg", "t": 294.67, "scan": 261, "char": [640, 380], "hits": [[220, 100]], "detect_ms": 174.9, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00255.jpg", "t": 295.73, "scan": 262, "char": [640, 380], "hits": [], "detect_ms": 146.4, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00256.jpg", "t": 296.95, "scan": 265, "char": [640, 380], "hits": [], "detect_ms": 152.5, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00257.jpg", "t": 298.19, "scan": 268, "char": [640, 380], "hits": [], "detect_ms": 139.3, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00258.jpg", "t": 299.45, "scan": 271, "char": [640, 380], "hits": [], "detect_ms": 142.1, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00259.jpg", "t": 300.68, "scan": 274, "char": [640, 380], "hits": [], "detect_ms": 163.2, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00260.jpg", "t": 301.88, "scan": 277, "char": [640, 380], "hits": [], "detect_ms": 155.8, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00261.jpg", "t": 303.12, "scan": 280, "char": [640, 380], "hits": [], "detect_ms": 168.2, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00262.jpg", "t": 304.38, "scan": 283, "char": [640, 380], "hits": [], "detect_ms": 176.9, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00263.jpg", "t": 305.56, "scan": 286, "char": [640, 380], "hits": [], "detect_ms": 141.8, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00264.jpg", "t": 306.79, "scan": 289, "char": [640, 380], "hits": [], "detect_ms": 152.1, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00265.jpg", "t": 308.01, "scan": 292, "char": [640, 380], "hits": [], "detect_ms": 159.5, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00266.jpg", "t": 309.22, "scan": 295, "char": [640, 380], "hits": [], "detect_ms": 144.3, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00267.jpg", "t": 310.51, "scan": 298, "char": [640, 380], "hits": [[456, 452], [1054, 150], [24, 176]], "detect_ms": 157.5, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00268.jpg", "t": 311.57, "scan": 298, "char": [640, 380], "hits": [[510, 418], [1038, 112]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00269.jpg", "t": 312.68, "scan": 299, "char": [640, 380], "hits": [[1038, 114]], "detect_ms": 172.4, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00270.jpg", "t": 313.91, "scan": 299, "char": [640, 380], "hits": [[972, 102]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00271.jpg", "t": 315.1, "scan": 300, "char": [640, 380], "hits": [[1044, 118], [228, 88]], "detect_ms": 139.7, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00272.jpg", "t": 316.22, "scan": 300, "char": [640, 380], "hits": [[598, 376], [348, 94], [1034, 126]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00273.jpg", "t": 317.73, "scan": 301, "char": [640, 380], "hits": [[596, 378], [508, 84], [1060, 116]], "detect_ms": 134.1, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00274.jpg", "t": 318.87, "scan": 301, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00275.jpg", "t": 319.96, "scan": 302, "char": [640, 380], "hits": [[584, 386]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00276.jpg", "t": 320.97, "scan": 302, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00277.jpg", "t": 322.01, "scan": 302, "char": [640, 380], "hits": [[598, 376]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00278.jpg", "t": 323.36, "scan": 302, "char": [640, 380], "hits": [[598, 376]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00279.jpg", "t": 324.51, "scan": 302, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00280.jpg", "t": 325.61, "scan": 303, "char": [640, 380], "hits": [[588, 374]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00281.jpg", "t": 326.71, "scan": 304, "char": [640, 380], "hits": [], "detect_ms": 192.1, "brightness": 40.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00282.jpg", "t": 327.91, "scan": 307, "char": [640, 380], "hits": [], "detect_ms": 155.2, "brightness": 41.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00283.jpg", "t": 329.2, "scan": 310, "char": [640, 380], "hits": [[1010, 470]], "detect_ms": 141.3, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00284.jpg", "t": 330.31, "scan": 311, "char": [640, 380], "hits": [[908, 486]], "detect_ms": 153.7, "brightness": 42.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00285.jpg", "t": 331.46, "scan": 311, "char": [640, 380], "hits": [[900, 494], [714, 692]], "detect_ms": null, "brightness": 42.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00286.jpg", "t": 332.73, "scan": 312, "char": [640, 380], "hits": [[712, 698]], "detect_ms": 150.1, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00287.jpg", "t": 333.86, "scan": 312, "char": [640, 380], "hits": [[724, 670]], "detect_ms": null, "brightness": 41.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00288.jpg", "t": 334.87, "scan": 312, "char": [640, 380], "hits": [[732, 658]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00289.jpg", "t": 335.95, "scan": 312, "char": [640, 380], "hits": [[738, 654]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00290.jpg", "t": 337.23, "scan": 312, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00291.jpg", "t": 338.36, "scan": 314, "char": [640, 380], "hits": [], "detect_ms": 186.9, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00292.jpg", "t": 339.62, "scan": 317, "char": [640, 380], "hits": [], "detect_ms": 186.5, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00293.jpg", "t": 340.85, "scan": 320, "char": [640, 380], "hits": [], "detect_ms": 143.9, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00294.jpg", "t": 342.09, "scan": 323, "char": [640, 380], "hits": [], "detect_ms": 165.6, "brightness": 39.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00295.jpg", "t": 343.28, "scan": 326, "char": [640, 380], "hits": [], "detect_ms": 149.6, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00296.jpg", "t": 344.75, "scan": 329, "char": [640, 380], "hits": [], "detect_ms": 286.7, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00297.jpg", "t": 345.99, "scan": 332, "char": [640, 380], "hits": [], "detect_ms": 147.2, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00298.jpg", "t": 347.2, "scan": 335, "char": [640, 380], "hits": [], "detect_ms": 152.9, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00299.jpg", "t": 348.39, "scan": 338, "char": [640, 380], "hits": [], "detect_ms": 145.4, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00300.jpg", "t": 349.66, "scan": 341, "char": [640, 380], "hits": [], "detect_ms": 143.0, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00301.jpg", "t": 350.91, "scan": 344, "char": [640, 380], "hits": [], "detect_ms": 156.0, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00302.jpg", "t": 352.11, "scan": 347, "char": [640, 380], "hits": [], "detect_ms": 129.0, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00303.jpg", "t": 353.34, "scan": 350, "char": [640, 380], "hits": [], "detect_ms": 151.7, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00304.jpg", "t": 354.71, "scan": 353, "char": [640, 380], "hits": [], "detect_ms": 160.5, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00305.jpg", "t": 355.99, "scan": 356, "char": [640, 380], "hits": [], "detect_ms": 168.5, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00306.jpg", "t": 357.11, "scan": 359, "char": [640, 380], "hits": [], "detect_ms": 144.5, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00307.jpg", "t": 358.31, "scan": 362, "char": [640, 380], "hits": [], "detect_ms": 155.9, "brightness": 36.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00308.jpg", "t": 359.54, "scan": 365, "char": [640, 380], "hits": [[88, 578]], "detect_ms": 161.4, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00309.jpg", "t": 360.78, "scan": 365, "char": [640, 380], "hits": [[188, 584]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00310.jpg", "t": 362.1, "scan": 365, "char": [640, 380], "hits": [[562, 42], [300, 526]], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00311.jpg", "t": 363.18, "scan": 365, "char": [640, 380], "hits": [[560, 78], [332, 508]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00312.jpg", "t": 364.2, "scan": 365, "char": [640, 380], "hits": [[562, 124], [354, 494]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00313.jpg", "t": 365.47, "scan": 366, "char": [640, 380], "hits": [[512, 180]], "detect_ms": 123.8, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00314.jpg", "t": 366.58, "scan": 366, "char": [640, 380], "hits": [[486, 218]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00315.jpg", "t": 367.62, "scan": 366, "char": [640, 380], "hits": [[484, 246]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00316.jpg", "t": 368.74, "scan": 366, "char": [640, 380], "hits": [[484, 272]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00317.jpg", "t": 369.81, "scan": 366, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00318.jpg", "t": 370.82, "scan": 366, "char": [640, 380], "hits": [[562, 316]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00319.jpg", "t": 371.83, "scan": 366, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00320.jpg", "t": 372.93, "scan": 367, "char": [640, 380], "hits": [[592, 352]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00321.jpg", "t": 374.01, "scan": 367, "char": [640, 380], "hits": [[578, 390]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00322.jpg", "t": 375.01, "scan": 368, "char": [640, 380], "hits": [], "detect_ms": 144.7, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00323.jpg", "t": 376.27, "scan": 371, "char": [640, 380], "hits": [], "detect_ms": 160.8, "brightness": 37.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00324.jpg", "t": 377.48, "scan": 374, "char": [640, 380], "hits": [], "detect_ms": 168.9, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00325.jpg", "t": 378.76, "scan": 377, "char": [640, 380], "hits": [], "detect_ms": 245.0, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00326.jpg", "t": 380.04, "scan": 380, "char": [640, 380], "hits": [], "detect_ms": 169.2, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00327.jpg", "t": 381.25, "scan": 383, "char": [640, 380], "hits": [], "detect_ms": 170.5, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00328.jpg", "t": 382.55, "scan": 386, "char": [640, 380], "hits": [], "detect_ms": 174.3, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00329.jpg", "t": 383.81, "scan": 389, "char": [640, 380], "hits": [], "detect_ms": 221.0, "brightness": 38.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00330.jpg", "t": 385.04, "scan": 392, "char": [640, 380], "hits": [], "detect_ms": 146.5, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00331.jpg", "t": 386.26, "scan": 395, "char": [640, 380], "hits": [], "detect_ms": 165.3, "brightness": 37.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00332.jpg", "t": 387.5, "scan": 397, "char": [640, 380], "hits": [[804, 230], [120, 648]], "detect_ms": null, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00333.jpg", "t": 388.56, "scan": 397, "char": [640, 380], "hits": [[132, 608]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00334.jpg", "t": 389.85, "scan": 397, "char": [640, 380], "hits": [[800, 270], [232, 556]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00335.jpg", "t": 390.89, "scan": 397, "char": [640, 380], "hits": [[308, 522]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00336.jpg", "t": 391.96, "scan": 398, "char": [640, 380], "hits": [[396, 478]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00337.jpg", "t": 393.12, "scan": 399, "char": [640, 380], "hits": [[242, 166]], "detect_ms": null, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00338.jpg", "t": 394.39, "scan": 399, "char": [640, 380], "hits": [[586, 388], [346, 214]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00339.jpg", "t": 395.73, "scan": 399, "char": [640, 380], "hits": [[596, 384]], "detect_ms": null, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00340.jpg", "t": 396.85, "scan": 400, "char": [640, 380], "hits": [[598, 380]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00341.jpg", "t": 397.87, "scan": 400, "char": [640, 380], "hits": [[626, 382]], "detect_ms": null, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00342.jpg", "t": 398.89, "scan": 401, "char": [640, 380], "hits": [], "detect_ms": 200.5, "brightness": 37.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00343.jpg", "t": 400.08, "scan": 404, "char": [640, 380], "hits": [[856, 528]], "detect_ms": 115.5, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00344.jpg", "t": 401.3, "scan": 405, "char": [640, 380], "hits": [[760, 338], [928, 488]], "detect_ms": 154.0, "brightness": 40.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00345.jpg", "t": 402.52, "scan": 405, "char": [640, 380], "hits": [[890, 478]], "detect_ms": null, "brightness": 41.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00346.jpg", "t": 403.55, "scan": 405, "char": [640, 380], "hits": [[862, 458]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00347.jpg", "t": 404.72, "scan": 405, "char": [640, 380], "hits": [[800, 434]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00348.jpg", "t": 405.77, "scan": 405, "char": [640, 380], "hits": [[680, 344], [772, 418]], "detect_ms": null, "brightness": 43.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00349.jpg", "t": 406.83, "scan": 405, "char": [640, 380], "hits": [[704, 392]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00350.jpg", "t": 408.07, "scan": 405, "char": [640, 380], "hits": [[684, 382], [684, 342]], "detect_ms": null, "brightness": 44.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00351.jpg", "t": 409.19, "scan": 405, "char": [640, 380], "hits": [[680, 372], [852, 324]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00352.jpg", "t": 410.39, "scan": 408, "char": [640, 380], "hits": [[802, 344], [802, 288]], "detect_ms": 164.2, "brightness": 43.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00353.jpg", "t": 411.45, "scan": 409, "char": [640, 380], "hits": [[768, 336], [682, 682]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00354.jpg", "t": 412.49, "scan": 409, "char": [640, 380], "hits": [[772, 332], [718, 670]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00355.jpg", "t": 413.54, "scan": 409, "char": [640, 380], "hits": [[764, 338], [724, 678]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00356.jpg", "t": 414.62, "scan": 409, "char": [640, 380], "hits": [[782, 296], [722, 682], [260, 70]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00357.jpg", "t": 415.64, "scan": 410, "char": [640, 380], "hits": [[724, 672], [302, 54]], "detect_ms": 122.1, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00358.jpg", "t": 416.77, "scan": 410, "char": [640, 380], "hits": [[728, 678], [334, 44]], "detect_ms": null, "brightness": 43.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00359.jpg", "t": 417.8, "scan": 410, "char": [640, 380], "hits": [[724, 630], [366, 38]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00360.jpg", "t": 418.89, "scan": 410, "char": [640, 380], "hits": [[720, 628]], "detect_ms": null, "brightness": 41.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00361.jpg", "t": 419.91, "scan": 410, "char": [640, 380], "hits": [[728, 630]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00362.jpg", "t": 420.94, "scan": 410, "char": [640, 380], "hits": [[726, 632]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00363.jpg", "t": 421.94, "scan": 410, "char": [640, 380], "hits": [[728, 630]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00364.jpg", "t": 422.97, "scan": 410, "char": [640, 380], "hits": [[724, 636]], "detect_ms": null, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00365.jpg", "t": 424.09, "scan": 411, "char": [640, 380], "hits": [], "detect_ms": 194.7, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00366.jpg", "t": 425.35, "scan": 414, "char": [640, 380], "hits": [], "detect_ms": 147.1, "brightness": 37.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00367.jpg", "t": 426.56, "scan": 417, "char": [640, 380], "hits": [], "detect_ms": 137.8, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00368.jpg", "t": 427.81, "scan": 420, "char": [640, 380], "hits": [], "detect_ms": 159.0, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00369.jpg", "t": 429.0, "scan": 423, "char": [640, 380], "hits": [], "detect_ms": 142.6, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00370.jpg", "t": 430.27, "scan": 426, "char": [640, 380], "hits": [[40, 236]], "detect_ms": 148.1, "brightness": 37.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00371.jpg", "t": 431.43, "scan": 427, "char": [640, 380], "hits": [[230, 198]], "detect_ms": 180.4, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00372.jpg", "t": 432.53, "scan": 430, "char": [640, 380], "hits": [], "detect_ms": 146.8, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00373.jpg", "t": 433.71, "scan": 431, "char": [640, 380], "hits": [[686, 686]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00374.jpg", "t": 434.93, "scan": 432, "char": [640, 380], "hits": [[692, 660]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00375.jpg", "t": 435.98, "scan": 432, "char": [640, 380], "hits": [[696, 296], [684, 654]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00376.jpg", "t": 437.07, "scan": 432, "char": [640, 380], "hits": [[754, 332], [692, 660]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00377.jpg", "t": 438.13, "scan": 432, "char": [640, 380], "hits": [[690, 330], [680, 660]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00378.jpg", "t": 439.21, "scan": 432, "char": [640, 380], "hits": [[690, 332], [692, 658]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00379.jpg", "t": 440.24, "scan": 433, "char": [640, 380], "hits": [[688, 338]], "detect_ms": 166.1, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00380.jpg", "t": 441.47, "scan": 433, "char": [640, 380], "hits": [[688, 332], [876, 234]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00381.jpg", "t": 442.57, "scan": 433, "char": [640, 380], "hits": [[686, 332], [870, 230], [1004, 178]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00382.jpg", "t": 443.62, "scan": 433, "char": [640, 380], "hits": [[870, 228]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00383.jpg", "t": 444.67, "scan": 433, "char": [640, 380], "hits": [[684, 342], [910, 224], [958, 230]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00384.jpg", "t": 445.68, "scan": 433, "char": [640, 380], "hits": [[854, 256], [1060, 224]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00385.jpg", "t": 446.79, "scan": 434, "char": [640, 380], "hits": [[786, 282]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00386.jpg", "t": 447.85, "scan": 434, "char": [640, 380], "hits": [[722, 316]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00387.jpg", "t": 448.92, "scan": 434, "char": [640, 380], "hits": [[688, 336]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00388.jpg", "t": 449.96, "scan": 434, "char": [640, 380], "hits": [[676, 348]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00389.jpg", "t": 451.02, "scan": 434, "char": [640, 380], "hits": [[682, 358]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00390.jpg", "t": 452.29, "scan": 434, "char": [640, 380], "hits": [[682, 360]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00391.jpg", "t": 453.41, "scan": 434, "char": [640, 380], "hits": [[714, 322]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00392.jpg", "t": 454.48, "scan": 435, "char": [640, 380], "hits": [], "detect_ms": 154.0, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00393.jpg", "t": 455.73, "scan": 438, "char": [640, 380], "hits": [], "detect_ms": 178.6, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00394.jpg", "t": 456.95, "scan": 441, "char": [640, 380], "hits": [], "detect_ms": 145.7, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00395.jpg", "t": 458.13, "scan": 444, "char": [640, 380], "hits": [], "detect_ms": 140.8, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00396.jpg", "t": 459.36, "scan": 447, "char": [640, 380], "hits": [], "detect_ms": 154.5, "brightness": 38.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00397.jpg", "t": 460.55, "scan": 450, "char": [640, 380], "hits": [], "detect_ms": 134.3, "brightness": 38.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00398.jpg", "t": 461.75, "scan": 453, "char": [640, 380], "hits": [], "detect_ms": 156.5, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00399.jpg", "t": 463.01, "scan": 456, "char": [640, 380], "hits": [], "detect_ms": 173.6, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00400.jpg", "t": 464.32, "scan": 458, "char": [640, 380], "hits": [[872, 450]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00401.jpg", "t": 465.63, "scan": 458, "char": [640, 380], "hits": [[762, 416]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00402.jpg", "t": 466.8, "scan": 458, "char": [640, 380], "hits": [[724, 394]], "detect_ms": null, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00403.jpg", "t": 467.86, "scan": 458, "char": [640, 380], "hits": [[696, 382], [84, 338]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00404.jpg", "t": 468.91, "scan": 458, "char": [640, 380], "hits": [[698, 384], [60, 368]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00405.jpg", "t": 470.01, "scan": 458, "char": [640, 380], "hits": [[712, 384]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00406.jpg", "t": 471.05, "scan": 458, "char": [640, 380], "hits": [[706, 380]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00407.jpg", "t": 472.08, "scan": 458, "char": [640, 380], "hits": [[684, 370]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00408.jpg", "t": 473.14, "scan": 458, "char": [640, 380], "hits": [[688, 380]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00409.jpg", "t": 474.19, "scan": 458, "char": [640, 380], "hits": [[680, 378], [478, 514]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00410.jpg", "t": 475.25, "scan": 458, "char": [640, 380], "hits": [[684, 370], [438, 492]], "detect_ms": null, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00411.jpg", "t": 476.28, "scan": 459, "char": [640, 380], "hits": [], "detect_ms": 163.3, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00412.jpg", "t": 477.52, "scan": 462, "char": [640, 380], "hits": [], "detect_ms": 172.5, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00413.jpg", "t": 478.86, "scan": 464, "char": [640, 380], "hits": [[576, 412]], "detect_ms": null, "brightness": 38.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00414.jpg", "t": 480.07, "scan": 465, "char": [640, 380], "hits": [[590, 426]], "detect_ms": null, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00415.jpg", "t": 481.08, "scan": 466, "char": [640, 380], "hits": [], "detect_ms": 155.8, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00416.jpg", "t": 482.35, "scan": 469, "char": [640, 380], "hits": [], "detect_ms": 184.0, "brightness": 38.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00417.jpg", "t": 483.56, "scan": 472, "char": [640, 380], "hits": [], "detect_ms": 149.8, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00418.jpg", "t": 484.86, "scan": 475, "char": [640, 380], "hits": [], "detect_ms": 197.4, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00419.jpg", "t": 486.15, "scan": 478, "char": [640, 380], "hits": [], "detect_ms": 173.0, "brightness": 38.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00420.jpg", "t": 487.41, "scan": 481, "char": [640, 380], "hits": [], "detect_ms": 178.4, "brightness": 38.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00421.jpg", "t": 488.65, "scan": 484, "char": [640, 380], "hits": [], "detect_ms": 164.8, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00422.jpg", "t": 490.0, "scan": 487, "char": [640, 380], "hits": [], "detect_ms": 181.8, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00423.jpg", "t": 491.23, "scan": 490, "char": [640, 380], "hits": [], "detect_ms": 187.8, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00424.jpg", "t": 492.51, "scan": 493, "char": [640, 380], "hits": [], "detect_ms": 162.9, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00425.jpg", "t": 493.77, "scan": 496, "char": [640, 380], "hits": [], "detect_ms": 202.0, "brightness": 37.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00426.jpg", "t": 495.1, "scan": 499, "char": [640, 380], "hits": [], "detect_ms": 153.1, "brightness": 37.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00427.jpg", "t": 496.36, "scan": 502, "char": [640, 380], "hits": [[264, 488]], "detect_ms": 208.7, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00428.jpg", "t": 497.48, "scan": 503, "char": [640, 380], "hits": [], "detect_ms": 163.5, "brightness": 38.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00429.jpg", "t": 498.7, "scan": 506, "char": [640, 380], "hits": [[62, 566]], "detect_ms": 189.8, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00430.jpg", "t": 499.96, "scan": 507, "char": [640, 380], "hits": [[104, 558]], "detect_ms": null, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00431.jpg", "t": 501.08, "scan": 507, "char": [640, 380], "hits": [[1084, 430], [68, 510]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00432.jpg", "t": 502.28, "scan": 508, "char": [640, 380], "hits": [[958, 438]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00433.jpg", "t": 503.56, "scan": 508, "char": [640, 380], "hits": [[858, 434]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00434.jpg", "t": 504.76, "scan": 508, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00435.jpg", "t": 505.92, "scan": 511, "char": [640, 380], "hits": [], "detect_ms": 151.7, "brightness": 39.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00436.jpg", "t": 507.18, "scan": 514, "char": [640, 380], "hits": [], "detect_ms": 190.3, "brightness": 38.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00437.jpg", "t": 508.4, "scan": 517, "char": [640, 380], "hits": [], "detect_ms": 153.1, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00438.jpg", "t": 509.71, "scan": 520, "char": [640, 380], "hits": [], "detect_ms": 204.8, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00439.jpg", "t": 510.94, "scan": 523, "char": [640, 380], "hits": [], "detect_ms": 171.2, "brightness": 38.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00440.jpg", "t": 512.23, "scan": 526, "char": [640, 380], "hits": [], "detect_ms": 174.5, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00441.jpg", "t": 513.47, "scan": 529, "char": [640, 380], "hits": [], "detect_ms": 159.9, "brightness": 38.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00442.jpg", "t": 514.76, "scan": 532, "char": [640, 380], "hits": [], "detect_ms": 138.9, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00443.jpg", "t": 515.98, "scan": 535, "char": [640, 380], "hits": [], "detect_ms": 183.1, "brightness": 38.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00444.jpg", "t": 517.34, "scan": 537, "char": [640, 380], "hits": [[338, 306]], "detect_ms": null, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00445.jpg", "t": 518.43, "scan": 539, "char": [640, 380], "hits": [[310, 294]], "detect_ms": 181.9, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00446.jpg", "t": 519.65, "scan": 542, "char": [640, 380], "hits": [], "detect_ms": 131.8, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00447.jpg", "t": 520.87, "scan": 545, "char": [640, 380], "hits": [], "detect_ms": 138.1, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00448.jpg", "t": 522.12, "scan": 548, "char": [640, 380], "hits": [[1046, 286]], "detect_ms": 168.1, "brightness": 39.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00449.jpg", "t": 523.18, "scan": 548, "char": [640, 380], "hits": [[1074, 284]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00450.jpg", "t": 524.28, "scan": 548, "char": [640, 380], "hits": [[1070, 294]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00451.jpg", "t": 525.31, "scan": 548, "char": [640, 380], "hits": [[1066, 292]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00452.jpg", "t": 526.36, "scan": 548, "char": [640, 380], "hits": [[868, 34], [1062, 294]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00453.jpg", "t": 527.43, "scan": 548, "char": [640, 380], "hits": [[1080, 294]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00454.jpg", "t": 528.47, "scan": 548, "char": [640, 380], "hits": [[1070, 296]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00455.jpg", "t": 529.6, "scan": 548, "char": [640, 380], "hits": [[1078, 286]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00456.jpg", "t": 530.61, "scan": 549, "char": [640, 380], "hits": [], "detect_ms": 182.5, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00457.jpg", "t": 531.88, "scan": 552, "char": [640, 380], "hits": [], "detect_ms": 149.9, "brightness": 38.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00458.jpg", "t": 533.15, "scan": 555, "char": [640, 380], "hits": [], "detect_ms": 178.2, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00459.jpg", "t": 534.41, "scan": 558, "char": [640, 380], "hits": [[600, 378]], "detect_ms": 181.0, "brightness": 37.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00460.jpg", "t": 535.75, "scan": 558, "char": [640, 380], "hits": [[602, 392]], "detect_ms": null, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00461.jpg", "t": 536.8, "scan": 558, "char": [640, 380], "hits": [[604, 386]], "detect_ms": null, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00462.jpg", "t": 537.83, "scan": 558, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00463.jpg", "t": 538.93, "scan": 560, "char": [640, 380], "hits": [], "detect_ms": 199.5, "brightness": 38.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00464.jpg", "t": 540.22, "scan": 563, "char": [640, 380], "hits": [], "detect_ms": 170.8, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00465.jpg", "t": 541.49, "scan": 566, "char": [640, 380], "hits": [], "detect_ms": 198.8, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00466.jpg", "t": 542.75, "scan": 569, "char": [640, 380], "hits": [], "detect_ms": 143.3, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00467.jpg", "t": 544.0, "scan": 572, "char": [640, 380], "hits": [], "detect_ms": 135.0, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00468.jpg", "t": 545.27, "scan": 575, "char": [640, 380], "hits": [], "detect_ms": 176.4, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00469.jpg", "t": 546.53, "scan": 578, "char": [640, 380], "hits": [], "detect_ms": 161.0, "brightness": 39.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00470.jpg", "t": 547.77, "scan": 581, "char": [640, 380], "hits": [], "detect_ms": 161.9, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00471.jpg", "t": 548.98, "scan": 584, "char": [640, 380], "hits": [], "detect_ms": 152.5, "brightness": 38.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00472.jpg", "t": 550.27, "scan": 587, "char": [640, 380], "hits": [], "detect_ms": 156.2, "brightness": 38.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00473.jpg", "t": 551.5, "scan": 590, "char": [640, 380], "hits": [], "detect_ms": 195.4, "brightness": 38.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00474.jpg", "t": 552.71, "scan": 593, "char": [640, 380], "hits": [], "detect_ms": 150.1, "brightness": 38.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00475.jpg", "t": 553.8, "scan": 596, "char": [640, 380], "hits": [[70, 316]], "detect_ms": 154.6, "brightness": 38.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00476.jpg", "t": 554.98, "scan": 596, "char": [640, 380], "hits": [[76, 358]], "detect_ms": null, "brightness": 38.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00477.jpg", "t": 556.03, "scan": 598, "char": [640, 380], "hits": [[160, 396]], "detect_ms": 192.8, "brightness": 39.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00478.jpg", "t": 557.25, "scan": 601, "char": [640, 380], "hits": [[316, 416], [24, 246]], "detect_ms": 209.9, "brightness": 41.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00479.jpg", "t": 558.52, "scan": 601, "char": [640, 380], "hits": [[360, 386], [1064, 490], [40, 262]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00480.jpg", "t": 559.67, "scan": 601, "char": [640, 380], "hits": [[418, 448], [1034, 480], [38, 260]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00481.jpg", "t": 560.71, "scan": 601, "char": [640, 380], "hits": [[420, 510], [1038, 478], [40, 262]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00482.jpg", "t": 561.75, "scan": 601, "char": [640, 380], "hits": [[344, 546], [278, 532], [1048, 484], [40, 262]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00483.jpg", "t": 562.86, "scan": 601, "char": [640, 380], "hits": [[320, 514], [320, 618], [1034, 480], [40, 262]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00484.jpg", "t": 563.9, "scan": 601, "char": [640, 380], "hits": [[360, 492], [1038, 474], [40, 260]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00485.jpg", "t": 564.98, "scan": 601, "char": [640, 380], "hits": [[358, 416], [1048, 484], [40, 262]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00486.jpg", "t": 566.07, "scan": 601, "char": [640, 380], "hits": [[360, 374], [40, 260]], "detect_ms": null, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00487.jpg", "t": 567.11, "scan": 601, "char": [640, 380], "hits": [[322, 378], [40, 262]], "detect_ms": null, "brightness": 43.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00488.jpg", "t": 568.25, "scan": 601, "char": [640, 380], "hits": [[342, 390], [42, 276]], "detect_ms": null, "brightness": 43.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00489.jpg", "t": 569.29, "scan": 601, "char": [640, 380], "hits": [[358, 374], [40, 328]], "detect_ms": null, "brightness": 43.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00490.jpg", "t": 570.39, "scan": 601, "char": [640, 380], "hits": [[672, 694], [318, 380], [42, 384]], "detect_ms": null, "brightness": 43.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00491.jpg", "t": 571.45, "scan": 601, "char": [640, 380], "hits": [[748, 660], [264, 422], [42, 432]], "detect_ms": null, "brightness": 43.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00492.jpg", "t": 572.84, "scan": 601, "char": [640, 380], "hits": [[856, 604], [52, 408], [42, 512]], "detect_ms": null, "brightness": 43.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00493.jpg", "t": 574.03, "scan": 602, "char": [640, 380], "hits": [[952, 558], [44, 566]], "detect_ms": null, "brightness": 43.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00494.jpg", "t": 575.28, "scan": 603, "char": [640, 380], "hits": [[60, 596]], "detect_ms": null, "brightness": 42.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00495.jpg", "t": 576.44, "scan": 603, "char": [640, 380], "hits": [[88, 578]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00496.jpg", "t": 577.44, "scan": 604, "char": [640, 380], "hits": [], "detect_ms": 144.2, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00497.jpg", "t": 578.65, "scan": 607, "char": [640, 380], "hits": [], "detect_ms": 156.7, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00498.jpg", "t": 579.87, "scan": 608, "char": [640, 380], "hits": [[934, 92]], "detect_ms": null, "brightness": 39.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00499.jpg", "t": 581.01, "scan": 608, "char": [640, 380], "hits": [[922, 66]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00500.jpg", "t": 582.01, "scan": 608, "char": [640, 380], "hits": [[924, 42]], "detect_ms": null, "brightness": 39.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00501.jpg", "t": 583.4, "scan": 610, "char": [640, 380], "hits": [], "detect_ms": 151.2, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00502.jpg", "t": 584.6, "scan": 611, "char": [640, 380], "hits": [[720, 138]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00503.jpg", "t": 585.62, "scan": 611, "char": [640, 380], "hits": [[720, 160]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00504.jpg", "t": 586.91, "scan": 611, "char": [640, 380], "hits": [[720, 166]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00505.jpg", "t": 587.93, "scan": 611, "char": [640, 380], "hits": [[722, 206]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00506.jpg", "t": 588.96, "scan": 611, "char": [640, 380], "hits": [[722, 264]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00507.jpg", "t": 590.02, "scan": 611, "char": [640, 380], "hits": [[724, 294]], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00508.jpg", "t": 591.03, "scan": 611, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 39.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00509.jpg", "t": 592.2, "scan": 614, "char": [640, 380], "hits": [], "detect_ms": 211.3, "brightness": 39.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00510.jpg", "t": 593.24, "scan": 616, "char": [640, 380], "hits": [[666, 400]], "detect_ms": 189.1, "brightness": 38.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00511.jpg", "t": 594.38, "scan": 617, "char": [640, 380], "hits": [], "detect_ms": 157.9, "brightness": 42.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00512.jpg", "t": 595.7, "scan": 620, "char": [640, 380], "hits": [[686, 258]], "detect_ms": 163.6, "brightness": 43.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00513.jpg", "t": 596.84, "scan": 620, "char": [640, 380], "hits": [[688, 238]], "detect_ms": null, "brightness": 43.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00514.jpg", "t": 597.91, "scan": 620, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 43.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00515.jpg", "t": 599.03, "scan": 623, "char": [640, 380], "hits": [], "detect_ms": 122.2, "brightness": 43.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00516.jpg", "t": 600.37, "scan": 625, "char": [640, 380], "hits": [[652, 406]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00517.jpg", "t": 601.53, "scan": 626, "char": [640, 380], "hits": [[584, 396]], "detect_ms": null, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00518.jpg", "t": 602.63, "scan": 626, "char": [640, 380], "hits": [[592, 392]], "detect_ms": null, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00519.jpg", "t": 604.0, "scan": 628, "char": [640, 380], "hits": [], "detect_ms": 155.1, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00520.jpg", "t": 605.3, "scan": 631, "char": [640, 380], "hits": [[166, 478]], "detect_ms": 151.4, "brightness": 43.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00521.jpg", "t": 606.38, "scan": 632, "char": [640, 380], "hits": [[98, 478]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00522.jpg", "t": 607.46, "scan": 633, "char": [640, 380], "hits": [[50, 466]], "detect_ms": null, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00523.jpg", "t": 608.48, "scan": 634, "char": [640, 380], "hits": [], "detect_ms": 154.3, "brightness": 44.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00524.jpg", "t": 609.74, "scan": 637, "char": [640, 380], "hits": [], "detect_ms": 138.0, "brightness": 43.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00525.jpg", "t": 610.98, "scan": 640, "char": [640, 380], "hits": [[404, 106]], "detect_ms": 186.4, "brightness": 43.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00526.jpg", "t": 612.12, "scan": 641, "char": [640, 380], "hits": [[392, 142]], "detect_ms": 163.4, "brightness": 43.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00527.jpg", "t": 613.25, "scan": 641, "char": [640, 380], "hits": [[406, 156]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00528.jpg", "t": 614.31, "scan": 641, "char": [640, 380], "hits": [[404, 154]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00529.jpg", "t": 615.37, "scan": 641, "char": [640, 380], "hits": [[402, 150]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00530.jpg", "t": 616.48, "scan": 641, "char": [640, 380], "hits": [[638, 154], [406, 154]], "detect_ms": null, "brightness": 43.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00531.jpg", "t": 617.51, "scan": 641, "char": [640, 380], "hits": [[642, 156], [406, 154]], "detect_ms": null, "brightness": 43.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00532.jpg", "t": 618.59, "scan": 641, "char": [640, 380], "hits": [[640, 154]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00533.jpg", "t": 619.77, "scan": 642, "char": [640, 380], "hits": [[564, 138]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00534.jpg", "t": 621.17, "scan": 643, "char": [640, 380], "hits": [[564, 48]], "detect_ms": null, "brightness": 42.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00535.jpg", "t": 622.19, "scan": 643, "char": [640, 380], "hits": [[564, 106]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00536.jpg", "t": 623.21, "scan": 643, "char": [640, 380], "hits": [[564, 146]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00537.jpg", "t": 624.27, "scan": 643, "char": [640, 380], "hits": [[550, 154]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00538.jpg", "t": 625.34, "scan": 643, "char": [640, 380], "hits": [[552, 152]], "detect_ms": null, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00539.jpg", "t": 626.39, "scan": 644, "char": [640, 380], "hits": [], "detect_ms": 153.9, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00540.jpg", "t": 627.69, "scan": 645, "char": [640, 380], "hits": [[718, 274], [718, 152], [762, 172], [914, 88]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00541.jpg", "t": 628.86, "scan": 645, "char": [640, 380], "hits": [[754, 98], [930, 84], [1042, 710]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00542.jpg", "t": 629.97, "scan": 645, "char": [640, 380], "hits": [[666, 132], [1042, 636]], "detect_ms": null, "brightness": 42.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00543.jpg", "t": 631.04, "scan": 646, "char": [640, 380], "hits": [[794, 280], [600, 86], [1042, 558]], "detect_ms": null, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00544.jpg", "t": 632.22, "scan": 647, "char": [640, 380], "hits": [[758, 304], [844, 152], [952, 508]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00545.jpg", "t": 633.3, "scan": 647, "char": [640, 380], "hits": [[714, 326], [868, 468]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00546.jpg", "t": 634.31, "scan": 647, "char": [640, 380], "hits": [[784, 426], [806, 160]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00547.jpg", "t": 635.58, "scan": 648, "char": [640, 380], "hits": [[690, 380], [770, 144]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00548.jpg", "t": 636.65, "scan": 649, "char": [640, 380], "hits": [[678, 382], [740, 118]], "detect_ms": 168.1, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00549.jpg", "t": 637.78, "scan": 649, "char": [640, 380], "hits": [[680, 382], [318, 152]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00550.jpg", "t": 638.84, "scan": 649, "char": [640, 380], "hits": [[714, 198], [324, 156], [998, 64]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00551.jpg", "t": 640.02, "scan": 650, "char": [640, 380], "hits": [[722, 154], [322, 140], [1000, 62]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00552.jpg", "t": 641.08, "scan": 650, "char": [640, 380], "hits": [[766, 150], [324, 84], [948, 62]], "detect_ms": null, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00553.jpg", "t": 642.14, "scan": 652, "char": [640, 380], "hits": [], "detect_ms": 177.5, "brightness": 42.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00554.jpg", "t": 643.35, "scan": 653, "char": [640, 380], "hits": [[684, 390], [268, 216], [260, 66]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00555.jpg", "t": 644.4, "scan": 653, "char": [640, 380], "hits": [[684, 380], [360, 222], [314, 32]], "detect_ms": null, "brightness": 45.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00556.jpg", "t": 645.51, "scan": 653, "char": [640, 380], "hits": [[684, 382], [362, 202], [302, 70]], "detect_ms": null, "brightness": 46.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00557.jpg", "t": 646.57, "scan": 653, "char": [640, 380], "hits": [[342, 138]], "detect_ms": null, "brightness": 46.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00558.jpg", "t": 647.68, "scan": 654, "char": [640, 380], "hits": [[276, 124]], "detect_ms": null, "brightness": 46.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00559.jpg", "t": 648.85, "scan": 655, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 46.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00560.jpg", "t": 650.0, "scan": 656, "char": [640, 380], "hits": [[318, 282]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00561.jpg", "t": 651.03, "scan": 656, "char": [640, 380], "hits": [[320, 282], [958, 270]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00562.jpg", "t": 652.09, "scan": 657, "char": [640, 380], "hits": [[958, 270], [326, 226], [1080, 450]], "detect_ms": 196.8, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00563.jpg", "t": 653.27, "scan": 657, "char": [640, 380], "hits": [[320, 202], [1044, 428]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00564.jpg", "t": 654.5, "scan": 658, "char": [640, 380], "hits": [[1002, 408], [320, 154]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00565.jpg", "t": 655.56, "scan": 658, "char": [640, 380], "hits": [[966, 388]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00566.jpg", "t": 656.73, "scan": 659, "char": [640, 380], "hits": [[722, 316], [922, 374]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00567.jpg", "t": 657.77, "scan": 659, "char": [640, 380], "hits": [[688, 332]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00568.jpg", "t": 658.81, "scan": 659, "char": [640, 380], "hits": [[688, 336]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00569.jpg", "t": 659.82, "scan": 659, "char": [640, 380], "hits": [[918, 378], [80, 270]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00570.jpg", "t": 660.96, "scan": 660, "char": [640, 380], "hits": [[122, 274], [14, 238]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00571.jpg", "t": 662.22, "scan": 660, "char": [640, 380], "hits": [[918, 378]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00572.jpg", "t": 663.44, "scan": 663, "char": [640, 380], "hits": [[136, 274]], "detect_ms": 149.8, "brightness": 42.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00573.jpg", "t": 664.69, "scan": 664, "char": [640, 380], "hits": [[706, 314], [918, 378], [76, 242], [22, 266]], "detect_ms": 191.1, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00574.jpg", "t": 665.84, "scan": 664, "char": [640, 380], "hits": [[684, 332]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00575.jpg", "t": 666.89, "scan": 665, "char": [640, 380], "hits": [[692, 318]], "detect_ms": 185.3, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00576.jpg", "t": 667.95, "scan": 666, "char": [640, 380], "hits": [[924, 400]], "detect_ms": 127.6, "brightness": 42.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00577.jpg", "t": 669.02, "scan": 666, "char": [640, 380], "hits": [[932, 416]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00578.jpg", "t": 670.06, "scan": 666, "char": [640, 380], "hits": [[920, 418]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00579.jpg", "t": 671.12, "scan": 666, "char": [640, 380], "hits": [[930, 420]], "detect_ms": null, "brightness": 42.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00580.jpg", "t": 672.14, "scan": 666, "char": [640, 380], "hits": [[920, 414], [564, 84], [836, 34], [204, 302]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00581.jpg", "t": 673.16, "scan": 666, "char": [640, 380], "hits": [[920, 414], [564, 84]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00582.jpg", "t": 674.24, "scan": 666, "char": [640, 380], "hits": [[564, 84], [944, 412], [208, 294]], "detect_ms": null, "brightness": 42.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00583.jpg", "t": 675.27, "scan": 667, "char": [640, 380], "hits": [], "detect_ms": 147.1, "brightness": 42.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00584.jpg", "t": 676.5, "scan": 670, "char": [640, 380], "hits": [[976, 426], [420, 64], [980, 700]], "detect_ms": 186.2, "brightness": 41.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00585.jpg", "t": 677.77, "scan": 671, "char": [640, 380], "hits": [[920, 424], [918, 694], [360, 64]], "detect_ms": 173.4, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00586.jpg", "t": 678.88, "scan": 671, "char": [640, 380], "hits": [[920, 426], [368, 70], [918, 696]], "detect_ms": null, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00587.jpg", "t": 679.94, "scan": 671, "char": [640, 380], "hits": [[920, 418], [918, 694]], "detect_ms": null, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00588.jpg", "t": 681.02, "scan": 671, "char": [640, 380], "hits": [[920, 418], [918, 696]], "detect_ms": null, "brightness": 41.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00589.jpg", "t": 682.06, "scan": 671, "char": [640, 380], "hits": [[638, 116], [920, 418], [988, 682]], "detect_ms": null, "brightness": 41.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00590.jpg", "t": 683.14, "scan": 671, "char": [640, 380], "hits": [[640, 120], [912, 416], [358, 132], [1056, 684]], "detect_ms": null, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00591.jpg", "t": 684.14, "scan": 671, "char": [640, 380], "hits": [[640, 90], [934, 420], [358, 132]], "detect_ms": null, "brightness": 42.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00592.jpg", "t": 685.57, "scan": 672, "char": [640, 380], "hits": [[600, 38], [990, 120], [320, 72]], "detect_ms": null, "brightness": 42.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00593.jpg", "t": 686.66, "scan": 673, "char": [640, 380], "hits": [[832, 94], [934, 38]], "detect_ms": null, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00594.jpg", "t": 687.75, "scan": 674, "char": [640, 380], "hits": [[834, 94], [998, 46]], "detect_ms": null, "brightness": 41.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00595.jpg", "t": 688.8, "scan": 674, "char": [640, 380], "hits": [[828, 92]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00596.jpg", "t": 689.83, "scan": 674, "char": [640, 380], "hits": [[840, 88]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00597.jpg", "t": 690.85, "scan": 674, "char": [640, 380], "hits": [[834, 88]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00598.jpg", "t": 691.87, "scan": 674, "char": [640, 380], "hits": [[840, 88]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00599.jpg", "t": 692.9, "scan": 674, "char": [640, 380], "hits": [[830, 94], [280, 56]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00600.jpg", "t": 693.93, "scan": 674, "char": [640, 380], "hits": [[832, 100]], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00601.jpg", "t": 694.99, "scan": 674, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 41.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00602.jpg", "t": 696.07, "scan": 676, "char": [640, 380], "hits": [], "detect_ms": 138.2, "brightness": 41.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00603.jpg", "t": 697.22, "scan": 679, "char": [640, 380], "hits": [], "detect_ms": 135.7, "brightness": 41.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00604.jpg", "t": 698.4, "scan": 682, "char": [640, 380], "hits": [], "detect_ms": 168.7, "brightness": 42.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00605.jpg", "t": 699.61, "scan": 685, "char": [640, 380], "hits": [], "detect_ms": 134.1, "brightness": 43.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00606.jpg", "t": 700.75, "scan": 688, "char": [640, 380], "hits": [], "detect_ms": 146.3, "brightness": 44.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00607.jpg", "t": 701.83, "scan": 691, "char": [640, 380], "hits": [], "detect_ms": 156.7, "brightness": 44.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00608.jpg", "t": 703.06, "scan": 694, "char": [640, 380], "hits": [], "detect_ms": 172.5, "brightness": 44.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00609.jpg", "t": 704.24, "scan": 697, "char": [640, 380], "hits": [[424, 248], [868, 228], [118, 408]], "detect_ms": 132.4, "brightness": 44.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00610.jpg", "t": 705.51, "scan": 697, "char": [640, 380], "hits": [[520, 458], [430, 272], [876, 224], [952, 156], [124, 454]], "detect_ms": null, "brightness": 46.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00611.jpg", "t": 706.61, "scan": 697, "char": [640, 380], "hits": [[522, 456], [876, 148], [1042, 152], [128, 414]], "detect_ms": null, "brightness": 47.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00612.jpg", "t": 707.71, "scan": 698, "char": [640, 380], "hits": [[520, 410], [898, 106]], "detect_ms": null, "brightness": 47.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00613.jpg", "t": 708.8, "scan": 698, "char": [640, 380], "hits": [[518, 358], [1028, 150], [120, 362]], "detect_ms": null, "brightness": 47.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00614.jpg", "t": 709.84, "scan": 698, "char": [640, 380], "hits": [[536, 294], [1034, 148], [130, 342]], "detect_ms": null, "brightness": 47.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00615.jpg", "t": 711.0, "scan": 699, "char": [640, 380], "hits": [[1044, 154]], "detect_ms": null, "brightness": 47.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00616.jpg", "t": 712.05, "scan": 700, "char": [640, 380], "hits": [[132, 306]], "detect_ms": 170.7, "brightness": 47.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00617.jpg", "t": 713.11, "scan": 703, "char": [640, 380], "hits": [], "detect_ms": 150.0, "brightness": 47.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00618.jpg", "t": 714.24, "scan": 706, "char": [640, 380], "hits": [], "detect_ms": 149.9, "brightness": 47.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00619.jpg", "t": 715.49, "scan": 709, "char": [640, 380], "hits": [[274, 78]], "detect_ms": 144.7, "brightness": 45.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00620.jpg", "t": 716.51, "scan": 709, "char": [640, 380], "hits": [[764, 216], [342, 88]], "detect_ms": null, "brightness": 45.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00621.jpg", "t": 717.91, "scan": 710, "char": [640, 380], "hits": [[762, 220]], "detect_ms": null, "brightness": 46.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00622.jpg", "t": 718.94, "scan": 710, "char": [640, 380], "hits": [[596, 454], [766, 188]], "detect_ms": null, "brightness": 46.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00623.jpg", "t": 720.0, "scan": 710, "char": [640, 380], "hits": [], "detect_ms": null, "brightness": 46.3, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00624.jpg", "t": 721.26, "scan": 711, "char": [640, 380], "hits": [[362, 434]], "detect_ms": null, "brightness": 47.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00625.jpg", "t": 722.49, "scan": 712, "char": [640, 380], "hits": [[370, 368]], "detect_ms": null, "brightness": 47.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00626.jpg", "t": 723.58, "scan": 715, "char": [640, 380], "hits": [[550, 380]], "detect_ms": 138.0, "brightness": 51.9, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00627.jpg", "t": 724.63, "scan": 718, "char": [640, 380], "hits": [[806, 372]], "detect_ms": 163.2, "brightness": 53.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00628.jpg", "t": 725.73, "scan": 719, "char": [640, 380], "hits": [[884, 390], [354, 374]], "detect_ms": 134.5, "brightness": 55.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00629.jpg", "t": 726.88, "scan": 719, "char": [640, 380], "hits": [[358, 378]], "detect_ms": null, "brightness": 55.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00630.jpg", "t": 727.95, "scan": 720, "char": [640, 380], "hits": [[722, 518], [362, 382], [444, 46]], "detect_ms": null, "brightness": 55.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00631.jpg", "t": 729.04, "scan": 720, "char": [640, 380], "hits": [[358, 340], [362, 460], [1070, 370]], "detect_ms": null, "brightness": 55.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00632.jpg", "t": 730.09, "scan": 720, "char": [640, 380], "hits": [[802, 498], [508, 204], [364, 458], [350, 292]], "detect_ms": null, "brightness": 54.1, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00633.jpg", "t": 731.13, "scan": 721, "char": [640, 380], "hits": [[800, 434], [378, 452], [318, 246]], "detect_ms": 172.0, "brightness": 54.5, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00634.jpg", "t": 732.28, "scan": 722, "char": [640, 380], "hits": [[510, 452], [802, 364], [326, 196]], "detect_ms": 200.0, "brightness": 55.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00635.jpg", "t": 733.47, "scan": 722, "char": [640, 380], "hits": [[496, 400], [804, 296]], "detect_ms": null, "brightness": 55.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00636.jpg", "t": 734.5, "scan": 722, "char": [640, 380], "hits": [[438, 370]], "detect_ms": null, "brightness": 54.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00637.jpg", "t": 735.59, "scan": 723, "char": [640, 380], "hits": [[442, 300]], "detect_ms": 171.9, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00638.jpg", "t": 736.71, "scan": 723, "char": [640, 380], "hits": [[482, 266], [836, 536], [482, 76]], "detect_ms": null, "brightness": 49.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00639.jpg", "t": 737.84, "scan": 723, "char": [640, 380], "hits": [[600, 572], [842, 494], [490, 202], [886, 354], [486, 78]], "detect_ms": null, "brightness": 49.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00640.jpg", "t": 738.89, "scan": 723, "char": [640, 380], "hits": [[598, 574], [842, 450], [550, 78]], "detect_ms": null, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00641.jpg", "t": 740.01, "scan": 724, "char": [640, 380], "hits": [[790, 378], [598, 572], [524, 100]], "detect_ms": null, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00642.jpg", "t": 741.06, "scan": 724, "char": [640, 380], "hits": [[734, 328], [560, 554], [574, 122]], "detect_ms": null, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00643.jpg", "t": 742.08, "scan": 724, "char": [640, 380], "hits": [[562, 554]], "detect_ms": null, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00644.jpg", "t": 743.37, "scan": 724, "char": [640, 380], "hits": [[564, 552], [204, 658]], "detect_ms": null, "brightness": 49.7, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00645.jpg", "t": 744.44, "scan": 724, "char": [640, 380], "hits": [[562, 552], [522, 46], [200, 606]], "detect_ms": null, "brightness": 49.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00646.jpg", "t": 745.53, "scan": 724, "char": [640, 380], "hits": [[572, 512], [520, 78], [204, 536], [62, 250]], "detect_ms": null, "brightness": 49.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00647.jpg", "t": 746.62, "scan": 724, "char": [640, 380], "hits": [[640, 472], [504, 88], [200, 484], [180, 242]], "detect_ms": null, "brightness": 49.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00648.jpg", "t": 747.7, "scan": 724, "char": [640, 380], "hits": [[954, 470], [240, 224], [202, 414], [116, 456]], "detect_ms": null, "brightness": 49.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00649.jpg", "t": 748.86, "scan": 725, "char": [640, 380], "hits": [[402, 554], [958, 436], [1042, 436], [200, 348], [120, 458]], "detect_ms": null, "brightness": 49.6, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00650.jpg", "t": 750.19, "scan": 726, "char": [640, 380], "hits": [[754, 312], [912, 406], [1040, 434], [120, 456]], "detect_ms": null, "brightness": 54.8, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00651.jpg", "t": 751.48, "scan": 727, "char": [640, 380], "hits": [[402, 426], [930, 406], [1000, 414], [118, 370]], "detect_ms": null, "brightness": 55.2, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00652.jpg", "t": 752.57, "scan": 728, "char": [640, 380], "hits": [[400, 360], [976, 400], [122, 300]], "detect_ms": null, "brightness": 55.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00653.jpg", "t": 753.62, "scan": 728, "char": [640, 380], "hits": [[402, 312], [984, 402], [124, 362]], "detect_ms": null, "brightness": 55.0, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}
+{"file": "f_00654.jpg", "t": 754.69, "scan": 728, "char": [640, 380], "hits": [[434, 298]], "detect_ms": null, "brightness": 55.4, "night": true, "real_map": "오염된 축복의 땅 - 오크의 땅"}

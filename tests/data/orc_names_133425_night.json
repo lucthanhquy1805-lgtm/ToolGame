@@ -1,0 +1,14 @@
+{"_doc": "PLAN 0.22: monster class over the head, read by eye, for night frames of records_game/20261124_133425_observe that the day name pictures could not read. Frames 60/62/256/347/426 were used to cut the *_night.png pictures.",
+ "frames": {
+  "f_00025.jpg": "orc_axe", "f_00041.jpg": "orc_axe", "f_00042.jpg": "orc_axe", "f_00052.jpg": "orc_axe",
+  "f_00055.jpg": "orc", "f_00060.jpg": "orc", "f_00062.jpg": "orc_axe", "f_00084.jpg": "orc_axe",
+  "f_00099.jpg": "orc_archer", "f_00116.jpg": "orc_spear", "f_00167.jpg": "orc_spear",
+  "f_00170.jpg": "orc_archer", "f_00180.jpg": "orc_archer", "f_00181.jpg": "orc_archer", "f_00182.jpg": "orc_archer",
+  "f_00190.jpg": "orc_archer", "f_00191.jpg": "orc_archer", "f_00194.jpg": "orc_archer", "f_00197.jpg": "orc_archer",
+  "f_00198.jpg": "orc_archer", "f_00212.jpg": "orc_archer", "f_00216.jpg": "orc_archer", "f_00256.jpg": "orc_archer",
+  "f_00304.jpg": "orc_archer", "f_00333.jpg": "orc_warrior", "f_00339.jpg": "orc_warrior", "f_00347.jpg": "orc_warrior",
+  "f_00371.jpg": "orc_spear", "f_00380.jpg": "orc_archer", "f_00405.jpg": "orc_spear", "f_00426.jpg": "orc_spear",
+  "f_00459.jpg": "orc_archer", "f_00462.jpg": "orc_archer", "f_00503.jpg": "orc_spear", "f_00511.jpg": "orc_warrior",
+  "f_00537.jpg": "orc_spear", "f_00538.jpg": "orc_spear"
+ }
+}

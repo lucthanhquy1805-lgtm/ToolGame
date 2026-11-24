@@ -1,0 +1,24 @@
+{
+ "mode": "hunt",
+ "duration_sec": 701.6,
+ "frames_saved": 625,
+ "counts": {
+  "scans": 407,
+  "hover_attack": 86,
+  "engage": 86,
+  "end_lost": 82,
+  "wander": 309,
+  "hover_ground": 11,
+  "rescan": 12,
+  "end_corpse_cursor": 2,
+  "kills": 2,
+  "hover_corpse": 4,
+  "end_cap": 1,
+  "end_stopped": 1
+ },
+ "hover_confirm_rate": 0.851,
+ "avg_ms": {
+  "detect_ms": 161.0,
+  "probe_ms": 4.5
+ }
+}

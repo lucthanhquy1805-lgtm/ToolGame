@@ -1,0 +1,13 @@
+# Versions taken from the original v3.0.0 build (main.exe, Python 3.12).
+numpy==2.5.4
+opencv-python==5.0.0.93
+onnxruntime==1.24.4
+mss==10.2.0
+pywin32==312
+pyautogui==0.9.54
+keyboard==0.13.5
+# The driver wrapper. NOT the PyPI "interception" cffi package.
+interception-python==1.13.6
+
+# Build only
+pyinstaller

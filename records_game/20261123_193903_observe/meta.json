@@ -1,0 +1,37 @@
+{
+ "mode": "observe",
+ "started": "20261123_193903",
+ "account": "Account 1",
+ "class": "wizard",
+ "hunt_map": "dragon_valley",
+ "model": null,
+ "real_map": "오염된 축복의 땅",
+ "channels": "rgb",
+ "conf": 0.5,
+ "scan": {
+  "misses_before_wander": 2,
+  "max_probe_points": 5,
+  "hover_settle": 0.01,
+  "hover_retry": 0.02,
+  "hover_reads": 2,
+  "miss_ttl": 4.0,
+  "detect_conf": 0.5
+ },
+ "record": {
+  "while_hunting": true,
+  "interval_sec": 3.0,
+  "max_frames": 600,
+  "real_map": "오염된 축복의 땅",
+  "no_model": true,
+  "grid_scan": false,
+  "grid_step": 40,
+  "grid_radius": 200,
+  "auto_stop_min": 15,
+  "stop_key": "Pause"
+ },
+ "window": [
+  1187,
+  890
+ ],
+ "cursor_classifier": 2
+}

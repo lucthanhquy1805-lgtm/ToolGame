@@ -1,0 +1,197 @@
+{
+    "version": 3,
+    "lang": "vi",
+    "accounts": [
+        {
+            "id": "5d06ef4d",
+            "name": "Account 1",
+            "window_title": "Lineage Classic - 26.11.17.2002 [LIVE] - Login [jinbae77702@gmail.com] (1203x929) [lc.exe:9616]",
+            "character_class": "wizard",
+            "hunt_map": "dragon_valley",
+            "cursor_hashes": {
+                "attack": "c0e0783028000000,23d69ee5c846c727a296d4034d74aa80,c0c0201818000000,e96dc88bb3bf814d42fa725b87a4398b",
+                "corpse": "f0f0f03800000000,458d246c3e20e1d05c4cc8ea1dc89bba",
+                "ground": "80e0e0e060000000,57351b16af153a7dbfba66a9fcf64e2c",
+                "npc": "f0f0602000000000,5963498d549a3d8aba262613501be7da"
+            },
+            "health": {
+                "threshold_pct": 75,
+                "use_skill": true,
+                "skill_key": "F5",
+                "use_potion": false,
+                "potion_key": "F6",
+                "read_hud_numbers": true,
+                "return_town": true,
+                "return_pct": 35,
+                "return_key": "F8",
+                "potions": [
+                    {
+                        "enabled": false,
+                        "stat": "hp",
+                        "key": "F8",
+                        "pct": 50,
+                        "cooldown": 1.5
+                    },
+                    {
+                        "enabled": false,
+                        "stat": "hp",
+                        "key": "F7",
+                        "pct": 50,
+                        "cooldown": 2.5
+                    },
+                    {
+                        "enabled": false,
+                        "stat": "hp",
+                        "key": "F6",
+                        "pct": 50,
+                        "cooldown": 0.5
+                    }
+                ]
+            },
+            "scan": {
+                "misses_before_wander": 2,
+                "max_probe_points": 5,
+                "hover_settle": 0.01,
+                "hover_retry": 0.02,
+                "hover_reads": 2,
+                "miss_ttl": 4.0,
+                "detect_conf": 0.5
+            },
+            "loot": {
+                "enabled": false,
+                "key": "F4",
+                "presses": 3,
+                "gap": 0.3
+            },
+            "record": {
+                "while_hunting": true,
+                "interval_sec": 3.0,
+                "max_frames": 600,
+                "real_map": "오염된 축복의 땅",
+                "no_model": true,
+                "grid_scan": false,
+                "grid_step": 40,
+                "grid_radius": 200,
+                "auto_stop_min": 15,
+                "stop_key": "Pause"
+            },
+            "attack_skills": {
+                "F5": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F6": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F7": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F8": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F9": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F10": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F11": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F12": {
+                    "enabled": false,
+                    "skill_id": ""
+                }
+            },
+            "buff_skills": {
+                "F5": {
+                    "enabled": false,
+                    "duration_min": 20.0,
+                    "skill_id": ""
+                },
+                "F6": {
+                    "enabled": true,
+                    "duration_min": 19.0,
+                    "skill_id": "391"
+                },
+                "F7": {
+                    "enabled": false,
+                    "duration_min": 20.0,
+                    "skill_id": ""
+                },
+                "F8": {
+                    "enabled": false,
+                    "duration_min": 20.0,
+                    "skill_id": ""
+                },
+                "F9": {
+                    "enabled": false,
+                    "duration_min": 20.0,
+                    "skill_id": ""
+                },
+                "F10": {
+                    "enabled": true,
+                    "duration_min": 30.0,
+                    "skill_id": "397"
+                },
+                "F11": {
+                    "enabled": true,
+                    "duration_min": 20.0,
+                    "skill_id": "385"
+                },
+                "F12": {
+                    "enabled": false,
+                    "duration_min": 20.0,
+                    "skill_id": ""
+                }
+            },
+            "utility_skills": {
+                "F5": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F6": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F7": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F8": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F9": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F10": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F11": {
+                    "enabled": false,
+                    "skill_id": ""
+                },
+                "F12": {
+                    "enabled": false,
+                    "skill_id": ""
+                }
+            },
+            "buff_vision": {},
+            "cursor_keys": {
+                "attack": "Ctrl+Alt+1",
+                "corpse": "Ctrl+Alt+2",
+                "ground": "Ctrl+Alt+3",
+                "npc": "Ctrl+Alt+4"
+            }
+        }
+    ]
+}

@@ -1,0 +1,1366 @@
+{
+  "_meta": {
+    "source": "https://www.chogem.com/blog/lineage-classic-danh-sach-ky-nang",
+    "fetched_at": "2026-09-14T02:49:56.021515+00:00",
+    "attribution": "Chợ Game skill list; icons served by PlayNC/NCSOFT"
+  },
+  "skills": [
+    {
+      "id": "383",
+      "icon_id": 383,
+      "name_kr": "힐",
+      "name_vi": "Hồi Máu",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "4",
+      "duration_sec": null,
+      "role": "heal",
+      "icon": "icons/383.png",
+      "desc_vi": "Hồi một ít HP (gây sát thương nhẹ lên undead)"
+    },
+    {
+      "id": "384",
+      "icon_id": 384,
+      "name_kr": "라이트",
+      "name_vi": "Ánh Sáng",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "4",
+      "duration_sec": 7200.0,
+      "role": "utility",
+      "icon": "icons/384.png",
+      "desc_vi": "Tạo nguồn sáng chiếu xung quanh"
+    },
+    {
+      "id": "385",
+      "icon_id": 385,
+      "name_kr": "실드",
+      "name_vi": "Khiên",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "2",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/385.png",
+      "desc_vi": "Tăng phòng thủ (AC -2)"
+    },
+    {
+      "id": "386",
+      "icon_id": 386,
+      "name_kr": "에너지 볼트",
+      "name_vi": "Tia Năng Lượng",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "3",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/386.png",
+      "desc_vi": "Gây sát thương phép nhỏ"
+    },
+    {
+      "id": "387",
+      "icon_id": 387,
+      "name_kr": "텔레포트",
+      "name_vi": "Dịch Chuyển",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "5",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/387.png",
+      "desc_vi": "Teleport ngẫu nhiên hoặc tới điểm nhớ"
+    },
+    {
+      "id": "657",
+      "icon_id": 657,
+      "name_kr": "아이스 대거",
+      "name_vi": "Dao Băng",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "3",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/657.png",
+      "desc_vi": "Gây sát thương nhỏ bằng băng"
+    },
+    {
+      "id": "663",
+      "icon_id": 663,
+      "name_kr": "윈드 커터",
+      "name_vi": "Chém Gió",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "3",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/663.png",
+      "desc_vi": "Gây sát thương nhỏ hệ gió"
+    },
+    {
+      "id": "775",
+      "icon_id": 775,
+      "name_kr": "홀리 웨폰",
+      "name_vi": "Vũ Khí Thánh",
+      "classes": [
+        "prince",
+        "knight",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "10",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/775.png",
+      "desc_vi": "+1 damage, +1 hit, thêm damage lên undead"
+    },
+    {
+      "id": "388",
+      "icon_id": 388,
+      "name_kr": "큐어 포이즌",
+      "name_vi": "Giải Độc",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "8",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/388.png",
+      "desc_vi": "Xóa trạng thái bị độc"
+    },
+    {
+      "id": "389",
+      "icon_id": 389,
+      "name_kr": "칠 터치",
+      "name_vi": "Chạm Lạnh",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "9",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/389.png",
+      "desc_vi": "Hút một ít HP từ mục tiêu"
+    },
+    {
+      "id": "390",
+      "icon_id": 390,
+      "name_kr": "커스:포이즌",
+      "name_vi": "Nguyền Độc",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "10",
+      "duration_sec": 30.0,
+      "role": "attack",
+      "icon": "icons/390.png",
+      "desc_vi": "Gây độc làm mất HP theo thời gian"
+    },
+    {
+      "id": "391",
+      "icon_id": 391,
+      "name_kr": "인챈트 웨폰",
+      "name_vi": "Cường Hóa Vũ Khí",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "20",
+      "duration_sec": 1800.0,
+      "role": "buff",
+      "icon": "icons/391.png",
+      "desc_vi": "+2 sát thương"
+    },
+    {
+      "id": "755",
+      "icon_id": 755,
+      "name_kr": "디크리즈 웨이트",
+      "name_vi": "Giảm Trọng Lượng",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "10",
+      "duration_sec": 1800.0,
+      "role": "buff",
+      "icon": "icons/755.png",
+      "desc_vi": "Giảm trọng lượng đồ"
+    },
+    {
+      "id": "651",
+      "icon_id": 651,
+      "name_kr": "파이어 애로우",
+      "name_vi": "Mũi Tên Lửa",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "3",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/651.png",
+      "desc_vi": "Gây sát thương lửa nhỏ"
+    },
+    {
+      "id": "659",
+      "icon_id": 659,
+      "name_kr": "스탈락",
+      "name_vi": "Gai Đá",
+      "classes": [
+        "prince",
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "3",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/659.png",
+      "desc_vi": "Gây sát thương đất nhỏ"
+    },
+    {
+      "id": "393",
+      "icon_id": 393,
+      "name_kr": "라이트닝",
+      "name_vi": "Sét",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "13",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/393.png",
+      "desc_vi": "Gây damage theo đường thẳng"
+    },
+    {
+      "id": "394",
+      "icon_id": 394,
+      "name_kr": "턴 언데드",
+      "name_vi": "Xua Đuổi Undead",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "15",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/394.png",
+      "desc_vi": "Tiêu diệt/giải phóng undead (có xác suất)"
+    },
+    {
+      "id": "395",
+      "icon_id": 395,
+      "name_kr": "익스트라 힐",
+      "name_vi": "Hồi Máu Lớn",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "11",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/395.png",
+      "desc_vi": "Hồi HP nhiều hơn Heal"
+    },
+    {
+      "id": "396",
+      "icon_id": 396,
+      "name_kr": "커스:블라인드",
+      "name_vi": "Nguyền Mù",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "20",
+      "duration_sec": 10.0,
+      "role": "attack",
+      "icon": "icons/396.png",
+      "desc_vi": "Làm mù mục tiêu"
+    },
+    {
+      "id": "397",
+      "icon_id": 397,
+      "name_kr": "블레스드 아머",
+      "name_vi": "Giáp Phước Lành",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "20",
+      "duration_sec": 1800.0,
+      "role": "buff",
+      "icon": "icons/397.png",
+      "desc_vi": "Tăng phòng thủ (AC -3)"
+    },
+    {
+      "id": "655",
+      "icon_id": 655,
+      "name_kr": "프로즌 클라우드",
+      "name_vi": "Mây Băng",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "9",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/655.png",
+      "desc_vi": "Damage diện rộng hệ băng"
+    },
+    {
+      "id": "848",
+      "icon_id": 848,
+      "name_kr": "위크 엘리멘탈",
+      "name_vi": "Tìm Điểm Yếu",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "8",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/848.png",
+      "desc_vi": "Xác định thuộc tính yếu của địch"
+    },
+    {
+      "id": "398",
+      "icon_id": 398,
+      "name_kr": "파이어볼",
+      "name_vi": "Cầu Lửa",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "16",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/398.png",
+      "desc_vi": "Damage diện rộng hệ lửa"
+    },
+    {
+      "id": "399",
+      "icon_id": 399,
+      "name_kr": "인챈트 덱스터리티",
+      "name_vi": "Tăng Nhanh Nhẹn",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "45",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/399.png",
+      "desc_vi": "+5 DEX"
+    },
+    {
+      "id": "400",
+      "icon_id": 400,
+      "name_kr": "웨폰 브레이크",
+      "name_vi": "Phá Vũ Khí",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "25",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/400.png",
+      "desc_vi": "Làm hỏng vũ khí đối thủ"
+    },
+    {
+      "id": "401",
+      "icon_id": 401,
+      "name_kr": "뱀파이어릭 터치",
+      "name_vi": "Hút Máu",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "13",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/401.png",
+      "desc_vi": "Hút HP từ mục tiêu"
+    },
+    {
+      "id": "402",
+      "icon_id": 402,
+      "name_kr": "슬로우",
+      "name_vi": "Làm Chậm",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "20",
+      "duration_sec": 30.0,
+      "role": "attack",
+      "icon": "icons/402.png",
+      "desc_vi": "Giảm tốc độ di chuyển & tấn công"
+    },
+    {
+      "id": "647",
+      "icon_id": 647,
+      "name_kr": "어스재일",
+      "name_vi": "Gai Đất",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "11",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/647.png",
+      "desc_vi": "Damage diện rộng hệ đất"
+    },
+    {
+      "id": "746",
+      "icon_id": 746,
+      "name_kr": "카운터 매직",
+      "name_vi": "Chống Phép",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "20",
+      "duration_sec": 16.0,
+      "role": "attack",
+      "icon": "icons/746.png",
+      "desc_vi": "Chặn 1 lần phép gây damage"
+    },
+    {
+      "id": "793",
+      "icon_id": 793,
+      "name_kr": "메디테이션",
+      "name_vi": "Thiền Định",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "HP 40 / MP 10",
+      "duration_sec": 600.0,
+      "role": "buff",
+      "icon": "icons/793.png",
+      "desc_vi": "Tập trung tinh thần để hồi phục/duy trì MP"
+    },
+    {
+      "id": "403",
+      "icon_id": 403,
+      "name_kr": "커스:패럴라이즈",
+      "name_vi": "Nguyền Tê Liệt",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 35",
+      "duration_sec": 4.0,
+      "role": "attack",
+      "icon": "icons/403.png",
+      "desc_vi": "Làm mục tiêu bị hóa đá (paralyze)"
+    },
+    {
+      "id": "404",
+      "icon_id": 404,
+      "name_kr": "콜 라이트닝",
+      "name_vi": "Gọi Sét",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 25",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/404.png",
+      "desc_vi": "Gây sát thương sét lớn"
+    },
+    {
+      "id": "405",
+      "icon_id": 405,
+      "name_kr": "그레이터 힐",
+      "name_vi": "Hồi Máu Lớn",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/405.png",
+      "desc_vi": "Hồi nhiều HP (gây damage lên undead)"
+    },
+    {
+      "id": "406",
+      "icon_id": 406,
+      "name_kr": "테이밍 몬스터",
+      "name_vi": "Thuần Hóa Quái",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 3600.0,
+      "role": "utility",
+      "icon": "icons/406.png",
+      "desc_vi": "Biến quái thành pet"
+    },
+    {
+      "id": "407",
+      "icon_id": 407,
+      "name_kr": "리무브 커스",
+      "name_vi": "Giải Lời Nguyền",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/407.png",
+      "desc_vi": "Xóa trạng thái bị nguyền"
+    },
+    {
+      "id": "643",
+      "icon_id": 643,
+      "name_kr": "콘 오브 콜드",
+      "name_vi": "Nón Băng",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 21",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/643.png",
+      "desc_vi": "Gây damage lớn hình nón"
+    },
+    {
+      "id": "791",
+      "icon_id": 791,
+      "name_kr": "마나 드레인",
+      "name_vi": "Hút Mana",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "HP 50",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/791.png",
+      "desc_vi": "Hút MP của mục tiêu"
+    },
+    {
+      "id": "749",
+      "icon_id": 749,
+      "name_kr": "다크니스",
+      "name_vi": "Bóng Tối",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 25",
+      "duration_sec": 20.0,
+      "role": "attack",
+      "icon": "icons/749.png",
+      "desc_vi": "Gây trạng thái mù"
+    },
+    {
+      "id": "408",
+      "icon_id": 408,
+      "name_kr": "크리에이트 좀비",
+      "name_vi": "Tạo Zombie",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 35",
+      "duration_sec": 3600.0,
+      "role": "buff",
+      "icon": "icons/408.png",
+      "desc_vi": "Biến xác chết thành zombie"
+    },
+    {
+      "id": "409",
+      "icon_id": 409,
+      "name_kr": "인챈트 마이티",
+      "name_vi": "Tăng Sức Mạnh",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 50",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/409.png",
+      "desc_vi": "+5 STR"
+    },
+    {
+      "id": "410",
+      "icon_id": 410,
+      "name_kr": "헤이스트",
+      "name_vi": "Tăng Tốc",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 40",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/410.png",
+      "desc_vi": "Tăng tốc chạy & đánh"
+    },
+    {
+      "id": "411",
+      "icon_id": 411,
+      "name_kr": "캔슬레이션",
+      "name_vi": "Hủy Phép",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 40",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/411.png",
+      "desc_vi": "Xóa buff/debuff (một phần)"
+    },
+    {
+      "id": "412",
+      "icon_id": 412,
+      "name_kr": "이럽션",
+      "name_vi": "Phun Trào",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 25",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/412.png",
+      "desc_vi": "Gây damage lớn theo đường thẳng"
+    },
+    {
+      "id": "661",
+      "icon_id": 661,
+      "name_kr": "선 버스트",
+      "name_vi": "Bùng Nổ Ánh Sáng",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/661.png",
+      "desc_vi": "Gây damage lớn"
+    },
+    {
+      "id": "850",
+      "icon_id": 850,
+      "name_kr": "위크니스",
+      "name_vi": "Suy Yếu",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 25",
+      "duration_sec": 30.0,
+      "role": "attack",
+      "icon": "icons/850.png",
+      "desc_vi": "Giảm damage & độ chính xác cận chiến"
+    },
+    {
+      "id": "726",
+      "icon_id": 726,
+      "name_kr": "블레스 웨폰",
+      "name_vi": "Vũ Khí Phước Lành",
+      "classes": [
+        "elf",
+        "wizard"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/726.png",
+      "desc_vi": "+2 damage, +2 hit"
+    },
+    {
+      "id": "413",
+      "icon_id": 413,
+      "name_kr": "힐 올",
+      "name_vi": "Hồi Máu Nhóm",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 35",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/413.png",
+      "desc_vi": "Hồi HP cho toàn đội (trừ bản thân)"
+    },
+    {
+      "id": "414",
+      "icon_id": 414,
+      "name_kr": "아이스 랜스",
+      "name_vi": "Lao Băng",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/414.png",
+      "desc_vi": "Damage nước + có thể đóng băng"
+    },
+    {
+      "id": "415",
+      "icon_id": 415,
+      "name_kr": "서먼 몬스터",
+      "name_vi": "Triệu Hồi Quái",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 50",
+      "duration_sec": 3600.0,
+      "role": "utility",
+      "icon": "icons/415.png",
+      "desc_vi": "Triệu hồi quái theo CHA & level"
+    },
+    {
+      "id": "1578",
+      "icon_id": 1578,
+      "name_kr": "홀리 워크",
+      "name_vi": "Bước Thánh",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 64.0,
+      "role": "buff",
+      "icon": "icons/1578.png",
+      "desc_vi": "Tăng tốc độ di chuyển"
+    },
+    {
+      "id": "417",
+      "icon_id": 417,
+      "name_kr": "토네이도",
+      "name_vi": "Lốc Xoáy",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 45",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/417.png",
+      "desc_vi": "Damage diện rộng"
+    },
+    {
+      "id": "622",
+      "icon_id": 622,
+      "name_kr": "그레이터 헤이스트",
+      "name_vi": "Tăng Tốc Lớn",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 60",
+      "duration_sec": 2400.0,
+      "role": "buff",
+      "icon": "icons/622.png",
+      "desc_vi": "Buff tốc độ mạnh"
+    },
+    {
+      "id": "1570",
+      "icon_id": 1570,
+      "name_kr": "버서커스",
+      "name_vi": "Cuồng Chiến",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 40",
+      "duration_sec": 1200.0,
+      "role": "attack",
+      "icon": "icons/1570.png",
+      "desc_vi": "+5 damage, giảm phòng, không hồi HP tự nhiên"
+    },
+    {
+      "id": "758",
+      "icon_id": 758,
+      "name_kr": "디지즈",
+      "name_vi": "Bệnh Tật",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 30.0,
+      "role": "attack",
+      "icon": "icons/758.png",
+      "desc_vi": "Giảm hit, giảm phòng thủ"
+    },
+    {
+      "id": "420",
+      "icon_id": 420,
+      "name_kr": "블리자드",
+      "name_vi": "Bão Tuyết",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 60",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/420.png",
+      "desc_vi": "Damage diện rộng rất mạnh"
+    },
+    {
+      "id": "421",
+      "icon_id": 421,
+      "name_kr": "인비지블리티",
+      "name_vi": "Tàng Hình",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "HP 25 / MP 45",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/421.png",
+      "desc_vi": "Trạng thái vô hình"
+    },
+    {
+      "id": "422",
+      "icon_id": 422,
+      "name_kr": "리절렉션",
+      "name_vi": "Hồi Sinh",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 50",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/422.png",
+      "desc_vi": "Hồi sinh người chơi"
+    },
+    {
+      "id": "649",
+      "icon_id": 649,
+      "name_kr": "어스 퀘이크",
+      "name_vi": "Địa Chấn",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 40",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/649.png",
+      "desc_vi": "Damage diện rộng dạng sóng"
+    },
+    {
+      "id": "822",
+      "icon_id": 822,
+      "name_kr": "사일런스",
+      "name_vi": "Câm Lặng",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 16.0,
+      "role": "attack",
+      "icon": "icons/822.png",
+      "desc_vi": "Không thể dùng phép & chat"
+    },
+    {
+      "id": "1579",
+      "icon_id": 1579,
+      "name_kr": "라이트닝 스톰",
+      "name_vi": "Bão Sét",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 48",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/1579.png",
+      "desc_vi": "Triệu hồi nhiều tia sét gây damage diện rộng"
+    },
+    {
+      "id": "427",
+      "icon_id": 427,
+      "name_kr": "매스 텔레포트",
+      "name_vi": "Dịch Chuyển Nhóm",
+      "classes": [
+        "wizard"
+      ],
+      "cost_text": "MP 60",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/427.png",
+      "desc_vi": "Dịch chuyển cùng thành viên clan"
+    },
+    {
+      "id": "1624",
+      "icon_id": 1624,
+      "name_kr": "쇼크 스턴",
+      "name_vi": "Choáng",
+      "classes": [
+        "knight"
+      ],
+      "cost_text": "MP 12",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/1624.png",
+      "desc_vi": "Làm mục tiêu bị choáng"
+    },
+    {
+      "id": "1887",
+      "icon_id": 1887,
+      "name_kr": "리덕션 아머",
+      "name_vi": "Giáp Giảm Sát Thương",
+      "classes": [
+        "knight"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/1887.png",
+      "desc_vi": "Giảm damage nhận (tăng theo level)"
+    },
+    {
+      "id": "1881",
+      "icon_id": 1881,
+      "name_kr": "바운스 어택",
+      "name_vi": "Tăng Chính Xác",
+      "classes": [
+        "knight"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/1881.png",
+      "desc_vi": "+5 hit cận chiến"
+    },
+    {
+      "id": "20160",
+      "icon_id": 20160,
+      "name_kr": "솔리드 캐리지",
+      "name_vi": "Né Tránh",
+      "classes": [
+        "knight"
+      ],
+      "cost_text": "HP 30 / MP 5",
+      "duration_sec": 300.0,
+      "role": "buff",
+      "icon": "icons/20160.png",
+      "desc_vi": "+15 né tránh (ER)"
+    },
+    {
+      "id": "894",
+      "icon_id": 894,
+      "name_kr": "트루 타겟",
+      "name_vi": "Đánh Dấu Mục Tiêu",
+      "classes": [
+        "prince"
+      ],
+      "cost_text": "MP 1",
+      "duration_sec": 16.0,
+      "role": "attack",
+      "icon": "icons/894.png",
+      "desc_vi": "Gắn dấu theo dõi mục tiêu"
+    },
+    {
+      "id": "878",
+      "icon_id": 878,
+      "name_kr": "글로잉 오라",
+      "name_vi": "Hào Quang Sáng",
+      "classes": [
+        "prince"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/878.png",
+      "desc_vi": "+1 damage, +1 hit cận chiến"
+    },
+    {
+      "id": "883",
+      "icon_id": 883,
+      "name_kr": "콜 클랜",
+      "name_vi": "Gọi Đồng Đội",
+      "classes": [
+        "prince"
+      ],
+      "cost_text": "MP 25",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/883.png",
+      "desc_vi": "Triệu hồi 1 thành viên clan"
+    },
+    {
+      "id": "1751",
+      "icon_id": 1751,
+      "name_kr": "런 클랜",
+      "name_vi": "Dịch Chuyển Đến Clan",
+      "classes": [
+        "prince"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/1751.png",
+      "desc_vi": "Teleport tới đồng đội"
+    },
+    {
+      "id": "811",
+      "icon_id": 811,
+      "name_kr": "레지스트 매직",
+      "name_vi": "Kháng Phép",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/811.png",
+      "desc_vi": "+10% kháng phép (MR)"
+    },
+    {
+      "id": "731",
+      "icon_id": 731,
+      "name_kr": "바디 투 마인드",
+      "name_vi": "Đổi Máu Lấy Mana",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "HP 8",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/731.png",
+      "desc_vi": "Mất HP để hồi MP"
+    },
+    {
+      "id": "846",
+      "icon_id": 846,
+      "name_kr": "텔레포트 투 마더",
+      "name_vi": "Về Cây Thế Giới",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/846.png",
+      "desc_vi": "Teleport về World Tree"
+    },
+    {
+      "id": "1755",
+      "icon_id": 1755,
+      "name_kr": "트리플 애로우",
+      "name_vi": "Ba Mũi Tên",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 15",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/1755.png",
+      "desc_vi": "Bắn nhanh 3 mũi tên"
+    },
+    {
+      "id": "743",
+      "icon_id": 743,
+      "name_kr": "클리어 마인드",
+      "name_vi": "Tâm Trí Minh Mẫn",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/743.png",
+      "desc_vi": "+3 WIS"
+    },
+    {
+      "id": "802",
+      "icon_id": 802,
+      "name_kr": "레지스트 엘리멘트",
+      "name_vi": "Kháng Nguyên Tố",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 5",
+      "duration_sec": 1200.0,
+      "role": "attack",
+      "icon": "icons/802.png",
+      "desc_vi": "+10 kháng tất cả hệ"
+    },
+    {
+      "id": "820",
+      "icon_id": 820,
+      "name_kr": "리턴 투 네이쳐",
+      "name_vi": "Trả Về Tự Nhiên",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": null,
+      "role": "utility",
+      "icon": "icons/820.png",
+      "desc_vi": "Xóa pet/triệu hồi"
+    },
+    {
+      "id": "729",
+      "icon_id": 729,
+      "name_kr": "블러드 투 소울",
+      "name_vi": "Hy Sinh Máu",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "HP 50",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/729.png",
+      "desc_vi": "Đổi HP lấy MP (15 MP)"
+    },
+    {
+      "id": "871",
+      "icon_id": 871,
+      "name_kr": "프로텍션 프롬 엘리멘트",
+      "name_vi": "Bảo Vệ Nguyên Tố",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 10",
+      "duration_sec": 1200.0,
+      "role": "attack",
+      "icon": "icons/871.png",
+      "desc_vi": "+50 kháng hệ"
+    },
+    {
+      "id": "772",
+      "icon_id": 772,
+      "name_kr": "파이어 웨폰",
+      "name_vi": "Vũ Khí Lửa",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/772.png",
+      "desc_vi": "+3 damage cận chiến"
+    },
+    {
+      "id": "853",
+      "icon_id": 853,
+      "name_kr": "윈드 샷",
+      "name_vi": "Bắn Gió",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 15",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/853.png",
+      "desc_vi": "+5 hit tầm xa"
+    },
+    {
+      "id": "856",
+      "icon_id": 856,
+      "name_kr": "윈드 워크",
+      "name_vi": "Bước Gió",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/856.png",
+      "desc_vi": "Tăng tốc độ di chuyển"
+    },
+    {
+      "id": "761",
+      "icon_id": 761,
+      "name_kr": "어스 스킨",
+      "name_vi": "Da Đất",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 15",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/761.png",
+      "desc_vi": "Tăng phòng thủ (AC -4)"
+    },
+    {
+      "id": "764",
+      "icon_id": 764,
+      "name_kr": "인탱글",
+      "name_vi": "Trói Rễ",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 30.0,
+      "role": "attack",
+      "icon": "icons/764.png",
+      "desc_vi": "Giảm tốc độ di chuyển"
+    },
+    {
+      "id": "767",
+      "icon_id": 767,
+      "name_kr": "이레이즈 매직",
+      "name_vi": "Xóa Kháng Phép",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 16.0,
+      "role": "attack",
+      "icon": "icons/767.png",
+      "desc_vi": "Giảm MR còn ~50%"
+    },
+    {
+      "id": "867",
+      "icon_id": 867,
+      "name_kr": "서먼 레서 엘리멘탈",
+      "name_vi": "Triệu Hồi Tinh Linh Nhỏ",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 3600.0,
+      "role": "utility",
+      "icon": "icons/867.png",
+      "desc_vi": "Gọi tinh linh theo hệ"
+    },
+    {
+      "id": "733",
+      "icon_id": 733,
+      "name_kr": "브레스 오브 파이어",
+      "name_vi": "Hơi Thở Lửa",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/733.png",
+      "desc_vi": "+3 damage cận chiến"
+    },
+    {
+      "id": "769",
+      "icon_id": 769,
+      "name_kr": "아이 오브 스톰",
+      "name_vi": "Mắt Bão",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 40",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/769.png",
+      "desc_vi": "+damage & hit tầm xa"
+    },
+    {
+      "id": "891",
+      "icon_id": 891,
+      "name_kr": "어스 바인드",
+      "name_vi": "Trói Đất",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 50",
+      "duration_sec": null,
+      "role": "attack",
+      "icon": "icons/891.png",
+      "desc_vi": "Khóa mục tiêu (không thể hành động)"
+    },
+    {
+      "id": "799",
+      "icon_id": 799,
+      "name_kr": "네이쳐스 터치",
+      "name_vi": "Chạm Tự Nhiên",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 50",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/799.png",
+      "desc_vi": "Hồi lượng HP lớn"
+    },
+    {
+      "id": "723",
+      "icon_id": 723,
+      "name_kr": "블레스 오브 어스",
+      "name_vi": "Phúc Lành Đất",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 35",
+      "duration_sec": 1200.0,
+      "role": "buff",
+      "icon": "icons/723.png",
+      "desc_vi": "Mượn sức mạnh đất tăng phòng thủ (AC -5)"
+    },
+    {
+      "id": "869",
+      "icon_id": 869,
+      "name_kr": "서먼 그레이터 엘리멘탈",
+      "name_vi": "Triệu Hồi Tinh Linh Cao Cấp",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 20",
+      "duration_sec": 3600.0,
+      "role": "utility",
+      "icon": "icons/869.png",
+      "desc_vi": "Triệu hồi tinh linh cấp cao theo hệ đã chọn"
+    },
+    {
+      "id": "796",
+      "icon_id": 796,
+      "name_kr": "네이쳐스 블레싱",
+      "name_vi": "Phúc Lành Tự Nhiên",
+      "classes": [
+        "elf"
+      ],
+      "cost_text": "MP 30",
+      "duration_sec": null,
+      "role": "buff",
+      "icon": "icons/796.png",
+      "desc_vi": "Hồi HP cho toàn bộ thành viên trong party"
+    }
+  ]
+}

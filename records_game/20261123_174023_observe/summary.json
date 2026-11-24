@@ -1,0 +1,10 @@
+{
+ "mode": "observe",
+ "duration_sec": 900.1,
+ "frames_saved": 284,
+ "counts": {
+  "scans": 284
+ },
+ "hover_confirm_rate": null,
+ "avg_ms": {}
+}
