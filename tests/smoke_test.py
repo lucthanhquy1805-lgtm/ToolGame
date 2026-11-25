@@ -702,9 +702,15 @@ _evs=[]
 _st=types.SimpleNamespace(ctx=types.SimpleNamespace(state={'hp_abs':(100,200)},log=lambda m:None,recorder=None,
                           input=types.SimpleNamespace(last_action_t=None)),_hp_prev=None,_idle_open=None,
                           targeting=types.SimpleNamespace(last_monsters=[(690,380),(900,380)]))
+_probed=[]; _cursor_ok=[True]
+def _probe(points,rect):  # the hover: an attack cursor there or nothing (another player is never hit)
+    _probed.append(points); return tg.Target(*points[0],*rect.to_screen(*points[0])) if _cursor_ok[0] else None
+_st.targeting.probe=_probe
 _st._nearest_box=lambda c: AccountSession._nearest_box(_st,c)
 assert not AccountSession._hp_falling(_st); _st.ctx.state['hp_abs']=(90,200); assert AccountSession._hp_falling(_st)
-_t=AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True); assert _t.local==(690,380), _t
+_t=AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True); assert _t.local==(690,380) and _probed==[[(690,380)]], _t
+_cursor_ok[0]=False; assert AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True) is None  # no attack cursor
+_cursor_ok[0]=True
 assert AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),False) is None
 _st.targeting.last_monsters=[(900,380)]; assert AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True) is None
 _st.targeting.last_monsters=[(690,380)]

@@ -900,12 +900,25 @@ Kiểm tra thêm
       chỗ vừa đi qua 8–90 s trước bị trừ `W_BACK`; không minimap: giữ 4–8 s; điểm nhấp lệch ±10 px (không vượt
       rào), nghỉ 0,05–0,15 s. "hold" của v19 KHÔNG phải đứng chờ: đó là bước đi tiếp cùng hướng khi minimap không
       đọc được; đứng im thật là "rescan" (200 lần ở 233615).
-   • TỰ VỆ + KHỰNG: HP HUD giảm trong 2 s + box ≤ 70 px mà không xác nhận được mục tiêu → đánh ngay box gần nhất
+   • TỰ VỆ + KHỰNG: HP HUD giảm trong 2 s + box ≤ 70 px mà không xác nhận được mục tiêu → rê chuột lên box gần nhất, CHỈ đánh khi thấy con trỏ attack (bãi đông người chơi)
       (count `defend`). `idle_gap` = > 1,5 s không click/giữ/bấm phím khi có quái < 150 px hoặc HP đang tụt.
       `analyze_records` in: đổi hướng/phút, quay lại vùng < 60 s, px minimap/phút, idle_gap (cần `pos` trong
       event wander, có từ v20). Mốc v19 233615: 10,7 đổi hướng/phút.
    • CHƯA KIỂM ĐƯỢC TRÊN MÁY DEV: 202634 / 225906 / 233615 không có ảnh khung trên máy dev → không mô phỏng lại
       được box/khung, giết/phút. Điều kiện "≥ v17" chỉ đo được trên máy game.
+   • 7) ORC TÍM (records_game/20261126_001245_hunt, 타락한 축복의 땅의 봄, orc_v3, 5,5 phút, CÓ ẢNH): 3,2 box/khung,
+      detect 91 ms. Đếm giết 1 vì zone (record.real_map) vẫn là 오크의 땅 → chat đọc bằng catalog blessed_orc.
+      Sửa: `session._zone_catalog` khi bắt đầu săn/quan sát: tên bản đồ trên màn hình (`vision/map_name`) thắng
+      zone đã lưu; không đọc được → zone của bãi đang chọn (`monsters.for_hunt_map`); sửa thì log WARNING và ghi
+      lại record.real_map (cả cảnh báo khi model không phải của bãi đó). Chọn bãi ở khung Bản đồ cũng kéo zone
+      theo (`map_panel.store`). Đọc lại offline với catalog đúng: 6 dòng giết trên các khung đã lưu (bot: 0).
+      Tên bản đồ đọc được 210/263 khung (phần còn lại: chữ nằm trên hoa anh đào trắng; không lần nào đọc sai).
+      Tường trên ảnh thật (`test_hunt_records.check_001245`): unreachable TB 3,9 → 3,1 s, tối đa 6,8 → 5,2 s,
+      thời gian mất 47 → 40 s. MP 84 → 2 %: KHÔNG do phép tấn công (0 lần bắn, `low_mp` chặn 644 nhịp vì
+      min_mp 90) mà do hồi máu: 10 trận đánh tay sát người hết trần 10 s với orc tím → HP tụt → hồi bằng phép.
+   • BẢN THỬ dist/LineageAuto_20261126_v20rc1.zip (KHÔNG tag). Tự vệ: một lần rê chuột, chỉ đánh khi thấy con trỏ
+      attack (người dùng 26/11: bãi đông người chơi). Chạy 15 phút có ghi ảnh trên máy game; đạt "≥ v17" (box/khung,
+      giết/phút) + đổi hướng / quay lại giảm rõ → build v20 chính thức + tag. Ảnh 225906/233615 còn trên máy game.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

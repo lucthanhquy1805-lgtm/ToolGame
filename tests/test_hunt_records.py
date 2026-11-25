@@ -65,7 +65,7 @@ class _ReplayCtx(HotbarPages, types.SimpleNamespace):
 
 
 class Replay:
-    def __init__(self, rec):
+    def __init__(self, rec, hunt_map="blessed_orc", zone=ZONE):
         global CHAR
         meta = json.load(open(os.path.join(rec, "meta.json"), encoding="utf-8"))
         w, h = meta.get("window") or (1280, 960)
@@ -85,15 +85,15 @@ class Replay:
         self.clock = clock = Clock()
         self._cache = {}
         account = AccountSettings()
-        account.hunt_map = "blessed_orc"
+        account.hunt_map = hunt_map
         account.scan.detect_conf, account.scan.conf_map = 0.5, ""  # the game PC config: 0.5 from v7, now ignored
-        assert account.scan.conf_for("blessed_orc") == 0.0, "zone conf must win over an old override"
+        assert account.scan.conf_for(hunt_map) == 0.0, "zone conf must win over an old override"
         mouse = self.mouse = {"xy": None}
 
         def cursor_now():
             if mouse["xy"] is None:
                 return "ground"
-            hits = detect_centers(self.frame_at(clock.now), CHAR[0], CHAR[1], radius=900, map_key="blessed_orc")
+            hits = detect_centers(self.frame_at(clock.now), CHAR[0], CHAR[1], radius=900, map_key=hunt_map)
             mx, my = mouse["xy"]
             return "attack" if any(abs(x - mx) <= CURSOR_R and abs(y - my) <= CURSOR_R for x, y in hits) else "ground"
 
@@ -118,7 +118,7 @@ class Replay:
         cb.DeathWatch = lambda: types.SimpleNamespace(observe=lambda crop: None)
         cb.CursorProbe.current_hash = tg.CursorProbe.current_hash = staticmethod(cursor_now)
         self.targeting = tg.TargetingFeature(self.ctx, clock=clock.time)
-        self.targeting.kill_watch = KillWatcher(NameReader(monsters.for_real_map(ZONE), "chat"))
+        self.targeting.kill_watch = KillWatcher(NameReader(monsters.for_real_map(zone), "chat"))
         track = self.targeting.track_current
 
         def costly_track(*a, **k):
@@ -334,10 +334,21 @@ def check_092741(rec):
     assert changes <= len(walks) / 2, (changes, len(walks))
 
 
+def check_001245(rec):
+    """PLAN 0.39 / 7: purple orcs (spring, orc_v3), fences and huts. v19 timings on these frames: unreachable avg
+    3.9 s (max 6.8), 47 s lost on walls; v20 (UNREACH_SEC 1.5): 3.1 s (max 5.2), 40 s."""
+    r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+    windows = r.fights()
+    groups = r.report(windows, "14 unreachable (4.6 s) + 10 cap + 31 gone + 6 switch")
+    wall = groups.get("unreachable", [])
+    assert wall and sum(wall) / len(wall) <= 3.5 and max(wall) <= 6.0, wall
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
-                        ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741)):
+                        ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
+                        ("20261126_001245_hunt", check_001245)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

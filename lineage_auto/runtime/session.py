@@ -14,9 +14,10 @@ from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
 from ..features.loot import LootFeature
 from ..features.survival import HealthFeature
-from ..features.targeting import Target, TargetingFeature
+from ..features.targeting import TargetingFeature
 from ..vision.geometry import play_max_radius
 from ..vision.hud_numbers import percent
+from ..vision.map_name import MapNameReader
 from ..vision.name_reader import KillWatcher, NameReader, save_crop
 from ..vision import yolox_mobs
 from ..vision.yolox_mobs import detect_centers, ensure_session, session_device
@@ -179,7 +180,7 @@ class AccountSession:
             self.ctx.log("stopped")
             return False
         # PLAN 0.27: kill lines are read during the hunt too (chat_kill ends a fight, loot waits for "획득").
-        catalog = monsters.for_real_map(self.account.record.real_map)
+        catalog = self._zone_catalog()
         reader = NameReader(catalog, "chat")
         self.targeting.kill_watch = KillWatcher(reader) if reader.available else None
         self.targeting.name_reader = NameReader(catalog)
@@ -238,7 +239,7 @@ class AccountSession:
         rec = self.ctx.recorder
         use_model = not self.account.record.no_model
         # PLAN 0.16: zone catalog -> name over the monster under an attack cursor + kills from the chat.
-        catalog = monsters.for_real_map(self.account.record.real_map)
+        catalog = self._zone_catalog()
         names = NameReader(catalog)
         kills = KillWatcher(NameReader(catalog, "chat"))
         next_regular = next_hp0 = 0.0
@@ -383,6 +384,43 @@ class AccountSession:
             return True
         return False
 
+    def _zone_catalog(self, frame=None):
+        """PLAN 0.39 / 7: the catalog the chat kill lines and names are read with.
+
+        001245 hunted 타락한 축복의 땅의 봄 with the zone still "오염된 축복의 땅 - 오크의 땅": the purple-orc kill lines
+        were never matched (1 kill counted). The map name on screen wins over the saved zone; without it, the zone
+        of the selected hunt map does. A correction is logged and written back to record.real_map."""
+        rec = self.account.record
+        cat = monsters.for_real_map(rec.real_map)
+        hunt = hunt_maps.base_key(self.account.hunt_map)
+        seen = None
+        try:
+            if frame is None:
+                frame = self.ctx.grabber.grab_bgr(self.ctx.rect())
+            seen = MapNameReader().read(frame)[0]
+        except Exception as exc:
+            self.ctx.log(f"map name not read: {exc}")
+        if seen:
+            if monsters.fits_map_name(cat, seen):
+                return cat
+            cands = [c for c in monsters.load_all() if monsters.fits_map_name(c, seen)]
+            new = next((c for c in cands if c.hunt_map == hunt), cands[0] if cands else None)
+            why = f"the map on screen is {seen}"
+        elif cat is None or cat.hunt_map != hunt:
+            new, why = monsters.for_hunt_map(hunt), f"the hunt map is {hunt}"
+        else:
+            return cat
+        if new is None or new is cat:
+            if seen:
+                self.ctx.log(f"WARNING: zone '{rec.real_map}' but {why} (no catalog for it)")
+            return cat
+        self.ctx.log(f"WARNING: zone '{rec.real_map}' but {why} -> zone set to '{new.zone_name}' "
+                     f"(names and chat kill lines of {new.key})")
+        if new.hunt_map and new.hunt_map != hunt:
+            self.ctx.log(f"WARNING: the model is for {hunt}, this ground's model is {new.hunt_map}")
+        rec.real_map = new.zone_name
+        return new
+
     def _hp_falling(self):
         """PLAN 0.39: HUD HP lower than a read up to HP_DROP_SEC ago."""
         hp, now = self.ctx.state.get("hp_abs"), time.monotonic()
@@ -399,14 +437,18 @@ class AccountSession:
         return min(boxes) if boxes else (None, None)
 
     def _defend(self, rect, char, falling):
-        """PLAN 0.39 / 6: being hit and nothing confirmed -> the nearest box next to us, no cursor check."""
+        """PLAN 0.39 / 6: being hit and nothing confirmed -> hover the nearest box next to us; only an attack cursor
+        there is fought (crowded grounds: another player must never be hit). One hover, ~20 ms."""
         dist, point = self._nearest_box(char)
         if not falling or dist is None or dist > DEFEND_PX:
             return None
-        self.ctx.log(f"HP falling, hitting back the nearest box {point} ({dist:.0f}px)")
-        if self.ctx.recorder:
-            self.ctx.recorder.count("defend")
-        return Target(int(point[0]), int(point[1]), *rect.to_screen(int(point[0]), int(point[1])))
+        target = self.targeting.probe([(int(point[0]), int(point[1]))], rect)
+        rec = self.ctx.recorder
+        if rec:
+            rec.count("defend" if target is not None else "defend_no_cursor")
+        if target is not None:
+            self.ctx.log(f"HP falling, hitting back the nearest box {point} ({dist:.0f}px, attack cursor)")
+        return target
 
     def _idle_watch(self, char, falling):
         """PLAN 0.39 / 6: idle_gap = no action for IDLE_GAP_SEC while a monster is near or HP falls."""

@@ -39,7 +39,9 @@ The dev machine has no game; the bot will run on a separate game PC.
   a recording whose frames are not on this machine is skipped. Minimap reader on 183803 frames 511-654; the 54 s
   melee fight of 190646 ends at the melee cap scan.melee_max_sec; 223510: no melee fight ends no_progress, candidates
   nearest first without the character's own box, every chat kill line counted once; 092741: no fight keeps a lock
-  whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap).
+  whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap; 20261126_001245_hunt: purple
+  orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s).
+  Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
 - 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
   rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).
 - Map name bottom-left (PLAN 1.3b, `vision/map_name.py`, templates `data/map_names/` from `tests/build_map_names.py`):
@@ -129,7 +131,7 @@ Each iteration, while holding the mouse arbiter:
    PLAN 0.32: a fight ends as soon as the box has been gone `BOX_GONE_SEC` (whatever the cursor says) or there was
    no attack cursor for `NO_SWORD_SEC` in melee range; a switch to a nearer box is hover-confirmed first.
    Kills (PLAN 0.31): one per chat kill line + one per corpse ending no line confirmed within 3 s (`combat._tally`).
-   PLAN 0.39: no target + HUD HP falling + a box <= 70 px = `session._defend` (no cursor check); `idle_gap` events;
+   PLAN 0.39: no target + HUD HP falling + a box <= 70 px = `session._defend` (one hover, attack cursor required); `idle_gap` events;
    switch only while the lock is beyond MELEE_DIST; after a cast click/hold the box centre (no nameplate drop) and
    `CAST_GRACE`; the ellipse must change after the key (`cursor_before_key`); `spell_mp` = MP `MP_SETTLE` later;
    spells stop under `HEAL_MP_RESERVE`; `UNREACH_SEC` 1.5; minimap walks held 4-8 s (`minimap_keep`), `W_BACK`.

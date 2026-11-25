@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from ... import hunt_maps
+from ... import hunt_maps, monsters
 from .base import Panel
 
 
@@ -37,6 +37,14 @@ class MapPanel(Panel):
             if self.tab.translator.map_name(hunt) == label:
                 if hunt.key != hunt_maps.base_key(self.account.hunt_map):  # same ground: keep the chosen model
                     self.account.hunt_map = hunt.key
+                    # PLAN 0.39 / 7: the zone (chat kill lines, names) follows the ground picked here
+                    zone = monsters.for_real_map(self.account.record.real_map)
+                    new = monsters.for_hunt_map(hunt.key)
+                    if new is not None and (zone is None or zone.hunt_map != hunt.key):
+                        self.account.record.real_map = new.zone_name
+                        zone_panel = getattr(self.tab, "zone", None)
+                        if zone_panel is not None:
+                            zone_panel.load()
                 return
 
     def _on_pick(self, _event=None):

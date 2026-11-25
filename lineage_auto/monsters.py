@@ -96,6 +96,17 @@ def zone_names(folder=None):
     return tuple(c.zone_name for c in load_all(folder) if c.zone_name)
 
 
+def fits_map_name(catalog, name):
+    """PLAN 0.39 / 7: the map name read on screen (vision.map_name) belongs to this catalog: one of its maps, or
+    the start of one ("오염된 축복의 땅" is printed for every "오염된 축복의 땅 - ..." area)."""
+    return catalog is not None and bool(name) and any(z == name or z.startswith(name) for z in catalog.real_maps)
+
+
+def for_hunt_map(key, folder=None):
+    """First catalog (file order) whose model is this hunt map, or None."""
+    return next((c for c in load_all(folder) if key and c.hunt_map == key), None)
+
+
 def for_real_map(real_map, folder=None):
     """Catalog whose zone is ``real_map`` (its key, its zone_name, or one of its maps), or None.
     A map shared by several catalogs (타락한 축복의 땅의 봄) gives the first in file order (fallen_blessed before

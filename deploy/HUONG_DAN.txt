@@ -1,6 +1,6 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 25/11/2026 (bản 20) — bản 19, 오크의 땅 quay về model orc_v1. Cài đè như cũ (mục 2).
-  ★★★ MỚI Ở BẢN 20:
+Bản build: 26/11/2026 (bản 20rc1 — BẢN THỬ, chạy 15 phút có ghi ảnh rồi gửi số liệu) — bản 19 + các sửa dưới đây. Cài đè như cũ (mục 2).
+  ★★★ MỚI Ở BẢN 20rc1 (thử):
       · 오크의 땅 DÙNG LẠI MODEL orc_v1 (ngưỡng 0,2) như bản 17. Bản 19 (orc_v2, 0,3) thấy ít quái hơn hẳn ở cỡ
         đầu vào 416 mà máy bạn đang dùng (2,3 hộp/khung, bản 17 được 5,7) → đi lên xuống, bỏ qua quái, ~2,8 giết/phút.
         Chấm lại ở 416: orc_v1 ngày 72 % / đêm 67 %, orc_v2 68 % / 58 %. Nếu trước đây bạn đã chọn orc_v1 ở ô
@@ -11,6 +11,10 @@ Bản build: 25/11/2026 (bản 20) — bản 19, 오크의 땅 quay về model o
       · Không đứng đánh vào tường: 1,5 giây không lại gần được thì bỏ, nhớ chỗ đó 60 giây.
       · Đi lại: giữ một hướng 4–8 giây, không quay lại chỗ vừa đi qua. Đang mất máu mà có quái sát bên thì đánh ngay.
       · Khi gửi số liệu (2_GUI_SO_LIEU.bat) bản 20 ghi thêm vị trí đi lại và các lần bot đứng im.
+      · Bãi orc tím: bot tự đọc tên bản đồ góc dưới trái và chỉnh "Bãi săn thực tế" cho khớp, nên đếm giết qua chat
+        đúng (bản 19 đếm 1 vì ô đó vẫn là 오크의 땅). Chọn bãi ở khung "Bản đồ" thì ô khu cũng đổi theo.
+      · Ở orc tím, pháp sư đánh tay rất lâu (10 giây không chết) nên mất máu, tốn MP hồi máu rồi về làng. Hãy đặt
+        "MP% tối thiểu" của phép tấn công thấp hơn (vd. 40 %) để bot dùng phép ở đây.
   (bản 19) — bản 18 + bãi 타락한 축복의 땅 (orc tím, 4 mùa) + chạy 24/24.
   ★★★ MỚI Ở BẢN 19:
       · BÃI MỚI "타락한 축복의 땅 - 오크" (orc tím, xuân/hạ/thu/đông, ngày và đêm): model orc_v3 học từ 273 ảnh bạn đã
