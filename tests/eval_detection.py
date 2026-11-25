@@ -1,6 +1,8 @@
 """Detection benchmark (PLAN 0.5): recall / false positives / ms per frame.
 
-Usage:  python tests/eval_detection.py [--maps abandoned,toi] [--conf 0.15] [--size 416] [--roi] [-v]
+Usage:  python tests/eval_detection.py [--maps abandoned,toi] [--conf 0.15] [--size 416] [--roi] [--config X] [-v]
+PLAN 0.39 rule: a new model becomes a default only after it is scored at the input the game PC runs:
+--config <game PC lineage_auto_config.json> (records/<hunt>/ carries a copy) takes size and roi from its scan settings.
 Labels: tests/data/monster_labels.json (images in docs/game_reference/).
 Runs the same code path as the bot (yolox_mobs.detect_centers, radius from the
 character), so every detection change must report these numbers before/after.
@@ -78,9 +80,15 @@ def main():
     parser.add_argument("--images", default=IMAGES, help="folder holding the labelled images")
     parser.add_argument("--size", type=int, default=640, help="ONNX input side (PLAN 0.31: model/<name>_<size>.onnx)")
     parser.add_argument("--roi", action="store_true", help="crop the play area around the character first")
+    parser.add_argument("--config", help="game PC lineage_auto_config.json: size/roi = its scan.input_size/detect_roi")
     parser.add_argument("-v", "--verbose", action="store_true")
     parser.add_argument("--split", help="only frames tests/prelabel.py picked for this split (e.g. test)")
     args = parser.parse_args()
+    if args.config:
+        scan = json.load(open(args.config, encoding="utf-8"))["accounts"][0]["scan"]
+        args.size, args.roi = int(scan.get("input_size", 640)), bool(scan.get("detect_roi", False))
+    elif args.size == 640:
+        print("note: 640 - a default must also be scored at the game PC input (--config, PLAN 0.39)")
     labels = json.load(open(args.labels, encoding="utf-8"))["images"]
     if args.split:
         labels = {n: lab for n, lab in labels.items() if lab.get("split") == args.split}

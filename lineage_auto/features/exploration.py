@@ -13,8 +13,13 @@ DWELL_SEC, toward the last target first; it changes when the picture stops chang
 blocked) and then takes the direction blocked longest ago. v14 rotated at every walk (~0.3 s apart), which only
 turned the character on the spot. Each walk logs the chosen direction and why (field log + events.jsonl).
 After the walk click the session returns to the mouse scan at once — short walks, then a new scan.
+PLAN 0.39 (233615: 138 direction changes in 358 walks, 10.7/min, up and down over the same ground): a direction
+picked on the minimap is kept for a random HOLD_MIN..HOLD_MAX s while its straight walk stays clear (the clicks
+follow one line), and a walk that ends where the character was RETURN_MIN..RETURN_SEC s ago scores W_BACK less.
+Each click lands a few px off the line and the pause after it varies, like a hand.
 """
 import math
+import random
 import time
 
 import cv2
@@ -38,12 +43,17 @@ W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
 # PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
 # BLOCK_MOTION (mean gray difference of a 64x48 thumbnail) over the last BLOCK_SEC, and avoid a blocked
 # direction for BLOCK_TTL. On the 092741 night frames standing still scores < 1 and walking > 1.
-DWELL_SEC = 4.0
+DWELL_SEC = 4.0  # shortest hold without the minimap (random up to HOLD_MAX)
 BLOCK_SEC = 2.5
 BLOCK_MOTION = 1.0
 BLOCK_TTL = 30.0
 SHOT_SIZE = (64, 48)
 SHOT_KEEP = 0.8  # drop the bottom fifth (chat lines change on their own)
+HOLD_MIN, HOLD_MAX = 4.0, 8.0  # PLAN 0.39: s one walk direction is kept
+RETURN_MIN, RETURN_SEC = 8.0, 90.0  # PLAN 0.39: ground left this long ago is not walked back to
+W_BACK = 2.0
+JITTER_PX = 10
+SETTLE_MAX = 0.15
 
 
 def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm):
@@ -72,10 +82,13 @@ def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm):
         inward = (ux * inner[0] + uy * inner[1]) if inner else 0.0
         end = (pos[0] + ux * walk_mm, pos[1] + uy * walk_mm)
         out_r = start is not None and math.hypot(end[0] - start[0], end[1] - start[1]) > MAX_RADIUS_MM
+        back = any(RETURN_MIN <= now - t <= RETURN_SEC and math.hypot(end[0] - x, end[1] - y) < 2 * VISIT_R
+                   for x, y, t in visited)
         ok = clear(idx)
-        score = W_HEAT * min(h, 2.0) + W_FRONTIER * frontier + W_INNER * inward - W_OUT * out_r - 10 * (not ok)
+        score = (W_HEAT * min(h, 2.0) + W_FRONTIER * frontier + W_INNER * inward - W_OUT * out_r - W_BACK * back
+                 - 10 * (not ok))
         out.append((score, idx, {"heat": round(h, 2), "new": round(frontier, 2), "in": round(float(inward), 2),
-                                 "out": out_r, "clear": ok}))
+                                 "out": out_r, "back": back, "clear": ok}))
     out.sort(key=lambda o: -o[0])
     return out
 
@@ -101,6 +114,7 @@ class ExplorationFeature(Feature):
         self._visited = []
         self._start = None
         self._epoch = None
+        self._keep = None  # (direction index, until) of the minimap walk being held (PLAN 0.39)
 
     def on_stop(self):
         self.on_start()
@@ -165,7 +179,7 @@ class ExplorationFeature(Feature):
             order = [(self._direction + DIRECTION_STEP + k) % 8 for k in range(8)]
             idx = next((i for i in order if i in free), min(order, key=lambda i: self._blocked.get(i, 0.0)))
             why = "turn" if blocked else "rotate"
-        self._direction, self._dir_until = idx, now + DWELL_SEC
+        self._direction, self._dir_until = idx, now + random.uniform(DWELL_SEC, HOLD_MAX)
         self._shot, self._shot_t = shot, now
         return idx, why
 
@@ -183,6 +197,10 @@ class ExplorationFeature(Feature):
             return mm.clear_to(char, p)
 
         now = tg.clock()
+        if self._keep is not None and now < self._keep[1] and clear(self._keep[0]):
+            idx = self._keep[0]
+            return (walk_point(char[0], char[1], rect.w, rect.h, idx, walk_px), NAMES[idx], "minimap_keep",
+                    f"{NAMES[idx]} kept {self._keep[1] - now:.1f}s more")
         ranked = score_directions(tg.odo.pos, now, self._heat, self._visited, mm.inner_vector(), clear,
                                   self._start, walk_mm)
         score, idx, parts = ranked[0]
@@ -192,7 +210,9 @@ class ExplorationFeature(Feature):
             kind, waypoint = mm.route(char, p)
             if kind != "detour":
                 return None
+            self._keep = None
             return waypoint, NAMES[idx], "minimap_gap", f"{NAMES[idx]} via gap {parts}"
+        self._keep = (idx, now + random.uniform(HOLD_MIN, HOLD_MAX))
         return (walk_point(char[0], char[1], rect.w, rect.h, idx, walk_px), NAMES[idx], "minimap",
                 f"{NAMES[idx]} score={score:.2f} {parts}")
 
@@ -206,9 +226,17 @@ class ExplorationFeature(Feature):
             wx, wy = walk_point(char[0], char[1], rect.w, rect.h, dir_idx)
             name = NAMES[dir_idx]
             reason = f"{name} {why} (no minimap, {DWELL_SEC:.0f}s per direction)"
+        # PLAN 0.39: a few px off the line, never across a fence the straight point avoided
+        jx, jy = wx + random.randint(-JITTER_PX, JITTER_PX), wy + random.randint(-JITTER_PX, JITTER_PX)
+        mm = self.targeting.minimap if self.targeting is not None else None
+        if mm is None or why == "minimap_gap" or mm.clear_to(char, (jx, jy)):
+            wx, wy = jx, jy
         self.log(f"nothing found, moving to ({wx}, {wy}): {reason}")
         rec = getattr(self.ctx, "recorder", None)
         if rec:
-            rec.event("wander", to=[wx, wy], dir=name, why=why, reason=reason)
+            tg = self.targeting
+            pos = tg.odo.pos if tg is not None and tg.minimap is not None else None
+            rec.event("wander", to=[wx, wy], dir=name, why=why, reason=reason,
+                      pos=[round(pos[0], 1), round(pos[1], 1)] if pos is not None else None)
         self.input.click_at(*rect.to_screen(wx, wy))
-        self.ctx.sleep(CLICK_SETTLE)
+        self.ctx.sleep(random.uniform(CLICK_SETTLE, SETTLE_MAX))

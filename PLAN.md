@@ -521,11 +521,27 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 23/11: HealthSettings.return_town/return_pct=35/return_key=F8, mặc định TẮT; dòng mới trong khung HP;
        HP dưới ngưỡng 2 lần đọc → thả chuột, bấm cuộn 1 lần, trạng thái "귀환 - 정지됨"; hồi máu/bình chạy trước.
        CHƯA KIỂM TRÊN GAME: cuộn phải nằm ở trang hotbar đang mở; chưa kiểm tra đã thật sự về làng)
-- [ ] 1.3b Nút "TIẾP TỤC SĂN" + lộ trình quay lại theo từng bãi: cuộn chúc phúc tới "/기억" / NPC dịch chuyển / đi bộ theo lộ trình đã ghi (A5+)
-      (25/11, PLAN 0.38 — CẦN CHO CHẠY 24/24: hiện về làng do HP thấp = DỪNG hẳn, người phải tự đưa về bãi.
-       Tuỳ chọn "Quay lại bãi săn" sau khi về làng: chờ hồi HP/MP trong làng → cách quay lại của từng bãi (cuộn
-       chúc phúc tới điểm "/기억" đã lưu, hoặc NPC dịch chuyển, hoặc lộ trình ghi sẵn) → săn tiếp; thất bại (không
-       thấy bãi sau N giây) → dừng an toàn. CHƯA LÀM: cần người dùng cho biết cách họ quay lại từng bãi.)
+- [ ] 1.3b QUAY LẠI BÃI SĂN sau khi về làng (cần cho 24/24, PLAN 0.38). Người dùng xác nhận (25/11): về bãi bằng ĐI BỘ
+      hoặc nhờ NPC 장로 노나메 (화전민 마을) dịch chuyển. Hộp thoại 노나메 (docs/game_reference/npc_teleport_nonamae_oyeom.png,
+      ảnh chụp điện thoại, nghiêng → KHÔNG cắt mẫu được): 2 cấp — "오염된 축복의 땅의 … 중 어디로 가겠는가?" rồi
+      요정의 땅 / 인간의 땅 / 오크의 땅 / 정령의 땅; dòng dưới chuột tô xanh lá. Có cả "타락한 축복의 땅의 봄/여름/가을…".
+   Thiết kế (ưu tiên NPC; đi bộ theo điểm mốc minimap để sau):
+   1. Về làng do HP thấp (1.3) → nếu bật "Quay lại bãi săn": đứng hồi tới HP/MP ≥ 90 % (hoặc bình nếu cấu hình).
+   2. Tìm 노나메: tên trên đầu + con trỏ NPC (rê quanh nhân vật, như targeting nhưng chờ kind "npc").
+   3. Click → đọc chữ trong hộp thoại, chọn dòng đúng bãi đang chọn (theo mẫu chữ, KHÔNG toạ độ cứng; hộp thoại khác
+      mong đợi → không làm gì, dừng + cảnh báo).
+   4. Sau dịch chuyển: tên bản đồ góc dưới trái phải đúng bãi → săn tiếp; sai → dừng.
+   5. An toàn: tối đa N lần quay lại / giờ (mặc định 6); chết (thánh giá) / hết bình / hết cuộn → dừng hẳn + cảnh báo.
+   XONG (25/11): bước 4 — `vision/map_name.MapNameReader` đọc tên bản đồ góc dưới trái (mẫu chữ data/map_names/,
+      cắt bằng tests/build_map_names.py; so cả dòng + đuôi 40 px vì 4 mùa chung "타락한 축복의 땅의"). Trên 11 bản ghi
+      (1187/1280/1302/1334 rộng): 0 lần đọc sai, ≤ 2,5 % khung không đọc. "오염된 축복의 땅" không ghi khu con
+      (오크/요정…) → bước 4 chỉ xác nhận được bản đồ, không xác nhận được khu. tests/test_map_name.py.
+   CẦN ẢNH TỪ MÁY GAME (quay bằng chế độ "관찰만 기록", nhịp 1 s, trong lúc người tự làm một chuyến về làng → bãi):
+      · tên bản đồ khi đứng trong 화전민 마을 (góc dưới trái);
+      · 노나메 trong làng: đứng gần, rê chuột lên người (tên trên đầu + con trỏ NPC), vài góc khác nhau;
+      · hộp thoại 노나메 đủ các dòng: cấp 1 (오염된 / 타락한 …), cấp 2 có 오크의 땅 và đủ 봄/여름/가을/겨울;
+        rê chuột qua từng dòng (dòng tô xanh) — ảnh chụp từ tool, không chụp bằng điện thoại;
+      · khung hình ngay sau khi dịch chuyển tới từng bãi.
 - [x] 1.4 Nhiều loại bình hồi phục (HP/MP), phím + ngưỡng riêng
       (XONG 23/11: HealthSettings.potions = 3 ô "bình thêm" (bật, HP/MP, ngưỡng %, phím, chờ giây), mặc định TẮT;
        bình chính cũ giữ nguyên; skill hồi/bình chính chạy trước, mỗi lượt đọc chỉ bấm 1 bình, ô trên ưu tiên;
@@ -845,6 +861,51 @@ Kiểm tra thêm
       log, không click gì thêm. (Chỉ khi đọc số HUD đang bật; cửa sổ game đóng thì đã dừng từ trước.)
    • Test: tests/test_24h.py (giới hạn khung + xoay vòng, xoá bản cũ, xoay log, HUD mất, RSS) + smoke (lỗi 1 nhịp).
    • Còn cho 24/24: 1.3b "Quay lại bãi săn" sau khi về làng (chưa làm, xem 1.3b).
+- [x] 0.39 v20: 오크의 땅 QUAY VỀ orc_v1 (25/11). v19 chạy thật (records_game/20261125_225906_hunt, orc_v2 conf 0.3,
+      input 416): 2,28 box/khung ngày, 1,29 đêm, 2,8 giết/phút, 110 trận "gone"; v17 (20261125_202634_hunt, orc_v1
+      0.2, 416, ngày): 5,68 box/khung, ~5 giết/phút. Máy game chưa từng chạy v18. Ảnh khung của 2 bản ghi này KHÔNG
+      có trên máy dev (chỉ jsonl) → box/khung trên ảnh thật chưa đo lại được; chấm trên 3 tập đã duyệt (split test):
+      | tập | v1@0.2 640 / 416 / 320 | v2@0.3 640 / 416 / 320 | v2@0.2 416 |
+      | ngày 193903 | 83 / 72 / 50 % | 83 / 68 / 36 % | 72 % |
+      | đêm 133425 | 76 / 67 / 37 % | 76 / 58 / 42 % | 62 % |
+      | đêm 092741 | 95 / 88 / 61 % | 96 / 85 / 64 % | 88 % |
+      → orc_v2 chỉ hơn ở 640; ở 416 kém (nhất là đêm) và conf 0.3 bớt thêm. 416 mất ~10 điểm recall với CẢ HAI model
+      so với 640 (fp ít hơn). Khoảng cách 5,68 → 2,28 lớn hơn mức model giải thích (~1,1–1,15×): phần còn lại là cảnh
+      (202634 chỉ 193 khung ban ngày, 0 khung trống) — kiểm lại bằng hộp/khung của v20 trên máy game.
+   • `blessed_orc` = orc_v1 conf 0.2, `model/yolox_tiny_blessed_orc{,_416,_320}.onnx` (416/320 xuất lại từ
+      train/YOLOX_outputs/orc_v1/best_ckpt.pth; 640 giống hệt file đã giao). orc_v2 = biến thể `blessed_orc_v2`
+      (`yolox_tiny_blessed_orc_v2{,_416,_320}.onnx`, chỉ 640 được đóng gói → chọn nó trên máy game là chạy 640).
+      Khoá cũ "blessed_orc_v1" trong config v18/v19 → `hunt_maps.get` đổi thành "blessed_orc".
+   • QUY TẮC: model mới chỉ thành mặc định sau khi chấm ở ĐÚNG cỡ đầu vào máy game:
+      `tests/eval_detection.py --config <lineage_auto_config.json của máy game>` (lấy scan.input_size/detect_roi).
+   • Tab Kỹ năng: cảnh báo đỏ khi phép tấn công bật có min_mp ≥ 80 % (`skill_summary.high_min_mp_names`).
+   • HỒI QUY v17→v19 (yêu cầu 26/11): `git diff v17 v19` KHÔNG đụng detector/targeting/combat/exploration
+      (chỉ session: 24/7 + đo RAM + xoay bản ghi; recorder; logging; cursor_profile: elip; config). Đo trên
+      session_log máy game (21 bản ghi v17 15:58–22:10): v17 = 1,56–4,98 giết/phút, các bản có wander ≥ 20/phút
+      trung bình ~2,75 → v19 225906 (2,80, wander 32,8/phút) nằm GIỮA phân bố v17. 202634 (5,68 box, ~5 giết/phút)
+      là 4 phút đỉnh ở chỗ đông (wander 0,5/phút) → không dùng làm mốc. Hộp/khung trận v17 trung bình 3,37 (322 phút).
+      detect_ms 250 của 233615 = biến thể `blessed_orc_v1` của v19 chỉ có file 640 → chạy 640 dù input 416
+      (`yolox_mobs.ensure_session` rơi về 640). v20: orc_v1 là mặc định có 416 → ~90 ms như v17.
+   • PHÉP (233615): 15/18 trận "lost" có phép kết thúc với con trỏ ground: sau phép bot click + giữ ở tâm box
+      + 25 px (`NAMEPLATE_BODY_DROP`, vốn cho bảng tên) = mặt đất → 1 s không thấy kiếm → lost. Sửa: click/giữ
+      đúng tâm box; `CAST_GRACE` 1 s không tính "lost" sau phép. Elip 94/94 ở 0,0 s cùng hash fc92 → nay đọc
+      con trỏ TRƯỚC phím (`cursor_before_key`), elip đã có sẵn trước phím không tính. MP sau phép đọc lại sau
+      `MP_SETTLE` 0,8 s (event `spell_mp`; mp_after cũ luôn = mp_before). Phép dừng khi MP < `HEAL_MP_RESERVE`
+      25 % nếu hồi máu bằng phép (233615 bắn tới 20 %, MP rơi còn 2 %).
+   • TƯỜNG: `UNREACH_SEC` 2,5 → 1,5 s (233615: 20 trận unreachable đứng 2,8–7,4 s), `DETOUR_AFTER` 1,2 → 0,8,
+      chỗ không tới được nhớ 60 s theo toạ độ minimap (`BLOCK_TTL_WORLD` 40 → 60). Ứng viên cùng phía (đường
+      thẳng trên minimap không chặn) đã xếp trước từ 0.27.
+   • ĐỔI MỤC TIÊU: chỉ khi khoá hiện tại KHÔNG sát (> `MELEE_DIST`) và con kia sát nhân vật (đang đánh mình).
+   • DI CHUYỂN: hướng minimap giữ 4–8 s ngẫu nhiên khi đường thẳng còn thông (`minimap_keep`); hướng kết thúc ở
+      chỗ vừa đi qua 8–90 s trước bị trừ `W_BACK`; không minimap: giữ 4–8 s; điểm nhấp lệch ±10 px (không vượt
+      rào), nghỉ 0,05–0,15 s. "hold" của v19 KHÔNG phải đứng chờ: đó là bước đi tiếp cùng hướng khi minimap không
+      đọc được; đứng im thật là "rescan" (200 lần ở 233615).
+   • TỰ VỆ + KHỰNG: HP HUD giảm trong 2 s + box ≤ 70 px mà không xác nhận được mục tiêu → đánh ngay box gần nhất
+      (count `defend`). `idle_gap` = > 1,5 s không click/giữ/bấm phím khi có quái < 150 px hoặc HP đang tụt.
+      `analyze_records` in: đổi hướng/phút, quay lại vùng < 60 s, px minimap/phút, idle_gap (cần `pos` trong
+      event wander, có từ v20). Mốc v19 233615: 10,7 đổi hướng/phút.
+   • CHƯA KIỂM ĐƯỢC TRÊN MÁY DEV: 202634 / 225906 / 233615 không có ảnh khung trên máy dev → không mô phỏng lại
+      được box/khung, giết/phút. Điều kiện "≥ v17" chỉ đo được trên máy game.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

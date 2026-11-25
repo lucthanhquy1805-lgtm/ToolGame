@@ -18,6 +18,7 @@ class InputController:
         self._held_buttons = set()
         self.last_move_t = None  # monotonic; the stop watch tells the bot's moves from a person's (PLAN 0.30)
         self.last_key = None  # (key, monotonic) of the last press: which key a "마법 사용: 실패" line follows
+        self.last_action_t = None  # PLAN 0.39: monotonic of the last click / hold / key = the character did something
 
     @property
     def backend_name(self):
@@ -36,6 +37,7 @@ class InputController:
         self.move(sx, sy)
         time.sleep(settle)
         self.backend.click("left")
+        self.last_action_t = time.monotonic()
 
     def click_right(self):
         """Right button where the mouse already is. PLAN 0.35: cancels an armed spell (ESC is the bot's
@@ -46,6 +48,7 @@ class InputController:
         self._held_buttons.add("left")
         self.backend.mouse_down("left")
         self._holding = True
+        self.last_action_t = time.monotonic()
 
     def release_left(self):
         try:
@@ -77,6 +80,7 @@ class InputController:
 
     def press(self, key):
         self.last_key = (key, time.monotonic())
+        self.last_action_t = self.last_key[1]
         self._held_keys.add(key)
         try:
             self.backend.press(key)

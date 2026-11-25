@@ -46,7 +46,7 @@ STALE_ALONG = 20
 # A missed hover point skips new candidates within this many pixels.
 MISS_RADIUS = 24
 # PLAN 0.27: a target the character could not walk to is skipped this long / this close.
-BLOCK_TTL_WORLD = 40.0  # s, position kept in minimap odometry coordinates
+BLOCK_TTL_WORLD = 60.0  # s, position kept in minimap odometry coordinates (PLAN 0.39: 40 -> 60)
 BLOCK_TTL_LOCAL = 8.0  # s, no minimap: client coordinates, dropped as soon as the bot walks
 BLOCK_RADIUS = 48  # client px
 # A YOLOX "die" box this close to a detection = the corpse itself, never a target (PLAN 0.27 / 7).

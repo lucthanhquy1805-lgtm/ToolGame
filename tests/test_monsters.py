@@ -379,15 +379,16 @@ def test_orc_model_packed():
     zone stays in data-collection mode."""
     from lineage_auto import hunt_maps
     orc_map = hunt_maps.get("blessed_orc")
-    assert orc_map.key == "blessed_orc" and orc_map.channels == "bgr" and not orc_map.trial and orc_map.conf == 0.3
-    # PLAN 0.36: orc_v1 stays selectable (Scan > Advanced > Model), ships at 640 only, is not a map of its own
-    assert [m.variant for m in hunt_maps.variants("blessed_orc")] == ["orc_v2", "orc_v1"]
-    assert hunt_maps.base_key("blessed_orc_v1") == "blessed_orc" and hunt_maps.get("blessed_orc_v1").conf == 0.2
-    assert "blessed_orc_v1" not in {m.key for m in hunt_maps.all_maps()}
+    assert orc_map.key == "blessed_orc" and orc_map.channels == "bgr" and not orc_map.trial and orc_map.conf == 0.2
+    # PLAN 0.39: orc_v1 is the default again (better at input 416); orc_v2 stays selectable, ships at 640 only
+    assert [m.variant for m in hunt_maps.variants("blessed_orc")] == ["orc_v1", "orc_v2"]
+    assert hunt_maps.base_key("blessed_orc_v2") == "blessed_orc" and hunt_maps.get("blessed_orc_v2").conf == 0.3
+    assert "blessed_orc_v2" not in {m.key for m in hunt_maps.all_maps()}
+    assert hunt_maps.get("blessed_orc_v1").key == "blessed_orc"  # a v18/v19 config that picked orc_v1
     packed = [os.path.basename(src) for src, _dst in hunt_maps.pyinstaller_onnx_datas(os.path.join(ROOT, "model"))]
     assert "yolox_tiny_blessed_orc.onnx" in packed and "yolox_tiny_dragon_valley.onnx" in packed
     assert {"yolox_tiny_blessed_orc_416.onnx", "yolox_tiny_blessed_orc_320.onnx"} <= set(packed)  # PLAN 0.31 sizes
-    assert "yolox_tiny_blessed_orc_v1.onnx" in packed and len(packed) == 11, packed  # nothing else from model/
+    assert "yolox_tiny_blessed_orc_v2.onnx" in packed and len(packed) == 11, packed  # nothing else from model/
     assert {"yolox_tiny_fallen_blessed.onnx", "yolox_tiny_fallen_blessed_416.onnx"} <= set(packed)  # orc_v3
     zone = monsters.for_real_map(ORC)
     assert zone.hunt_map == "blessed_orc" and zone.has_model == hunt_maps.model_exists("blessed_orc")

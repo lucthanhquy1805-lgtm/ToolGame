@@ -373,7 +373,7 @@ cb.UNREACH_SEC=0; cb.DETOUR_AFTER=10
 far=FakeTg([(720,400)]*400,[]); o=fight('ground',[],tgo=far)
 assert o[:2]==('unreachable',0) and far.blocked==[(720,400)], o                    # 80 px (beyond melee), never closer
 assert fight('ground',[(900,400)]*400,start=(720,400))[0]=='lost'     # 80 px -> 260 px: ran off, lost (no blacklist)
-cb.UNREACH_SEC=2.5; cb.DETOUR_AFTER=1.2
+cb.UNREACH_SEC=1.5; cb.DETOUR_AFTER=0.8
 # PLAN 0.31: MELEE (lock < 70 px + sword) never side steps / gives up / blacklists; only the melee cap ends it
 cb.SIDESTEP_AFTER=0; cb.NO_PROGRESS_SEC=0
 mel=FakeTg([(700,400)]*400,[]); o=fight('attack',[],tgo=mel)
@@ -385,7 +385,7 @@ assert o[:2]==('no_progress',0) and far.blocked==[(760,400)], o
 ev=[json.loads(l) for l in open(os.path.join(recmod.latest_record(rroot),'events.jsonl'),encoding='utf-8')]
 assert ev[-1]['melee'] is False and ev[-1]['dist']==122 and ev[-1]['kill_source']=='none', ev[-1]
 cb.NO_PROGRESS_SEC=99; o=fight('attack',[(760,400)]*500,start=(760,400)); assert o[0]=='cap' and o[2]['sidestep']==1, o
-cb.UNREACH_SEC=2.5; cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
+cb.UNREACH_SEC=1.5; cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
 # PLAN 0.31 / 2: a monster much closer than the lock, next to the character -> leave for it (lock moved there)
 sw=FakeTg([(760,400)]*20,[]); sw.closer=(660,392); o=fight('attack',[],tgo=sw,start=(760,400))
 assert o[0]=='switch' and sw.locks[-1]==(660,392) and o[1]==0 and sw.probed==[(660,392)], (o,sw.locks)
@@ -406,7 +406,7 @@ cf=cb.CombatFeature(TCtx(),targeting=FakeTg([],[]))
 o=fight('ground',[],tgo=FakeTg([(760,400)]*400,[]),start=(760,400),cf=cf); assert o[:2]==('no_progress',0), o
 fight('ground',[],tgo=FakeTg([(760,400)]*400,[],kill_at=1),start=(760,400),cf=cf)
 assert cf.ctx.state['kills']==1 and cf.ctx.state['kills_chat']==1, cf.ctx.state
-cb.NO_PROGRESS_SEC=8.0; cb.UNREACH_SEC=2.5
+cb.NO_PROGRESS_SEC=8.0; cb.UNREACH_SEC=1.5
 print('combat 0.31: melee kept / far rules / switch / kill tally (splash 2, corpse+chat 1, late chat 1) OK')
 r=recmod.Recorder(TCtx().account,'hunt',root=rroot); r.fight('chat_kill',4,True); r.fight('vanished',2,True); r.fight('no_progress',8)
 assert r.summary()['fights']=={'kill_chat':{'n':1,'avg_s':4.0},'kill_fall':{'n':1,'avg_s':2.0},'no_progress':{'n':1,'avg_s':8.0}}, r.summary()['fights']
@@ -544,7 +544,7 @@ sc.account.aim_wait_sec=0                 # these cases are about the click orde
 for order,want in (('hover_key_click',['move','pressF5','click']),('key_click',['pressF5','click']),
                    ('click_key',['click','pressF5'])):
     sc.account.cast_order=order; sc.input=SpellIn()
-    anchor,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+    anchor,fired,_h=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
     assert fired and sc.input.log==want and anchor==(700,400), (order,sc.input.log)
 assert cf._spells==3 and sc.recorder.counts['spell_cast']==3, sc.recorder.counts
 ev=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')]
@@ -559,6 +559,14 @@ f5.cooldown=5.0; cf._slot_used['F5']=now
 assert cf._pick_skill(['F5'],sc.rect(),20.0,now+1)[0] is None
 assert cf._pick_skill(['F5'],sc.rect(),20.0,now+6)[0]=='F5'
 assert cf._skipped=={'out_of_range':1,'low_mp':1}, cf._skipped
+f5.cooldown=0.0; f5.min_mp=0; cf._slot_used={}; cf._skipped={}; sc.state['mp']=cb.HEAL_MP_RESERVE-1
+assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0] is None and cf._skipped=={'heal_reserve':1}  # heal keeps MP
+sc.account.health.use_skill=False; assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0]=='F5'
+sc.account.health.use_skill=True; f5.min_mp=40; f5.cooldown=5.0; cf._slot_used['F5']=now; sc.state['mp']=80
+cf._mp_pending=(time.time()-1,'F5',80); sc.state['mp']=74; cf._check_mp_pending(sc.rect())
+_mp=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8') if '"spell_mp"' in l]
+assert _mp[-1]['mp_before']==80 and _mp[-1]['mp_after']==74 and cf._mp_pending is None, _mp
+sc.state['mp']=80
 # the settings survive a save/load round trip (the game PC edits them in the UI, not in the file)
 from lineage_auto.config.models import AccountSettings as _AS
 back=_AS.from_dict(sc.account.to_dict())
@@ -582,39 +590,52 @@ assert [(e['from_page'],e['to_page']) for e in pg][:3]==[('F1','F2'),('F2','F1')
 # PLAN 0.35: the aiming ellipse shows a good second after the slot key on the game PC (v16 waited 0.3 s and
 # threw away 144/144 casts). Poll up to account.aim_wait_sec, then click the monster's NEWEST box; no ellipse
 # by the deadline = click anyway, because a click on a monster with no spell armed is only a hand attack.
-Cur.classify=lambda s,h,md5=None: 'cast' if s.aim else 'unknown'
+# PLAN 0.39: the ellipse must come AFTER the key (233615: 94/94 read at 0.0 s = a picture already there)
+Cur.classify=lambda s,h,md5=None: 'cast' if s.aim and h=='ell' else 'unknown'
 sc.cursors.cast_registered=True; sc.cursors.aim=True
+_pressed=[]
+class SpellIn(SpellIn):
+    def press(s,k): s.log.append('press'+k); _pressed.append(k)
+cb.CursorProbe.current_hash=staticmethod(lambda: 'ell' if _pressed else 'ground')
 sc.account.aim_wait_sec=0.5
 sc.state['hotbar_page']='F2'
-sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
-t0=time.time(); anchor,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+_pressed.clear(); sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
+t0=time.time(); anchor,fired,hold=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
 assert fired and sc.input.log==['pressF5','click'] and anchor==(730,430), (sc.input.log,anchor)
 assert time.time()-t0<0.4, 'the ellipse was up at once: no need to wait out aim_wait_sec'
+assert hold==sc.rect().to_screen(730,430), hold      # PLAN 0.39: the box centre, not 25 px below it (ground)
+# the ellipse was already up before the key: not this key's -> wait out aim_wait_sec (logged as no ellipse)
+_pressed.append('x'); sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
+t0=time.time(); _a,fired,_h=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert fired and time.time()-t0>=sc.account.aim_wait_sec, time.time()-t0
+_ev=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8') if '"spell_cast"' in l]
+assert _ev[-1]['aim_delay_s'] is None and _ev[-1]['cursor_before_key']=='ell', _ev[-1]
+_pressed.clear()
 # no ellipse at all -> waits the whole aim_wait_sec, then clicks the newest box anyway
 sc.cursors.aim=False
 sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
-t0=time.time(); _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+t0=time.time(); _a,fired,_h=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
 assert fired and sc.input.log==['pressF5','click'], sc.input.log
 assert sc.account.aim_wait_sec <= time.time()-t0 < sc.account.aim_wait_sec+0.4, time.time()-t0
 assert not sc.state.get('skill_pause_until'), sc.state      # no self-inflicted spell pause any more
 # the lock died while the spell armed: throw it at the nearest neighbour instead
 sc.cursors.aim=True
 nb=FakeTg([None],[]); nb.last_monsters=[(900,500),(700,420),(645,381)]   # 645,381 is the character's own box (< SELF_R)
-sc.input=SpellIn(); cf.targeting=nb
-_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+_pressed.clear(); sc.input=SpellIn(); cf.targeting=nb
+_a,fired,_h=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
 assert fired and _a==(700,420) and sc.input.log==['pressF5','click'], (_a,sc.input.log)
 # nothing left at all: right-click cancels the armed spell (ESC is the bot's stop hotkey, never usable here)
 class RIn(SpellIn):
     def click_right(s): s.log.append('rclick')
-sc.input=RIn(); cf.targeting=FakeTg([None],[])
-_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+_pressed.clear(); sc.input=RIn(); cf.targeting=FakeTg([None],[])
+_a,fired,_h=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
 assert not fired and sc.input.log==['pressF5','rclick'], sc.input.log
 ev=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
     if '"spell_cast"' in l]
 assert [e['ok'] for e in ev[-4:]]==[True,True,True,False], [e['ok'] for e in ev[-4:]]
-assert ev[-1]['reason']=='no_target_left' and ev[-4]['aim_delay_s'] is not None, ev[-1]
+assert ev[-1]['reason']=='no_target_left' and ev[-5]['aim_delay_s'] is not None, ev[-1]
 assert ev[-3]['aim_delay_s'] is None, ev[-3]          # the deadline run records no delay
-reads=ev[-4]['cursor_after_key']
+reads=ev[-5]['cursor_after_key']
 assert reads and all('hash' in r and 'md5' in r and 'kind' in r and 'at' in r for r in reads), reads
 sc.account.aim_wait_sec=1.8
 # PLAN 0.35: 3 chat failures = the spell armed and nobody clicked in time -> try the other click order
@@ -670,4 +691,27 @@ if dframe is not None:
     for _ in range(5): det._slow_down('fight',300,2)                  # a fight may go down to 1/s
     assert det.fps['fight']==1, det.fps
     print(f'detector thread: {det.describe()}, {first.ms:.0f} ms, hits {first.hits[:3]} OK')
+# PLAN 0.39: walks avoid ground left 8-90 s ago; HP falling + a box next to us = hit back; idle gaps are measured
+from lineage_auto.features import exploration as exm
+_r={i:parts for _s,i,parts in exm.score_directions((0,0),100.0,[],[(16,0,50.0)],None,lambda i:True,None,16)}
+_e=exm.WALK_DIRECTIONS.index((1,0)); _w=exm.WALK_DIRECTIONS.index((-1,0))
+assert _r[_e]['back'] and not _r[_w]['back'], _r
+_r={i:parts for _s,i,parts in exm.score_directions((0,0),100.0,[],[(16,0,97.0)],None,lambda i:True,None,16)}
+assert not _r[_e]['back']                                      # just walked through: not "going back"
+_evs=[]
+_st=types.SimpleNamespace(ctx=types.SimpleNamespace(state={'hp_abs':(100,200)},log=lambda m:None,recorder=None,
+                          input=types.SimpleNamespace(last_action_t=None)),_hp_prev=None,_idle_open=None,
+                          targeting=types.SimpleNamespace(last_monsters=[(690,380),(900,380)]))
+_st._nearest_box=lambda c: AccountSession._nearest_box(_st,c)
+assert not AccountSession._hp_falling(_st); _st.ctx.state['hp_abs']=(90,200); assert AccountSession._hp_falling(_st)
+_t=AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True); assert _t.local==(690,380), _t
+assert AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),False) is None
+_st.targeting.last_monsters=[(900,380)]; assert AccountSession._defend(_st,ClientRect(0,0,1280,960),(640,380),True) is None
+_st.targeting.last_monsters=[(690,380)]
+_st.ctx.recorder=types.SimpleNamespace(count=lambda *a:None,timing=lambda *a:None,event=lambda k,**d:_evs.append((k,d)))
+_st.ctx.input.last_action_t=time.monotonic()-2; AccountSession._idle_watch(_st,(640,380),False)
+assert _st._idle_open is not None and not _evs
+_st.ctx.input.last_action_t=time.monotonic(); AccountSession._idle_watch(_st,(640,380),False)
+assert _evs and _evs[0][0]=='idle_gap' and _evs[0][1]['seconds']>=1.9 and _st._idle_open is None, _evs
+print('0.39: no walking back / hit back when HP falls / idle gaps OK')
 print('ALL SMOKE TESTS PASSED')

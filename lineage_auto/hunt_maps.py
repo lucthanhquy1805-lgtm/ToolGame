@@ -70,20 +70,22 @@ MAPS = (
         name_ko="오염된 축복의 땅 - 오크의 땅",
         name_en="Blessed Land (polluted) - Orc area",
         onnx_rel=os.path.join("model", "yolox_tiny_blessed_orc.onnx"),
-        # orc_v2 (PLAN 0.36, docs/TRAINING.md 6.8): at 0.3 day 83%/P89%, night 76%/P84%, 1280x960 night 96%/P96%
-        conf=0.3,
+        # orc_v1 (reviewed labels, docs/TRAINING.md 6.5/6.10). PLAN 0.39: default again from v20 - at the game PC's
+        # input 416 it beats orc_v2@0.3 (day 72% vs 68%, night 67% vs 58%); v19 on orc_v2 found 2.3 box/frame, v17 5.7.
+        conf=0.2,
         channels=NEW_MODEL_CHANNELS,
-        variant="orc_v2",
+        variant="orc_v1",
     ),
     HuntMap(
-        key="blessed_orc_v1",
+        key="blessed_orc_v2",
         name_ko="오염된 축복의 땅 - 오크의 땅",
         name_en="Blessed Land (polluted) - Orc area",
-        onnx_rel=os.path.join("model", "yolox_tiny_blessed_orc_v1.onnx"),
-        conf=0.2,  # orc_v1 (reviewed labels): day 83%/P84%, night 76%/P84% on the test split, docs/TRAINING.md 6.5
+        onnx_rel=os.path.join("model", "yolox_tiny_blessed_orc_v2.onnx"),
+        # orc_v2 (PLAN 0.36, docs/TRAINING.md 6.8): only better at 640; ships at 640 (a variant), so picking it runs 640
+        conf=0.3,
         channels=NEW_MODEL_CHANNELS,
         variant_of="blessed_orc",
-        variant="orc_v1",
+        variant="orc_v2",
     ),
     HuntMap(
         key="fallen_blessed",
@@ -98,6 +100,8 @@ MAPS = (
 )
 
 _BY_KEY = {m.key: m for m in MAPS}
+# v18-v19 saved orc_v1 as the variant "blessed_orc_v1"; it is the ground's default from v20 (PLAN 0.39)
+_BY_KEY["blessed_orc_v1"] = _BY_KEY["blessed_orc"]
 
 
 def all_maps():

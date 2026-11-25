@@ -31,6 +31,17 @@ def _skill_name(catalog, skill_id):
     return entry.get("name_vi") or skill_id
 
 
+HIGH_MIN_MP = 80  # PLAN 0.39: from this MP% a wizard is rarely full enough for the spell to ever fire
+
+
+def high_min_mp_names(account, catalog):
+    """Enabled attack slots whose MP% floor is >= HIGH_MIN_MP, as "F2+F5 name" (empty = nothing to warn)."""
+    account.ensure_skill_maps()
+    return [f"{_slot(a, key)} {_skill_name(catalog, a.skill_id)}" for key in HOTKEYS
+            for a in [account.attack(key)]
+            if a.enabled and a.skill_id and is_auto_enabled(a.skill_id) and a.min_mp >= HIGH_MIN_MP]
+
+
 def format_skill_summary(account, catalog, t=None):
     """Build a compact enabled-slot summary for the account tab.
 

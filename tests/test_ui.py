@@ -46,16 +46,16 @@ def main():
         tab.record.no_model.set(True)
         tab.zone._zone_selected()
         assert not tab.record.no_model.get() and tab.account.hunt_map == "blessed_orc"
-        # PLAN 0.36: Scan > Advanced > Model switches orc_v2 / orc_v1; picking the zone again keeps the choice
+        # PLAN 0.36/0.39: Scan > Advanced > Model switches orc_v1 / orc_v2; picking the zone again keeps the choice
         tab.scan.load()
-        assert list(tab.scan.combo_model["values"]) == ["orc_v2", "orc_v1"] and tab.scan.model.get() == "orc_v2"
-        tab.scan.model.set("orc_v1")
+        assert list(tab.scan.combo_model["values"]) == ["orc_v1", "orc_v2"] and tab.scan.model.get() == "orc_v1"
+        tab.scan.model.set("orc_v2")
         tab.scan._on_model()
-        assert tab.account.hunt_map == "blessed_orc_v1"
+        assert tab.account.hunt_map == "blessed_orc_v2"
         tab.zone._zone_selected()
         tab.hunt_map.store()
-        assert tab.account.hunt_map == "blessed_orc_v1", tab.account.hunt_map
-        tab.scan.model.set("orc_v2")
+        assert tab.account.hunt_map == "blessed_orc_v2", tab.account.hunt_map
+        tab.scan.model.set("orc_v1")
         tab.scan._on_model()
         assert tab.account.hunt_map == "blessed_orc"
 
@@ -135,6 +135,13 @@ def main():
         assert tab.account.attack("F5").enabled and tab.account.attack("F5").page == "F2"
         assert tab.account.health.skill_key == "F5" and tab.account.health.skill_page == "F1"
         assert "F2+F5" in tab.skill_setup.summary_label.cget("text"), tab.skill_setup.summary_label.cget("text")
+        # PLAN 0.39: an MP% floor >= 80 warns that the spell will rarely fire
+        assert tab.skill_setup.mp_warn_label.cget("text") == ""
+        tab.account.attack("F5").min_mp = 80
+        tab.skill_setup.refresh_summary()
+        assert "F2+F5" in tab.skill_setup.mp_warn_label.cget("text"), tab.skill_setup.mp_warn_label.cget("text")
+        tab.account.attack("F5").min_mp = 20
+        tab.skill_setup.refresh_summary()
 
         # Tab, topmost, geometry are saved.
         tab.select_page("cursor")

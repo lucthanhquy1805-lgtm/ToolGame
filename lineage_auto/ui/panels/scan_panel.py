@@ -55,7 +55,7 @@ class ScanPanel(Panel):
             spin = ttk.Spinbox(parent, width=5, textvariable=self.vars[name], command=self.tab.request_save, **span)
             spin.grid(row=row, column=1, sticky="w", pady=1)
             self.spins.append(spin)
-        # PLAN 0.36: which model of this ground (orc_v2 / orc_v1), switchable without a new build
+        # PLAN 0.36: which model of this ground (orc_v1 / orc_v2), switchable without a new build
         self.model = tk.StringVar()
         self.labels["scan_model"] = ttk.Label(self.advanced, text="")
         self.labels["scan_model"].grid(row=rows["adv"], column=0, sticky="w", padx=(0, 6))

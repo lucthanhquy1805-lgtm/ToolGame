@@ -217,10 +217,12 @@ def check_183803(rec):
         expl.wander(r.rect, CHAR)
         e = events[-1]
         wander[(e["why"], e["dir"])] += 1
-        if e["why"] == "minimap":
+        if e["why"] in ("minimap", "minimap_keep"):
             assert tgt.minimap.clear_to(CHAR, tuple(e["to"])), e  # never into a fence
     ctx.recorder = None
-    print(f"   wander on frames 506-654 without a monster: {dict(wander)}")
+    turns = sum(a["dir"] != b["dir"] for a, b in zip(events, events[1:]))  # PLAN 0.39: v19 10.7/min in 233615
+    print(f"   wander on frames 506-654 without a monster: {dict(wander)}; {turns} direction changes "
+          f"in {len(events)} walks")
     assert any(why.startswith("minimap") for why, _d in wander), wander
 
 

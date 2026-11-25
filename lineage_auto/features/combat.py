@@ -44,8 +44,9 @@ CORPSE_OUTCOMES = ("corpse_cursor", "die_box", "frozen", "vanished")
 # A kill line this soon after a fight that ended without a kill belongs to that fight.
 LATE_KILL_SEC = 3.0
 # PLAN 0.27 / 3: no step closer for this long (beyond melee) = the target cannot be reached (wall, fence).
-UNREACH_SEC = 2.5
-DETOUR_AFTER = 1.2  # s without progress before walking to the minimap gap once
+# PLAN 0.39: 2.5 -> 1.5 (233615: 20 unreachable fights stood 2.8-7.4 s hitting a fence).
+UNREACH_SEC = 1.5
+DETOUR_AFTER = 0.8  # s without progress before walking to the minimap gap once
 PROGRESS_PX = 16
 MAX_DETOURS = 2
 DETOUR_WALK = 0.6  # s given to the walk to the gap before re-arming
@@ -70,6 +71,12 @@ FIGHT_HINT_SEC = 1.0
 # then click the monster's NEWEST box. No ellipse by the deadline = click once anyway (a click on a monster
 # with no spell armed is only a hand attack) and log it.
 AIM_POLL = 0.1
+# PLAN 0.39: after a cast the cursor is not the sword for a moment (the client fires, the hold restarts); 233615
+# ended 15 fights "lost, no attack cursor" right after a spell on a monster still alive.
+CAST_GRACE = 1.0
+MP_SETTLE = 0.8  # s after the click before the MP read that shows what the cast cost (spell_mp event)
+# PLAN 0.39: MP% the heal skill keeps; attack spells stop below it (233615 cast down to 20 %, MP fell to 2 %).
+HEAL_MP_RESERVE = 25
 
 
 class CombatFeature(Feature):
@@ -96,6 +103,7 @@ class CombatFeature(Feature):
         self._slot_turn = 0
         self._spells = 0  # spells cast in the fight under way
         self._skipped = {}  # why a slot was skipped, for the recording
+        self._mp_pending = None  # (time, key, mp_before) of the last cast, read again after MP_SETTLE
 
     def active_skills(self):
         keys = []
@@ -118,11 +126,17 @@ class CombatFeature(Feature):
             return "out_of_range", False
         if setting.min_mp and mp is not None and mp < setting.min_mp:
             return "low_mp", False
+        if mp is not None and mp < self._mp_reserve():
+            return "heal_reserve", False
         return "", True
+
+    def _mp_reserve(self):
+        return HEAL_MP_RESERVE if self.account.health.use_skill else 0
 
     def _pick_skill(self, skills, rect, dist, now):
         """The next attack slot to fire -> (key or None, mp%). Rotates so several slots share the beats."""
-        mp = self.ctx.read_mp(rect) if any(self.account.attack(k).min_mp for k in skills) else None
+        need = self._mp_reserve() or any(self.account.attack(k).min_mp for k in skills)
+        mp = self.ctx.read_mp(rect) if need else None
         turn = self._slot_turn % len(skills)
         for key in skills[turn:] + skills[:turn]:
             reason, ok = self._slot_ready(key, dist, now, mp)
@@ -133,12 +147,15 @@ class CombatFeature(Feature):
                 self._skipped[reason] = self._skipped.get(reason, 0) + 1
         return None, mp
 
-    def _wait_aim_cursor(self):
+    def _wait_aim_cursor(self, before=None):
         """Poll the cursor until the aiming ellipse shows. -> (aim_delay or None, [{at, hash, md5, kind}]).
 
         PLAN 0.35: the reads are kept (one per distinct picture) so the game PC can see what the ellipse over
         a monster really looks like - the registered "cast" picture was captured over the ground. Nothing but
-        reading happens here: a click, a key or a step would cancel the spell the client is arming."""
+        reading happens here: a click, a key or a step would cancel the spell the client is arming.
+        PLAN 0.39: ``before`` = the cursor read just before the slot key. An ellipse that was already there
+        (233615: 94/94 "ellipse" at 0.0 s, always fc92) is not this key's ellipse - only a change counts."""
+        stale = before if before and self.ctx.cursors.classify(before) == "cast" else None
         reads, seen, start = [], set(), time.time()
         deadline = start + max(0.0, float(getattr(self.account, "aim_wait_sec", 1.8)))
         while True:
@@ -148,7 +165,7 @@ class CombatFeature(Feature):
                 seen.add(cursor_hash)
                 reads.append({"at": round(time.time() - start, 2), "hash": cursor_hash,
                               "md5": getattr(CursorProbe, "last_legacy", None), "kind": kind})
-            if kind == "cast":
+            if kind == "cast" and cursor_hash != stale:
                 return round(time.time() - start, 2), reads
             if time.time() >= deadline or not self.ctx.running:
                 return None, reads
@@ -188,12 +205,13 @@ class CombatFeature(Feature):
         if target is None:
             self.log(f"no nameplate for {key}, skipping this beat")
             self._skipped["no_nameplate"] = self._skipped.get("no_nameplate", 0) + 1
-            return anchor, False
+            return anchor, False, None
 
         screen_x = target.screen_x
         screen_y = target.screen_y + NAMEPLATE_BODY_DROP
         order = self.account.cast_order
         reads, aim_delay = [], None
+        before = CursorProbe.current_hash()
         if order == "click_key":
             self.input.click_at(screen_x, screen_y)
             time.sleep(0.05)
@@ -203,7 +221,7 @@ class CombatFeature(Feature):
                 self.input.move(screen_x, screen_y)
                 time.sleep(0.02)
             self.ctx.press_slot(setting.page, key)
-            aim_delay, reads = self._wait_aim_cursor()
+            aim_delay, reads = self._wait_aim_cursor(before)
             point = self._aim_point(rect, char, anchor)
             if point is None:
                 # An armed spell with nothing left to throw it at: right-click cancels it (ESC is the stop key).
@@ -212,9 +230,11 @@ class CombatFeature(Feature):
                          f"cancelled with a right click (ellipse after {aim_delay}s)")
                 self._skipped["no_target_left"] = self._skipped.get("no_target_left", 0) + 1
                 self._record_cast(key, setting, order, None, rect, mp_before, aim_delay, reads,
-                                  ok=False, reason="no_target_left")
-                return anchor, False
-            screen_x, screen_y = rect.to_screen(point[0], point[1] + NAMEPLATE_BODY_DROP)
+                                  ok=False, reason="no_target_left", before=before)
+                return anchor, False, None
+            # PLAN 0.39: a box centre is the body already; the nameplate drop put the click (and the hold after
+            # it) on the ground - 233615: 15 fights "lost" with the ground cursor right after a spell.
+            screen_x, screen_y = rect.to_screen(point[0], point[1])
             target = types.SimpleNamespace(local=(int(point[0]), int(point[1])),
                                            local_x=int(point[0]), local_y=int(point[1]))
             if aim_delay is None:
@@ -226,13 +246,17 @@ class CombatFeature(Feature):
         self._spells += 1
         self.log(f"skill {setting.page}+{key} ({order}) on {target.local}"
                  + (f", ellipse after {aim_delay}s" if aim_delay is not None else ""))
-        self._record_cast(key, setting, order, target, rect, mp_before, aim_delay, reads)
-        return (target.local_x, target.local_y), True
+        self._record_cast(key, setting, order, target, rect, mp_before, aim_delay, reads, before=before)
+        return (target.local_x, target.local_y), True, (screen_x, screen_y)
 
     def _record_cast(self, key, setting, order, target, rect, mp_before, aim_delay, reads,
-                     ok=True, reason=None):
+                     ok=True, reason=None, before=None):
         """One spell_cast event. PLAN 0.35: aim_delay_s = slot key -> ellipse, so analyze_records can average
-        it and the "aim wait" default can be tuned; cursor_after_key holds every picture seen while waiting."""
+        it and the "aim wait" default can be tuned; cursor_after_key holds every picture seen while waiting.
+        PLAN 0.39: MP read right after the click never moved (93/94 equal); the cost comes MP_SETTLE later as a
+        spell_mp event (engage)."""
+        if ok:
+            self._mp_pending = (time.time(), key, mp_before)
         rec = getattr(self.ctx, "recorder", None)
         if rec is None:
             return
@@ -243,8 +267,19 @@ class CombatFeature(Feature):
             rec.count("spell_no_ellipse")
         rec.event("spell_cast", ok=ok, reason=reason, key=key, page=setting.page, skill_id=setting.skill_id,
                   order=order, target=list(target.local) if target is not None else None,
-                  mp_before=mp_before, mp_after=self.ctx.read_mp(rect), aim_delay_s=aim_delay,
+                  mp_before=mp_before, aim_delay_s=aim_delay, cursor_before_key=before,
                   cursor_after_key=reads, fight_sec=round(time.time() - self._fight_start, 1))
+
+    def _check_mp_pending(self, rect):
+        """PLAN 0.39: MP_SETTLE after a cast, read MP once more: what the spell really cost."""
+        pending = self._mp_pending
+        if pending is None or time.time() - pending[0] < MP_SETTLE:
+            return
+        self._mp_pending = None
+        rec = getattr(self.ctx, "recorder", None)
+        if rec is not None:
+            rec.event("spell_mp", key=pending[1], mp_before=pending[2], mp_after=self.ctx.read_mp(rect),
+                      after_s=round(time.time() - pending[0], 1))
 
     def _hold_and_drag(self, screen_x, screen_y):
         """Arm auto-attack: move, hold left, pull down. Never a click."""
@@ -477,6 +512,7 @@ class CombatFeature(Feature):
                     self._rearm(screen_x, screen_y)
 
                 time.sleep(BURST_INTERVAL)
+                self._check_mp_pending(rect)
                 cursor = CursorProbe.current_hash()
 
                 sword = self.ctx.cursors.is_attack(cursor)
@@ -535,7 +571,9 @@ class CombatFeature(Feature):
                     sword_t = now
                 elif dist <= MELEE_DIST and now - sword_t >= NO_SWORD_SEC:
                     return self._finish(target, "lost", anchor, f"no attack cursor for {now - sword_t:.1f}s")
-                closer = self.targeting.closer_than(anchor, char) if self.targeting is not None else None
+                # PLAN 0.39 / 6: leave a living lock only for a monster hitting us while the lock is not next to us
+                closer = (self.targeting.closer_than(anchor, char)
+                          if self.targeting is not None and dist > MELEE_DIST else None)
                 if closer is not None and self._confirm_switch(rect, closer):
                     # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.
                     self._finish(target, "switch", anchor, f"{closer} at "
@@ -593,9 +631,11 @@ class CombatFeature(Feature):
                     if key is not None:
                         last_skill = now
                         if self.ctx.can_cast(self.account.attack(key).skill_id, rect):
-                            anchor, fired = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
+                            anchor, fired, hold = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
                             if fired:
-                                screen_x, screen_y = rect.to_screen(anchor[0], anchor[1] + NAMEPLATE_BODY_DROP)
+                                screen_x, screen_y = hold
+                                # the same monster again (hand or the next spell); no "lost" while the hold restarts
+                                sword_t = max(sword_t, time.time() + CAST_GRACE)
                             self._note_lock(anchor)
                             self._hold_and_drag(screen_x, screen_y)
                         else:

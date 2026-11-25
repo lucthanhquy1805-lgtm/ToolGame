@@ -281,7 +281,7 @@ Bot không cần sửa mã: `vision/yolox_mobs.class_layout` đọc số lớp t
 Train: 111355 + 130457 + 133425 (train) + **092741** (132 ảnh đêm 1280×960, người chơi/cung thủ/slime/nhân vật = nền)
 = 434 ảnh, 60 epoch, 17,3 phút GPU, best AP val 34,55. Test thêm: 30 ảnh đã duyệt cuối của 092741
 (`split: "test"`, f_00682–f_00843; bản trước khi tách nằm trong git, commit 527d6e6).
-File: orc_v2 = `model/yolox_tiny_blessed_orc{,_416,_320}.onnx`; orc_v1 = `model/yolox_tiny_blessed_orc_v1.onnx` (640, HuntMap `blessed_orc_v1`).
+File (v18–v19): orc_v2 = `model/yolox_tiny_blessed_orc{,_416,_320}.onnx`, orc_v1 = `..._v1.onnx`. Từ v20 đổi lại, xem 6.10.
 Recall / precision ở conf 0.2 (v2 ở 0.3 trong ngoặc), "char" = box trên chính nhân vật (≤45 px quanh char_anchor):
 
 | tập | orc_v1 | orc_v2 |
@@ -364,3 +364,17 @@ hơn, hụt 1–2 orc đêm) → theo quy tắc, giữ 2 model: `blessed_orc` = 
 (`model/yolox_tiny_fallen_blessed{,_416,_320}.onnx`, conf 0.3); catalog `fallen_blessed` trỏ tới nó.
 Ảnh tên dòng chat 5 orc tím: `names/fallen_blessed/<class>_chat.png` (thu ngày f_00036/306/331, xuân ngày
 f_00306/681); `--check`: thu ngày 16 lượt giết đọc được, hạ đêm 9.
+
+### 6.10 Chấm ở cỡ đầu vào của máy game → 오크의 땅 quay về orc_v1 (PLAN 0.39, 25/11) — mặc định từ v20
+Bảng 6.8 chỉ chấm ở 640; máy game chạy 416 (scan.input_size). Recall (split test, P trong ngoặc):
+
+| tập | v1@0.2 640 | v1@0.2 416 | v1@0.2 320 | v2@0.3 640 | v2@0.3 416 | v2@0.3 320 |
+|---|---|---|---|---|---|---|
+| ngày 193903 | 83% (84) | 72% (94) | 50% (92) | 83% (89) | 68% (95) | 36% (94) |
+| đêm 133425 | 76% (84) | 67% (87) | 37% (83) | 76% (84) | 58% (88) | 42% (97) |
+| đêm 092741 | 95% (90) | 88% (96) | 61% (94) | 96% (96) | 85% (96) | 64% (98) |
+
+`blessed_orc` = orc_v1 (`yolox_tiny_blessed_orc{,_416,_320}.onnx`), `blessed_orc_v2` = orc_v2 (đóng gói 640).
+Lệnh (quy tắc mới, cỡ lấy từ config máy game):
+`python tests/eval_detection.py --maps blessed_orc,blessed_orc_v2 --split test --labels records_game/<rec>/labels.json
+--images records_game/<rec> --config records_game/<hunt mới nhất>/lineage_auto_config.json`.

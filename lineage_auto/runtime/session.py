@@ -1,4 +1,5 @@
 """One account's bot loop, running on its own thread."""
+import math
 import os
 import threading
 import time
@@ -13,7 +14,7 @@ from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
 from ..features.loot import LootFeature
 from ..features.survival import HealthFeature
-from ..features.targeting import TargetingFeature
+from ..features.targeting import Target, TargetingFeature
 from ..vision.geometry import play_max_radius
 from ..vision.hud_numbers import percent
 from ..vision.name_reader import KillWatcher, NameReader, save_crop
@@ -47,6 +48,12 @@ HUD_LOST_SEC = 60.0
 MEM_EVERY = 600.0  # RSS to the log every 10 min
 MEM_GROW_WARN = 6  # warn when it grew this many checks in a row (an hour)
 MEM_GROW_MB = 5.0  # smaller rises are noise
+# PLAN 0.39 / 6: no click / hold / key this long while a monster is this close or HP is falling = an idle gap
+# (event idle_gap). Falling HP + a box within DEFEND_PX and no confirmed target = hit back at once.
+IDLE_GAP_SEC = 1.5
+IDLE_NEAR_PX = 150
+HP_DROP_SEC = 2.0  # HP lower than a read this recent = being hit
+DEFEND_PX = 70
 
 
 class SessionState:
@@ -86,6 +93,8 @@ class AccountSession:
         self.started_at = None  # monotonic start of the current run (UI run time)
         self._mem_next, self._mem_last, self._mem_rises = 0.0, None, 0
         self._hud_seen = None
+        self._hp_prev = None  # (hp, monotonic) of an earlier HUD read (PLAN 0.39)
+        self._idle_open = None  # last_action_t when an idle gap started
 
     @property
     def window(self):
@@ -374,6 +383,50 @@ class AccountSession:
             return True
         return False
 
+    def _hp_falling(self):
+        """PLAN 0.39: HUD HP lower than a read up to HP_DROP_SEC ago."""
+        hp, now = self.ctx.state.get("hp_abs"), time.monotonic()
+        if not hp:
+            return False
+        prev = self._hp_prev
+        if prev is None or now - prev[1] > HP_DROP_SEC or hp[0] > prev[0]:
+            self._hp_prev = (hp[0], now)
+            return False
+        return hp[0] < prev[0]
+
+    def _nearest_box(self, char):
+        boxes = [(math.hypot(x - char[0], y - char[1]), (x, y)) for x, y in self.targeting.last_monsters]
+        return min(boxes) if boxes else (None, None)
+
+    def _defend(self, rect, char, falling):
+        """PLAN 0.39 / 6: being hit and nothing confirmed -> the nearest box next to us, no cursor check."""
+        dist, point = self._nearest_box(char)
+        if not falling or dist is None or dist > DEFEND_PX:
+            return None
+        self.ctx.log(f"HP falling, hitting back the nearest box {point} ({dist:.0f}px)")
+        if self.ctx.recorder:
+            self.ctx.recorder.count("defend")
+        return Target(int(point[0]), int(point[1]), *rect.to_screen(int(point[0]), int(point[1])))
+
+    def _idle_watch(self, char, falling):
+        """PLAN 0.39 / 6: idle_gap = no action for IDLE_GAP_SEC while a monster is near or HP falls."""
+        act = getattr(self.ctx.input, "last_action_t", None)
+        if act is None:
+            return
+        if self._idle_open is not None and act > self._idle_open:
+            sec = act - self._idle_open
+            self._idle_open = None
+            rec = self.ctx.recorder
+            if rec:
+                rec.count("idle_gap")
+                rec.timing("idle_gap_sec", sec)
+                rec.event("idle_gap", seconds=round(sec, 1))
+            return
+        dist, _p = self._nearest_box(char)
+        busy = falling or (dist is not None and dist <= IDLE_NEAR_PX)
+        if self._idle_open is None and busy and time.monotonic() - act > IDLE_GAP_SEC:
+            self._idle_open = act
+
     def stop(self):
         if self.state == SessionState.OBSERVING:
             self.ctx.request_stop()
@@ -391,6 +444,7 @@ class AccountSession:
         last_target = time.monotonic()  # PLAN 0.35: when the hotbar goes back to the home page
         errors = []  # monotonic times of loop errors (PLAN 0.38)
         self._mem_next, self._mem_last, self._mem_rises, self._hud_seen = 0.0, None, 0, None
+        self._hp_prev = self._idle_open = None
         try:
             while self.ctx.running:
                 poll_escape(self.ctx)
@@ -421,10 +475,14 @@ class AccountSession:
                             break
 
                         self.buff.tick(rect)
+                        falling = self._hp_falling()
                         target = self.targeting.rehover_last(rect)
                         if target is None:
                             target = self.targeting.acquire(rect, char)
                             self.exploration.observe()
+                        if target is None:
+                            target = self._defend(rect, char, falling)
+                        self._idle_watch(char, falling)
 
                         rec = self.ctx.recorder
                         if target is not None:

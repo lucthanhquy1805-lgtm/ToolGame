@@ -298,6 +298,32 @@ def idle_report(arg, frames):
         print(f"   {t1 - t0:5.1f}s  t={t0:7.1f}  from {name}")
 
 
+def move_report(events, minutes, back_r=12.0, back_sec=60.0):
+    """PLAN 0.39: how the bot walks. -> dict (also printed): direction changes / min, walks back to ground
+    left < back_sec ago (minimap odometry px within back_r), odometry distance / min, idle gaps."""
+    walks = [e for e in events if e.get("kind") == "wander"]
+    changes = sum(a.get("dir") != b.get("dir") for a, b in zip(walks, walks[1:]))
+    placed = [(e["t"], e["pos"]) for e in walks if e.get("pos")]
+    dist = sum(math.hypot(b[1][0] - a[1][0], b[1][1] - a[1][1]) for a, b in zip(placed, placed[1:])
+               if b[0] - a[0] < 10)  # a fight in between moves the character without a wander event
+    back = 0
+    for i, (t, p) in enumerate(placed):
+        left = [q for t0, q in placed[:i] if 8.0 <= t - t0 <= back_sec]
+        far = any(math.hypot(q[0] - p[0], q[1] - p[1]) > 3 * back_r for t0, q in placed[:i] if t - t0 <= back_sec)
+        back += far and any(math.hypot(q[0] - p[0], q[1] - p[1]) < back_r for q in left)
+    idle = [e.get("seconds") or 0 for e in events if e.get("kind") == "idle_gap"]
+    out = {"walks": len(walks), "dir_changes_per_min": changes / minutes, "returns_60s": back,
+           "mm_px_per_min": dist / minutes if placed else None, "idle_gaps": len(idle), "idle_sec": sum(idle)}
+    print(f"walking: {len(walks)} walks, {out['dir_changes_per_min']:.1f} direction changes/min, "
+          f"{back} walks back to ground left < {back_sec:.0f}s ago"
+          + (f", {out['mm_px_per_min']:.0f} minimap px/min" if placed else " (no position: before v20)")
+          + f"; why {dict(Counter(e.get('why') for e in walks))}")
+    print(f"idle gaps (> 1.5 s without a click / key while a monster is near or HP falls): {len(idle)}, "
+          f"{sum(idle):.0f}s" + ("" if any(e.get("kind") == "idle_gap" for e in events) or not walks
+                                 else " (not recorded before v20)"))
+    return out
+
+
 def time_report(summary, events):
     """PLAN 0.31: where the hunt time went, scan rate, and kills by source."""
     duration = summary.get("duration_sec") or 0
@@ -319,6 +345,7 @@ def time_report(summary, events):
         near = Counter(e["outcome"] for e in melee if e.get("dist") is not None and e["dist"] <= 70)
         print(f"  endings with the lock <= 70 px: {dict(near)}; melee at the end: {sum(bool(e['melee']) for e in melee)}")
     minutes = duration / 60
+    move_report(events, minutes)
     rate = f"scans {counts.get('scans', 0) / minutes:.1f}/min"
     if counts.get("detections"):
         rate += f", detections {counts['detections'] / minutes:.0f}/min ({counts['detections'] / duration:.1f}/s)"
@@ -347,7 +374,9 @@ def time_report(summary, events):
     minutes = max(1e-9, (summary.get("duration_sec") or 0) / 60.0)
     if spells:
         used = Counter(f"{e.get('page', 'F1')}+{e.get('key')}" for e in fired)
-        drops = [e["mp_before"] - e["mp_after"] for e in fired
+        # PLAN 0.39: spell_mp (read MP_SETTLE after the click); v19 read mp_after at once and it never moved
+        costs = [e for e in events if e.get("kind") == "spell_mp"] or fired
+        drops = [e["mp_before"] - e["mp_after"] for e in costs
                  if e.get("mp_before") is not None and e.get("mp_after") is not None]
         mp = f", MP -{sum(drops) / len(drops):.1f}%/cast" if drops else ""
         print(f"spells: {len(fired)} casts {dict(used)}, order {spells[-1].get('order')}{mp}")
@@ -360,6 +389,9 @@ def time_report(summary, events):
         seen = Counter(r.get("kind") for e in fired for r in (e.get("cursor_after_key") or []))
         if seen:
             print(f"  cursor after the slot key: {dict(seen)}")
+        before = Counter(e.get("cursor_before_key") for e in spells if "cursor_before_key" in e)  # PLAN 0.39
+        if before:
+            print(f"  cursor just before the slot key: {dict(before.most_common(4))}")
         # PLAN 0.35: key -> aiming ellipse. The default aim_wait_sec (1.8) is tuned on this average.
         delays = [e["aim_delay_s"] for e in spells if e.get("aim_delay_s") is not None]
         blind = [e for e in spells if "aim_delay_s" in e and e["aim_delay_s"] is None]

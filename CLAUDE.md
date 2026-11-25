@@ -42,13 +42,18 @@ The dev machine has no game; the bot will run on a separate game PC.
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap).
 - 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
   rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).
+- Map name bottom-left (PLAN 1.3b, `vision/map_name.py`, templates `data/map_names/` from `tests/build_map_names.py`):
+  `python tests/test_map_name.py`.
 - Remote stop (PLAN 0.28): `python tests/test_remote_stop.py` (Windows; SendInput mouse/ESC like TeamViewer ->
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. Fight endings + unreachable: `features/combat.py`.
 - Detect modes (PLAN 0.33): `python tests/eval_detect_modes.py [<record dir> ...]` — boxes/frame of the full 640
   frame against the adaptive mix, on the saved frames of real hunts. Run it before changing a detector default.
-- Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi]` (recall / false positives
-  / ms on `docs/game_reference` with `tests/data/monster_labels.json`). Run before/after any vision change.
+- Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi] [--config X]` (recall / false
+  positives / ms on `docs/game_reference` with `tests/data/monster_labels.json`). Run before/after any vision change.
+  RULE (PLAN 0.39): a model becomes a default only after it is scored at the input the game PC runs —
+  `--config <game PC lineage_auto_config.json>` reads its scan.input_size/detect_roi. orc_v2 won at 640 and lost at
+  416 (the game PC's size): v19 found 2.3 boxes/frame vs 5.7 → blessed_orc is orc_v1 again, orc_v2 a 640-only variant.
 - Detector thread (PLAN 0.31): `runtime/detector.DetectorThread` runs YOLOX non-stop (scan.detect_fps / input_size /
   detect_roi); `TargetingFeature._detect` reads its newest result (detects inline when it is None: tests, replays).
   PLAN 0.32: the defaults are the full frame at 640 again (the ROI at 416 saw a quarter fewer boxes); the automatic
@@ -124,6 +129,10 @@ Each iteration, while holding the mouse arbiter:
    PLAN 0.32: a fight ends as soon as the box has been gone `BOX_GONE_SEC` (whatever the cursor says) or there was
    no attack cursor for `NO_SWORD_SEC` in melee range; a switch to a nearer box is hover-confirmed first.
    Kills (PLAN 0.31): one per chat kill line + one per corpse ending no line confirmed within 3 s (`combat._tally`).
+   PLAN 0.39: no target + HUD HP falling + a box <= 70 px = `session._defend` (no cursor check); `idle_gap` events;
+   switch only while the lock is beyond MELEE_DIST; after a cast click/hold the box centre (no nameplate drop) and
+   `CAST_GRACE`; the ellipse must change after the key (`cursor_before_key`); `spell_mp` = MP `MP_SETTLE` later;
+   spells stop under `HEAL_MP_RESERVE`; `UNREACH_SEC` 1.5; minimap walks held 4-8 s (`minimap_keep`), `W_BACK`.
 
 ## Conventions / gotchas
 - Features only talk to their `BotContext`; never reach for globals. That is what makes
