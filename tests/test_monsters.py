@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.join(ROOT, "tests"))
 import cv2  # noqa: E402
 import numpy as np  # noqa: E402
 
-from lineage_auto import monsters  # noqa: E402
+from lineage_auto import hunt_maps, monsters  # noqa: E402
 from lineage_auto.vision import name_reader as nr  # noqa: E402
 
 ORC = "오염된 축복의 땅 - 오크의 땅"
@@ -387,7 +387,8 @@ def test_orc_model_packed():
     packed = [os.path.basename(src) for src, _dst in hunt_maps.pyinstaller_onnx_datas(os.path.join(ROOT, "model"))]
     assert "yolox_tiny_blessed_orc.onnx" in packed and "yolox_tiny_dragon_valley.onnx" in packed
     assert {"yolox_tiny_blessed_orc_416.onnx", "yolox_tiny_blessed_orc_320.onnx"} <= set(packed)  # PLAN 0.31 sizes
-    assert "yolox_tiny_blessed_orc_v1.onnx" in packed and len(packed) == 8, packed  # nothing else from model/
+    assert "yolox_tiny_blessed_orc_v1.onnx" in packed and len(packed) == 11, packed  # nothing else from model/
+    assert {"yolox_tiny_fallen_blessed.onnx", "yolox_tiny_fallen_blessed_416.onnx"} <= set(packed)  # orc_v3
     zone = monsters.for_real_map(ORC)
     assert zone.hunt_map == "blessed_orc" and zone.has_model == hunt_maps.model_exists("blessed_orc")
 
@@ -398,7 +399,8 @@ def test_fallen_blessed_seasons():
     seasons = [f"타락한 축복의 땅의 {s}" for s in ("봄", "여름", "가을", "겨울")]
     for zone in seasons:
         cat = monsters.for_real_map(zone)
-        assert cat.key == "fallen_blessed" and cat.group == "orc" and not cat.has_model, zone
+        assert cat.key == "fallen_blessed" and cat.group == "orc" and cat.hunt_map == "fallen_blessed", zone
+        assert cat.has_model == hunt_maps.model_exists("fallen_blessed")
     assert monsters.for_real_map("fallen_blessed").real_map == seasons[0]
     assert monsters.for_real_map(seasons[2]).monster_classes() == [
         "orc_gandi", "orc_archer", "orc_mage", "orc_dudamara", "orc_warrior"]
@@ -412,6 +414,24 @@ def test_fallen_blessed_seasons():
     assert monsters.for_real_map(elf.zone_name).key == "fallen_blessed_elf"
     assert monsters.for_real_map(orc.zone_name).key == "fallen_blessed"
     assert "오염된 축복의 땅 - 오크의 땅" in monsters.zone_names()  # catalogs without zone_name: their map
+
+
+def test_fallen_blessed_chat_kills():
+    """PLAN 0.37: the 5 purple orcs are read in the chat kill line ("획득: 타락한 ..."); template frames by eye."""
+    from lineage_auto.vision.name_reader import NameReader
+    reader = NameReader(monsters.for_real_map("fallen_blessed"), "chat")
+    assert reader.available
+    cases = [("20261125_003058_observe_autumn_day", "f_00036.jpg", "타락한 간디 오크"),
+             ("20261125_003058_observe_autumn_day", "f_00331.jpg", "타락한 두다-마라 오크"),
+             ("20261125_003058_observe_autumn_day", "f_00306.jpg", "타락한 오크 궁수"),
+             ("20261124_235143_observe_spring_day", "f_00306.jpg", "타락한 오크 마법사"),
+             ("20261124_235143_observe_spring_day", "f_00681.jpg", "타락한 오크 전사")]
+    for rec, name, expected in cases:
+        path = os.path.join(ROOT, "records_game", rec, name)
+        if not os.path.exists(path):
+            continue
+        found = [n for _mask, n in reader.chat_lines(cv2.imread(path)) if n]
+        assert found and found[-1] == expected, (rec, name, found)
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")

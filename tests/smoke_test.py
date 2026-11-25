@@ -518,8 +518,8 @@ yolox_mobs.hunt_maps.get=lambda k: dataclasses.replace(orig_get(k),channels='bgr
 yolox_mobs.detect_centers(px,640,380,500,infer=blob_of,map_key='dragon_valley')
 yolox_mobs.hunt_maps.get=orig_get
 assert seen['b'][0,0,150,300]==255 and seen['b'][0,2,150,300]==0      # BGR: blue stays in channel 0
-assert all(m.channels=='rgb' for m in hunt_maps.all_maps() if m.key!='blessed_orc') and hunt_maps.NEW_MODEL_CHANNELS=='bgr'
-assert hunt_maps.get('blessed_orc').channels=='bgr'                  # first model trained here (PLAN 0.20)
+assert all(m.channels=='rgb' for m in hunt_maps.all_maps() if m.key not in ('blessed_orc','fallen_blessed')) and hunt_maps.NEW_MODEL_CHANNELS=='bgr'
+assert hunt_maps.get('blessed_orc').channels==hunt_maps.get('fallen_blessed').channels=='bgr'                  # first model trained here (PLAN 0.20)
 print('yolox: per-model channel order (shipped rgb, new bgr) OK')
 # PLAN 1.6: attack spells. Every catalog role="attack" skill may be auto-cast now (the allow-list only held
 # heals / buffs / cure before, so an assigned spell was never pressed), each slot has its own min MP%, range and

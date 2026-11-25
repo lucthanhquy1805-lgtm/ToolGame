@@ -1,5 +1,17 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 25/11/2026 (bản 18) — bản 17 + model orc mới + nhận đúng con trỏ ngắm phép. Cài đè như cũ (mục 2).
+Bản build: 25/11/2026 (bản 19) — bản 18 + bãi 타락한 축복의 땅 (orc tím, 4 mùa) + chạy 24/24. Cài đè như cũ (mục 2).
+  ★★★ MỚI Ở BẢN 19:
+      · BÃI MỚI "타락한 축복의 땅 - 오크" (orc tím, xuân/hạ/thu/đông, ngày và đêm): model orc_v3 học từ 273 ảnh bạn đã
+        duyệt. Tab Chính → ô khu: chọn "타락한 축복의 땅 (봄/여름/가을/겨울) - 오크" → tool tự chọn model này.
+        Bot đếm giết qua dòng chat "획득: 타락한 …" (5 loại orc). 오크의 땅 cũ vẫn dùng model orc_v2 như bản 18.
+        Khu yêu tinh mùa xuân ("타락한 축복의 땅의 봄 - 요정") chưa có model: chọn vào là chế độ thu dữ liệu.
+      · CHẠY 24/24: hết số khung ghi thì CHỈ DỪNG GHI, bot vẫn săn tiếp (bản 18 dừng cả lượt săn sau 15 phút).
+        "Tự dừng sau (phút)" = 0 là chạy không giới hạn. Ghi lâu thì cứ 15 phút sang một thư mục mới; thư mục
+        records/ giữ tối đa 5 GB (ô "records/ tối đa (GB)"), quá thì tự xoá bản ghi cũ nhất.
+        session_log.txt tự xoay vòng khi quá 20 MB. Lỗi lặt vặt trong lúc săn: bot ghi log rồi chạy tiếp.
+        Mất kết nối / đăng xuất (mất dòng HP trên màn hình 60 giây) → bot dừng an toàn, không click gì.
+        CHƯA CÓ: tự quay lại bãi sau khi về làng vì HP thấp — về làng thì bot vẫn dừng.
+  (bản 18) — bản 17 + model orc mới + nhận đúng con trỏ ngắm phép.
   ★★★ MỚI Ở BẢN 18:
       · MODEL ORC MỚI (orc_v2): học thêm 132 ảnh đêm của bạn (cửa sổ 1280x960, có người chơi khác / cung thủ áo
         hồng / slime). Ban đêm nhận đúng hơn và ít nhận nhầm hơn. Ngưỡng mặc định 0,3.

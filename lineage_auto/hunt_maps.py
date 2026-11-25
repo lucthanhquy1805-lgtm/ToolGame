@@ -85,6 +85,16 @@ MAPS = (
         variant_of="blessed_orc",
         variant="orc_v1",
     ),
+    HuntMap(
+        key="fallen_blessed",
+        name_ko="타락한 축복의 땅 - 오크",
+        name_en="Fallen Blessed Land - corrupted orcs",
+        onnx_rel=os.path.join("model", "yolox_tiny_fallen_blessed.onnx"),
+        # orc_v3 (PLAN 0.37, docs/TRAINING.md 6.9): one orc model (오크의 땅 + the 4 purple seasons). At 0.3 the
+        # seasons give 78-91% / P91-100%; at 오크의 땅 it was not better than orc_v2 everywhere -> separate map.
+        conf=0.3,
+        channels=NEW_MODEL_CHANNELS,
+    ),
 )
 
 _BY_KEY = {m.key: m for m in MAPS}

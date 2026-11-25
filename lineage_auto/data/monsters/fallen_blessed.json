@@ -1,11 +1,11 @@
 {
- "_doc": "PLAN 0.37: 타락한 축복의 땅, the 4 seasons (one catalog, 4 zone names). Corrupted orcs: purple, purple aura. Source: 8 observe records 24-25/11 (records_game/*_observe_<season>_<day|night>). No model yet: orc_v2 zero-shot found 1-6 % of the cursor-confirmed orcs (PLAN 0.37) -> data collection until orc_v3.",
+ "_doc": "PLAN 0.37: 타락한 축복의 땅, the 4 seasons (one catalog, 4 zone names). Corrupted orcs: purple, purple aura. Source: 8 observe records 24-25/11 (records_game/*_observe_<season>_<day|night>). orc_v2 zero-shot found 1-6 % of the cursor-confirmed orcs (PLAN 0.37); the zone uses orc_v3 (hunt map fallen_blessed).",
  "key": "fallen_blessed",
  "real_maps": ["타락한 축복의 땅의 봄", "타락한 축복의 땅의 여름", "타락한 축복의 땅의 가을", "타락한 축복의 땅의 겨울"],
  "zone_name": "타락한 축복의 땅 (봄/여름/가을/겨울) - 오크",
  "name_en": "Fallen Blessed Land (4 seasons) - corrupted orcs",
  "name_vi": "Vùng đất phước lành sa đọa (4 mùa) - orc tha hoá",
- "hunt_map": null,
+ "hunt_map": "fallen_blessed",
  "group": "orc",
  "monsters": [
   {"name": "타락한 간디 오크", "class": "orc_gandi", "name_en": "Corrupted Gandi Orc", "name_vi": "Orc Gandi tha hoá", "attack": "melee"},

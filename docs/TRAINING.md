@@ -295,7 +295,7 @@ Recall / precision ở conf 0.2 (v2 ở 0.3 trong ngoặc), "char" = box trên c
 ms/khung bằng nhau (cùng kiến trúc). Hai tập con trỏ nghiêng về v1 (bot rê chuột theo box của v1 lúc ghi), nhưng
 1 ca sót của v2 là thật (183803 f_00024: 오크 전사 trong cỏ cao). Chưa có ảnh 1334×1008 nào được duyệt.
 
-### 6.9 타락한 축복의 땅 (4 mùa, orc tím) → orc_v3 (PLAN 0.37, 25/11) — CHỜ DUYỆT
+### 6.9 타락한 축복의 땅 (4 mùa, orc tím) → orc_v3 (PLAN 0.37, 25/11) — bãi `fallen_blessed` từ v19
 8 bản quan sát 1334×1008 nhập từ `records_game/spring_summer_autumn/*.zip` thành
 `records_game/<started>_observe_<spring|summer|autumn|winter>_<day|night>` (meta + frames.jsonl: `real_map` sửa
 thành "타락한 축복의 땅의 봄/여름/가을/겨울"; bản ghi gốc ghi nhầm "오크의 땅"). Khu yêu tinh:
@@ -340,3 +340,27 @@ không ảnh hưởng. Chưa có xuân ĐÊM.
 Train orc_v3 sau khi duyệt (một model orc chung: 오크의 땅 + 4 mùa; mọi catalog có `group: "orc"` → 1 lớp):
 
     powershell -ExecutionPolicy Bypass -Command "& .\train\train_orc.ps1 -Epochs 60 -Name orc_v3 -Out model\yolox_tiny_blessed_orc_v3.onnx -Train @('records_game\20261124_111355_observe','records_game\20261124_130457_observe','records_game\20261124_133425_observe','records_game\20261125_092741_hunt','records_game\20261124_235143_observe_spring_day','records_game\20261125_001022_observe_summer_day','records_game\20261125_003058_observe_autumn_day','records_game\20261125_005357_observe_winter_day','records_game\20261125_012808_observe_summer_night','records_game\20261125_015330_observe_autumn_night','records_game\20261125_021734_observe_winter_night') -Test @()"
+
+**orc_v3** (25/11 tối): 273 ảnh đã duyệt (1355 box), train = 4 bản 오크의 땅 + 7 bản orc tím (651 ảnh), 60 epoch,
+17,9 phút GPU, best AP val 36,05. Chấm theo TÂM BOX ĐÃ DUYỆT (điểm con trỏ không ai vẽ box = không phải orc), nên số
+của 오크의 땅 hơi khác bảng 6.8. Recall / precision:
+
+| tập (ảnh test) | orc_v2 @0.3 | orc_v3 @0.2 | orc_v3 @0.3 | orc_v3 @0.4 |
+|---|---|---|---|---|
+| 오크의 땅 ngày 193903 (50) | 87% / P88% | 90% / P83% | 88% / P86% | 87% / P89% |
+| 오크의 땅 đêm 133425 (40) | 81% / P80% | 83% / P80% | 80% / P83% | 80% / P85% |
+| 오크의 땅 đêm 092741 (30) | 96% / P96% | 96% / P92% | 93% / P95% | 93% / P95% |
+| xuân ngày (8) | 0% | 91% / P94% | 91% / P94% | 88% / P97% |
+| hạ ngày (8) | 0% | 90% / P97% | 90% / P99% | 90% / P100% |
+| hạ đêm (8) | 0% | 94% / P97% | 91% / P100% | 91% / P100% |
+| thu ngày (8) | 0% | 78% / P100% | 78% / P100% | 78% / P100% |
+| thu đêm (8) | 0% | 89% / P91% | 87% / P91% | 87% / P91% |
+| đông ngày (8) | 0% | 79% / P87% | 79% / P94% | 78% / P96% |
+| đông đêm (8) | 0% | 91% / P100% | 88% / P100% | 84% / P100% |
+
+ms/khung (1 luồng, 30 ảnh 1334×1008): v2 ≈ v3 ≈ 50 ms ở 640, 24 ms ở 416, 16 ms ở 320.
+Ở 오크의 땅 không ngưỡng nào của v3 bằng hoặc hơn v2 ở MỌI chỉ số (0.2: recall hơn, precision kém; 0.3/0.4: precision
+hơn, hụt 1–2 orc đêm) → theo quy tắc, giữ 2 model: `blessed_orc` = orc_v2, bãi mới `fallen_blessed` = orc_v3
+(`model/yolox_tiny_fallen_blessed{,_416,_320}.onnx`, conf 0.3); catalog `fallen_blessed` trỏ tới nó.
+Ảnh tên dòng chat 5 orc tím: `names/fallen_blessed/<class>_chat.png` (thu ngày f_00036/306/331, xuân ngày
+f_00306/681); `--check`: thu ngày 16 lượt giết đọc được, hạ đêm 9.

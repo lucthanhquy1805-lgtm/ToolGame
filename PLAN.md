@@ -811,7 +811,7 @@ Kiểm tra thêm
       xác f0f0f038 cách 8 bit.
       Cảnh báo "hai hình gần giống" chỉ khi ≤ 2 bit: xác f0f0f038 và NPC f0f06020 lệch 4 bit, cả hai đúng.
       Test: tests/test_cursor.py test_cast_ellipse_variants.
-- [ ] 0.37 타락한 축복의 땅 4 MÙA (orc tím) → orc_v3 (25/11). Chi tiết + lệnh: docs/TRAINING.md 6.9.
+- [x] 0.37 타락한 축복의 땅 4 MÙA (orc tím) → orc_v3 (25/11). Chi tiết + bảng: docs/TRAINING.md 6.9.
    • XONG: nhập 8 bản ghi 1334x1008 (7 orc: xuân/hạ/thu/đông ngày + hạ/thu/đông đêm; 1 khu yêu tinh xuân ngày),
       real_map sửa đúng mùa. Catalog `fallen_blessed.json` (4 mùa trong `real_maps` — monsters.Catalog đọc được
       nhiều tên khu; export_dataset/analyze_records --map lọc theo cả 4) + `fallen_blessed_elf.json` (3 loại, cùng bản
@@ -820,8 +820,10 @@ Kiểm tra thêm
    • XONG: zero-shot orc_v2 = 1–6 % điểm con trỏ (conf 0.1) ở cả 7 bản → giả thuyết 0.20 "cùng chủng loại khác
       màu" sai; cần train.
    • XONG: prelabel `--glow purple` 273 ảnh (217 train / 56 test, 8 test mỗi bản từ 30 % cuối).
-   • CHỜ NGƯỜI DÙNG: duyệt 7 bản bằng label_tool --review (~273 ảnh × 10–15 s ≈ 45–70 phút).
-   • SAU ĐÓ: train orc_v3 (11 bản ghi), bảng v2 vs v3 theo bãi / mùa / ngày-đêm trên test riêng từng bản.
+   • XONG: người dùng duyệt 273 ảnh (1355 box). orc_v3 = một model orc chung (11 bản ghi). 4 mùa: 78–94 % /
+      P87–100 % (v2: 0 %). 오크의 땅: không bằng v2 ở mọi chỉ số → 2 model: blessed_orc = v2, bãi mới
+      `fallen_blessed` = v3 (conf 0.3). Tốc độ như nhau.
+   • XONG: ảnh tên dòng chat 5 orc tím (đếm giết ở bãi mới).
    • Khu yêu tinh CÙNG bản đồ mùa xuân (game ghi 타락한 축복의 땅의 봄), khu vực khác: ô chọn khu theo LOẠI QUÁI
       (`zone_name`), bản ghi mang `"zone"` = khoá catalog.
    • Để sau: khu yêu tinh (model), ảnh tên/chat của 5 loại orc tím (analyze_records đọc 0 lượt giết vì chưa có
