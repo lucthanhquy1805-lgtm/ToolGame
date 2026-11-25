@@ -46,6 +46,18 @@ def main():
         tab.record.no_model.set(True)
         tab.zone._zone_selected()
         assert not tab.record.no_model.get() and tab.account.hunt_map == "blessed_orc"
+        # PLAN 0.36: Scan > Advanced > Model switches orc_v2 / orc_v1; picking the zone again keeps the choice
+        tab.scan.load()
+        assert list(tab.scan.combo_model["values"]) == ["orc_v2", "orc_v1"] and tab.scan.model.get() == "orc_v2"
+        tab.scan.model.set("orc_v1")
+        tab.scan._on_model()
+        assert tab.account.hunt_map == "blessed_orc_v1"
+        tab.zone._zone_selected()
+        tab.hunt_map.store()
+        assert tab.account.hunt_map == "blessed_orc_v1", tab.account.hunt_map
+        tab.scan.model.set("orc_v2")
+        tab.scan._on_model()
+        assert tab.account.hunt_map == "blessed_orc"
 
         # Mode -> big button text and what it starts.
         calls = []

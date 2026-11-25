@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from ... import hunt_maps
 from ...config.models import INPUT_SIZES, MAX_PROBE_POINTS
 from .base import Panel
 
@@ -54,6 +55,27 @@ class ScanPanel(Panel):
             spin = ttk.Spinbox(parent, width=5, textvariable=self.vars[name], command=self.tab.request_save, **span)
             spin.grid(row=row, column=1, sticky="w", pady=1)
             self.spins.append(spin)
+        # PLAN 0.36: which model of this ground (orc_v2 / orc_v1), switchable without a new build
+        self.model = tk.StringVar()
+        self.labels["scan_model"] = ttk.Label(self.advanced, text="")
+        self.labels["scan_model"].grid(row=rows["adv"], column=0, sticky="w", padx=(0, 6))
+        self.combo_model = ttk.Combobox(self.advanced, textvariable=self.model, state="readonly", width=8)
+        self.combo_model.grid(row=rows["adv"], column=1, sticky="w", pady=1)
+        self.combo_model.bind("<<ComboboxSelected>>", self._on_model)
+
+    def load_model(self):
+        options = hunt_maps.variants(self.account.hunt_map)
+        self.combo_model["values"] = [m.variant or m.key for m in options]
+        hunt = hunt_maps.get(self.account.hunt_map)
+        self.model.set(hunt.variant or hunt.key)
+        self.combo_model.config(state="readonly" if len(options) > 1 else "disabled")
+
+    def _on_model(self, _event=None):
+        for m in hunt_maps.variants(self.account.hunt_map):
+            if (m.variant or m.key) == self.model.get():
+                self.account.hunt_map = m.key
+        self.load()
+        self.tab.request_save()
 
     def toggle_advanced(self):
         self._adv_open = not self._adv_open
@@ -68,6 +90,7 @@ class ScanPanel(Panel):
         for name, _key, _lo, _hi, _step, scale in FIELDS:
             value = scan.conf_for(self.account.hunt_map) if name == "detect_conf" else getattr(scan, name)
             self.vars[name].set(int(round(value * scale)))
+        self.load_model()
 
     def store(self):
         scan = self.account.scan
@@ -89,8 +112,13 @@ class ScanPanel(Panel):
         self.frame.config(text=f" {self.t('sec_scan')} ")
         for _name, key, *_ in FIELDS:
             self.labels[key].config(text=self.t(key))
+        self.labels["scan_model"].config(text=self.t("scan_model"))
         self.btn_adv.config(text=("▾ " if self._adv_open else "▸ ") + self.t("scan_advanced"))
 
     def set_busy(self, running):
         for spin in self.spins:
             spin.config(state="disabled" if running else "normal")
+        if running:
+            self.combo_model.config(state="disabled")
+        else:
+            self.load_model()

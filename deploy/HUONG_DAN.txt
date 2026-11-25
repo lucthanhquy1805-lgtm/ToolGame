@@ -1,5 +1,14 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 25/11/2026 (bản 17) — sửa sau lần săn 15 phút bản 16 (14:56–15:11: 35 con, bản 15 được 62). Cài đè như cũ (mục 2).
+Bản build: 25/11/2026 (bản 18) — bản 17 + model orc mới + nhận đúng con trỏ ngắm phép. Cài đè như cũ (mục 2).
+  ★★★ MỚI Ở BẢN 18:
+      · MODEL ORC MỚI (orc_v2): học thêm 132 ảnh đêm của bạn (cửa sổ 1280x960, có người chơi khác / cung thủ áo
+        hồng / slime). Ban đêm nhận đúng hơn và ít nhận nhầm hơn. Ngưỡng mặc định 0,3.
+        Muốn quay lại model cũ: tab "Săn" → khung "Quét" → "Nâng cao" → ô "Model" → chọn orc_v1 (không cần cài lại).
+      · CON TRỎ ELIP NGẮM PHÉP: bản 17 không nhận ra elip lần nào (42/42) vì elip đổi hình theo nền đất.
+        Bản 18 nhận sẵn 4 hình elip đã biết và cả hình gần giống — KHÔNG cần đăng ký lại. Elip không bao giờ bị
+        coi là con trỏ "đánh (kiếm)" nữa, kể cả khi trước đây lỡ đăng ký nhầm vào ô đánh.
+      · Bỏ cảnh báo đỏ nhầm "Xác và NPC gần giống nhau (lệch 4 bit)": hai hình đó đều đúng.
+  (bản 17) — sửa sau lần săn 15 phút bản 16 (14:56–15:11: 35 con, bản 15 được 62). Cài đè như cũ (mục 2).
   ★★★ MỚI Ở BẢN 17 — PHÉP GIỜ MỚI THỰC SỰ BẮN RA:
     Bản 16 không bắn được phép nào (144/144 lần bỏ qua) vì nó chỉ chờ con trỏ elip 0,3 giây,
     còn trên máy bạn elip hiện sau HƠN 1 GIÂY. Chat game đã báo 45 lần "마법 사용: 실패" =

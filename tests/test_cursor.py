@@ -396,6 +396,19 @@ def test_save_guard_backup():
     assert "WARNING" not in log.getvalue() and not store.removed_cursors
 
 
+def test_cast_ellipse_variants():
+    """PLAN 0.36: four ellipse pictures (by ground) -> cast even unregistered or registered as attack."""
+    game = {"attack": "c0e0783028000000,c0c0201818000000", "corpse": "f0f0f03800000000",
+            "npc": "f0f0602000000000", "cast": "fcfefe3800000000"}
+    for hashes in (game, {**game, "cast": ""}, {**game, "attack": game["attack"] + ",fc92fe3800000000"}):
+        p = profile(**hashes)
+        for h in ("fc92fe3800000000", "fc96fe3800000000", "fcbafe3800000000", "fcfefe3800000000"):
+            assert p.classify(h, "") == "cast" and p.is_cast(h) and not p.is_attack(h), (hashes, h)
+        assert p.classify("c0c0201818000000", "") == "attack" and p.classify("c0e0783028000000", "") == "attack"
+        assert p.classify("f0f0f03800000000", "") == "corpse" and p.classify("f0f0602000000000", "") == "npc"
+    assert profile(**game).near_duplicates() == []  # corpse/npc 4 bits apart: no warning
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_") and callable(fn):

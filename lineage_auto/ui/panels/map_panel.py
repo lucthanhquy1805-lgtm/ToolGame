@@ -28,19 +28,21 @@ class MapPanel(Panel):
 
     def load(self):
         self.combo["values"] = self._labels()
-        hunt = hunt_maps.get(self.account.hunt_map)
+        hunt = hunt_maps.get(hunt_maps.base_key(self.account.hunt_map))  # a model variant shows its ground
         self.selected.set(self.tab.translator.map_name(hunt))
 
     def store(self):
         label = self.selected.get()
         for hunt in hunt_maps.all_maps():
             if self.tab.translator.map_name(hunt) == label:
-                self.account.hunt_map = hunt.key
+                if hunt.key != hunt_maps.base_key(self.account.hunt_map):  # same ground: keep the chosen model
+                    self.account.hunt_map = hunt.key
                 return
 
     def _on_pick(self, _event=None):
         self.store()
         self.tab.request_save()
+        self.tab.scan.load_model()
         self.tab.notify_map_selected()
 
     def apply_language(self):

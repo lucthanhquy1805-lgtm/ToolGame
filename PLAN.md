@@ -789,6 +789,24 @@ Kiểm tra thêm
       `python tests/sim_v17.py <bản ghi>` mô phỏng số lần đổi trang + giá phải trả cho việc chờ elip.
       RỦI RO ĐÃ BIẾT: chờ 1,8 s mỗi lần bấm phép, nếu elip không bao giờ hiện thì mất tới 259 s trong 904 s
       (29%) của bản ghi 145650. Chạy thật xong phải xem aim_delay_s trung bình rồi hạ aim_wait_sec cho khớp.
+- [x] 0.36 v18 = v17 + MODEL orc_v2 + CON TRỎ ELIP THEO KHOẢNG CÁCH (25/11).
+   • 1 orc_v2 (docs/TRAINING.md 6.8): thêm 092741 (132 ảnh đêm 1280x960, người chơi/cung thủ/slime/nhân vật = nền),
+      434 ảnh, 17,3 phút GPU. Test mới: 30 ảnh duyệt cuối của 092741 (split "test"). Ở conf 0.3 so với orc_v1 @0.2:
+      ngày 83%/P89% (v1 83/84), đêm 133425 76%/P84% (= v1), đêm 1280x960 96%/P96% (v1 95/90); hai tập chỉ có
+      điểm con trỏ (183803, 223510 1334x1008) v2 54/58 và 56/58, v1 58/58 (điểm do bot rê theo box v1 → nghiêng
+      về v1; 1 ca sót thật: 오크 전사 trong cỏ cao). Người dùng chọn đóng gói v2. ms/khung như nhau.
+      Mặc định `blessed_orc` = orc_v2 (640/416/320), conf 0.3. orc_v1 = HuntMap `blessed_orc_v1` (variant_of,
+      conf 0.2, chỉ 640), chọn ở tab Săn → Quét → Nâng cao → "Model" (không hiện như một bãi riêng; chọn lại
+      bãi/khu vẫn giữ model đã chọn). `pyinstaller_onnx_datas` chỉ đóng gói file của từng map (+416/320 của map
+      gốc) — file thừa trong model/ không lọt vào bản build.
+   • 2 ELIP NGẮM PHÉP nhiều hình theo nền: v17 chạy thật 42/42 "no aiming ellipse within 1.8s". Bản ghi quan
+      sát "타락한 축복의 땅의 봄" có fc92fe38 / fc96fe38 / fcbafe38, máy game đăng ký fcfefe38.
+      `CursorProfile.classify`: aHash cách ≤ `CAST_MAX_DIST` (6) bit với `CAST_DEFAULTS` (4 hình trên) hoặc hình
+      cast đã đăng ký → "cast", xét TRƯỚC mọi khớp khác → elip không bao giờ thành attack (fc92fe38 từng bị đăng
+      ký vào attack trên máy game). Cast coi như luôn đã đăng ký (mặc định). Kiếm c0c02018/c0e07830 cách ≥ 14 bit,
+      xác f0f0f038 cách 8 bit.
+      Cảnh báo "hai hình gần giống" chỉ khi ≤ 2 bit: xác f0f0f038 và NPC f0f06020 lệch 4 bit, cả hai đúng.
+      Test: tests/test_cursor.py test_cast_ellipse_variants.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

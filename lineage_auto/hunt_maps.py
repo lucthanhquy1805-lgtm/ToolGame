@@ -27,6 +27,10 @@ class HuntMap:
     # PLAN 0.20: trained on unreviewed suggestion boxes to test the training pipeline. Usable on the dev PC
     # (eval_detection), never packed into a build; set False once a model trained on reviewed labels replaces it.
     trial: bool = False
+    # PLAN 0.36: another model for the same ground, picked in Scan > Advanced ("Model"). Not listed as a map of
+    # its own; ``variant`` is the label shown there.
+    variant_of: str = ""
+    variant: str = ""
 
     def display_name(self, lang="en"):
         if lang == "vi":
@@ -66,8 +70,20 @@ MAPS = (
         name_ko="오염된 축복의 땅 - 오크의 땅",
         name_en="Blessed Land (polluted) - Orc area",
         onnx_rel=os.path.join("model", "yolox_tiny_blessed_orc.onnx"),
+        # orc_v2 (PLAN 0.36, docs/TRAINING.md 6.8): at 0.3 day 83%/P89%, night 76%/P84%, 1280x960 night 96%/P96%
+        conf=0.3,
+        channels=NEW_MODEL_CHANNELS,
+        variant="orc_v2",
+    ),
+    HuntMap(
+        key="blessed_orc_v1",
+        name_ko="오염된 축복의 땅 - 오크의 땅",
+        name_en="Blessed Land (polluted) - Orc area",
+        onnx_rel=os.path.join("model", "yolox_tiny_blessed_orc_v1.onnx"),
         conf=0.2,  # orc_v1 (reviewed labels): day 83%/P84%, night 76%/P84% on the test split, docs/TRAINING.md 6.5
         channels=NEW_MODEL_CHANNELS,
+        variant_of="blessed_orc",
+        variant="orc_v1",
     ),
 )
 
@@ -75,7 +91,18 @@ _BY_KEY = {m.key: m for m in MAPS}
 
 
 def all_maps():
-    return MAPS
+    return tuple(m for m in MAPS if not m.variant_of)
+
+
+def base_key(key):
+    """The listed map a key belongs to (a model variant -> its ground)."""
+    return get(key).variant_of or get(key).key
+
+
+def variants(key):
+    """[HuntMap] of every model for this ground, the default first (one item = nothing to choose)."""
+    base = base_key(key)
+    return [m for m in MAPS if m.key == base or m.variant_of == base]
 
 
 def get(key):
@@ -93,13 +120,21 @@ def model_exists(key):
 def pyinstaller_onnx_datas(model_dir="model"):
     """PyInstaller datas tuples for every .onnx in model_dir.
 
-    Packs all hunt-map weights present at build time. Skips .pth checkpoints.
+    Packs the weights of every non-trial map present at build time, plus the smaller input sizes
+    (<name>_<size>.onnx) of the default models only: a variant ships at 640 (PLAN 0.36). Anything else in
+    model_dir (old copies, experiments) stays out of the build.
     """
     if not os.path.isdir(model_dir):
         return []
-    trial = {os.path.basename(m.onnx_rel) for m in MAPS if m.trial}
+    wanted = set()
+    for m in MAPS:
+        if not m.trial:
+            name = os.path.basename(m.onnx_rel)
+            wanted.add(name)
+            if not m.variant_of:
+                wanted.update(f"{os.path.splitext(name)[0]}_{size}.onnx" for size in (416, 320))
     entries = []
     for name in sorted(os.listdir(model_dir)):
-        if name.lower().endswith(".onnx") and name not in trial:
+        if name in wanted:
             entries.append((os.path.join(model_dir, name), "model"))
     return entries

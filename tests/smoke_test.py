@@ -621,11 +621,13 @@ assert len(fail)==tg.SPELL_FAIL_STRIKES and fail[-1]['switched_to']=='hover_key_
 sc.account.cast_order='key_click'; sc.state.pop('skill_pause_until',None)
 # the aim wait survives a save / load round trip (the game PC tunes it in the UI)
 assert _AS.from_dict(sc.account.to_dict()).aim_wait_sec==1.8
-# PLAN 0.35: attack and cast 4 bits apart = one of the two was captured wrong; the Cursor tab warns about it
+# PLAN 0.36: the Cursor tab only warns about pictures <= 2 bits apart (corpse/npc 4 apart are both right);
+# an ellipse wrongly registered as attack is still read as cast
 from lineage_auto.runtime.cursor_profile import CursorProfile as _CP
 prof=_CP({'attack':'fc92fe3800000000','cast':'fcfefe3800000000'})
-assert prof.near_duplicates()==[('attack','cast',4)], prof.near_duplicates()
-assert _CP({'attack':'fc92fe3800000000','cast':'0000000000000000'}).near_duplicates()==[]
+assert prof.near_duplicates()==[] and prof.classify('fc92fe3800000000','')=='cast'
+assert _CP({'corpse':'f0f0f03800000000','npc':'f0f0602000000000'}).near_duplicates()==[]
+assert _CP({'corpse':'f0f0f03800000000','npc':'f0f0f03800000003'}).near_duplicates()==[('corpse','npc',2)]
 print('attack spells: 3 orders, pages, 1.8s ellipse wait, newest box / neighbour / cancel OK')
 # PLAN 0.31: YOLOX on its own thread; targeting reads the newest result, never the character's own box
 from lineage_auto.runtime.detector import DetectorThread

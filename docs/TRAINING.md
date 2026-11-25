@@ -276,3 +276,21 @@ Train 2 lớp (orc = 0, corpse = 1; người chơi/NPC bỏ ra):
 Bot không cần sửa mã: `vision/yolox_mobs.class_layout` đọc số lớp từ đầu ra ONNX (6 = 1 lớp, 7 = orc+corpse,
 8+ = monster/figure/die). Hộp corpse → bỏ khỏi ứng viên (targeting, ≤20 px) + tín hiệu chết "die_box" (kill_fall)
 + vị trí cho nhặt đồ. Đo: eval_detection hiện chỉ chấm lớp orc; recall/precision lớp corpse cần thêm vào khi có nhãn.
+
+### 6.8 orc_v2 (1 lớp, 25/11) — mặc định từ v18 (conf 0.3), orc_v1 chọn được ở Quét → Nâng cao → Model
+Train: 111355 + 130457 + 133425 (train) + **092741** (132 ảnh đêm 1280×960, người chơi/cung thủ/slime/nhân vật = nền)
+= 434 ảnh, 60 epoch, 17,3 phút GPU, best AP val 34,55. Test thêm: 30 ảnh đã duyệt cuối của 092741
+(`split: "test"`, f_00682–f_00843; bản trước khi tách nằm trong git, commit 527d6e6).
+File: orc_v2 = `model/yolox_tiny_blessed_orc{,_416,_320}.onnx`; orc_v1 = `model/yolox_tiny_blessed_orc_v1.onnx` (640, HuntMap `blessed_orc_v1`).
+Recall / precision ở conf 0.2 (v2 ở 0.3 trong ngoặc), "char" = box trên chính nhân vật (≤45 px quanh char_anchor):
+
+| tập | orc_v1 | orc_v2 |
+|---|---|---|
+| ngày 193903 1187×890 (50 ảnh duyệt) | 83% / P84%, char 2 | 83% / P86% (83% / P89%), char 1 |
+| đêm 133425 1302×976 (40 ảnh duyệt) | 76% / P84% | 77% / P81% (76% / P84%) |
+| đêm 092741 1280×960 (30 ảnh duyệt) | 95% / P90% | 96% / P95% (96% / P96%) |
+| đêm 183803 1280×960 (58 điểm con trỏ) | 58/58 | 54/58 (54/58) |
+| 223510 1334×1008 (58 điểm con trỏ) | 58/58, char 17 | 56/58, char 20 |
+
+ms/khung bằng nhau (cùng kiến trúc). Hai tập con trỏ nghiêng về v1 (bot rê chuột theo box của v1 lúc ghi), nhưng
+1 ca sót của v2 là thật (183803 f_00024: 오크 전사 trong cỏ cao). Chưa có ảnh 1334×1008 nào được duyệt.

@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from ... import monsters
+from ... import hunt_maps, monsters
 from ...config.models import REAL_MAPS
 from .base import Panel
 
@@ -43,9 +43,10 @@ class ZonePanel(Panel):
         elif zone is not None:
             # a zone that got its model drops the "no model" box ticked back when it had none
             self.tab.record.no_model.set(False)
-            if zone.hunt_map != self.account.hunt_map:
+            if zone.hunt_map != hunt_maps.base_key(self.account.hunt_map):  # PLAN 0.36: keep a chosen variant
                 self.account.hunt_map = zone.hunt_map
                 self.tab.hunt_map.load()
+                self.tab.scan.load_model()
         self.tab.request_save()
 
     def apply_language(self):

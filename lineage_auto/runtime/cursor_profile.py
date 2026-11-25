@@ -8,6 +8,13 @@ from ..config.models import CURSOR_KINDS
 from ..winapi.cursor import AHASH_MAX_DIST, CursorProbe, hamming_hex, is_ahash, is_windows_cursor
 
 
+# PLAN 0.36: the aiming ellipse changes with the ground under it. These four were seen on the game PC
+# (observe "타락한 축복의 땅의 봄" + the registered one); any cursor this close to them or to a registered
+# cast picture is "cast" - never "attack" (fc92fe38 was once registered as attack there).
+CAST_DEFAULTS = ("fc92fe3800000000", "fc96fe3800000000", "fcbafe3800000000", "fcfefe3800000000")
+CAST_MAX_DIST = 6
+
+
 def _split(signature):
     return [t.strip() for t in str(signature or "").replace(";", ",").split(",") if t.strip()]
 
@@ -26,7 +33,7 @@ class CursorProfile:
         return self._hashes.get(kind, "")
 
     def is_registered(self, kind):
-        return bool(self.get(kind))
+        return bool(self.get(kind)) or kind == "cast"  # cast always has CAST_DEFAULTS
 
     @property
     def ready(self):
@@ -43,12 +50,13 @@ class CursorProfile:
                     owners[token].append(kind)
         return {token: kinds for token, kinds in owners.items() if len(kinds) > 1}
 
-    def near_duplicates(self, max_dist=4):
+    def near_duplicates(self, max_dist=2):
         """PLAN 0.35: [(kind_a, kind_b, dist)] for kinds whose aHashes are nearly the same picture.
 
         The game PC had attack fc92fe3800000000 and cast fcfefe3800000000 - 4 bits apart. They are told apart
         exactly here, but a picture that close usually means one of them was captured on the wrong frame, so
-        the Cursor tab says so and the user can delete it."""
+        the Cursor tab says so and the user can delete it. PLAN 0.36: only <= 2 bits - corpse f0f0f038 and npc
+        f0f06020 are 4 apart and both right; attack/cast no longer need it (cast wins, see classify)."""
         pairs = []
         for i, a in enumerate(CURSOR_KINDS):
             for b in CURSOR_KINDS[i + 1:]:
@@ -144,6 +152,8 @@ class CursorProfile:
         live = self._live_ids(cursor_hash, md5)
         if not live:
             return "unknown"
+        if self._near_cast(live):
+            return "cast"
         tokens = {kind: self._token_list(kind) for kind in CURSOR_KINDS}
         for ident in sorted(live, key=is_ahash):  # MD5 before aHash
             kinds = [kind for kind in CURSOR_KINDS if ident in tokens[kind]]
@@ -163,6 +173,10 @@ class CursorProfile:
             return "unknown"
         return winners[0]
 
+    def _near_cast(self, live):
+        prints = [t for t in (*CAST_DEFAULTS, *self._token_list("cast")) if is_ahash(t)]
+        return any(hamming_hex(t, c) <= CAST_MAX_DIST for t in prints for c in live if is_ahash(c))
+
     def _warn_once(self, ident, kinds):
         if ident not in self._warned:
             self._warned.add(ident)
@@ -170,7 +184,7 @@ class CursorProfile:
                   "register those cursors again")
 
     def matches(self, kind, cursor_hash):
-        expected = self.get(kind)
+        expected = self.is_registered(kind)
         if not expected or not self._live_ids(cursor_hash):
             return False
         return self.classify(cursor_hash) == kind
