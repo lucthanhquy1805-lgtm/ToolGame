@@ -1097,6 +1097,16 @@ Các bước thủ công bên dưới vẫn đúng.
 Bản 2 (23/11/2026): dist\LineageAuto_20261123_v2.zip (có 1.3 về làng, 1.4 bình thêm, 1.5 F4 nhặt đồ) + hướng dẫn
 tiếng Hàn deploy\GUIDE_KO.txt (có 5 câu hỏi Q1–Q5: F4, 풍룡의 산맥 vs 상흔, bãi hay săn, log chat, cách quay lại bãi).
 Bản 2 có cả HUONG_DAN.txt (tiếng Việt, đã cập nhật) và GUIDE_KO.txt; cả hai có mục 7 "Quay video" (yêu cầu + danh sách cảnh cần quay).
+BẢN PHÁT HÀNH CHO KHÁCH (25/11/2026): dist\LineageAuto_20261125_v15_release.zip — dựng từ CHÍNH zip bản 15
+(dist\LineageAuto_20261125_v15.zip, bản đã chạy thật 11:20-11:35: 62 quái/15 phút), KHÔNG dùng code v16.
+Không có commit nào đúng là v15 (v15 nằm trong working tree và đã bị gộp vào commit v16 c29f0a6), nên không thể
+checkout lại để build; cách làm là giải nén zip v15 rồi chỉ thay 3 thứ, nguồn ở deployelease_v15\:
+  · main\lineage_auto_config.json MỚI: scan.detect_fps 2 thay vì 5 (nút duy nhất bản 15 có để giảm CPU; 5/s
+    chiếm ~1,7 nhân và làm game khựng lúc đông quái). CHƯA chạy thử thực tế ở mức 2/s.
+  · 1_CAI_DAT.bat: thêm 1 dòng chép cấu hình mặc định CHỈ KHI máy chưa có cấu hình (robocopy vẫn /XF file này,
+    nên nếu không thêm dòng đó thì cấu hình mặc định không bao giờ tới máy khách). Đã thử cả 2 trường hợp.
+  · HUONG_DAN.txt: thêm phần đầu nói rõ đây là bản phát hành dựa trên bản 15 và điểm khác duy nhất.
+  main.exe và toàn bộ _internal giống hệt bản 15 (sha256 trùng; 1175/1177 file y nguyên).
 Bản 3 (23/11/2026): dist\LineageAuto_20261123_v3.zip — thu dữ liệu (0.6b) + dừng qua TeamViewer (0.7); thêm 3_DUNG_BOT.bat
 (1_CAI_DAT.bat tạo thêm lối tắt "DUNG Lineage Auto"). HUONG_DAN.txt đã cập nhật v3, GUIDE_KO.txt vẫn là bản 2.
 1. Máy dev: `.venv\Scripts\pyinstaller --noconfirm main.spec`, nén `dist\main\` thành zip.

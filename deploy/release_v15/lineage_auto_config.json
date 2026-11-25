@@ -1,0 +1,10 @@
+{
+  "accounts": [
+    {
+      "name": "Account 1",
+      "scan": {
+        "detect_fps": 2
+      }
+    }
+  ]
+}

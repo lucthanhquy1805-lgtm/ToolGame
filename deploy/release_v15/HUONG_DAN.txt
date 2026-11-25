@@ -1,0 +1,397 @@
+﻿BẢN PHÁT HÀNH CHO KHÁCH — dựa trên BẢN 15 (bản đã chạy thật ổn định trên máy game 25/11, 11:20–11:35:
+62 quái / 15 phút, 84% thời gian đang đánh). File chương trình y hệt bản 15, KHÔNG lấy code bản 16.
+  ĐIỂM KHÁC DUY NHẤT so với bản 15 đã chạy thử: số lần nhận diện mặc định là 2 lần/giây thay vì 5.
+    · Vì sao: ở 5 lần/giây tool chiếm khoảng 2 nhân CPU liên tục, nên lúc đông quái/người chơi game bị khựng.
+      2 lần/giây giảm khoảng 60% tải đó. Đây là nút duy nhất bản 15 có để giảm CPU.
+    · Lưu ý: lần săn thử 15 phút ở trên chạy ở 5 lần/giây, nên mức 2 lần/giây CHƯA được chạy thử thực tế.
+      Nếu thấy bot tìm quái chậm hơn: mở tool → tab "Săn" → khung "Quét" → "Nâng cao" →
+      "Số lần nhận diện/giây" → chỉnh lại 5. Không cần cài lại.
+    · Mặc định này chỉ áp dụng cho MÁY CHƯA TỪNG CÀI. Máy đã có cấu hình cũ thì giữ nguyên cấu hình đó
+      (file lineage_auto_config.json không bao giờ bị ghi đè khi cài lại).
+
+LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
+Bản build: 25/11/2026 (bản 15) — sửa sau lần săn 15 phút bản 14 (09:27–09:42). Cài đè như cũ (mục 2).
+  ★★★★★ MỚI Ở BẢN 15 (sửa "bot đứng im": bản ghi 092741 cho thấy bot KHÔNG di chuyển, KHÔNG đánh 748/910 giây):
+    a) KHÔNG CÒN ĐỨNG ĐÁNH HƯ KHÔNG: 16 trận của bản 14 đứng đúng 25 giây tại chỗ không có quái (hộp nhận diện
+       đã mất nhưng con trỏ vẫn là kiếm/cung). Nay mất hộp quái quá 1 giây là bỏ ngay, quét lại và đánh con gần
+       nhất; ở sát quái mà không có con trỏ kiếm/cung quá 1 giây cũng bỏ ngay. "Đánh giáp lá tối đa" 25 → 10 giây.
+       Chuyển sang con gần hơn chỉ khi rê chuột lên nó thấy con trỏ kiếm/cung (bản 14 hay "chuyển" sang chính
+       nhân vật / pet / người chơi khác).
+    b) NHẬN DIỆN TRỞ LẠI TOÀN KHUNG 640 (bản 14 cắt vùng quanh nhân vật ở 416 nên thấy ít hơn ~24% số quái và
+       bỏ quái ở xa). Chậm hơn (~165 ms/khung trên máy game) nhưng vẫn đủ 5 lần/giây. Cấu hình 416+cắt vùng của
+       bản 14 sẽ tự trả về mặc định mới khi mở tool.
+    c) KHÔNG CÓ MINIMAP THÌ ĐI THEO MỘT HƯỚNG ≥ 4 GIÂY (bản 14 đổi hướng mỗi 0,3 giây = quay tại chỗ), chỉ đổi
+       hướng khi đi không nhúc nhích (bị chặn). THANH DƯỚI CẢNH BÁO khi minimap đang tắt — BẬT MINIMAP TRONG GAME
+       thì bot tìm đường tốt hơn nhiều.
+    d) LẦN SĂN TỚI: săn 15 phút ở 오크의 땅 như lần trước, BẬT ghi khi săn, rồi gửi bản ghi + session_log.txt.
+  ★★★★ MỚI Ở BẢN 14:
+    a) NHẬN DIỆN NHANH: nhận diện quái chạy liên tục ở luồng riêng (mặc định 5 lần/giây), chỉ trên vùng quanh nhân
+       vật, đầu vào 416 (máy dev 22 ms thay vì 48 ms; máy game bản 13 = 165 ms). Log ghi "[detect] size 416 roi on
+       threads N ...: X ms avg" sau 10 giây rồi mỗi phút → GỬI session_log.txt để xem ms thật trên máy game.
+       Nếu X > 80: Tab Săn → Quét → Nâng cao → "Kích thước đầu vào" = 320 (nhanh hơn, nhận diện kém hơn một chút).
+       Chỉ rê chuột xác nhận 1–2 con gần nhất.
+    b) LUÔN ĐÁNH CON GẦN NHẤT: con đang đánh ở sát nhân vật (< 70 px) + con trỏ kiếm/cung → KHÔNG bước sang bên,
+       KHÔNG bỏ sau 8 giây; chỉ dừng khi nó chết / mất, hoặc sau 25 giây ("Đánh giáp lá tối đa"). Có con khác gần hơn
+       nhiều ở sát bên → chuyển sang con đó. Không bỏ qua con nào trong 100 px quanh nhân vật. Bản 13 hay "đánh"
+       chính nhân vật mình (hộp nhận diện trên nhân vật) — nay bỏ hộp đó.
+    c) ĐẾM GIẾT ĐÚNG: mỗi dòng chat "아데나 [n] 획득: <tên>" = 1 con; con trỏ thánh giá / quái ngã chỉ tính khi không
+       có dòng chat trong ~3 giây. Bản 13 KHÔNG đọc được chat khi săn (0 dòng) — bản 14 đọc chat như ảnh đã lưu; nếu
+       vẫn không đọc được, log ghi "chat not read: ..." và lưu 3 ảnh records\<bản ghi>\raw\chat_fail_*.png → gửi về.
+       summary.json: kills_chat / kills_corpse_only / kills_total.
+    d) LẦN SĂN TỚI: săn 15 phút ở 오크의 땅 như lần trước, BẬT ghi khi săn, rồi gửi bản ghi + session_log.txt.
+  ★★★ MỚI Ở BẢN 13:
+    a) DỪNG TỪ XA CHẮC CHẮN NHẤT = GỬI FILE "STOP" QUA TEAMVIEWER FILE TRANSFER:
+       1. Trên máy của bạn tạo 1 file rỗng tên đúng là STOP (không đuôi .txt; mẫu có sẵn: records_game\_stop\STOP).
+       2. TeamViewer → File Transfer → gửi file đó vào thư mục C:\LineageAuto\main\ của máy game.
+       3. Trong ~1 giây tool dừng bot (cả chế độ quan sát), tự xóa file STOP, log ghi "[ENGINE] stop: STOP file".
+       (Lối tắt "DUNG Lineage Auto" trên Desktop máy game làm đúng việc này nếu bấm được.)
+    b) Bản 12: rê chuột/click/ESC qua TeamViewer KHÔNG dừng được bot. Bản 13 thêm: (1) dừng khi con trỏ chuột bị dời
+       ≥40 px mà bot không di chuột (không cần cờ "injected"), (2) 10 giây đầu mỗi lần săn, log ghi mọi sự kiện
+       chuột/phím mà tool thấy ("[HOTKEY] input seen: ..."). LẦN SĂN TỚI: trong 10 giây đầu hãy RÊ CHUỘT + BẤM ESC
+       qua TeamViewer rồi gửi session_log.txt — để biết TeamViewer gửi kiểu gì. Vẫn dùng file STOP làm cách chắc chắn.
+    c) Quái chết = dòng chat "아데나 (n) 획득: <tên>" (tín hiệu số 1); thánh giá chỉ là dự phòng (xác biến mất <1 s).
+       summary.json ghi "fights": kill_chat / kill_fall / kill_corpse_cursor / gone / no_progress / unreachable +
+       "chat_kill_lines" (số dòng giết trong chat) để đối chiếu.
+    d) Dòng chat "마법 사용: 실패! 올바른 대상이 아니거나 취소함": bot ghi log phím vừa bấm (ở bản 12 dòng này xuất hiện
+       ngay sau HỒI MÁU F5 / buff lúc bắt đầu, KHÔNG phải skill tấn công) và tạm ngừng skill tấn công 5 giây.
+       → Kiểm tra lại cách hồi máu F5 / buff F6, F10, F11 trong game (cần chọn mục tiêu?).
+    e) Khu mới "오크 숲" trong danh sách Khu săn (chưa có model → chỉ QUAN SÁT/thu dữ liệu). Ở 오크 숲 hãy chạy
+       "Bắt đầu quan sát" ~15 phút, tự săn bằng tay, rê chuột lên quái (아투바/네루가/두다-마라/간디 오크...) rồi gửi về.
+(bản 12: SỬA BOT SĂN SAU LẦN SĂN THẬT ĐẦU TIÊN (18:34–18:50))
+  cấu hình, con trỏ đã đăng ký và bản ghi cũ được GIỮ NGUYÊN. Cách săn khu orc giữ như ★ bên dưới.
+  ★★ MỚI Ở BẢN 12:
+    a) BẬT MINIMAP TRONG GAME (bản đồ nhỏ góc trên trái, như lúc 18:47 trong lần săn trước). Bot đọc minimap để:
+       ưu tiên quái cùng phía hàng rào/tường, đi vòng qua khe hở/cửa khi không tới được quái, đi VÀO TRONG bãi săn
+       (không ra mép), nhớ chỗ đã thấy quái và chỗ đã đi qua. Tắt minimap: bot vẫn săn như bản 11 (đi vòng 4 hướng).
+       Đừng để cửa sổ khác / bảng nào che góc trên trái của game.
+    b) Bot KHÔNG bỏ quái khi con trỏ trên quái vẫn là KIẾM (bản 11 bỏ 133/139 trận "lost target" giữa chừng).
+       Quái chết = có dòng chat "아데나 (n) 획득: <tên quái>" (bot đọc chat trong lúc săn), hoặc con trỏ thánh giá.
+       Quái đứng sau tường/hàng rào mà ~2,5 giây nhân vật không tiến lại gần được → bot bỏ qua chỗ đó ~40 giây.
+    c) Ngưỡng nhận diện theo khu săn (0,2 cho orc). Bản 11 dùng nhầm 0,5 còn sót từ cấu hình Dragon Valley cũ.
+    d) Tab Săn → "Nhặt đồ" → "Cách nhặt đồ": Tự vào túi (mặc định, server hiện tại: adena tự vào túi khi giết) /
+       Đi tới xác rồi bấm phím (F4) / Đi tới xác rồi click vật phẩm. Nút "Tự nhận biết": sau ≥5 lần giết, bấm
+       để tool tự chọn (có dòng "획득" ngay khi giết → Tự vào túi). Ở server mà đồ RƠI xuống đất mới cần đổi.
+    e) Bản ghi khi săn có thêm HP/MP mỗi khung và events.jsonl (lý do kết thúc trận, hướng đi, nhặt đồ).
+    f) Không kẹt 1 con nữa: 8 giây không có tiến triển (không có dòng giết, nhân vật không lại gần — kể cả khi con
+       trỏ vẫn là KIẾM, vd quái lẫn trong cỏ cao/bụi cây) → bot bước sang bên 1 lần, rồi bỏ con đó, đánh dấu chỗ đó
+       ~40 giây và chọn con khác. Không trận nào quá 15 giây.
+    g) DỪNG QUA TEAMVIEWER (đã sửa): khi bot đang săn, chỉ cần RÊ CHUỘT trên màn hình TeamViewer (hoặc bấm ESC /
+       bấm chuột / bấm phím bất kỳ qua TeamViewer) là bot DỪNG ngay và nhả chuột. Sau đó bấm được nút trên tool.
+       (Bản 11: khi bot giữ chuột trái để đánh, game "giữ" chuột nên click qua TeamViewer không tới được tool.)
+       → Lúc bot săn: ĐỪNG rê chuột trên màn hình TeamViewer nếu không muốn dừng.
+  ★ TRƯỚC KHI SĂN: 1) BẬT MINIMAP trong game. 2) THU NHỎ bảng điều khiển TeamViewer trên máy game (bảng nhỏ ở góc
+    màn hình) để nó không che game / minimap / tool. Cửa sổ cmd của bộ cài nay tự đóng sau khi mở tool.
+  Lần săn tiếp: săn 15 phút ở khu orc CÓ BẬT MINIMAP, tích "Ghi khi đang săn", gửi số liệu như mục 6.
+(bản 11: LẦN ĐẦU BOT SĂN ĐƯỢC Ở KHU 오크 (model orc mới))
+  ★ CÁCH SĂN KHU ORC (오염된 축복의 땅 - 오크의 땅), driver Interception phải đã cài (mục 2-3):
+    1) Tab Chính → khung "Khu săn": chọn "오염된 축복의 땅 - 오크의 땅". Tool tự chọn Bãi săn (model) orc và
+       BỎ tích "Không dùng model" (bản trước tự tích ô này — nay không còn).
+    2) Tab Chính → "Trạng thái": chọn chế độ "Săn". Tab Con trỏ: không có dấu ⚠ (Quái = kiếm + mũi tên).
+    3) Tab Hồi phục: kiểm tra phím hồi máu / bình như mục 5-3.
+    4) Tab Dữ liệu: TÍCH "Ghi khi đang săn" (để thu số liệu khi bot săn — rất cần cho lần train sau).
+       "Tự dừng (phút)" = 15.
+    5) Bấm nút lớn "Bắt đầu săn". Bot rê chuột lên quái, chỉ đánh khi con trỏ thành KIẾM/MŨI TÊN.
+       Luôn có người xem; dừng: ESC / Pause / lối tắt "DUNG Lineage Auto" (mục 10).
+    6) Xong (tự dừng hoặc dừng tay): gửi số liệu như mục 6. Ghi trong tin nhắn: ngày hay đêm, bot có đánh nhầm
+       người chơi / NPC không, có đứng im lâu không.
+  Model mới thấy khoảng 83 % orc ban ngày, 76 % ban đêm; box sai chỉ làm bot rê chuột thừa (con trỏ không
+  thành kiếm thì không đánh). Bản 11 KHÔNG bật ATS (tự săn của game) cùng lúc với bot.
+(bản 10: đọc tên quái ban đêm, cờ ngày/đêm đúng; ghi số dòng chat + ảnh gốc raw/ để kiểm tra đếm giết)
+(bản 9: HP/MP và dòng giết trong chat đọc đúng ở mọi cỡ cửa sổ game; "Tối đa (khung)" = 0 = tự động theo "Tự dừng")
+(bản 8: sửa "Con trỏ đã thấy" gán lệch / mất hình KIẾM; mỗi hình con trỏ có nút "Xóa" riêng (mục 3-8))
+(bản 7: GIAO DIỆN CHIA TAB (mục 0b))
+(bản 6: THU DỮ LIỆU QUÁI ORC (mục 4-6); sửa khựng game; ESC không dừng quan sát;
+HP/MP hiện số thật; tool thu nhỏ được (thanh cuộn ngang); Quái = KIẾM + MŨI TÊN)
+(bản 5: đăng ký con trỏ bằng PHÍM TẮT / "Con trỏ đã thấy" (mục 3-8); đóng X = tắt hẳn tool)
+(bản 4: sửa nhận dạng con trỏ)
+(bản 3: thu dữ liệu để làm model nhận quái + dừng bot an toàn qua TeamViewer)
+(GUIDE_KO.txt là bản tiếng Hàn của BẢN 2 — chưa có các mục mới đánh dấu (MỚI v3))
+
+※ Từ bản 11: bot SĂN được ở khu 오크 (xem ★ ở trên). Các khu khác của 오염된 축복의 땅 vẫn chỉ thu dữ liệu.
+※ Khi bot đang chạy, luôn có người ngồi xem màn hình.
+
+======================================================================================
+0. LẦN NÀY CẦN LÀM GÌ (tóm tắt)
+======================================================================================
+  ⓪ BẢN 6: làm theo mục 4-6 "THU DỮ LIỆU QUÁI ORC" (chỉ khu 오크의 땅). Phần dưới đây là của bản 5.
+  ① Cài bản 6 (mục 2). Con trỏ đã đăng ký đúng lúc 18:40 được giữ nguyên; loại nào hiện "Chưa đăng ký"
+     thì đăng ký TẠI MÁY GAME bằng phím tắt hoặc "Con trỏ đã thấy" (mục 3-8). Chọn "Bãi săn thực tế" (3-5).
+  ② Ghi LOẠI 1 "chỉ quan sát" + "Không dùng model": NGƯỜI CHƠI TỰ SĂN, tool chỉ chụp ảnh và ghi
+     vị trí + hình con trỏ chuột. Mỗi lần rê chuột lên quái (con trỏ thành kiếm/cung) là có 1 nhãn quái.
+     → 20–30 phút ở 오염된 축복의 땅, có cả ban ngày và BAN ĐÊM. Rồi các bãi khác nếu có thời gian.
+  ③ (Tùy chọn, chỉ ở chỗ AN TOÀN) LOẠI 2 + "Quét lưới con trỏ": bot đứng rê chuột quanh nhân vật để
+     tự tìm quái, KHÔNG bấm chuột (mục 5-9).
+  ④ Gom và gửi số liệu (mục 6). Trả lời câu hỏi ở mục 9 nếu chưa trả lời.
+  Dừng bot từ xa: xem mục 10 (phím Pause, lối tắt "DUNG Lineage Auto", bấm vào cửa sổ tool, tự dừng sau 15 phút).
+
+======================================================================================
+0b. GIAO DIỆN MỚI (bản 7) — 6 TAB + THANH DƯỚI CÙNG
+======================================================================================
+  Cửa sổ tool nhỏ (440×640), không phải cuộn. Tool nhớ tab đang mở và vị trí/kích thước cửa sổ.
+  Ô "Luôn trên cùng" (góc trên phải): tích để cửa sổ game không che tool.
+  Tab có dấu ⚠ = cần xem (vd "Con trỏ ⚠" = con trỏ quái chưa đăng ký hoặc trùng).
+  • Chính     : Cửa sổ game (+ Làm mới), Class, Khu săn (= "Bãi săn thực tế"), Bãi săn (model),
+                Trạng thái: chọn CHẾ ĐỘ (Săn / Chỉ quan sát), đã giết, thời gian chạy, cảnh báo.
+  • Săn       : Tìm mục tiêu (thông số kỹ thuật nằm trong "▸ Nâng cao"), Nhặt đồ, Quét lưới con trỏ,
+                Phạm vi săn (sắp có).
+  • Hồi phục  : ngưỡng HP, đọc số HP/MP, skill hồi máu, bình máu, về làng bằng cuộn, bình thêm 1–3.
+  • Kỹ năng   : nút Cài đặt skill + danh sách buff/skill đang dùng.
+  • Con trỏ   : đăng ký 4 loại con trỏ, chế độ phím tắt, "Con trỏ đã thấy".
+  • Dữ liệu   : Ghi khi đang săn, Mỗi (giây), Tối đa (khung), Không dùng model, Tự dừng (phút), Phím dừng,
+                nút Bắt đầu chỉ quan sát / Nén bản ghi mới nhất, bản ghi cuối.
+  • Thanh dưới cùng (luôn hiện): nút lớn "Bắt đầu săn" / "Bắt đầu quan sát" (theo CHẾ ĐỘ ở tab Chính;
+    khi đang chạy thành "Dừng"), nút "Quan sát" riêng, HP 156/190 (82%) + MP, trạng thái, phím dừng.
+  Trong hướng dẫn dưới đây: "Khung X" = khung X trong tab tương ứng ở bảng trên
+  (riêng "Bãi săn thực tế" nay ở tab Chính, khung "Khu săn"; "Quét lưới" ở tab Săn).
+
+======================================================================================
+1. CHUẨN BỊ
+======================================================================================
+1-1. Dùng TeamViewer File Transfer chép LineageAuto_20261125_v15.zip sang Desktop máy game.
+1-2. Chuột phải file zip → Extract All → Extract.
+     KHÔNG chạy trực tiếp bên trong zip, phải giải nén trước.
+     Sau khi giải nén có: thư mục main, thư mục Interception, 1_CAI_DAT.bat, 2_GUI_SO_LIEU.bat,
+     3_DUNG_BOT.bat, HUONG_DAN.txt (file này), GUIDE_KO.txt (tiếng Hàn).
+
+======================================================================================
+2. CÀI ĐẶT / CẬP NHẬT
+======================================================================================
+2-1. Nếu tool đang mở thì tắt tool trước.
+2-2. Bấm đúp 1_CAI_DAT.bat. Cửa sổ đen hiện:
+       === 1/3 Chep tool vao C:\LineageAuto\main ===   → Xong.
+       === 2/3 Tao loi tat tren Desktop ===            → Xong (2 lối tắt: "Lineage Auto" và
+                                                          (MỚI v3) "DUNG Lineage Auto" = nút dừng, mục 10).
+       === 3/3 Driver Interception ...
+     Cấu hình, con trỏ đã đăng ký và dữ liệu đã ghi (records) của bản trước được GIỮ NGUYÊN.
+2-3. "Da cai san" = driver đã có → không cần làm gì, tool tự mở.
+     Câu hỏi "Cai driver Interception bay gio? (y/n)":
+       - Chỉ làm loại 1 (quan sát): gõ n, Enter.
+       - Làm cả loại 2 (bot săn): gõ y, Enter → bấm Yes ở hộp thoại Admin → KHỞI ĐỘNG LẠI máy game
+         → sau khi máy lên: mở "Lineage Auto" trên Desktop.
+2-4. Windows báo "Windows protected your PC": bấm "More info" → "Run anyway". Phần mềm diệt virus chặn
+     main.exe: cho phép (Allow) thư mục C:\LineageAuto.
+2-5. Lỗi:
+       [LOI] Khong thay thu muc "main" ...  = chưa giải nén / chạy trong zip → làm lại 1-2.
+       [LOI] Chep file that bai ...          = tool đang mở → tắt tool rồi chạy lại.
+
+======================================================================================
+3. THIẾT LẬP TOOL (làm 1 lần)
+======================================================================================
+3-1. Mở game, vào nhân vật, đứng ở bãi săn. Cửa sổ game cỡ nào cũng được (máy game đang 1187×890 — được),
+     nhưng giữ NGUYÊN cỡ trong suốt lần ghi.
+     KHÔNG thu nhỏ game, KHÔNG để tool hay cửa sổ khác che game (tool đọc hình trên màn hình).
+     Kéo cửa sổ tool sang bên cạnh game.
+3-2. Ngôn ngữ: nút góc trên phải (한국어 → English → Tiếng Việt).
+3-3. Dòng trên cùng "Thiết bị nhập":
+       "bình thường"    = driver chạy → làm được loại 2.
+       "chế độ hạn chế" = chưa có driver → chỉ làm loại 1.
+3-4. Khung "Cửa sổ game": chọn cửa sổ có đuôi [lc.exe:số] (thường nằm đầu danh sách, tự chọn sẵn).
+     Đúng thì hiện "Đã kết nối 1187×890" (cỡ cửa sổ game). Ra 1920×1040 hay số khác hẳn là chọn nhầm.
+     Không thấy game thì bấm "Làm mới".
+3-5. (MỚI v3) Có 2 ô khác nhau:
+     - Khung "Bãi săn" = MODEL nhận diện bot dùng. Bãi không có model (vd 오염된 축복의 땅): để 풍룡의 산맥.
+     - Tab Chính → khung "Khu săn" → ô "Bãi săn thực tế" = nơi nhân vật ĐANG ĐỨNG. Chọn trong danh sách
+       (오염된 축복의 땅, 풍룡의 상흔, ...) hoặc GÕ tên bãi khác. Đổi bãi là đổi ô này trước khi ghi.
+3-6. "Class nhân vật": chọn đúng class.
+3-7. Khung "Tìm mục tiêu": để nguyên mặc định.
+3-8. (SỬA v5 — làm TRƯỚC khi ghi loại 1 hoặc săn) Khung "Đăng ký con trỏ" + khung "Con trỏ đã thấy":
+     !! PHẢI làm NGAY TẠI MÁY GAME, bằng chuột thật. Game bỏ qua chuột từ TeamViewer, nên đăng ký
+        qua TeamViewer sẽ đọc nhầm con trỏ.
+     Có 3 cách, chọn cách nào cũng được. Cách DỄ NHẤT là A hoặc B.
+
+     A) PHÍM TẮT (nhanh, hợp với XÁC vì xác biến mất nhanh):
+       1) Tích ô "Chế độ đăng ký con trỏ (phím tắt)". Dòng xanh hiện các phím.
+       2) Vào game, rê chuột lên đối tượng rồi bấm phím (KHÔNG cần quay lại tool):
+            Ctrl+Alt+1 = Quái (kiếm)      Ctrl+Alt+2 = Xác (thánh giá)
+            Ctrl+Alt+3 = Mặt đất           Ctrl+Alt+4 = NPC
+          Tool đọc con trỏ NGAY lúc bấm (5 lần trong 0,15 giây, lấy hình xuất hiện nhiều nhất).
+       3) Nghe "bíp" cao = đã lưu (ảnh nhỏ trong tool đổi theo). "Bíp" trầm = không lưu
+          (trùng loại khác hoặc không đọc được) → xem chữ đỏ cạnh loại đó trong tool.
+       4) Xong thì bỏ tích ô → tool gỡ phím tắt. Tool tự bỏ tích khi bắt đầu săn/ghi.
+       Đổi phím: sửa "cursor_keys" trong lineage_auto_config.json (không cho F1–F12, ESC, Pause;
+       phải có Ctrl hoặc Alt).
+
+     B) "CON TRỎ ĐÃ THẤY" (không cần canh đúng lúc):
+       1) Tích "Thu con trỏ" (hoặc đang ghi loại 1/2 — khi ghi tool tự thu).
+       2) Chơi bình thường vài phút: đi lại, rê lên quái, đánh quái, rê lên xác, lên NPC.
+          Tool lưu mọi hình con trỏ xuất hiện TRONG cửa sổ game, kèm số lần.
+       3) Trong khung "Con trỏ đã thấy", dưới mỗi hình chọn: Quái / Xác / Mặt đất / NPC / Bỏ qua.
+          Hình xuất hiện nhiều nhất có chữ cam "gợi ý: Mặt đất" — kiểm tra rồi chọn.
+          Một loại có thể gán nhiều hình (vd. xác có 2 hình) — tất cả đều được nhận.
+          Đổi một ô chỉ thêm/bớt ĐÚNG hình của ô đó, các hình khác của loại vẫn giữ (bản 8).
+          Ô đang là một loại mà chọn "Bỏ qua" / "—" → tool HỎI "Xóa hình này khỏi [loại]?"; chọn "Không" (No) = không đổi.
+          Mũi tên trắng của Windows (con trỏ ngoài game, khi cửa sổ tool che lên game) tự hiện "Bỏ qua"
+          và không gán được vào loại nào.
+          Ô hiện "?" = tool đã bỏ ảnh SAI cũ (bản 5–7 có thể lưu nhầm ảnh) — loại của ô vẫn đúng, không cần làm gì.
+       "Nạp bản ghi…": chọn một thư mục trong records\ để lấy con trỏ từ lần ghi trước, khỏi chơi lại.
+         Bản ghi cũ (trước v4) không có ảnh con trỏ → hiện ảnh "vùng dưới chuột" của khung ảnh.
+
+     C) Nút "Đăng ký" (như cũ, đã nới lỏng): bấm, trong 5 giây đưa chuột lên đối tượng, giữ yên ít nhất
+        0,3 giây tới khi hiện "Xong" (완료 / OK). "Không ổn định" = chưa giữ yên đủ → làm lại.
+
+     Con trỏ đúng (đã kiểm trên máy game 18:40): Quái = hình KIẾM, Xác = THÁNH GIÁ, Mặt đất = BÀN TAY CHỈ,
+     NPC = BONG BÓNG THOẠI. Nhân vật dùng cung: con trỏ quái có thể là CUNG.
+     Đăng ký bằng phím/nút: Quái = CỘNG thêm hình (kiếm + mũi tên đều giữ); các loại khác = THAY hình cũ.
+     Tab Con trỏ (bản 8): mỗi dòng hiện TẤT CẢ hình đã đăng ký của loại đó, mỗi hình có nút "Xóa" ngay bên phải.
+       Bấm "Xóa" cạnh hình nào = chỉ xóa hình đó (tool hỏi lại trước khi xóa). Vd. dòng Quái: [kiếm] Xóa [mũi tên] Xóa.
+       Hình "?" = tool không có ảnh của hình đó trên máy này, hình vẫn được dùng.
+     Nếu một loại bị mất hình mà bạn không bấm "Xóa": session_log ghi "[CONFIG] WARNING" và tool giữ bản sao
+       lineage_auto_config.backup_<ngày giờ>.json cạnh main.exe → gửi file đó về để khôi phục.
+     Thông báo có thể gặp:
+       "Thất bại: trùng <loại>" + cửa sổ có 2 hình (trái = vừa đọc, phải = đã đăng ký) = con trỏ GIỐNG HỆT
+         loại kia → chuột chưa đặt đúng chỗ, hoặc game không đổi con trỏ ở đó. Không lưu gì.
+         Nếu loại kia đăng ký sai thì bấm "Xóa" cạnh hình sai của loại đó trước.
+       Khi mở tool mà cấu hình cũ có 2 loại cùng 1 con trỏ (như máy game trước 18:40): tool TỰ sao lưu
+         cấu hình (lineage_auto_config.backup_<ngày giờ>.json cạnh main.exe), xóa các loại trùng → hiện
+         "Chưa đăng ký". Chỉ cần đăng ký lại các loại đó.
+     Khi "Quái (kiếm)" chưa đăng ký hoặc trùng loại khác, bot KHÔNG bắt đầu săn và báo đăng ký lại.
+     Đóng tool bằng nút X = tắt hẳn main.exe (v5).
+
+======================================================================================
+4. LOẠI 1 — CHỈ QUAN SÁT (khoảng 30 phút mỗi bãi, không cần driver)
+======================================================================================
+4-1. Khung "Ghi dữ liệu": Mỗi (giây) = 3, Tối đa (khung) = 600 (= 30 phút, tool tự dừng).
+     Ô "Ghi khi đang săn": để TRỐNG.
+     (MỚI v3) "Bãi săn thực tế": đúng bãi đang đứng (mục 3-5).
+     (MỚI v3) TÍCH "Không dùng model (chỉ chụp ảnh)" → máy nhẹ hơn, không cần chọn model.
+     (MỚI v3) "Tự dừng sau (phút)": đặt 30 nếu muốn ghi 30 phút (mặc định 15; 0 = không tự dừng).
+4-2. Bấm "Bắt đầu chỉ quan sát" → trạng thái "Đang quan sát (không thao tác)".
+     Tool không điều khiển gì, người chơi tự săn như thường.
+4-2b. (MỚI v3) NHÃN TỰ ĐỘNG TỪ CON TRỎ: mỗi lần chụp, tool ghi vị trí chuột và hình con trỏ.
+     → Cứ săn bình thường, nhưng HAY RÊ CHUỘT LÊN QUÁI (kể cả quái chưa đánh) cho con trỏ hiện kiếm/cung —
+       mỗi lần như vậy đúng lúc chụp = 1 nhãn quái miễn phí. Rê lên quái ở xa, quái lẫn trong cỏ càng tốt.
+     → Tool tự chụp THÊM ảnh ngoài nhịp 3 giây: lúc con trỏ thành thánh giá (quái chết) và mỗi giây khi
+       HP nhân vật = 0 (để thấy cửa sổ hồi sinh).
+4-3. Trong lúc ghi, càng đa dạng càng tốt:
+     - đi nhiều chỗ trong bãi, gặp nhiều loại quái;
+     - lúc đông quái, lúc vắng; quái đứng sát nhân vật;
+     - có đồ rơi trên đất (nhãn "아데나");
+     - CÓ BAN ĐÊM (rất cần — tool đang thấy quái ban đêm kém).
+     Tránh: mở túi đồ/bảng lớn lâu, đứng trong làng.
+4-4. Dừng: bấm "Dừng quan sát", hoặc đợi đủ số khung / số phút, hoặc phím dừng / lối tắt "DUNG Lineage Auto"
+     (mục 10). ESC KHÔNG dừng chế độ này (để người chơi dùng ESC trong game).
+4-5. Ghi nhiều lần được (mỗi lần 1 thư mục mới). Đổi bãi thì đổi luôn "Bãi săn thực tế" ở 3-5.
+
+4-6. (MỚI v6) THU DỮ LIỆU QUÁI ORC — khu 오크의 땅 của 오염된 축복의 땅 (để làm model riêng cho orc)
+  a) Tab Chính → khung "Khu săn" → "Bãi săn thực tế": chọn đúng KHU "오염된 축복의 땅 - 오크의 땅" (danh sách có 4 khu:
+     요정 / 인간 / 오크 / 정령). Chọn khu chưa có model thì tool tự tích "Không dùng model" = chế độ thu dữ liệu.
+     (bản 11) Khu 오크 đã có model: chọn khu này tool bỏ tích ô đó; muốn quan sát không model thì tự tích lại.
+     Đứng ở khu khác (인간, 요정...) thì chọn đúng khu đó — KHÔNG để chung tên "오염된 축복의 땅".
+  b) Tab Dữ liệu: Mỗi (giây) = 1 (để chụp đúng lúc chuột đang trên quái), Tối đa (khung) = 0 (tự động, bản 9:
+     tool tính = Tự dừng × 60 / Mỗi, hiện "0=tự động 1800" bên cạnh), Tự dừng (phút) = 30. Bản ghi dừng đúng
+     khi hết giờ (bản 8 trở về trước dừng sớm ở 600 khung = 10 phút).
+  c) KHÔNG tích "Thu con trỏ" (tab Con trỏ, khung "Con trỏ đã thấy"): khi ghi, tool đã tự thu con trỏ.
+  d) Bấm nút "Quan sát" ở thanh dưới cùng (hoặc chọn chế độ "Chỉ quan sát" ở tab Chính rồi bấm nút lớn)
+     rồi TỰ SĂN như bình thường. Với MỖI con orc định đánh: RÊ CHUỘT LÊN NÓ
+     KHOẢNG 1 GIÂY (thấy tên trắng "오염된 오크 …" trên đầu và con trỏ thành kiếm/mũi tên) rồi mới đánh.
+     Tool tự đọc tên → biết loại orc (오크 / 도끼병 / 전사 / 궁수 / 창병) và đọc dòng chat "아데나 (n) 획득: …"
+     để biết con nào đã chết. Rê cả lên con ở xa, đứng sau cây, trong cỏ; rê lên XÁC (thánh giá) vài lần.
+  e) Cần cả BAN NGÀY và BAN ĐÊM (mỗi buổi ≥ 20 phút). Mỗi loại orc cần ≥ 150 lần rê — nhất là 궁수 và
+     도끼병 (bản ghi 23/11 mới có 4 và 5 lần). Gặp 근위병 / NPC orc (네루가, 두다-마라) thì rê chuột lên
+     1–2 lần nhưng KHÔNG đánh NPC.
+  f) ESC trong game dùng bình thường: ESC KHÔNG dừng chế độ quan sát. Dừng quan sát bằng nút "Dừng quan sát",
+     phím Pause hoặc lối tắt "DUNG Lineage Auto".
+  g) Xong: bấm "Nén bản ghi mới nhất" và gửi file zip (mục 6). Ghi lại ngày/đêm và khu trong tin nhắn.
+
+======================================================================================
+5. LOẠI 2 — GHI KHI BOT SĂN (khoảng 20 phút, cần driver Interception)
+======================================================================================
+5-1. Kiểm tra "Thiết bị nhập: bình thường" (3-3). Chưa có → làm 2-3 phần gõ y.
+5-2. Con trỏ phải đã đăng ký (mục 3-8; ít nhất "Quái (kiếm)").
+5-3. Khung "Hồi máu" — KIỂM TRA PHÍM cho khớp thanh phím trong game (rất quan trọng):
+     - "Khi HP dưới": 50%.
+     - Skill hồi máu: phím đang gắn skill Hồi Máu (mặc định F5). Không có thì bỏ tích.
+     - Bình máu: phím đang gắn bình đỏ (mặc định F6). Không khớp thì đổi hoặc bỏ tích.
+     - (MỚI) "Về làng khi HP dưới (cuộn)": tích vào thì khi HP dưới mức đặt (mặc định 35%) 2 lần liên tiếp,
+       bot thả chuột, bấm phím cuộn về làng (mặc định F8) 1 lần rồi DỪNG, trạng thái "Đã về làng - đã dừng".
+       Cuộn phải nằm ở TRANG phím đang mở (F1/F2/F3) — bot không tự đổi trang.
+     - (MỚI) "Bình thêm 1–3": chọn HP hoặc MP, ngưỡng %, phím F, thời gian chờ (giây).
+       Vd: HP < 30% → F7 (bình cam), MP < 30% → F10 (bình xanh). Ô trên ưu tiên, mỗi lần chỉ uống 1 bình.
+     ※ Mỗi phím F chỉ dùng cho MỘT việc (skill / buff / bình / về làng không trùng phím).
+5-4. Khung "Nhặt đồ" (bản 12): "Cách nhặt đồ" = Tự vào túi ở server hiện tại (adena vào túi ngay khi giết).
+     Chỉ ở server đồ rơi xuống đất: chọn "Đi tới xác rồi bấm phím" (phím F4, số lần 2) hoặc "... click vật phẩm";
+     bot đi tới chỗ quái chết (không quá xa, không sau tường), nhặt, chờ dòng "획득" tối đa 2 giây.
+5-5. Khung "Ghi dữ liệu": TÍCH "Ghi khi đang săn" (tích TRƯỚC khi bấm Bắt đầu).
+5-6. Bấm nút lớn "Bắt đầu". Bot tự rê chuột tìm quái, đánh, hồi máu, nhặt đồ.
+     KHÔNG dùng chuột khi bot chạy. Luôn có người xem màn hình.
+5-7. Khoảng 20 phút: bot TỰ DỪNG sau "Tự dừng sau (phút)" (mặc định 15) hoặc khi đủ số khung.
+     Dừng sớm: xem mục 10. Lần sau không muốn ghi nữa thì bỏ tích "Ghi khi đang săn".
+5-8. Bot đứng im / rê mà không đánh / làm gì lạ: cứ dừng và gửi dữ liệu về (log ghi lý do).
+     Nhân vật chết: tool tự lưu ảnh màn hình lúc chết (đây cũng là dữ liệu cần).
+5-9. (MỚI v3) "Quét lưới con trỏ" — CHỈ dùng ở chỗ AN TOÀN (bãi "No Death Penalty", quái yếu), có người xem:
+     - Tích "Ghi khi đang săn" + "Quét lưới con trỏ". "Bước (px)" = 40, "Bán kính (px)" = 200 (mặc định).
+     - Khi model không thấy con quái nào (như ở 오염된 축복의 땅), bot chụp 1 ảnh rồi rê chuột qua khoảng 80 điểm
+       quanh nhân vật (2–4 giây), ghi chỗ nào con trỏ thành kiếm = có quái. KHÔNG bấm chuột khi quét.
+       Sau đó bot vẫn đi tiếp như cũ (bấm đất để di chuyển).
+     - Trong lúc quét bot KHÔNG đánh trả → nếu bị đánh nhiều thì dừng (mục 10).
+
+======================================================================================
+6. GOM VÀ GỬI SỐ LIỆU VỀ
+======================================================================================
+6-1. Chắc chắn đã DỪNG quan sát / săn (để tool ghi xong file tổng kết).
+6-2. Bấm đúp 2_GUI_SO_LIEU.bat → trên Desktop có LineageAuto_data_<ngày>_<giờ>.zip, thư mục tự mở.
+     Gồm mọi bản ghi (loại 1, 2, ảnh lúc chết) + session_log.txt + cấu hình. Khoảng 100–200 MB / 30 phút ghi.
+     "[LOI] Chua cai tool" = chưa cài → làm mục 2. "[LOI] Chua co du lieu" = chưa ghi lần nào → mục 4 hoặc 5.
+6-3. Kéo file zip đó về bằng TeamViewer File Transfer.
+6-4. Kèm vài dòng: ghi mấy lần, loại nào, tên bãi, có ban đêm không, thấy lỗi gì bằng mắt.
+
+======================================================================================
+7. QUAY VIDEO MÀN HÌNH (bổ sung cho dữ liệu của tool)
+======================================================================================
+Video cho thấy những thứ tool chưa tự ghi được (chuỗi khung liên tục, hộp thoại, cảnh hiếm).
+7-1. Cài đặt quay:
+     - Quay ĐÚNG cửa sổ game, độ phân giải gốc 1280×960, KHÔNG phóng/thu nhỏ, không cắt viền.
+     - 30 khung/giây, MP4 (H.264), chất lượng cao (khoảng 700–800 MB cho 17 phút là ổn).
+     - Chữ "REC" của phần mềm quay nên tắt hoặc để ngoài cửa sổ game (đang che minimap).
+     - Không để cửa sổ khác (TeamViewer, tool, thông báo) che lên game.
+     - Mỗi video 15–30 phút. Tên file hoặc tin nhắn kèm: tên bãi + ngày/đêm.
+7-2. Luôn mở trên màn hình: MINIMAP (góc trái trên), KHUNG CHAT (không thu gọn), thanh HP/MP, thanh phím.
+7-3. Cảnh cần có (càng nhiều càng tốt, theo thứ tự quan trọng):
+     a) BAN ĐÊM ở bãi săn — video trước toàn ban ngày.
+     b) Từng bãi trong tool: 버림받은자들의 땅, 타락한자의 땅 정령방, 오만의탑, 풍룡의 산맥 (mỗi bãi vài phút săn).
+     c) Đồ rơi: để vài món nằm trên đất (thấy nhãn "아데나"), rồi bấm F4 → xem nhặt được mấy món.
+     d) NHÂN VẬT CHẾT và cửa sổ hồi sinh hiện ra (nếu chấp nhận được; bãi "No Death Penalty" là an toàn nhất).
+     e) Về làng bằng cuộn, rồi QUAY LẠI BÃI theo cách hay dùng: cuộn chúc phúc + danh sách "/기억",
+        hoặc NPC dịch chuyển (quay rõ hộp thoại và danh sách điểm đến), hoặc đi bộ.
+     f) Gõ "/위치" trong chat vài lần ở các chỗ khác nhau (để biết tọa độ hiện ra thế nào).
+     g) Buff hết hạn: đứng chờ tới khi buff (giáp, tốc độ, biến hình) hết → dòng chat "사라집니다" + icon mất.
+     h) Bấm F1 / F2 / F3 để thấy cả 3 trang thanh phím.
+     i) Nếu có: tổ đội (khung party có thành viên), 2 cửa sổ game đặt cạnh nhau.
+7-4. Gửi video: TeamViewer File Transfer (file lớn, có thể mất vài phút).
+
+======================================================================================
+8. XỬ LÝ SỰ CỐ
+======================================================================================
+- Tool không mở / tắt ngay: gửi C:\LineageAuto\main\session_log.txt về.
+- Danh sách cửa sổ không có game: bấm "Làm mới"; game phải đang mở, không thu nhỏ.
+- Trạng thái "Lỗi - đã dừng": dừng, gom dữ liệu (mục 6) gửi về.
+- Tool đang mở thì ESC trong game không có tác dụng: lỗi đã biết; tạm tắt tool khi cần ESC.
+- Không dừng được bot: dùng lần lượt các cách ở mục 10. Gửi session_log.txt về — trong log có dòng
+  "[HOTKEY] ESC registered=..." / "stop key ... registered=..." và "stop: <lý do>" cho biết cách nào ăn.
+- Gỡ tool: xóa thư mục C:\LineageAuto và 2 lối tắt "Lineage Auto", "DUNG Lineage Auto" trên Desktop.
+
+======================================================================================
+9. CÂU HỎI (biết câu nào trả lời câu đó)
+======================================================================================
+Q1. Trong game bấm F4 có nhặt đồ quanh nhân vật không? Nhặt hết 1 lần hay từng món?
+Q2. "풍룡의 산맥" trong tool có phải cùng nơi với "풍룡의 상흔" trong game không? Bãi đó có hổ 밀림 호랑이 không?
+Q3. Thường săn ở bãi nào? (bãi không có trong danh sách thì ghi dữ liệu bãi đó càng có ích)
+Q4. Thư mục C:\Program Files (x86)\NC\Lineage Classic\log có file chữ ghi lại nội dung chat không?
+    (Chỉ cần cho biết tên file; không cần gửi file vì có thể có thông tin cá nhân.)
+Q5. Sau khi về làng, thường quay lại bãi bằng cách nào?
+    (cuộn chúc phúc + vị trí /기억 / NPC dịch chuyển / đi bộ)
+
+======================================================================================
+10. (MỚI v3) DỪNG BOT KHI ĐIỀU KHIỂN QUA TEAMVIEWER
+======================================================================================
+Bản 2 bot liên tục kéo cửa sổ game lên trước và rê chuột, nên bấm nút "Dừng" qua TeamViewer không ăn.
+Bản 3 có nhiều cách, dùng cách nào cũng được (cách nào ăn sẽ ghi "stop: ..." trong session_log.txt):
+10-1. BẤM VÀO CỬA SỔ TOOL (bất kỳ chỗ nào, kể cả nút "Dừng"): bot săn dừng ngay khi cửa sổ tool lên trước.
+      Có thể phải bấm 2 lần (lần 1 kéo cửa sổ tool lên, lần 2 bấm nút). Không áp dụng cho chế độ chỉ quan sát.
+10-2. PHÍM DỪNG thứ 2 (tab Dữ liệu → khung "Dừng" → "Phím dừng"): mặc định Pause; chọn được ScrollLock, Insert.
+      Dừng TẤT CẢ, kể cả chế độ chỉ quan sát. Gửi qua TeamViewer như phím thường.
+      (Không có F5–F12 vì bot tự bấm các phím đó.) Laptop không có phím Pause: dùng 10-3.
+10-3. LỐI TẮT "DUNG Lineage Auto" trên Desktop (= 3_DUNG_BOT.bat): bấm đúp → tạo file C:\LineageAuto\main\STOP
+      → tool dừng TẤT CẢ trong khoảng 1 giây và tự xóa file. Tạo file tên STOP bằng tay ở đó cũng được.
+10-4. TỰ DỪNG: "Tự dừng sau (phút)" (mặc định 15, 0 = tắt) cho cả săn và quan sát; ghi đủ "Tối đa (khung)" cũng tự dừng.
+10-5. ESC vẫn dừng bot săn như trước (không dừng chế độ chỉ quan sát).
