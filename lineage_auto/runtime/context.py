@@ -112,6 +112,8 @@ class BotContext:
         from ..skills.catalog import can_afford_mp, get_catalog
 
         cost = get_catalog().mp_cost(skill_id)
-        if rect is not None and self.mp_reader.available:
+        if rect is not None:
+            # PLAN 1.6: the HUD numbers are the MP source; mp_template (the bar fallback) was never shipped, so
+            # gating on mp_reader.available meant MP was never read during a fight.
             self.read_mp(rect)
         return can_afford_mp(self.state.get("mp"), cost)

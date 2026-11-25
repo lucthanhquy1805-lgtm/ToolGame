@@ -531,7 +531,10 @@ Giai đoạn 1 — Săn cơ bản
        bằng giết (corpse_cursor/die_box/frozen), thả chuột, chờ 0.3s giữa mỗi lần bấm, ESC dừng được, đếm state["loot_presses"].
        CÒN: click dự phòng — chỉ làm nếu F4 không nhặt hết trên Classic (PLAN: "F4 → CẦN KIỂM TRA TRONG CLASSIC");
        CẦN DỮ LIỆU GAME: bật chế độ 2 + nhặt đồ, xem chat "획득" và ảnh còn nhãn "아데나" sau khi bấm F4)
-- [ ] 1.6 KHUNG Ô KỸ NĂNG PHÍM TẮT (yêu cầu người dùng 23/11 19:24 — QUAN TRỌNG): một bảng ~10 ô kỹ năng/hiệu ứng
+- [~] 1.6 KHUNG Ô KỸ NĂNG PHÍM TẮT (yêu cầu người dùng 23/11 19:24 — QUAN TRỌNG) — PHẦN ĐÁNH ĐƠN MỤC TIÊU XONG ở
+      v16 (xem 0.33: mọi skill role="attack" tự dùng được, mỗi ô có MP%/tầm/hồi chiêu, thứ tự bấm cấu hình được,
+      trang F1). CÒN LẠI: AoE theo số quái trong bán kính, chế độ săn "Tại chỗ"/"Diện rộng", đổi trang F2/F3.
+      Mô tả gốc: một bảng ~10 ô kỹ năng/hiệu ứng
       tăng cường, mỗi ô = (trang F1/F2/F3 + phím F5–F12 hoặc Ctrl+1..8) + VAI TRÒ + điều kiện dùng:
       - Đánh DIỆN RỘNG (AoE): dùng khi ≥N quái trong bán kính R quanh nhân vật (N, R cấu hình), có hồi chiêu/MP tối thiểu.
       - Đánh đơn mục tiêu: chèn vào nhịp đánh từng con (1.1b), mỗi X giây hoặc khi quái còn HP thấp/cao.
@@ -618,6 +621,95 @@ Kiểm tra thêm
      thời gian theo loại kết thúc, đánh / không đánh, quét/phút, detections/phút, detect_ms, giết chat vs xác
      (bản 13: đánh 835 s/906 s, trong đó no_progress 503 s; 9,5 quét/phút).
      CÒN: đo ms thật + kiểm đọc chat trên máy game (bản ghi săn 15 phút tiếp theo + session_log.txt).)
+- [x] 0.32 v15 SỬA "BOT ĐỨNG IM" (bản ghi v14 thật: records_game/20261125_092741_hunt, 25/11 09:27-09:42, 오크의 땅,
+      wizard, đêm, cửa sổ 1280x960, 849 khung / 911 s). Đọc chat ĐÃ CHẠY (21 dòng giết, 0 khung không đọc được),
+      detect_ms 68,8 (416+ROI). Nhưng người dùng báo: bot đứng im, quái trong tầm / đang đánh mình cũng không đánh,
+      8-10 s mới đánh 1 lần, không có quái thì không đi tìm. analyze_records: ĐỨNG IM 748 s / 910 s (82%), 33 đoạn
+      dài hơn 5 s (dài nhất 121 s từ f_00549). Ba nguyên nhân, đã sửa:
+   • 1 MELEE ĐỨNG IM (nặng nhất): 16 trận kết thúc "cap" đúng 25 s (391 s = 43% thời gian săn), anchor rỗng,
+      melee=true, khóa cách nhân vật 31-69 px. Lỗi: melee chỉ cần "con trỏ attack + khóa ≤70 px", nên một anchor CŨ
+      (chính sprite nhân vật / pet / người chơi khác, con trỏ vẫn đọc ra attack) giữ trận tới hết trần; thêm vào đó
+      khi mất hộp mà còn con trỏ attack thì luật 0.27 reset bộ đếm "lost" → không bao giờ thoát. Sửa (features/combat.py):
+      melee = con trỏ attack + khóa ≤70 px + HỘP CÓ TRONG LẦN NHẬN DIỆN MỚI NHẤT; mất hộp quá BOX_GONE_SEC = 1,0 s là
+      kết thúc ngay (gone/vanished, dòng chat đến ≤3 s sau vẫn tính cho trận đó như luật 0.31); trong tầm melee mà
+      KHÔNG có con trỏ attack quá NO_SWORD_SEC = 1,0 s → kết thúc "lost" (không chờ trần). Trần melee mặc định
+      25 s → 10 s. "switch" sang hộp gần hơn phải HOVER xác nhận con trỏ attack trước (17 lần switch của bản ghi đều
+      sang điểm cách nhân vật 26-62 px = chính nhân vật/pet; closer_than cũng bỏ qua điểm vừa hover trượt, miss_ttl 4 s).
+      events.jsonl fight_end thêm box_seen_last_s + cursor_last.
+   • 2 NHẬN DIỆN: ROI 416 kém hơn toàn khung 640. Đo lại trên 213 khung đêm của 092741 (mỗi khung thứ 4), hộp/khung ·
+      khung trống · ms (máy dev, 1 tiến trình):
+          cửa sổ      640 toàn khung    640+ROI      416 toàn khung   416+ROI      320+ROI
+          1280x960    2,38 · 8% · 82    1,92·15%·84  1,85·14%·34      1,92·13%·35  1,72·16%·26
+          1334x1008   2,38 · 8% · 98    1,92·14%·88  1,89·15%·37      1,92·12%·36  1,74·16%·23
+      (1,92 hộp/khung của 416+ROI khớp 1,97 bản ghi v14 → đo đúng; con số 4,87 của v13 là bản ghi 223510 khác cảnh,
+      không so trực tiếp được. Chỉ có ảnh ĐÊM: ảnh ngày của 193903/133425 không còn trên máy dev, 1334x1008 là ảnh
+      đêm phóng to.) → MẶC ĐỊNH TRỞ LẠI toàn khung 640 (scan.input_size 640, detect_roi off): +24% hộp/khung và chỉ
+      8% khung trống thay vì 13-15%. Cấu hình cũ do v14 ghi (416 + ROI + 25 s) bị coi là "không phải người dùng chọn"
+      và trả về mặc định v15 (ScanSettings._detect_v15) — ai đã tự chọn 416+ROI thì mất lựa chọn đó. Tự hạ input khi
+      chậm (detector._step_down) giờ chỉ xảy ra khi KHÔNG giữ nổi scan.detect_fps (640 ~165 ms trên máy game vẫn đủ
+      5/s), trước đây ngưỡng 80 ms sẽ tự hạ về 416 và xóa luôn phần vừa sửa.
+   • 3 KHÔNG CÓ MINIMAP → XOAY TẠI CHỖ: minimap=false cả 849 khung (người chơi tắt minimap), nên wander chạy nhánh
+      "rotate": đổi hướng MỖI lần gọi (~0,3 s) → 141 lần wander, 92 "rotate" rải đủ 8 hướng = nhân vật chỉ quay tại chỗ.
+      Sửa (features/exploration.py): không có minimap thì GIỮ MỘT HƯỚNG DWELL_SEC = 4 s (ưu tiên hướng con cuối cùng,
+      PURSUE_CLICKS lần), chỉ đổi khi BỊ CHẶN = ảnh thu nhỏ 64x48 thay đổi < BLOCK_MOTION (1,0 mức xám trung bình)
+      trong BLOCK_SEC = 2,5 s, và khi đó lấy hướng bị chặn lâu nhất (nhớ BLOCK_TTL 30 s). Ngưỡng 1,0 đo trên chính
+      092741: 74% cửa sổ 2,5 s của bản ghi đứng im có mức thay đổi < 1. Giao diện (thanh dưới) cảnh báo
+      "Minimap đang tắt - bật minimap để bot tìm đường tốt hơn" (i18n ko/en/vi) khi đang săn mà không thấy minimap.
+   • 4 ĐO LƯỜNG: analyze_records in "still (no movement, no attack) X s of Y s (Z%)" + liệt kê các đoạn đứng im > 5 s
+      (cùng phép đo ảnh thu nhỏ như luật chặn hướng ở trên).
+   • Kiểm tra: test_hunt_records thêm check_092741 (bản ghi nào không còn ảnh trên máy này thì bỏ qua): 91 trận mô phỏng,
+      trận dài nhất 9,5 s (v14: 25,2 s), 0 trận "cap", hộp mục tiêu mất lâu nhất 1,2 s ở lúc kết thúc (yêu cầu ≤ 3 s).
+      smoke_test: mất hộp mà con trỏ còn attack → vanished (trước: cap), trong tầm melee mà không có con trỏ attack →
+      lost, switch bị hover từ chối → giữ khóa cũ.
+      CÒN: chạy thật trên máy game để xem thời gian đứng im và số giết/15 phút (dist/LineageAuto_20261125_v15.zip).
+
+- [x] 0.33 v16 PHÉP TẤN CÔNG + GIẢM TẢI CPU (bản ghi v15 thật: records_game/20261125_112040_hunt, 25/11 11:20-11:35,
+      오크의 땅, wizard Lv30, 1280x960, 758 khung / 892 s). Kết quả v15: 62 giết/15 phút (25 chat + 37 corpse),
+      đang đánh 84% thời gian, trận dài nhất 10,3 s. Hai vấn đề người dùng nêu, đã sửa:
+   • 1 ĐÁNH TAY QUÁ CHẬM → BẢNG PHÉP TẤN CÔNG (PLAN 1.6, phần đơn mục tiêu). 26/165 trận chạm trần 10 s
+      (264 s = 30% thời gian săn) vì pháp sư đánh tay mất 12-15 s/con orc. Nguyên nhân gốc: skills/policy.py chỉ
+      cho tự dùng 5 id (hồi máu/buff/giải độc), nên MỌI phép tấn công gán vào ô đều KHÔNG BAO GIỜ được bấm.
+      Sửa: mọi skill có role="attack" trong catalog (46 cái, đọc thẳng JSON để công cụ offline không cần cv2)
+      đều được tự dùng và gán được trong modal; cơ chế chung = "target_click".
+      Mỗi ô có thêm 3 cổng (config/models.AttackSkillSetting): MP% tối thiểu (dưới ngưỡng → đánh tay), tầm dùng
+      tính bằng px từ nhân vật tới mục tiêu, hồi chiêu riêng (0 = nhịp mặc định của class). Sửa kèm: can_cast chỉ
+      đọc MP khi mp_reader.available, mà mp_template chưa bao giờ được ship → MP KHÔNG BAO GIỜ được đọc trong trận;
+      giờ đọc qua số HUD (runtime/context.can_cast).
+      THỨ TỰ BẤM CẤU HÌNH ĐƯỢC (AccountSettings.cast_order, chọn trong modal "Cài đặt skill" → tab Đánh) vì chưa
+      kiểm chứng được client nhận phép kiểu nào: "rê chuột → phím → click" (mặc định, như code cũ),
+      "phím → click mục tiêu", "click mục tiêu → phím". Đổi ngay trên máy game, không cần build lại.
+      Ô phép đặt ở TRANG F1 (người dùng chọn 25/11); đổi trang F2/F3 để sang 2.1.
+      Ghi events.jsonl: spell_cast (ô, skill, thứ tự, MP trước/sau, giây thứ mấy của trận), fight_end thêm
+      spells + skipped (vì sao bỏ nhịp: out_of_range / low_mp / no_nameplate / mp_empty), timing kill_sec_spell
+      vs kill_sec_hand. analyze_records in "spells:" + "kill time: with spells ... bare hands ...".
+   • 2 KHỰNG KHI ĐÔNG QUÁI → GIẢM TẢI CPU. Log máy game: "[detect] size 640 roi off threads 2 max 5/s:
+      175-187 ms avg, 4.8/s" suốt 15 phút ≈ 0,86 × 2 luồng ≈ 1,7 nhân CPU liên tục; t=600-830 s (10-17 hộp/khung)
+      game khựng. Bốn thay đổi:
+      a) Tiến trình bot chạy BELOW_NORMAL_PRIORITY_CLASS (winapi/console.set_below_normal_priority, gọi từ main.py).
+      b) onnxruntime intra_op_num_threads = 1 (scan.detect_threads, cấu hình trong khung "Quét" → Nâng cao;
+         đặt vào yolox_mobs.THREADS TRƯỚC lần nạp model đầu tiên trong session.start / start_observe).
+      c) scan.detect_fps mặc định 5 → 2 (5 bị coi là "không phải người dùng chọn" và trả về 2, như luật 0.32);
+         detector tự hạ thêm 1/s khi detect_ms × fps × số luồng > 30% một nhân (CPU_SHARE).
+      d) ĐANG ĐÁNH thì CỨ 2 LẦN NHẬN DIỆN có 1 lần dùng 416 + ROI quanh nhân vật (~35 ms thay vì ~180 ms), lần
+         còn lại vẫn là 640 toàn khung để thấy quái xa; ĐANG TÌM QUÁI luôn là 640 toàn khung (scan.adaptive_detect,
+         tắt được). combat báo trạng thái qua ctx.state["fight_until"].
+      ĐO (tests/eval_detect_modes.py, ảnh thật của 092741 849 khung + 112040 4 khung, so với v15 = 640 mọi khung):
+          cắt ROI MỌI khung đánh:      2,37 → 1,97 hộp/khung (-17%)  → VƯỢT ngưỡng 10% người dùng đặt, BỎ
+          xen kẽ 1 đầy / 1 ROI:        2,37 → 2,18 hộp/khung ( -8%)  → ĐẠT, thành mặc định
+      Hộp nằm trong 120 px quanh nhân vật (thứ duy nhất một trận đánh đọc tới) gần như không đổi: 0,37 → 0,35.
+      CPU ước tính trên máy game: v15 ~1,7 nhân; v16 đang đánh (300 ms + 60 ms)/2 × 2/s × 1 luồng ≈ 0,36 nhân,
+      đang tìm quái 300 ms × 2/s ≈ 0,6 nhân → luật 30% tự hạ xuống 1/s ≈ 0,3 nhân. CẦN XÁC NHẬN BẰNG LOG THẬT:
+      nếu log v16 dừng ở 1/s mà tìm quái quá chậm thì tăng scan.detect_threads lên 2.
+      Ghi log mỗi phút: "[detect] ...: X ms avg, Y/s, cpu Z%, N boxes/frame" (CPU lấy từ time.process_time, không
+      cần psutil) + events.jsonl "detect_stats"; analyze_records in "detector load (n min): cpu ... boxes/frame".
+   • 3 CHỌN MỤC TIÊU KHI BỊ VÂY: 4 lần "closer monster, switching ... at 26px" = chính sprite nhân vật →
+      targeting.SELF_R 25 → 30 px. Hover xác nhận trước khi chuyển đã có từ 0.32 (combat._confirm_switch).
+   • Kiểm tra: smoke_test thêm 3 thứ tự bấm phép + 3 cổng MP/tầm/hồi chiêu + events + vòng lưu/đọc config, và
+      kiểm tra detector mặc định (640, không ROI, 2/s, xen kẽ 416+ROI khi đánh, tự hạ fps). test_ui mở modal
+      "Cài đặt skill", gán 에너지 볼트 vào F12 với MP 20% / 400 px / 2,5 s và thứ tự "click → phím", rồi kiểm tra
+      file config đã lưu. test_hunt_records (092741) và eval_detection không đổi kết quả.
+      CÒN: chạy thật trên máy game (dist/LineageAuto_20261125_v16.zip) để biết client nhận phép theo thứ tự nào,
+      thời gian giết khi có phép, và CPU/độ khựng thực tế.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

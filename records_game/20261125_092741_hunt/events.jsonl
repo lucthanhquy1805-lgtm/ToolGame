@@ -1,0 +1,266 @@
+{"t": 6.97, "kind": "fight_end", "scan": 1, "frame": "f_00007.jpg", "outcome": "unreachable", "detail": "264px away for 2.7s", "seconds": 6.8, "anchor": [881, 487], "dist": 264, "melee": false, "kill_source": "none"}
+{"t": 9.92, "kind": "fight_end", "scan": 2, "frame": "f_00010.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.7, "anchor": [879, 245], "dist": 274, "melee": false, "kill_source": "corpse"}
+{"t": 10.26, "kind": "wander", "scan": 4, "frame": null, "to": [800, 220], "dir": "NE", "why": "pursue", "reason": "NE toward last target (no minimap)"}
+{"t": 12.49, "kind": "fight_end", "scan": 5, "frame": "f_00012.jpg", "outcome": "frozen", "detail": "", "seconds": 1.9, "anchor": [518, 378], "dist": 122, "melee": false, "kill_source": "corpse"}
+{"t": 12.65, "kind": "wander", "scan": 6, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 12.93, "kind": "wander", "scan": 7, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 13.22, "kind": "wander", "scan": 8, "frame": "f_00013.jpg", "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 13.49, "kind": "wander", "scan": 9, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 13.78, "kind": "wander", "scan": 10, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 14.04, "kind": "wander", "scan": 11, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 14.34, "kind": "wander", "scan": 12, "frame": "f_00014.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 14.6, "kind": "wander", "scan": 13, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 14.88, "kind": "wander", "scan": 14, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 15.16, "kind": "wander", "scan": 15, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 21.31, "kind": "fight_end", "scan": 17, "frame": "f_00020.jpg", "outcome": "switch", "detail": "(682, 380) at 42px, lock 182px", "seconds": 5.7, "anchor": [535, 529], "dist": 182, "melee": false, "kill_source": "none"}
+{"t": 46.44, "kind": "fight_end", "scan": 17, "frame": "f_00044.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 55, "melee": true, "kill_source": "none"}
+{"t": 55.2, "kind": "fight_end", "scan": 18, "frame": "f_00052.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 8.6, "anchor": [887, 475], "dist": 265, "melee": false, "kill_source": "none"}
+{"t": 57.88, "kind": "fight_end", "scan": 19, "frame": "f_00054.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.5, "anchor": [684, 112], "dist": 272, "melee": false, "kill_source": "none"}
+{"t": 62.71, "kind": "fight_end", "scan": 20, "frame": "f_00059.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.6, "anchor": [1071, 568], "dist": 470, "melee": false, "kill_source": "corpse"}
+{"t": 65.09, "kind": "fight_end", "scan": 21, "frame": "f_00061.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.2, "anchor": [770, 276], "dist": 166, "melee": false, "kill_source": "corpse"}
+{"t": 65.43, "kind": "wander", "scan": 23, "frame": null, "to": [800, 220], "dir": "NE", "why": "pursue", "reason": "NE toward last target (no minimap)"}
+{"t": 70.95, "kind": "fight_end", "scan": 25, "frame": "f_00066.jpg", "outcome": "switch", "detail": "(604, 380) at 36px, lock 128px", "seconds": 5.0, "anchor": [602, 502], "dist": 128, "melee": false, "kill_source": "none"}
+{"t": 76.35, "kind": "fight_end", "scan": 25, "frame": "f_00071.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 5.3, "anchor": [593, 383], "dist": 47, "melee": true, "kill_source": "corpse"}
+{"t": 76.84, "kind": "fight_end", "scan": 26, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [584, 374], "dist": 56, "melee": false, "kill_source": "corpse"}
+{"t": 77.11, "kind": "wander", "scan": 28, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 77.38, "kind": "wander", "scan": 29, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 77.65, "kind": "wander", "scan": 30, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 77.93, "kind": "wander", "scan": 31, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 78.22, "kind": "wander", "scan": 32, "frame": "f_00073.jpg", "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 78.5, "kind": "wander", "scan": 33, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 78.95, "kind": "wander", "scan": 35, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 79.23, "kind": "wander", "scan": 36, "frame": "f_00074.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 79.51, "kind": "wander", "scan": 37, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 79.78, "kind": "wander", "scan": 38, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 80.04, "kind": "wander", "scan": 39, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 80.33, "kind": "wander", "scan": 40, "frame": "f_00075.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 80.6, "kind": "wander", "scan": 41, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 80.88, "kind": "wander", "scan": 42, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 85.2, "kind": "fight_end", "scan": 43, "frame": "f_00079.jpg", "outcome": "unreachable", "detail": "284px away for 2.6s", "seconds": 4.0, "anchor": [666, 97], "dist": 284, "melee": false, "kill_source": "none"}
+{"t": 85.5, "kind": "wander", "scan": 45, "frame": null, "to": [640, 220], "dir": "N", "why": "pursue", "reason": "N toward last target (no minimap)"}
+{"t": 85.8, "kind": "wander", "scan": 46, "frame": "f_00080.jpg", "to": [640, 220], "dir": "N", "why": "pursue", "reason": "N toward last target (no minimap)"}
+{"t": 86.08, "kind": "wander", "scan": 47, "frame": null, "to": [640, 220], "dir": "N", "why": "pursue", "reason": "N toward last target (no minimap)"}
+{"t": 86.36, "kind": "wander", "scan": 48, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 86.63, "kind": "wander", "scan": 49, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 86.93, "kind": "wander", "scan": 50, "frame": "f_00081.jpg", "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 87.2, "kind": "wander", "scan": 51, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 93.64, "kind": "fight_end", "scan": 52, "frame": "f_00087.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 6.2, "anchor": [591, 391], "dist": 50, "melee": true, "kill_source": "chat"}
+{"t": 118.8, "kind": "fight_end", "scan": 53, "frame": "f_00111.jpg", "outcome": "unreachable", "detail": "71px away for 2.7s", "seconds": 25.0, "anchor": [569, 385], "dist": 71, "melee": false, "kill_source": "none"}
+{"t": 128.4, "kind": "fight_end", "scan": 54, "frame": "f_00120.jpg", "outcome": "no_progress", "detail": "8.0s, sword=yes", "seconds": 9.4, "anchor": [445, 290], "dist": 215, "melee": false, "kill_source": "none"}
+{"t": 131.34, "kind": "fight_end", "scan": 55, "frame": "f_00122.jpg", "outcome": "switch", "detail": "(633, 433) at 53px, lock 172px", "seconds": 2.8, "anchor": [757, 254], "dist": 172, "melee": false, "kill_source": "none"}
+{"t": 156.66, "kind": "fight_end", "scan": 55, "frame": "f_00147.jpg", "outcome": "cap", "detail": "", "seconds": 25.2, "anchor": null, "dist": 56, "melee": true, "kill_source": "none"}
+{"t": 156.83, "kind": "wander", "scan": 56, "frame": null, "to": [640, 540], "dir": "S", "why": "pursue", "reason": "S toward last target (no minimap)"}
+{"t": 157.23, "kind": "wander", "scan": 58, "frame": null, "to": [640, 540], "dir": "S", "why": "pursue", "reason": "S toward last target (no minimap)"}
+{"t": 157.51, "kind": "wander", "scan": 59, "frame": null, "to": [640, 540], "dir": "S", "why": "pursue", "reason": "S toward last target (no minimap)"}
+{"t": 160.02, "kind": "fight_end", "scan": 60, "frame": "f_00149.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.2, "anchor": [958, 296], "dist": 329, "melee": false, "kill_source": "none"}
+{"t": 160.4, "kind": "wander", "scan": 62, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 160.8, "kind": "wander", "scan": 64, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 161.19, "kind": "wander", "scan": 66, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 161.67, "kind": "wander", "scan": 68, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 161.93, "kind": "wander", "scan": 69, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 162.23, "kind": "wander", "scan": 70, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 162.51, "kind": "wander", "scan": 71, "frame": "f_00152.jpg", "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 162.78, "kind": "wander", "scan": 72, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 163.06, "kind": "wander", "scan": 73, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 163.33, "kind": "wander", "scan": 74, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 163.63, "kind": "wander", "scan": 75, "frame": "f_00153.jpg", "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 164.02, "kind": "wander", "scan": 77, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 167.84, "kind": "fight_end", "scan": 78, "frame": "f_00157.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 3.5, "anchor": [321, 152], "dist": 392, "melee": false, "kill_source": "chat"}
+{"t": 168.31, "kind": "fight_end", "scan": 79, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [327, 157], "dist": 384, "melee": false, "kill_source": "corpse"}
+{"t": 168.64, "kind": "wander", "scan": 81, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 169.02, "kind": "wander", "scan": 83, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 169.39, "kind": "wander", "scan": 85, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 169.84, "kind": "wander", "scan": 87, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 170.12, "kind": "wander", "scan": 88, "frame": "f_00159.jpg", "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 170.4, "kind": "wander", "scan": 89, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 170.68, "kind": "wander", "scan": 90, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 170.96, "kind": "wander", "scan": 91, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 171.26, "kind": "wander", "scan": 92, "frame": "f_00160.jpg", "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 171.69, "kind": "wander", "scan": 94, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 171.98, "kind": "wander", "scan": 95, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 172.27, "kind": "wander", "scan": 96, "frame": "f_00161.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 172.53, "kind": "wander", "scan": 97, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 172.8, "kind": "wander", "scan": 98, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 173.07, "kind": "wander", "scan": 99, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 173.35, "kind": "wander", "scan": 100, "frame": "f_00162.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 173.8, "kind": "wander", "scan": 102, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 174.07, "kind": "wander", "scan": 103, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 174.52, "kind": "wander", "scan": 105, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 199.82, "kind": "fight_end", "scan": 106, "frame": "f_00187.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 69, "melee": true, "kill_source": "none"}
+{"t": 209.41, "kind": "fight_end", "scan": 107, "frame": "f_00196.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 9.4, "anchor": [476, 624], "dist": 294, "melee": false, "kill_source": "none"}
+{"t": 209.76, "kind": "wander", "scan": 109, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 210.15, "kind": "wander", "scan": 111, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 210.62, "kind": "wander", "scan": 113, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 210.91, "kind": "wander", "scan": 114, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 217.98, "kind": "fight_end", "scan": 115, "frame": "f_00204.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 6.7, "anchor": [595, 400], "dist": 49, "melee": false, "kill_source": "none"}
+{"t": 243.36, "kind": "fight_end", "scan": 116, "frame": "f_00228.jpg", "outcome": "cap", "detail": "", "seconds": 25.2, "anchor": null, "dist": 67, "melee": true, "kill_source": "none"}
+{"t": 246.37, "kind": "fight_end", "scan": 117, "frame": "f_00231.jpg", "outcome": "unreachable", "detail": "318px away for 2.7s", "seconds": 2.8, "anchor": [952, 318], "dist": 318, "melee": false, "kill_source": "none"}
+{"t": 257.22, "kind": "fight_end", "scan": 118, "frame": "f_00241.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 10.7, "anchor": [509, 345], "dist": 136, "melee": false, "kill_source": "none"}
+{"t": 258.02, "kind": "fight_end", "scan": 119, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.6, "anchor": [414, 332], "dist": 231, "melee": false, "kill_source": "corpse"}
+{"t": 262.33, "kind": "fight_end", "scan": 121, "frame": "f_00245.jpg", "outcome": "chat_kill", "detail": "오염된 오크 궁수", "seconds": 4.0, "anchor": [323, 515], "dist": 345, "melee": false, "kill_source": "chat"}
+{"t": 265.61, "kind": "fight_end", "scan": 122, "frame": "f_00249.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병 = locked", "seconds": 3.1, "anchor": [352, 425], "dist": 291, "melee": false, "kill_source": "chat"}
+{"t": 266.71, "kind": "fight_end", "scan": 123, "frame": "f_00250.jpg", "outcome": "switch", "detail": "(666, 420) at 48px, lock 100px", "seconds": 1.0, "anchor": [555, 433], "dist": 100, "melee": false, "kill_source": "none"}
+{"t": 267.44, "kind": "fight_end", "scan": 123, "frame": "f_00250.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.6, "anchor": [666, 420], "dist": 48, "melee": false, "kill_source": "corpse"}
+{"t": 273.16, "kind": "fight_end", "scan": 124, "frame": "f_00255.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 5.5, "anchor": [688, 336], "dist": 65, "melee": true, "kill_source": "chat"}
+{"t": 277.86, "kind": "fight_end", "scan": 125, "frame": "f_00260.jpg", "outcome": "switch", "detail": "(679, 411) at 50px, lock 102px", "seconds": 4.5, "anchor": [728, 329], "dist": 102, "melee": false, "kill_source": "none"}
+{"t": 278.29, "kind": "fight_end", "scan": 125, "frame": "f_00260.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [679, 411], "dist": 50, "melee": false, "kill_source": "corpse"}
+{"t": 279.25, "kind": "fight_end", "scan": 126, "frame": "f_00261.jpg", "outcome": "switch", "detail": "(602, 378) at 38px, lock 403px", "seconds": 0.8, "anchor": [237, 400], "dist": 403, "melee": false, "kill_source": "none"}
+{"t": 279.92, "kind": "fight_end", "scan": 128, "frame": "f_00262.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [609, 378], "dist": 31, "melee": false, "kill_source": "corpse"}
+{"t": 282.89, "kind": "kill_line", "scan": 129, "frame": "f_00265.jpg", "name": "오염된 오크 도끼병", "fight": "corpse_cursor"}
+{"t": 283.22, "kind": "fight_end", "scan": 129, "frame": "f_00265.jpg", "outcome": "frozen", "detail": "", "seconds": 3.1, "anchor": [299, 595], "dist": 403, "melee": false, "kill_source": "corpse"}
+{"t": 285.33, "kind": "fight_end", "scan": 130, "frame": "f_00267.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.9, "anchor": [686, 139], "dist": 245, "melee": false, "kill_source": "corpse"}
+{"t": 289.18, "kind": "fight_end", "scan": 131, "frame": "f_00271.jpg", "outcome": "unreachable", "detail": "461px away for 3.5s", "seconds": 3.7, "anchor": [1087, 267], "dist": 461, "melee": false, "kill_source": "none"}
+{"t": 293.63, "kind": "fight_end", "scan": 132, "frame": "f_00275.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 4.3, "anchor": [411, 241], "dist": 268, "melee": false, "kill_source": "chat"}
+{"t": 301.68, "kind": "fight_end", "scan": 133, "frame": "f_00282.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 7.9, "anchor": [423, 219], "dist": 270, "melee": false, "kill_source": "none"}
+{"t": 304.1, "kind": "fight_end", "scan": 134, "frame": "f_00284.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.2, "anchor": [1036, 493], "dist": 412, "melee": false, "kill_source": "none"}
+{"t": 306.44, "kind": "fight_end", "scan": 135, "frame": "f_00286.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.1, "anchor": [283, 535], "dist": 389, "melee": false, "kill_source": "corpse"}
+{"t": 306.75, "kind": "wander", "scan": 137, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 322.11, "kind": "fight_end", "scan": 138, "frame": "f_00300.jpg", "outcome": "cap", "detail": "", "seconds": 15.0, "anchor": null, "dist": 142, "melee": false, "kill_source": "none"}
+{"t": 324.5, "kind": "fight_end", "scan": 139, "frame": "f_00302.jpg", "outcome": "frozen", "detail": "", "seconds": 2.2, "anchor": [910, 374], "dist": 270, "melee": false, "kill_source": "corpse"}
+{"t": 325.81, "kind": "kill_line", "scan": 140, "frame": "f_00303.jpg", "name": "오염된 오크 도끼병", "fight": "frozen"}
+{"t": 349.68, "kind": "fight_end", "scan": 140, "frame": "f_00327.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 60, "melee": true, "kill_source": "none"}
+{"t": 349.85, "kind": "wander", "scan": 141, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 350.13, "kind": "wander", "scan": 142, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 350.41, "kind": "wander", "scan": 143, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 353.44, "kind": "fight_end", "scan": 144, "frame": "f_00330.jpg", "outcome": "unreachable", "detail": "393px away for 2.6s", "seconds": 2.7, "anchor": [250, 431], "dist": 393, "melee": false, "kill_source": "none"}
+{"t": 353.75, "kind": "wander", "scan": 146, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 354.22, "kind": "wander", "scan": 148, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 354.6, "kind": "wander", "scan": 150, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 355.6, "kind": "fight_end", "scan": 151, "frame": "f_00332.jpg", "outcome": "switch", "detail": "(639, 431) at 51px, lock 308px", "seconds": 0.7, "anchor": [398, 571], "dist": 308, "melee": false, "kill_source": "none"}
+{"t": 366.32, "kind": "fight_end", "scan": 151, "frame": "f_00342.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 10.6, "anchor": [639, 431], "dist": 51, "melee": true, "kill_source": "chat"}
+{"t": 367.06, "kind": "fight_end", "scan": 152, "frame": "f_00343.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.6, "anchor": [721, 354], "dist": 85, "melee": false, "kill_source": "corpse"}
+{"t": 370.72, "kind": "fight_end", "scan": 153, "frame": "f_00346.jpg", "outcome": "chat_kill", "detail": "오염된 오크 도끼병", "seconds": 3.5, "anchor": [724, 352], "dist": 89, "melee": false, "kill_source": "chat"}
+{"t": 379.83, "kind": "fight_end", "scan": 154, "frame": "f_00354.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 8.9, "anchor": [679, 371], "dist": 40, "melee": false, "kill_source": "none"}
+{"t": 405.04, "kind": "fight_end", "scan": 155, "frame": "f_00379.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 38, "melee": true, "kill_source": "none"}
+{"t": 406.37, "kind": "fight_end", "scan": 156, "frame": "f_00380.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.2, "anchor": [573, 385], "dist": 67, "melee": false, "kill_source": "corpse"}
+{"t": 406.7, "kind": "wander", "scan": 158, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 407.04, "kind": "wander", "scan": 159, "frame": "f_00381.jpg", "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 407.31, "kind": "wander", "scan": 160, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 407.59, "kind": "wander", "scan": 161, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 407.86, "kind": "wander", "scan": 162, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 408.15, "kind": "wander", "scan": 163, "frame": "f_00382.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 408.42, "kind": "wander", "scan": 164, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 408.7, "kind": "wander", "scan": 165, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 408.98, "kind": "wander", "scan": 166, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 409.26, "kind": "wander", "scan": 167, "frame": "f_00383.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 409.52, "kind": "wander", "scan": 168, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 410.03, "kind": "wander", "scan": 170, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 414.13, "kind": "fight_end", "scan": 171, "frame": "f_00387.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 3.8, "anchor": [719, 628], "dist": 260, "melee": false, "kill_source": "chat"}
+{"t": 418.99, "kind": "fight_end", "scan": 173, "frame": "f_00391.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 4.5, "anchor": [682, 383], "dist": 42, "melee": true, "kill_source": "corpse"}
+{"t": 444.21, "kind": "fight_end", "scan": 174, "frame": "f_00416.jpg", "outcome": "cap", "detail": "", "seconds": 25.1, "anchor": null, "dist": 66, "melee": true, "kill_source": "none"}
+{"t": 444.68, "kind": "fight_end", "scan": 175, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [715, 515], "dist": 154, "melee": false, "kill_source": "corpse"}
+{"t": 452.58, "kind": "fight_end", "scan": 176, "frame": "f_00424.jpg", "outcome": "frozen", "detail": "", "seconds": 7.7, "anchor": [544, 473], "dist": 134, "melee": false, "kill_source": "corpse"}
+{"t": 452.95, "kind": "wander", "scan": 178, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 460.37, "kind": "fight_end", "scan": 179, "frame": "f_00431.jpg", "outcome": "unreachable", "detail": "488px away for 6.3s", "seconds": 7.1, "anchor": [1082, 586], "dist": 488, "melee": false, "kill_source": "none"}
+{"t": 462.33, "kind": "fight_end", "scan": 180, "frame": "f_00432.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.8, "anchor": [894, 498], "dist": 280, "melee": false, "kill_source": "corpse"}
+{"t": 464.61, "kind": "fight_end", "scan": 182, "frame": "f_00434.jpg", "outcome": "frozen", "detail": "", "seconds": 1.9, "anchor": [907, 414], "dist": 269, "melee": false, "kill_source": "corpse"}
+{"t": 490.12, "kind": "fight_end", "scan": 184, "frame": "f_00459.jpg", "outcome": "cap", "detail": "", "seconds": 25.1, "anchor": null, "dist": 40, "melee": true, "kill_source": "none"}
+{"t": 493.52, "kind": "fight_end", "scan": 185, "frame": "f_00462.jpg", "outcome": "frozen", "detail": "", "seconds": 3.3, "anchor": [624, 549], "dist": 170, "melee": false, "kill_source": "corpse"}
+{"t": 494.43, "kind": "fight_end", "scan": 186, "frame": "f_00463.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.7, "anchor": [217, 216], "dist": 454, "melee": false, "kill_source": "corpse"}
+{"t": 495.64, "kind": "fight_end", "scan": 187, "frame": "f_00464.jpg", "outcome": "switch", "detail": "(600, 378) at 40px, lock 407px", "seconds": 1.0, "anchor": [265, 223], "dist": 407, "melee": false, "kill_source": "none"}
+{"t": 520.9, "kind": "fight_end", "scan": 187, "frame": "f_00488.jpg", "outcome": "cap", "detail": "", "seconds": 25.1, "anchor": null, "dist": 38, "melee": true, "kill_source": "none"}
+{"t": 529.6, "kind": "fight_end", "scan": 188, "frame": "f_00496.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 8.5, "anchor": [615, 276], "dist": 107, "melee": false, "kill_source": "none"}
+{"t": 535.28, "kind": "fight_end", "scan": 189, "frame": "f_00501.jpg", "outcome": "unreachable", "detail": "123px away for 2.7s", "seconds": 5.5, "anchor": [662, 259], "dist": 123, "melee": false, "kill_source": "none"}
+{"t": 537.07, "kind": "fight_end", "scan": 190, "frame": "f_00503.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.6, "anchor": [245, 312], "dist": 401, "melee": false, "kill_source": "corpse"}
+{"t": 538.25, "kind": "fight_end", "scan": 191, "frame": "f_00504.jpg", "outcome": "switch", "detail": "(611, 334) at 54px, lock 398px", "seconds": 1.0, "anchor": [958, 141], "dist": 398, "melee": false, "kill_source": "none"}
+{"t": 538.81, "kind": "fight_end", "scan": 192, "frame": null, "outcome": "switch", "detail": "(604, 334) at 58px, lock 381px", "seconds": 0.4, "anchor": [958, 170], "dist": 381, "melee": false, "kill_source": "none"}
+{"t": 539.22, "kind": "fight_end", "scan": 192, "frame": null, "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [604, 334], "dist": 58, "melee": false, "kill_source": "corpse"}
+{"t": 543.26, "kind": "fight_end", "scan": 193, "frame": "f_00508.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 3.8, "anchor": [905, 225], "dist": 307, "melee": false, "kill_source": "chat"}
+{"t": 549.71, "kind": "fight_end", "scan": 194, "frame": "f_00514.jpg", "outcome": "unreachable", "detail": "207px away for 2.6s", "seconds": 6.3, "anchor": [792, 239], "dist": 207, "melee": false, "kill_source": "none"}
+{"t": 560.06, "kind": "fight_end", "scan": 195, "frame": "f_00523.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 10.2, "anchor": [989, 287], "dist": 361, "melee": false, "kill_source": "none"}
+{"t": 560.43, "kind": "wander", "scan": 197, "frame": null, "to": [800, 380], "dir": "E", "why": "pursue", "reason": "E toward last target (no minimap)"}
+{"t": 567.16, "kind": "fight_end", "scan": 199, "frame": "f_00530.jpg", "outcome": "unreachable", "detail": "102px away for 2.7s", "seconds": 6.2, "anchor": [732, 336], "dist": 102, "melee": false, "kill_source": "none"}
+{"t": 571.66, "kind": "fight_end", "scan": 200, "frame": "f_00534.jpg", "outcome": "frozen", "detail": "", "seconds": 4.4, "anchor": [270, 172], "dist": 424, "melee": false, "kill_source": "corpse"}
+{"t": 571.83, "kind": "wander", "scan": 201, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 572.11, "kind": "wander", "scan": 202, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 572.39, "kind": "wander", "scan": 203, "frame": "f_00535.jpg", "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 572.67, "kind": "wander", "scan": 204, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 572.93, "kind": "wander", "scan": 205, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 573.19, "kind": "wander", "scan": 206, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 573.48, "kind": "wander", "scan": 207, "frame": "f_00536.jpg", "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 573.74, "kind": "wander", "scan": 208, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 574.01, "kind": "wander", "scan": 209, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 574.29, "kind": "wander", "scan": 210, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 585.5, "kind": "fight_end", "scan": 211, "frame": "f_00547.jpg", "outcome": "unreachable", "detail": "108px away for 6.7s", "seconds": 10.9, "anchor": [586, 287], "dist": 108, "melee": false, "kill_source": "none"}
+{"t": 586.48, "kind": "fight_end", "scan": 212, "frame": "f_00548.jpg", "outcome": "switch", "detail": "(593, 371) at 48px, lock 116px", "seconds": 0.8, "anchor": [560, 464], "dist": 116, "melee": false, "kill_source": "none"}
+{"t": 611.67, "kind": "fight_end", "scan": 212, "frame": "f_00572.jpg", "outcome": "cap", "detail": "", "seconds": 25.1, "anchor": null, "dist": 47, "melee": true, "kill_source": "none"}
+{"t": 614.01, "kind": "kill_line", "scan": 213, "frame": "f_00574.jpg", "name": "오염된 오크", "fight": "cap"}
+{"t": 614.78, "kind": "fight_end", "scan": 213, "frame": "f_00574.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.9, "anchor": [575, 371], "dist": 66, "melee": true, "kill_source": "corpse"}
+{"t": 619.32, "kind": "fight_end", "scan": 214, "frame": "f_00579.jpg", "outcome": "switch", "detail": "(646, 405) at 26px, lock 54px", "seconds": 4.3, "anchor": [589, 398], "dist": 54, "melee": true, "kill_source": "none"}
+{"t": 624.12, "kind": "fight_end", "scan": 214, "frame": "f_00583.jpg", "outcome": "chat_kill", "detail": "오염된 오크 도끼병 = locked", "seconds": 4.7, "anchor": [646, 405], "dist": 26, "melee": true, "kill_source": "chat"}
+{"t": 625.33, "kind": "fight_end", "scan": 215, "frame": "f_00584.jpg", "outcome": "switch", "detail": "(651, 409) at 31px, lock 184px", "seconds": 1.1, "anchor": [485, 480], "dist": 184, "melee": false, "kill_source": "none"}
+{"t": 625.75, "kind": "fight_end", "scan": 215, "frame": "f_00584.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 0.3, "anchor": [651, 409], "dist": 31, "melee": false, "kill_source": "corpse"}
+{"t": 650.97, "kind": "fight_end", "scan": 216, "frame": "f_00609.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 52, "melee": true, "kill_source": "none"}
+{"t": 655.24, "kind": "fight_end", "scan": 217, "frame": "f_00613.jpg", "outcome": "unreachable", "detail": "429px away for 2.6s", "seconds": 4.1, "anchor": [248, 555], "dist": 429, "melee": false, "kill_source": "none"}
+{"t": 658.64, "kind": "fight_end", "scan": 218, "frame": "f_00616.jpg", "outcome": "chat_kill", "detail": "오염된 오크 도끼병", "seconds": 3.2, "anchor": [604, 380], "dist": 36, "melee": true, "kill_source": "chat"}
+{"t": 683.83, "kind": "fight_end", "scan": 219, "frame": "f_00640.jpg", "outcome": "cap", "detail": "", "seconds": 25.1, "anchor": null, "dist": 31, "melee": true, "kill_source": "none"}
+{"t": 709.19, "kind": "fight_end", "scan": 220, "frame": "f_00665.jpg", "outcome": "cap", "detail": "", "seconds": 25.2, "anchor": null, "dist": 68, "melee": true, "kill_source": "none"}
+{"t": 711.09, "kind": "fight_end", "scan": 221, "frame": "f_00667.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.8, "anchor": [217, 648], "dist": 501, "melee": false, "kill_source": "corpse"}
+{"t": 714.05, "kind": "fight_end", "scan": 222, "frame": "f_00669.jpg", "outcome": "unreachable", "detail": "290px away for 2.6s", "seconds": 2.8, "anchor": [473, 617], "dist": 290, "melee": false, "kill_source": "none"}
+{"t": 722.0, "kind": "fight_end", "scan": 223, "frame": "f_00676.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 7.8, "anchor": [374, 604], "dist": 348, "melee": false, "kill_source": "none"}
+{"t": 722.17, "kind": "wander", "scan": 224, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 722.46, "kind": "wander", "scan": 225, "frame": "f_00677.jpg", "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 722.73, "kind": "wander", "scan": 226, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 723.01, "kind": "wander", "scan": 227, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 723.28, "kind": "wander", "scan": 228, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 723.58, "kind": "wander", "scan": 229, "frame": "f_00678.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 723.85, "kind": "wander", "scan": 230, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 724.12, "kind": "wander", "scan": 231, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 724.4, "kind": "wander", "scan": 232, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 724.85, "kind": "wander", "scan": 234, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 725.12, "kind": "wander", "scan": 235, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 725.39, "kind": "wander", "scan": 236, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 725.67, "kind": "wander", "scan": 237, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 725.95, "kind": "wander", "scan": 238, "frame": "f_00680.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 726.21, "kind": "wander", "scan": 239, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 726.48, "kind": "wander", "scan": 240, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 728.72, "kind": "fight_end", "scan": 241, "frame": "f_00682.jpg", "outcome": "frozen", "detail": "", "seconds": 2.0, "anchor": [199, 241], "dist": 462, "melee": false, "kill_source": "corpse"}
+{"t": 731.14, "kind": "fight_end", "scan": 242, "frame": "f_00684.jpg", "outcome": "frozen", "detail": "", "seconds": 2.3, "anchor": [356, 493], "dist": 306, "melee": false, "kill_source": "corpse"}
+{"t": 734.05, "kind": "fight_end", "scan": 243, "frame": "f_00687.jpg", "outcome": "unreachable", "detail": "440px away for 2.6s", "seconds": 2.7, "anchor": [208, 296], "dist": 440, "melee": false, "kill_source": "none"}
+{"t": 734.78, "kind": "kill_line", "scan": 244, "frame": null, "name": "오염된 오크 도끼병", "fight": "unreachable"}
+{"t": 747.28, "kind": "fight_end", "scan": 244, "frame": "f_00699.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 13.1, "anchor": [721, 389], "dist": 81, "melee": false, "kill_source": "none"}
+{"t": 750.0, "kind": "fight_end", "scan": 245, "frame": "f_00701.jpg", "outcome": "gone", "detail": "box gone 1.8s", "seconds": 2.5, "anchor": [752, 214], "dist": 200, "melee": false, "kill_source": "none"}
+{"t": 750.95, "kind": "kill_line", "scan": 246, "frame": "f_00702.jpg", "name": "오염된 오크 도끼병", "fight": "gone"}
+{"t": 755.12, "kind": "fight_end", "scan": 246, "frame": "f_00706.jpg", "outcome": "frozen", "detail": "", "seconds": 4.9, "anchor": [626, 314], "dist": 67, "melee": false, "kill_source": "corpse"}
+{"t": 755.29, "kind": "wander", "scan": 247, "frame": null, "to": [640, 220], "dir": "N", "why": "pursue", "reason": "N toward last target (no minimap)"}
+{"t": 758.57, "kind": "fight_end", "scan": 248, "frame": "f_00709.jpg", "outcome": "unreachable", "detail": "370px away for 2.8s", "seconds": 3.0, "anchor": [881, 661], "dist": 370, "melee": false, "kill_source": "none"}
+{"t": 761.26, "kind": "fight_end", "scan": 249, "frame": "f_00712.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.5, "anchor": [558, 181], "dist": 215, "melee": false, "kill_source": "none"}
+{"t": 764.19, "kind": "fight_end", "scan": 250, "frame": "f_00714.jpg", "outcome": "unreachable", "detail": "181px away for 2.6s", "seconds": 2.7, "anchor": [633, 199], "dist": 181, "melee": false, "kill_source": "none"}
+{"t": 769.91, "kind": "fight_end", "scan": 251, "frame": "f_00719.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 5.6, "anchor": [558, 340], "dist": 91, "melee": false, "kill_source": "chat"}
+{"t": 776.38, "kind": "fight_end", "scan": 252, "frame": "f_00725.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사 = locked", "seconds": 6.3, "anchor": [701, 387], "dist": 61, "melee": true, "kill_source": "chat"}
+{"t": 776.89, "kind": "fight_end", "scan": 253, "frame": "f_00726.jpg", "outcome": "switch", "detail": "(666, 385) at 26px, lock 61px", "seconds": 0.4, "anchor": [701, 387], "dist": 61, "melee": false, "kill_source": "none"}
+{"t": 792.56, "kind": "fight_end", "scan": 253, "frame": "f_00740.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 15.5, "anchor": [706, 356], "dist": 70, "melee": false, "kill_source": "none"}
+{"t": 817.92, "kind": "fight_end", "scan": 254, "frame": "f_00764.jpg", "outcome": "cap", "detail": "", "seconds": 25.2, "anchor": null, "dist": 56, "melee": true, "kill_source": "none"}
+{"t": 818.1, "kind": "wander", "scan": 255, "frame": "f_00765.jpg", "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 818.36, "kind": "wander", "scan": 256, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 818.64, "kind": "wander", "scan": 257, "frame": null, "to": [480, 380], "dir": "W", "why": "pursue", "reason": "W toward last target (no minimap)"}
+{"t": 818.91, "kind": "wander", "scan": 258, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 819.23, "kind": "wander", "scan": 259, "frame": "f_00766.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 819.5, "kind": "wander", "scan": 260, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 819.76, "kind": "wander", "scan": 261, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 820.04, "kind": "wander", "scan": 262, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 820.32, "kind": "wander", "scan": 263, "frame": "f_00767.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 820.6, "kind": "wander", "scan": 264, "frame": null, "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 820.87, "kind": "wander", "scan": 265, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 821.14, "kind": "wander", "scan": 266, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 821.43, "kind": "wander", "scan": 267, "frame": "f_00768.jpg", "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 824.18, "kind": "fight_end", "scan": 268, "frame": "f_00770.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 2.4, "anchor": [210, 168], "dist": 479, "melee": false, "kill_source": "corpse"}
+{"t": 824.33, "kind": "wander", "scan": 269, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 824.61, "kind": "wander", "scan": 270, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 824.89, "kind": "wander", "scan": 271, "frame": null, "to": [480, 220], "dir": "NW", "why": "pursue", "reason": "NW toward last target (no minimap)"}
+{"t": 825.16, "kind": "wander", "scan": 272, "frame": "f_00771.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 825.44, "kind": "wander", "scan": 273, "frame": null, "to": [800, 380], "dir": "E", "why": "rotate", "reason": "E rotate (no minimap)"}
+{"t": 825.72, "kind": "wander", "scan": 274, "frame": null, "to": [640, 540], "dir": "S", "why": "rotate", "reason": "S rotate (no minimap)"}
+{"t": 825.97, "kind": "wander", "scan": 275, "frame": null, "to": [480, 380], "dir": "W", "why": "rotate", "reason": "W rotate (no minimap)"}
+{"t": 826.27, "kind": "wander", "scan": 276, "frame": "f_00772.jpg", "to": [640, 220], "dir": "N", "why": "rotate", "reason": "N rotate (no minimap)"}
+{"t": 830.73, "kind": "fight_end", "scan": 277, "frame": "f_00776.jpg", "outcome": "chat_kill", "detail": "오염된 오크 도끼병", "seconds": 4.2, "anchor": [389, 482], "dist": 271, "melee": false, "kill_source": "chat"}
+{"t": 833.12, "kind": "fight_end", "scan": 278, "frame": "f_00778.jpg", "outcome": "switch", "detail": "(589, 345) at 62px, lock 242px", "seconds": 2.3, "anchor": [416, 471], "dist": 242, "melee": false, "kill_source": "none"}
+{"t": 842.81, "kind": "fight_end", "scan": 278, "frame": "f_00788.jpg", "outcome": "chat_kill", "detail": "오염된 오크 궁수", "seconds": 9.6, "anchor": [586, 336], "dist": 70, "melee": true, "kill_source": "chat"}
+{"t": 851.14, "kind": "fight_end", "scan": 279, "frame": "f_00795.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 8.2, "anchor": [566, 360], "dist": 77, "melee": false, "kill_source": "none"}
+{"t": 863.8, "kind": "fight_end", "scan": 280, "frame": "f_00806.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 12.4, "anchor": [363, 537], "dist": 318, "melee": false, "kill_source": "none"}
+{"t": 864.14, "kind": "wander", "scan": 282, "frame": null, "to": [480, 540], "dir": "SW", "why": "pursue", "reason": "SW toward last target (no minimap)"}
+{"t": 866.17, "kind": "fight_end", "scan": 283, "frame": "f_00808.jpg", "outcome": "switch", "detail": "(684, 414) at 56px, lock 248px", "seconds": 1.7, "anchor": [445, 533], "dist": 248, "melee": false, "kill_source": "none"}
+{"t": 866.81, "kind": "fight_end", "scan": 284, "frame": "f_00809.jpg", "outcome": "switch", "detail": "(602, 416) at 52px, lock 162px", "seconds": 0.4, "anchor": [801, 400], "dist": 162, "melee": false, "kill_source": "none"}
+{"t": 869.18, "kind": "fight_end", "scan": 284, "frame": "f_00811.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.2, "anchor": [602, 416], "dist": 52, "melee": false, "kill_source": "none"}
+{"t": 894.39, "kind": "fight_end", "scan": 285, "frame": "f_00835.jpg", "outcome": "cap", "detail": "", "seconds": 25.0, "anchor": null, "dist": 48, "melee": true, "kill_source": "none"}
+{"t": 910.78, "kind": "fight_end", "scan": 286, "frame": "f_00849.jpg", "outcome": "no_progress", "detail": "8.2s, sword=no", "seconds": 16.2, "anchor": [735, 334], "dist": 106, "melee": false, "kill_source": "none"}

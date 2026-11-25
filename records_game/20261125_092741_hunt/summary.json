@@ -1,0 +1,107 @@
+{
+ "mode": "hunt",
+ "duration_sec": 911.0,
+ "frames_saved": 849,
+ "counts": {
+  "detections": 4541,
+  "scans": 286,
+  "hover_corpse": 31,
+  "hover_attack": 106,
+  "engage": 120,
+  "chat_frames": 4024,
+  "end_unreachable": 16,
+  "hover_ground": 39,
+  "kills_corpse_only": 32,
+  "end_corpse_cursor": 24,
+  "rescan": 39,
+  "wander": 141,
+  "end_frozen": 10,
+  "end_switch": 17,
+  "end_cap": 16,
+  "sidestep": 18,
+  "end_gone": 18,
+  "chat_kill_lines": 21,
+  "kills_chat": 21,
+  "end_chat_kill": 16,
+  "end_no_progress": 3,
+  "late_chat_kill": 5
+ },
+ "hover_confirm_rate": 0.602,
+ "fights": {
+  "unreachable": {
+   "n": 16,
+   "avg_s": 6.0
+  },
+  "kill_corpse_cursor": {
+   "n": 24,
+   "avg_s": 1.6
+  },
+  "kill_fall": {
+   "n": 10,
+   "avg_s": 3.4
+  },
+  "switch": {
+   "n": 17,
+   "avg_s": 2.0
+  },
+  "cap": {
+   "n": 16,
+   "avg_s": 24.5
+  },
+  "gone": {
+   "n": 18,
+   "avg_s": 7.3
+  },
+  "kill_chat": {
+   "n": 16,
+   "avg_s": 5.1
+  },
+  "no_progress": {
+   "n": 3,
+   "avg_s": 12.0
+  }
+ },
+ "fight_endings": {
+  "unreachable": {
+   "n": 16,
+   "avg_s": 6.0
+  },
+  "corpse_cursor": {
+   "n": 24,
+   "avg_s": 1.6
+  },
+  "frozen": {
+   "n": 10,
+   "avg_s": 3.4
+  },
+  "switch": {
+   "n": 17,
+   "avg_s": 2.0
+  },
+  "cap": {
+   "n": 16,
+   "avg_s": 24.5
+  },
+  "gone": {
+   "n": 18,
+   "avg_s": 7.3
+  },
+  "chat_kill": {
+   "n": 16,
+   "avg_s": 5.1
+  },
+  "no_progress": {
+   "n": 3,
+   "avg_s": 12.0
+  }
+ },
+ "chat_kill_lines": 21,
+ "kills_chat": 21,
+ "kills_corpse_only": 32,
+ "kills_total": 53,
+ "detections_per_min": 299.1,
+ "avg_ms": {
+  "detect_ms": 68.8,
+  "probe_ms": 11.9
+ }
+}

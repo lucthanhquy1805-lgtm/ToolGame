@@ -4,6 +4,8 @@
   records_game/20261124_190646_hunt  (wizard, day, 625 frames; one orc in tall grass held 54 s at t 390-444)
   records_game/20261124_223510_hunt  (v13, wizard, night, 1334x1008, 729 frames; PLAN 0.31: 51 no_progress, 40 of
                                       them next to the character, 66 side steps, 0 chat kill lines read live)
+  records_game/20261125_092741_hunt  (v14, wizard, night, 1280x960, 849 frames; PLAN 0.32: 16 fights stood 25 s on
+                                      a box that was gone, 82% of the 15 minutes without any movement)
 
 The real CombatFeature.engage / TargetingFeature / ExplorationFeature run on the saved frames with a fake clock:
   * every fight starts where the v11 bot hovered an attack cursor (hovers.jsonl) and may run until the next one;
@@ -277,13 +279,62 @@ def check_223510(rec):
           f"{selfbox} frames had a box on the character (dropped)")
 
 
+def check_092741(rec):
+    """PLAN 0.32: v14 held 16 fights for the whole melee cap (25 s) on a lock whose box was no longer detected
+    (anchor 31-69 px from the character, "attack" cursor, no monster next to it). Replayed: no fight keeps a lock
+    whose box has been gone longer than BOX_GONE_SEC, and nothing runs to the cap."""
+    r = Replay(rec)
+    events = []
+    r.ctx.recorder = types.SimpleNamespace(
+        count=lambda k, n=1: None, event=lambda kind, **d: events.append(dict(d, kind=kind)),
+        fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+        hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
+    windows = r.fights()
+    r.report(windows, "120 = 16 cap (25 s) + 24 corpse + 18 gone + 17 switch + 16 unreachable + 16 chat + 10 frozen")
+    ends = [e for e in events if e["kind"] == "fight_end"]
+    gone = max(e.get("box_seen_last_s") or 0 for e in ends)
+    worst = max(b - a for a, b, _o in windows)
+    caps = [e for e in ends if e["outcome"] == "cap"]
+    print(f"   longest fight {worst:.1f}s (v14: 25.2s); box gone at the end at most {gone:.1f}s; "
+          f"caps {len(caps)} (v14: 16)")
+    assert gone <= r.cb.BOX_GONE_SEC + BEAT_COST + 0.5, [e for e in ends if (e.get("box_seen_last_s") or 0) > 1.5][:3]
+    assert worst <= r.ctx.account.scan.melee_max_sec + 2 * BEAT_COST + 1, worst
+    assert all(e.get("cursor_last") for e in ends), ends[:1]  # the new event keys are written
+
+    # PLAN 0.32: the player had the minimap off in all 849 frames, so the walk keeps one direction for DWELL_SEC
+    # (v14 turned at every walk, ~0.3 s apart, and the character only spun on the spot).
+    from lineage_auto.features import exploration as ex
+
+    walks = []
+    r.ctx.recorder = types.SimpleNamespace(event=lambda kind, **d: walks.append(d), count=lambda *a, **k: None)
+    expl = ex.ExplorationFeature(r.ctx, targeting=r.targeting)
+    changes, last = 0, None
+    for f in r.frames:
+        r.clock.now = f["t"]
+        r.targeting.see(r.frame_at(r.clock.now), CHAR)
+        assert r.targeting.minimap is None, f["file"]
+        if f["hits"]:
+            continue
+        expl.wander(r.rect, CHAR)
+        changes += walks[-1]["dir"] != last
+        last = walks[-1]["dir"]
+    r.ctx.recorder = None
+    print(f"   wander without a minimap: {len(walks)} walks, {changes} direction changes, "
+          f"why {dict(Counter(w['why'] for w in walks))}")
+    assert changes <= len(walks) / 2, (changes, len(walks))
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
-                        ("20261124_223510_hunt", check_223510)):
+                        ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")
+            continue
+        first = read_jsonl(os.path.join(rec, "frames.jsonl"))[:1]
+        if not first or not os.path.exists(os.path.join(rec, first[0]["file"])):
+            print(f"skipped: {rec} has no frames on this machine")
             continue
         check(rec)
     print("hunt records replay OK")

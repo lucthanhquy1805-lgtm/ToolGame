@@ -34,17 +34,35 @@ The dev machine has no game; the bot will run on a separate game PC.
 - UI: `python tests/test_ui.py`; preview pictures of every tab: `python tests/ui_screenshots.py` → docs/ui_v7/.
 - Monster catalogs / name reading / labels / export (PLAN 0.14-0.16): `python tests/test_monsters.py`.
   New zone or monster: `docs/ADD_NEW_MAP.md` (catalog `lineage_auto/data/monsters/<key>.json` + name pictures).
-- Real hunt replays (PLAN 0.27/0.28/0.31): `python tests/test_hunt_records.py` (engage/targeting/exploration on the
-  saved frames of records_game/20261124_183803_hunt + 190646 + 223510 with a fake clock; minimap reader on 183803
-  frames 511-654; the 54 s melee fight of 190646 ends at the melee cap scan.melee_max_sec = 25 s; 223510: no melee
-  fight ends no_progress, candidates nearest first without the character's own box, every chat kill line counted once).
+- Real hunt replays (PLAN 0.27/0.28/0.31/0.32): `python tests/test_hunt_records.py` (engage/targeting/exploration on
+  the saved frames of records_game/20261124_183803_hunt + 190646 + 223510 + 20261125_092741_hunt with a fake clock;
+  a recording whose frames are not on this machine is skipped. Minimap reader on 183803 frames 511-654; the 54 s
+  melee fight of 190646 ends at the melee cap scan.melee_max_sec; 223510: no melee fight ends no_progress, candidates
+  nearest first without the character's own box, every chat kill line counted once; 092741: no fight keeps a lock
+  whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap).
 - Remote stop (PLAN 0.28): `python tests/test_remote_stop.py` (Windows; SendInput mouse/ESC like TeamViewer ->
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. Fight endings + unreachable: `features/combat.py`.
+- Detect modes (PLAN 0.33): `python tests/eval_detect_modes.py [<record dir> ...]` — boxes/frame of the full 640
+  frame against the adaptive mix, on the saved frames of real hunts. Run it before changing a detector default.
 - Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi]` (recall / false positives
   / ms on `docs/game_reference` with `tests/data/monster_labels.json`). Run before/after any vision change.
 - Detector thread (PLAN 0.31): `runtime/detector.DetectorThread` runs YOLOX non-stop (scan.detect_fps / input_size /
   detect_roi); `TargetingFeature._detect` reads its newest result (detects inline when it is None: tests, replays).
+  PLAN 0.32: the defaults are the full frame at 640 again (the ROI at 416 saw a quarter fewer boxes); the automatic
+  step down to a smaller input only fires when the thread cannot keep `scan.detect_fps`.
+  PLAN 0.33 (the game stuttered: 5/s of 640 frames on 2 ONNX threads was ~1.7 cores): `scan.detect_fps` 2,
+  `scan.detect_threads` 1 (set into `yolox_mobs.THREADS` before the first model load, in `session.start`), the rate
+  drops 1/s whenever `detect_ms x fps x threads` passes `CPU_SHARE` (30% of a core), and with
+  `scan.adaptive_detect` every *second* detect of a fight uses 416 + the play-area crop while searching stays
+  640 (alternating costs 8% of the boxes, cropping every fight frame cost 17%: `tests/eval_detect_modes.py`).
+  A fight announces itself through `ctx.state["fight_until"]`. One log line a minute carries ms, real fps,
+  process CPU% (`time.process_time`, no psutil) and boxes/frame, and goes to events.jsonl as `detect_stats`.
+- Attack spells (PLAN 1.6 / 0.33): every catalog skill with `role: "attack"` is auto-castable
+  (`skills/policy.attack_skill_ids`); each slot carries `min_mp` / `range_px` / `cooldown`
+  (`config.AttackSkillSetting`) and `AccountSettings.cast_order` picks the click order the client wants
+  (`hover_key_click` default / `key_click` / `click_key`) — it is a setting because the dev machine cannot test it.
+  Assigned in `ui/skill_setup_modal.py` (the live UI; `ui/panels/skills_panel.AttackSkillsPanel` is NOT wired up).
   Smaller inputs = `model/<name>_<size>.onnx` from `train/export_onnx.py --size` (only blessed_orc has 416/320).
 - Orc model (PLAN 0.20): `tests/prelabel.py` (pick frames + box suggestions) → `tests/label_tool.py <rec> --review`
   → `train/train_orc.ps1` (GPU, `.venv_train` + `train/YOLOX`, not shipped) → `model/yolox_tiny_blessed_orc.onnx`.
@@ -61,6 +79,8 @@ winapi/      cursor bitmap hashing (aHash + MD5), window lookup, ESC hotkey (Reg
 control/     InputBackend (Interception, pyautogui fallback), InputController, InputArbiter (mouse lock)
 vision/      mss capture, YOLOX (yolox_mobs), HP/MP bar reader (stat_bar), nameplates, buff icons, poison, geometry
 features/    HealthFeature (survival), TargetingFeature, CombatFeature, BuffFeature, CurePoisonFeature, ExplorationFeature
+             (without the game minimap ExplorationFeature holds one walk direction DWELL_SEC and turns when the
+             picture stops changing; the UI warns that the minimap is off)
 runtime/     BotContext (per account), CursorProfile, AccountSession (thread + main loop), SessionManager
 config/      dataclass settings (AppSettings → AccountSettings), JSON store, v1/v2 config import
 skills/      catalog (data/skills/skills_catalog.json + icons), role classifier, policy allow-list
@@ -80,9 +100,13 @@ Each iteration, while holding the mouse arbiter:
 3. `buff.tick` — timer-based rebuff of allowed `maintain_buff` skills
 4. `targeting.rehover_last` (keep the current lock) else `targeting.acquire`
    (YOLOX centers → hover each → confirm by the *attack* cursor hash)
+4b. attack spells: one slot per beat (`combat._pick_skill`, round robin over the enabled `attack_skills` whose
+   own cooldown / `range_px` / `min_mp` allow it), cast with `cast_order` on the nameplate under the lock.
 5. target → `combat.engage` (hold-left + drag auto-attack, follow the YOLOX box, attack skills
    on nameplates, ends on kill line / corpse cursor / lost / switch to a much closer monster / caps; melee = lock
-   < 70 px + attack cursor is never left before scan.melee_max_sec); nothing → `exploration.wander`.
+   < 70 px + attack cursor + the box in the newest detection); nothing → `exploration.wander`.
+   PLAN 0.32: a fight ends as soon as the box has been gone `BOX_GONE_SEC` (whatever the cursor says) or there was
+   no attack cursor for `NO_SWORD_SEC` in melee range; a switch to a nearer box is hover-confirmed first.
    Kills (PLAN 0.31): one per chat kill line + one per corpse ending no line confirmed within 3 s (`combat._tally`).
 
 ## Conventions / gotchas

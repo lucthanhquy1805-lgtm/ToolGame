@@ -1,5 +1,43 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 24/11/2026 (bản 14) — sửa sau lần săn 15 phút bản 13 (22:35–22:50). Cài đè như cũ (mục 2).
+Bản build: 25/11/2026 (bản 16) — sửa sau lần săn 15 phút bản 15 (11:20–11:35). Cài đè như cũ (mục 2).
+  ★★★★★★ MỚI Ở BẢN 16 (bản 15 chạy tốt: 62 con/15 phút, 84% thời gian đang đánh — còn 2 việc):
+    a) DÙNG PHÉP TẤN CÔNG (quan trọng nhất). Bản 15 đánh tay nên 26 trận chạm trần 10 giây rồi phải đánh lại
+       (30% thời gian săn). Trước đây gán phép vào ô cũng vô ích: tool chỉ cho tự bấm hồi máu/buff/giải độc.
+       CÁCH DÙNG: Tab "Kỹ năng" → "Cài đặt skill" → tab "Đánh" → chọn phép (vd. 에너지 볼트) → chọn ô F5–F12
+       (ĐẶT Ở TRANG F1, cùng trang với bình máu) → tick "Dùng". Mỗi phép có 3 ô số:
+         · MP% tối thiểu: MP dưới mức này thì đánh tay, không phí MP (0 = luôn dùng).
+         · tầm px: khoảng cách tối đa từ nhân vật tới quái mới dùng phép (0 = không giới hạn; màn 1280x960 thì
+           ~300–400 px là tầm nhìn vừa phải).
+         · hồi chiêu s: ít nhất bao nhiêu giây mới dùng lại phép đó (0 = theo nhịp mặc định của class).
+    b) THỨ TỰ BẤM PHÉP CHỌN ĐƯỢC — XIN BẠN THỬ VÀ BÁO LẠI. Máy dev không có game nên KHÔNG BIẾT client nhận
+       phép có mục tiêu theo kiểu nào. Trong cùng tab "Đánh" có ô "Thứ tự dùng phép", 3 lựa chọn:
+         1. "rê chuột → phím → click"  (mặc định)
+         2. "phím → click mục tiêu"
+         3. "click mục tiêu → phím"
+       Hãy thử lần lượt (đổi ngay trong tool, KHÔNG cần cài lại) và xem cái nào thật sự bắn ra phép. Báo lại số
+       của cái đúng; log ghi "skill F6 (thứ tự) on nameplate ..." mỗi lần bấm.
+    c) HẾT KHỰNG KHI ĐÔNG QUÁI. Bản 15 chiếm khoảng 2 nhân CPU liên tục (log: "175–187 ms avg, 4.8/s"), nên lúc
+       đông quái/người chơi (phút 10–14) game bị khựng. Bản 16: tiến trình bot chạy ở mức ưu tiên THẤP HƠN game,
+       nhận diện dùng 1 luồng CPU, 2 lần/giây thay vì 5, và khi ĐANG ĐÁNH thì cứ 2 lần có 1 lần chỉ quét vùng
+       quanh nhân vật (nhanh gấp 5). Số quái thấy được giảm 8% — đã đo trên chính ảnh 2 bản ghi của bạn.
+       Mỗi phút log ghi: "[detect] ...: X ms avg, Y/s, cpu Z%, N boxes/frame" → GỬI session_log.txt để kiểm tra.
+       Nếu bot tìm quái chậm hẳn: Tab Săn → Quét → Nâng cao → "Số luồng ONNX" = 2.
+    d) Bớt chọn nhầm chính nhân vật mình làm mục tiêu (bản 15 nhầm 4 lần ở khoảng cách 26 px).
+    e) LẦN SĂN TỚI: săn 15 phút ở 오크의 땅 như lần trước, CÓ GÁN PHÉP TẤN CÔNG, BẬT ghi khi săn, rồi gửi bản ghi
+       + session_log.txt. Nếu thử được cả 3 thứ tự bấm phép thì càng tốt (mỗi kiểu vài phút).
+  ★★★★★ MỚI Ở BẢN 15 (sửa "bot đứng im": bản ghi 092741 cho thấy bot KHÔNG di chuyển, KHÔNG đánh 748/910 giây):
+    a) KHÔNG CÒN ĐỨNG ĐÁNH HƯ KHÔNG: 16 trận của bản 14 đứng đúng 25 giây tại chỗ không có quái (hộp nhận diện
+       đã mất nhưng con trỏ vẫn là kiếm/cung). Nay mất hộp quái quá 1 giây là bỏ ngay, quét lại và đánh con gần
+       nhất; ở sát quái mà không có con trỏ kiếm/cung quá 1 giây cũng bỏ ngay. "Đánh giáp lá tối đa" 25 → 10 giây.
+       Chuyển sang con gần hơn chỉ khi rê chuột lên nó thấy con trỏ kiếm/cung (bản 14 hay "chuyển" sang chính
+       nhân vật / pet / người chơi khác).
+    b) NHẬN DIỆN TRỞ LẠI TOÀN KHUNG 640 (bản 14 cắt vùng quanh nhân vật ở 416 nên thấy ít hơn ~24% số quái và
+       bỏ quái ở xa). Chậm hơn (~165 ms/khung trên máy game) nhưng vẫn đủ 5 lần/giây. Cấu hình 416+cắt vùng của
+       bản 14 sẽ tự trả về mặc định mới khi mở tool.
+    c) KHÔNG CÓ MINIMAP THÌ ĐI THEO MỘT HƯỚNG ≥ 4 GIÂY (bản 14 đổi hướng mỗi 0,3 giây = quay tại chỗ), chỉ đổi
+       hướng khi đi không nhúc nhích (bị chặn). THANH DƯỚI CẢNH BÁO khi minimap đang tắt — BẬT MINIMAP TRONG GAME
+       thì bot tìm đường tốt hơn nhiều.
+    d) LẦN SĂN TỚI: săn 15 phút ở 오크의 땅 như lần trước, BẬT ghi khi săn, rồi gửi bản ghi + session_log.txt.
   ★★★★ MỚI Ở BẢN 14:
     a) NHẬN DIỆN NHANH: nhận diện quái chạy liên tục ở luồng riêng (mặc định 5 lần/giây), chỉ trên vùng quanh nhân
        vật, đầu vào 416 (máy dev 22 ms thay vì 48 ms; máy game bản 13 = 165 ms). Log ghi "[detect] size 416 roi on
@@ -123,7 +161,7 @@ HP/MP hiện số thật; tool thu nhỏ được (thanh cuộn ngang); Quái = 
 ======================================================================================
 1. CHUẨN BỊ
 ======================================================================================
-1-1. Dùng TeamViewer File Transfer chép LineageAuto_20261125_v14.zip sang Desktop máy game.
+1-1. Dùng TeamViewer File Transfer chép LineageAuto_20261125_v16.zip sang Desktop máy game.
 1-2. Chuột phải file zip → Extract All → Extract.
      KHÔNG chạy trực tiếp bên trong zip, phải giải nén trước.
      Sau khi giải nén có: thư mục main, thư mục Interception, 1_CAI_DAT.bat, 2_GUI_SO_LIEU.bat,

@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 
 from ..characters.base import HOTKEYS
-from ..config.models import AttackSkillSetting, BuffSkillSetting
+from ..config.models import CAST_ORDERS, AttackSkillSetting, BuffSkillSetting
 from ..skills.catalog import get_catalog
 from ..skills.policy import HEAL_SKILL_ID, is_modal_assignable
 from .skill_icons import load_photo_icon
@@ -73,7 +73,25 @@ class SkillSetupModal:
             return translator.class_name(self.account.character)
         return self.account.character.display_name("en")
 
+    def _build_attack_header(self, page):
+        """PLAN 1.6: which click order the client wants for a targeted spell, and what the numbers mean.
+
+        The three orders exist because we cannot test them here: the game PC switches without a rebuild."""
+        head = ttk.Frame(page, padding=(6, 4))
+        head.pack(fill="x")
+        ttk.Label(head, text=f"{self.tab.t('cast_order')}:").pack(side="left")
+        labels = {self.tab.t(f"cast_order_{name}"): name for name in CAST_ORDERS}
+        self._order_labels = labels
+        self._order_var = tk.StringVar(
+            master=self.window, value=self.tab.t(f"cast_order_{self.account.cast_order}"))
+        ttk.Combobox(head, textvariable=self._order_var, values=list(labels), state="readonly",
+                     width=24).pack(side="left", padx=(4, 0))
+        ttk.Label(page, text=self.tab.t("attack_skills_hint"), foreground="gray",
+                  padding=(6, 0)).pack(fill="x")
+
     def _build_scrollable_page(self, page, role):
+        if role == "attack":
+            self._build_attack_header(page)
         canvas = tk.Canvas(page, highlightthickness=0)
         scrollbar = ttk.Scrollbar(page, orient="vertical", command=canvas.yview)
         rows = ttk.Frame(canvas)
@@ -174,6 +192,20 @@ class SkillSetupModal:
             ttk.Label(row, text=self.tab.t("buff_minutes")).pack(side="left")
             row_state["duration"] = duration
 
+        if role == "attack":
+            # PLAN 1.6: this slot's own gates. 0 = no limit; cooldown 0 = the class default beat.
+            extra = ttk.Frame(parent, padding=(48, 0, 6, 4))
+            extra.pack(fill="x")
+            for field, label_key, lo, hi, step in (("min_mp", "skill_min_mp", 0, 100, 5),
+                                                   ("range_px", "skill_range", 0, 2000, 10),
+                                                   ("cooldown", "skill_cooldown", 0.0, 600.0, 0.5)):
+                ttk.Label(extra, text=self.tab.t(label_key), foreground="gray").pack(side="left")
+                var = tk.DoubleVar(master=self.window,
+                                   value=getattr(current, field) if current is not None else 0)
+                ttk.Spinbox(extra, from_=lo, to=hi, increment=step, textvariable=var,
+                            width=6).pack(side="left", padx=(2, 10))
+                row_state[field] = var
+
         self._rows[role].append(row_state)
         ttk.Separator(parent).pack(fill="x", padx=6)
 
@@ -214,6 +246,12 @@ class SkillSetupModal:
                     )
                 else:
                     setting = AttackSkillSetting(enabled=enabled, skill_id=skill_id)
+                    for field, cast in (("min_mp", int), ("range_px", int), ("cooldown", float)):
+                        if field in row:
+                            try:
+                                setattr(setting, field, max(cast(0), cast(row[field].get())))
+                            except (tk.TclError, TypeError, ValueError):
+                                pass  # half-typed box: keep the default
                 setting.f_key = f_key
                 drafts[role][skill_id] = setting
         return drafts["attack"], drafts["buff"], drafts["utility"], missing_key_name
@@ -261,7 +299,9 @@ class SkillSetupModal:
         utility_map = {key: AttackSkillSetting() for key in HOTKEYS}
         for setting in attack_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
-                attack_map[setting.f_key] = AttackSkillSetting(enabled=True, skill_id=setting.skill_id)
+                attack_map[setting.f_key] = AttackSkillSetting(
+                    enabled=True, skill_id=setting.skill_id, min_mp=setting.min_mp,
+                    range_px=setting.range_px, cooldown=setting.cooldown)
         for setting in buff_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
                 buff_map[setting.f_key] = BuffSkillSetting(
@@ -273,6 +313,9 @@ class SkillSetupModal:
             if setting.enabled and setting.f_key in HOTKEYS:
                 utility_map[setting.f_key] = AttackSkillSetting(enabled=True, skill_id=setting.skill_id)
 
+        order = getattr(self, "_order_var", None)
+        if order is not None:
+            self.account.cast_order = self._order_labels.get(order.get(), self.account.cast_order)
         self.account.attack_skills = attack_map
         self.account.buff_skills = buff_map
         self.account.utility_skills = utility_map

@@ -42,10 +42,19 @@ class SkillSetting:
         )
 
 
+# PLAN 1.6: how the client takes a targeted spell. The user can switch this on the game PC without a rebuild.
+CAST_ORDERS = ("hover_key_click", "key_click", "click_key")
+
+
 @dataclass
 class AttackSkillSetting:
+    """One attack/utility hotkey. PLAN 1.6 adds the gates a spell needs: min MP%, max distance, own cooldown."""
+
     enabled: bool = False
     skill_id: str = ""
+    min_mp: int = 0  # % MP below which this slot is skipped (hand attack instead); 0 = never skip
+    range_px: int = 0  # max character->target distance in client px; 0 = any distance
+    cooldown: float = 0.0  # s between two uses of this slot; 0 = the class skill_interval
 
     @classmethod
     def from_dict(cls, data):
@@ -53,6 +62,9 @@ class AttackSkillSetting:
         return cls(
             enabled=bool(data.get("enabled", False)),
             skill_id=str(data.get("skill_id", "")),
+            min_mp=min(100, max(0, int(data.get("min_mp", 0) or 0))),
+            range_px=max(0, int(data.get("range_px", 0) or 0)),
+            cooldown=max(0.0, float(data.get("cooldown", 0.0) or 0.0)),
         )
 
 
@@ -188,10 +200,32 @@ class ScanSettings:
     conf_map: str = ""
     # PLAN 0.31: detector thread rate, ONNX input side (model/<name>_<size>.onnx, 640 if not exported), crop the play
     # area around the character, and the longest melee (target < 70 px + attack cursor) before leaving it.
-    detect_fps: int = 5
-    input_size: int = 416
-    detect_roi: bool = True
-    melee_max_sec: float = 25.0
+    # PLAN 0.32: the ROI 416 of v14 saw 1.97 boxes/frame against 4.87 for the full 640 frame (it missed far
+    # monsters, e.g. the orc at (1150, 300) of 092741/f_00026) -> full frame 640 again, melee cap 10 s.
+    # PLAN 0.33: 5/s of full 640 frames cost ~0.9 core non-stop on the game PC and made the client stutter when
+    # 10-17 monsters were on screen. 2/s is the cap now; ``adaptive_detect`` crops to the play area while a fight
+    # is running (near boxes only are needed then) and drops the rate further when a detect costs more CPU than
+    # CPU_SHARE of one core. ``detect_threads`` is onnxruntime's intra_op threads (1 = one core).
+    detect_fps: int = 2
+    detect_threads: int = 1
+    adaptive_detect: bool = True
+    input_size: int = 640
+    detect_roi: bool = False
+    melee_max_sec: float = 10.0
+
+    @staticmethod
+    def _detect_v15(data):
+        """PLAN 0.32: the v14 trio (416 + ROI + 25 s melee) is read back as "not chosen" and reset.
+
+        It cost ~60% of the boxes and held 16 fights of 092741 standing for 25 s; a config saved by v14 carries
+        it even on the game PC. Any other value the user typed is kept."""
+        size = int(data.get("input_size", 640))
+        roi = bool(data.get("detect_roi", False))
+        melee = float(data.get("melee_max_sec", 10.0))
+        if size == 416 and roi:
+            size, roi = 640, False
+        return {"input_size": size if size in INPUT_SIZES else 640, "detect_roi": roi,
+                "melee_max_sec": min(120.0, max(5.0, 10.0 if melee == 25.0 else melee))}
 
     def conf_for(self, map_key):
         """Threshold to pass to detect_centers: 0 (= the map's own conf) unless set for this map."""
@@ -209,10 +243,11 @@ class ScanSettings:
             miss_ttl=max(0.0, float(data.get("miss_ttl", 4.0))),
             detect_conf=min(1.0, max(0.0, float(data.get("detect_conf", 0.0)))),
             conf_map=str(data.get("conf_map", "")),
-            detect_fps=min(15, max(1, int(data.get("detect_fps", 5)))),
-            input_size=int(data.get("input_size", 416)) if int(data.get("input_size", 416)) in INPUT_SIZES else 416,
-            detect_roi=bool(data.get("detect_roi", True)),
-            melee_max_sec=min(120.0, max(5.0, float(data.get("melee_max_sec", 25.0)))),
+            # PLAN 0.33: 5 was the v15 default that pinned two cores -> read back as "not chosen".
+            detect_fps=min(15, max(1, 2 if int(data.get("detect_fps", 2)) == 5 else int(data.get("detect_fps", 2)))),
+            detect_threads=min(8, max(1, int(data.get("detect_threads", 1)))),
+            adaptive_detect=bool(data.get("adaptive_detect", True)),
+            **cls._detect_v15(data),
         )
 
 
@@ -331,6 +366,7 @@ class AccountSettings:
     utility_skills: dict = field(default_factory=_empty_utility_map)
     buff_vision: dict = field(default_factory=dict)
     cursor_keys: dict = field(default_factory=lambda: dict(DEFAULT_CURSOR_KEYS))
+    cast_order: str = CAST_ORDERS[0]  # PLAN 1.6
 
     def __post_init__(self):
         for kind in CURSOR_KINDS:
@@ -416,6 +452,7 @@ class AccountSettings:
             "utility_skills": {k: asdict(v) for k, v in self.utility_skills.items()},
             "buff_vision": dict(self.buff_vision),
             "cursor_keys": dict(self.cursor_keys),
+            "cast_order": self.cast_order,
         }
 
     @classmethod
@@ -467,6 +504,8 @@ class AccountSettings:
             utility_skills=utility_skills,
             buff_vision=dict(data.get("buff_vision") or {}),
             cursor_keys={k: str((data.get("cursor_keys") or {}).get(k) or v) for k, v in DEFAULT_CURSOR_KEYS.items()},
+            cast_order=(str(data.get("cast_order", "")) if str(data.get("cast_order", "")) in CAST_ORDERS
+                        else CAST_ORDERS[0]),
         )
         return account
 

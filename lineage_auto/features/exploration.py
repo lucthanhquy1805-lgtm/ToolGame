@@ -8,13 +8,19 @@ odometry):
   inner    toward the middle of the walkable area on the minimap (into the hunting ground, not to its edge)
   blocked  the straight walk crosses a fence / tree on the minimap  -> skipped
   radius   beyond MAX_RADIUS_MM from where the hunt started        -> penalised (PLAN 1.2 will make it a setting)
-Without the minimap (turned off in game) the old behaviour stays: head toward the last target for a few walks,
-then rotate by two of the eight directions. Each walk logs the chosen direction and why (field log + events.jsonl).
+Without the minimap (turned off in game, PLAN 0.32: all 849 frames of 092741) one direction is held for
+DWELL_SEC, toward the last target first; it changes when the picture stops changing for BLOCK_SEC (the walk is
+blocked) and then takes the direction blocked longest ago. v14 rotated at every walk (~0.3 s apart), which only
+turned the character on the spot. Each walk logs the chosen direction and why (field log + events.jsonl).
 After the walk click the session returns to the mouse scan at once — short walks, then a new scan.
 """
 import math
+import time
+
+import cv2
 
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
+from ..vision.motion_watch import roi_motion_score
 from .base import Feature
 
 CLICK_SETTLE = 0.05
@@ -29,6 +35,15 @@ VISIT_R = 6.0  # minimap px around a visited spot
 LOOK = (8, 16, 24)  # minimap px sampled along a direction for frontier
 MAX_RADIUS_MM = 120  # ~1200 client px from the start position
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
+# PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
+# BLOCK_MOTION (mean gray difference of a 64x48 thumbnail) over the last BLOCK_SEC, and avoid a blocked
+# direction for BLOCK_TTL. On the 092741 night frames standing still scores < 1 and walking > 1.
+DWELL_SEC = 4.0
+BLOCK_SEC = 2.5
+BLOCK_MOTION = 1.0
+BLOCK_TTL = 30.0
+SHOT_SIZE = (64, 48)
+SHOT_KEEP = 0.8  # drop the bottom fifth (chat lines change on their own)
 
 
 def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm):
@@ -78,6 +93,10 @@ class ExplorationFeature(Feature):
         self._direction = 0
         self._hunt_dir = None
         self._pursue_left = 0
+        self._dir_until = 0.0
+        self._blocked = {}  # direction index -> when the walk there was last blocked
+        self._shot = None  # thumbnail taken when the current direction was chosen
+        self._shot_t = 0.0
         self._heat = []  # (x, y, t) world minimap px
         self._visited = []
         self._start = None
@@ -114,6 +133,42 @@ class ExplorationFeature(Feature):
             if w is not None:
                 self._heat.append((w[0], w[1], now))
 
+    def _now(self):
+        tg = self.targeting
+        return tg.clock() if tg is not None else time.time()
+
+    def _thumb(self, rect):
+        """Small gray picture of the play area, or None when the grab fails."""
+        try:
+            frame = self.ctx.grabber.grab_bgr(rect)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            return cv2.resize(gray[:int(gray.shape[0] * SHOT_KEEP)], SHOT_SIZE, interpolation=cv2.INTER_AREA)
+        except Exception:
+            return None
+
+    def _blind_dir(self, rect):
+        """(direction index, why) without the minimap: hold one direction, turn when blocked (PLAN 0.32)."""
+        now = self._now()
+        shot = self._thumb(rect)
+        blocked = (self._shot is not None and shot is not None and now - self._shot_t >= BLOCK_SEC
+                   and roi_motion_score(self._shot, shot) < BLOCK_MOTION)
+        if not blocked and now < self._dir_until:
+            return self._direction, "hold"
+        if blocked:
+            self._blocked[self._direction] = now
+        if self._pursue_left > 0 and self._hunt_dir is not None and not blocked:
+            # Monsters were last seen that way: walk there first (PURSUE_CLICKS walks of DWELL_SEC).
+            self._pursue_left -= 1
+            idx, why = self._hunt_dir, "pursue"
+        else:
+            free = [i for i in range(8) if now - self._blocked.get(i, -BLOCK_TTL) >= BLOCK_TTL]
+            order = [(self._direction + DIRECTION_STEP + k) % 8 for k in range(8)]
+            idx = next((i for i in order if i in free), min(order, key=lambda i: self._blocked.get(i, 0.0)))
+            why = "turn" if blocked else "rotate"
+        self._direction, self._dir_until = idx, now + DWELL_SEC
+        self._shot, self._shot_t = shot, now
+        return idx, why
+
     def _smart(self, rect, char):
         """(walk point, reason) from the minimap scores, or None without the minimap."""
         tg = self.targeting
@@ -146,18 +201,11 @@ class ExplorationFeature(Feature):
         smart = self._smart(rect, char)
         if smart is not None:
             (wx, wy), name, why, reason = smart
-        elif self._pursue_left > 0 and self._hunt_dir is not None:
-            dir_idx = self._hunt_dir
-            self._pursue_left -= 1
-            wx, wy = walk_point(char[0], char[1], rect.w, rect.h, dir_idx)
-            name, why = NAMES[dir_idx], "pursue"
-            reason = f"{name} toward last target (no minimap)"
         else:
-            dir_idx = self._direction
-            self._direction = (self._direction + DIRECTION_STEP) % 8
+            dir_idx, why = self._blind_dir(rect)
             wx, wy = walk_point(char[0], char[1], rect.w, rect.h, dir_idx)
-            name, why = NAMES[dir_idx], "rotate"
-            reason = f"{name} rotate (no minimap)"
+            name = NAMES[dir_idx]
+            reason = f"{name} {why} (no minimap, {DWELL_SEC:.0f}s per direction)"
         self.log(f"nothing found, moving to ({wx}, {wy}): {reason}")
         rec = getattr(self.ctx, "recorder", None)
         if rec:

@@ -16,12 +16,13 @@ Build:
 """
 
 from lineage_auto import logging_setup
-from lineage_auto.winapi.console import hide_console
+from lineage_auto.winapi.console import hide_console, set_below_normal_priority
 
 
 def main():
     hide_console()
     logging_setup.install()
+    set_below_normal_priority()
 
     from lineage_auto.ui.main_window import run
 

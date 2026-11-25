@@ -54,7 +54,8 @@ CORPSE_SKIP_RADIUS = 20
 # PLAN 0.29: a "마법 사용: 실패" chat line pauses the attack skills this long.
 SKILL_PAUSE_SEC = 5.0
 # PLAN 0.31: a box centred this close to the character is the character itself (223510: 22 fights "sword=no" there).
-SELF_R = 25
+# PLAN 0.33: 30, not 25 — 112040 switched 4 times to a box 26 px from the character (its own sprite).
+SELF_R = 30
 # Monsters this close to the character are never skipped (miss / blacklist) and come first, whatever the minimap says.
 NEAR_KEEP = 100
 # Extra rescans (instead of wandering off) while something stays detected within NEAR_KEEP.
@@ -192,6 +193,7 @@ class TargetingFeature(Feature):
         self.char = char
         self.minimap = minimap.read(frame)
         self.odo.update(self.minimap)
+        self.ctx.state["minimap"] = self.minimap is not None  # PLAN 0.32: the UI warns while it is off
         watch = self.kill_watch
         if watch is not None and frame is not None:
             names = watch.update(frame)
@@ -439,6 +441,8 @@ class TargetingFeature(Feature):
             d = math.hypot(x - char[0], y - char[1])
             if d > MELEE_DIST or d >= SWITCH_SHARE * lock_d:
                 return None
+            if self._recent_miss((x, y)):
+                continue  # PLAN 0.32: hovering it already said "no monster" (own sprite / pet): no switch
             if d > SELF_R and math.hypot(x - anchor[0], y - anchor[1]) > LOCK_FOLLOW_RADIUS:
                 return int(x), int(y)
         return None

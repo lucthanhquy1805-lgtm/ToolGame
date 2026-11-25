@@ -248,9 +248,53 @@ def report(arg, meta, summary, frames, hovers):
     if summary.get("avg_ms"):
         print(f"avg ms: {summary['avg_ms']}")
     time_report(summary, events)
+    idle_report(arg, frames)
 
 
 KILL_ENDS = ("corpse_cursor", "die_box", "frozen", "chat_kill", "vanished")
+IDLE_MIN_SEC = 5.0  # PLAN 0.32: standing-still stretches longer than this are listed one by one
+
+
+def idle_report(arg, frames):
+    """PLAN 0.32 (092741: the bot stood still): how long the picture did not change at all.
+
+    Needs the frames on disk. "Still" = the same test the no-minimap wander uses to call a walk blocked
+    (features/exploration: mean gray difference of a 64x48 thumbnail below BLOCK_MOTION), so it covers both
+    "not walking" and "not hitting anything" - an attack animation moves more than that."""
+    import cv2
+
+    from lineage_auto.features.exploration import BLOCK_MOTION, SHOT_KEEP, SHOT_SIZE
+    from lineage_auto.vision.motion_watch import roi_motion_score
+
+    def thumb(name):
+        frame = cv2.imread(os.path.join(arg, name))
+        if frame is None:
+            return None
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        return cv2.resize(gray[:int(gray.shape[0] * SHOT_KEEP)], SHOT_SIZE, interpolation=cv2.INTER_AREA)
+
+    shots = [(f["t"], f["file"], thumb(f["file"])) for f in frames if f.get("file")]
+    shots = [s for s in shots if s[2] is not None]
+    if len(shots) < 3:
+        return
+    idle, runs, run = 0.0, [], None
+    for (t0, name, a), (t1, _n, b) in zip(shots, shots[1:]):
+        if roi_motion_score(a, b) < BLOCK_MOTION:
+            idle += t1 - t0
+            run = run or [t0, name]
+            run[0] = min(run[0], t0)
+            run.append(t1)
+        elif run:
+            runs.append((run[1], run[0], run[-1]))
+            run = None
+    if run:
+        runs.append((run[1], run[0], run[-1]))
+    span = shots[-1][0] - shots[0][0]
+    long = [r for r in runs if r[2] - r[1] > IDLE_MIN_SEC]
+    print(f"still (no movement, no attack) {idle:.0f}s of {span:.0f}s ({idle / max(1e-9, span):.0%}) in "
+          f"{len(runs)} stretches, {len(long)} longer than {IDLE_MIN_SEC:.0f}s")
+    for name, t0, t1 in sorted(long, key=lambda r: r[1] - r[2])[:15]:
+        print(f"   {t1 - t0:5.1f}s  t={t0:7.1f}  from {name}")
 
 
 def time_report(summary, events):
@@ -278,6 +322,31 @@ def time_report(summary, events):
     if counts.get("detections"):
         rate += f", detections {counts['detections'] / minutes:.0f}/min ({counts['detections'] / duration:.1f}/s)"
     print(f"{rate}; detect ms avg {summary.get('avg_ms', {}).get('detect_ms', '-')}")
+    load = [e for e in events if e.get("kind") == "detect_stats"]  # PLAN 0.33, one per minute
+    if load:
+        avg = lambda k: sum(e.get(k) or 0 for e in load) / len(load)  # noqa: E731
+        print(f"detector load ({len(load)} min): cpu {avg('cpu_pct'):.0f}% of a core, {avg('fps'):.1f}/s real, "
+              f"{avg('ms'):.0f} ms, {avg('boxes_per_frame'):.2f} boxes/frame, duty {avg('duty'):.0%} "
+              f"(size {load[-1].get('size')}, fight {load[-1].get('fight_size')}, "
+              f"threads {load[-1].get('threads')}, cap {load[-1].get('max_fps')}/s)")
+    spells = [e for e in events if e.get("kind") == "spell_cast"]  # PLAN 1.6
+    if spells:
+        used = Counter(e.get("key") for e in spells)
+        drops = [e["mp_before"] - e["mp_after"] for e in spells
+                 if e.get("mp_before") is not None and e.get("mp_after") is not None]
+        mp = f", MP -{sum(drops) / len(drops):.1f}%/cast" if drops else ""
+        print(f"spells: {len(spells)} casts {dict(used)}, order {spells[-1].get('order')}{mp}")
+    with_spell = [e for e in ends if e.get("spells") and e["outcome"] in KILL_ENDS]
+    hand = [e for e in ends if not e.get("spells") and e["outcome"] in KILL_ENDS]
+    if with_spell:
+        secs = lambda rows: sum(r.get("seconds") or 0 for r in rows) / len(rows)  # noqa: E731
+        print(f"  kill time: with spells {secs(with_spell):.1f}s ({len(with_spell)}x)"
+              + (f", bare hands {secs(hand):.1f}s ({len(hand)}x)" if hand else ""))
+    skipped = Counter()
+    for e in ends:
+        skipped.update(e.get("skipped") or {})
+    if skipped:
+        print(f"  spell beats skipped: {dict(skipped)}")
     if "kills_total" in summary:
         print(f"kills {summary['kills_total']} = chat {summary['kills_chat']} + corpse only "
               f"{summary['kills_corpse_only']} (kill lines seen {summary.get('chat_kill_lines', 0)}, "

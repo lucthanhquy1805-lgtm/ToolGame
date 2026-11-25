@@ -318,9 +318,12 @@ class FakeTg:
     def __init__(s,track,crops,dies=(),kill_at=None):
         s.track=list(track); s.crops=list(crops); s.last_dies=list(dies); s.last_figures=[]
         s.kill_at=kill_at; s.pops=0; s.kill_watch=None; s.blocked=[]; s.closer=None; s.locks=[]; s.lines=1
+        s.probe_ok=True; s.probed=[]
     def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call (s.lines lines: a splash kill)
         s.pops+=1; return [(time.time(),'오염된 오크 전사')]*s.lines if s.pops==s.kill_at else []
     def closer_than(s,anchor,char): return s.closer
+    def probe(s,points,rect):  # PLAN 0.32: the switch candidate is hover-confirmed; s.probe_ok says what it saw
+        s.probed=list(points); return Target(*points[0],*points[0]) if s.probe_ok else None
     def route(s,xy): return None,None
     def world(s,xy): return None
     def block(s,xy): s.blocked.append(xy)
@@ -331,6 +334,7 @@ class FakeTg:
     def crop_gray_at(s,rect,xy): return s.crops.pop(0) if s.crops else np.zeros((80,80),np.uint8)
     def note_lock(s,xy): s.locks.append(xy)
     def clear_lock(s): pass
+    def reacquire_near(s,rect,char,anchor): return Target(*anchor,*anchor)   # PLAN 1.6: nameplate under the lock
 def fight(cursor, track, crops=(), dies=(), dead_char=False, kill_at=None, tgo=None, start=(700,400), mode='auto', melee_max=25.0, cf=None):
     c=TCtx(); c.input=CIn(); c.state={}; c.character=c.account.character; c.can_cast=lambda *a: True; c.account.loot.mode=mode
     c.account.scan.melee_max_sec=melee_max
@@ -346,15 +350,20 @@ moving=[np.full((80,80),v,np.uint8) for v in (0,60,0,60)]; still=[np.full((80,80
 assert fight('corpse',[])[:2]==('corpse_cursor',1)
 assert fight('ground',[(700,400)]*500,dies=[(712,418)])[:2]==('cap',0)     # monster box still there: not dead
 assert fight('ground',[None],dies=[(712,418)])[:2]==('die_box',1)             # box gone + die box at lock
-cb.VANISH_CONFIRM=0
-# PLAN 0.27: box gone, no sword at the lock for VANISH_CONFIRM, chat not readable -> vanished = kill
+cb.BOX_GONE_SEC=0
+# PLAN 0.27: box gone at the lock for BOX_GONE_SEC, chat not readable -> vanished = kill
 assert fight('ground',[None,None],dies=[(900,700)])[:2]==('vanished',1)
 o=fight('ground',[(700,400)]*20,kill_at=4); assert o[:2]==('chat_kill',1) and o[2]['end_chat_kill']==1  # kill line
-assert fight('attack',[None]*200)[:2]==('cap',0)          # box flickers off but the sword is under the mouse: keep
+# PLAN 0.32: box gone while the cursor still reads "attack" -> leave at once (v14 stood there for the melee cap)
+assert fight('attack',[None]*200)[:2]==('vanished',1)
 chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)
 assert fight('ground',[],tgo=chat_ok)[0]=='gone'          # auto-to-bag server, chat read, no kill line: walked off
 chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)
 assert fight('ground',[],tgo=chat_ok,mode='walk_f4')[:2]==('vanished',1)  # drop server: the fall is the kill
+cb.BOX_GONE_SEC=1.0; cb.NO_SWORD_SEC=0
+# PLAN 0.32: lock inside melee range, box still detected, but no attack cursor -> hitting nothing, leave
+assert fight('ground',[(700,400)]*500,dies=[(712,418)])[0]=='lost'
+cb.NO_SWORD_SEC=1.0
 cb.UNREACH_SEC=0; cb.DETOUR_AFTER=10
 far=FakeTg([(720,400)]*400,[]); o=fight('ground',[],tgo=far)
 assert o[:2]==('unreachable',0) and far.blocked==[(720,400)], o                    # 80 px (beyond melee), never closer
@@ -374,11 +383,15 @@ cb.NO_PROGRESS_SEC=99; o=fight('attack',[(760,400)]*500,start=(760,400)); assert
 cb.UNREACH_SEC=2.5; cb.SIDESTEP_AFTER=5.0; cb.NO_PROGRESS_SEC=8.0
 # PLAN 0.31 / 2: a monster much closer than the lock, next to the character -> leave for it (lock moved there)
 sw=FakeTg([(760,400)]*20,[]); sw.closer=(660,392); o=fight('attack',[],tgo=sw,start=(760,400))
-assert o[0]=='switch' and sw.locks[-1]==(660,392) and o[1]==0, (o,sw.locks)
+assert o[0]=='switch' and sw.locks[-1]==(660,392) and o[1]==0 and sw.probed==[(660,392)], (o,sw.locks)
+# PLAN 0.32: the same box with no attack cursor on it (own sprite / pet / another player) -> stay on the lock
+sw=FakeTg([(760,400)]*500,[]); sw.closer=(660,392); sw.probe_ok=False; o=fight('attack',[],tgo=sw,start=(760,400))
+assert o[0]=='cap' and sw.locks[-1]==(760,400), (o,sw.locks)
 # PLAN 0.31 / 3: one kill = one count. A splash kill with 2 lines = 2; corpse + a line <= 3 s later = 1 (chat);
 # no_progress + a late line = 1 (chat); no_progress without a line = 0
 spl=FakeTg([(700,400)]*20,[],kill_at=3); spl.lines=2; o=fight('ground',[],tgo=spl)
 assert o[0]=='chat_kill' and o[1]==2 and o[2]['kills_chat']==2, o
+cb.BOX_GONE_SEC=0  # the box of these fights goes away at once; its kill must still be counted
 cf=cb.CombatFeature(TCtx(),targeting=FakeTg([],[]))
 o=fight('corpse',[],cf=cf); assert o[:2]==('corpse_cursor',1) and cf.ctx.state['kills_corpse_only']==1
 late=FakeTg([(700,400)]*5,[],kill_at=1); o=fight('ground',[],tgo=late,cf=cf)               # its line comes now
@@ -494,22 +507,71 @@ assert seen['b'][0,0,150,300]==255 and seen['b'][0,2,150,300]==0      # BGR: blu
 assert all(m.channels=='rgb' for m in hunt_maps.all_maps() if m.key!='blessed_orc') and hunt_maps.NEW_MODEL_CHANNELS=='bgr'
 assert hunt_maps.get('blessed_orc').channels=='bgr'                  # first model trained here (PLAN 0.20)
 print('yolox: per-model channel order (shipped rgb, new bgr) OK')
-# PLAN 0.31: YOLOX on its own thread (416 + ROI); targeting reads the newest result, never the character's own box
+# PLAN 1.6: attack spells. Every catalog role="attack" skill may be auto-cast now (the allow-list only held
+# heals / buffs / cure before, so an assigned spell was never pressed), each slot has its own min MP%, range and
+# cooldown, and the click order is configurable so the game PC can try all three without a rebuild.
+from lineage_auto.skills.policy import is_auto_enabled, use_mechanism
+assert is_auto_enabled('386') and use_mechanism('386')['kind']=='target_click'   # 에너지 볼트, role "attack"
+assert not is_auto_enabled('999') and is_auto_enabled('383')                     # unknown no, heal still yes
+class SpellIn:
+    def __init__(s): s.log=[]
+    def move(s,x,y): s.log.append('move')
+    def click_at(s,x,y): s.log.append('click')
+    def press(s,k): s.log.append('press'+k)
+    def __getattr__(s,n): return lambda *a,**k: None
+sc=TCtx(); sc.character=sc.account.character; sc.can_cast=lambda *a,**k: True
+sc.read_mp=lambda r: sc.state.get('mp')
+sc.recorder=recmod.Recorder(sc.account,'hunt',rect=sc.rect(),root=rroot)
+f5=sc.account.attack('F5'); f5.enabled=True; f5.skill_id='386'
+cf=cb.CombatFeature(sc,targeting=FakeTg([],[]))
+assert cf.active_skills()==['F5'], cf.active_skills()
+for order,want in (('hover_key_click',['move','pressF5','click']),('key_click',['pressF5','click']),
+                   ('click_key',['click','pressF5'])):
+    sc.account.cast_order=order; sc.input=SpellIn()
+    anchor,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+    assert fired and sc.input.log==want and anchor==(700,400), (order,sc.input.log)
+assert cf._spells==3 and sc.recorder.counts['spell_cast']==3, sc.recorder.counts
+ev=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')]
+assert [e['order'] for e in ev]==['hover_key_click','key_click','click_key'], ev
+# the three gates: too far, not enough MP, own cooldown -> no spell this beat (the hand attack carries on)
+now=time.time(); cf._slot_used={}; cf._skipped={}
+f5.range_px=50; assert cf._pick_skill(['F5'],sc.rect(),200.0,now)[0] is None
+f5.range_px=0; f5.min_mp=40; sc.state['mp']=10
+assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0] is None
+sc.state['mp']=80; assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0]=='F5'
+f5.cooldown=5.0; cf._slot_used['F5']=now
+assert cf._pick_skill(['F5'],sc.rect(),20.0,now+1)[0] is None
+assert cf._pick_skill(['F5'],sc.rect(),20.0,now+6)[0]=='F5'
+assert cf._skipped=={'out_of_range':1,'low_mp':1}, cf._skipped
+# the settings survive a save/load round trip (the game PC edits them in the UI, not in the file)
+from lineage_auto.config.models import AccountSettings as _AS
+back=_AS.from_dict(sc.account.to_dict())
+assert back.cast_order=='click_key' and back.attack('F5').min_mp==40 and back.attack('F5').cooldown==5.0
+print('attack spells: 3 cast orders, MP/range/cooldown gates, events OK')
+# PLAN 0.31: YOLOX on its own thread; targeting reads the newest result, never the character's own box
 from lineage_auto.runtime.detector import DetectorThread
 importlib.reload(tg)  # the scan tests above replaced tg.detect_centers / CursorProbe
-dframe=cv2.imread('records_game/20261124_223510_hunt/f_00024.jpg')
+dframe=cv2.imread('records_game/20261125_092741_hunt/f_00007.jpg')   # 1280x960, the v15 night hunt
 if dframe is not None:
     dctx2=TCtx(); dctx2.account.hunt_map='blessed_orc'
-    dctx2.rect=lambda: ClientRect(0,0,1334,1008); dctx2.char_pos=lambda r: (667,404)
+    dctx2.rect=lambda: ClientRect(0,0,1280,960); dctx2.char_pos=lambda r: (640,380)
     dctx2.grabber=types.SimpleNamespace(grab_bgr=lambda r: dframe, close_thread=lambda: None)
-    det=DetectorThread(dctx2); assert det.size==416 and det.roi, det.describe()
+    det=DetectorThread(dctx2); assert det.size==640 and not det.roi and det.fps==2, det.describe()
+    assert det.adaptive and det.fight_size==416                      # PLAN 0.33: every 2nd fight detect is cheap
+    assert det._mode(0)==(640,False) and det._mode(1)==(640,False)   # no fight running: always the full frame
+    dctx2.state['fight_until']=time.monotonic()+1
+    assert det._mode(0)==(640,False) and det._mode(1)==(416,True), (det._mode(0),det._mode(1))
+    dctx2.state['fight_until']=0
     det.start(); first=det.newest(0,wait=5.0); second=det.newest(first.seq,wait=5.0)
     assert first and second.seq>first.seq and first.hits, (first, second)
     tf2=tg.TargetingFeature(dctx2); tf2.detector=det
-    pts,_=tf2.candidates(dctx2.rect(),(667,404))
-    assert pts and all(math.hypot(x-667,y-404)>tg.SELF_R for x,y in tf2.last_monsters), tf2.last_monsters
+    pts,_=tf2.candidates(dctx2.rect(),(640,380))
+    assert pts and all(math.hypot(x-640,y-380)>tg.SELF_R for x,y in tf2.last_monsters), tf2.last_monsters
     det.stop(); assert not det._thread.is_alive()
-    det._step_down(60); assert det.size==416                     # fast enough on the first log: kept for good
-    det._stepped=False; det._step_down(95); det._step_down(300); assert det.size==320   # > 80 ms: one step down
+    det._step_down(60); assert det.size==640                     # fast enough on the first log: kept for good
+    det._stepped=False; det._step_down(95); assert det.size==640      # 95 ms still keeps 2/s: no step down
+    det._stepped=False; det._step_down(600); assert det.size==416     # cannot keep 2/s: one step down
+    det.fps=5; det.period=0.2; det._slow_down(180,5)                 # PLAN 0.33: 180 ms x 5/s = 0.9 core -> 4/s
+    assert det.fps==4 and det._slow_down(10,1)<0.03 and det.fps==4
     print(f'detector thread: {det.describe()}, {first.ms:.0f} ms, hits {first.hits[:3]} OK')
 print('ALL SMOKE TESTS PASSED')

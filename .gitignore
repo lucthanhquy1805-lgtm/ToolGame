@@ -33,3 +33,6 @@ records_game/*.exe
 records_game/numpy/
 records_game/_handoff/
 records_game/**/raw/
+
+# Vendored tool clone (local only, never pushed)
+/Trail-Code/

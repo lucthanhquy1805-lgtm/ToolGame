@@ -43,6 +43,9 @@ class ControlPanel(Panel):
         self.lbl_state.pack(side="right")
         self.lbl_esc = ttk.Label(self.frame, text="", foreground="gray", wraplength=420)
         self.lbl_esc.pack(anchor="w")
+        # PLAN 0.32: without the game minimap the bot cannot score directions; say so while it hunts.
+        self.lbl_warn = ttk.Label(self.frame, text="", foreground="#e65100", wraplength=420)
+        self.lbl_warn.pack(anchor="w")
 
     def show_hp(self, percent, value=None):
         if percent is None:
@@ -73,6 +76,8 @@ class ControlPanel(Panel):
                                     state="disabled" if running and not observing else "normal")
             key, colour = STATE_LABELS.get(state, ("state_stopped", "gray"))
             self.lbl_state.config(text=self.t(key), foreground=colour)
+            off = running and self.tab.session.ctx.state.get("minimap") is False
+            self.lbl_warn.config(text=self.t("warn_no_minimap") if off else "")
         except tk.TclError:
             return
 

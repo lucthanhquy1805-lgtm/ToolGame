@@ -83,6 +83,30 @@ def main():
         app.toggle_language()
         app.toggle_language()
 
+        # PLAN 1.6: the skill modal assigns an attack spell with its own MP / range / cooldown and the cast
+        # order (the modal, not AttackSkillsPanel, is the live UI). 386 = 에너지 볼트, role "attack".
+        modal = tab.skill_setup.modal() if hasattr(tab.skill_setup, "modal") else None
+        if modal is None:
+            from lineage_auto.ui.skill_setup_modal import SkillSetupModal
+            modal = SkillSetupModal(root, tab)
+        modal.show()
+        root.update()
+        rows = [r for r in modal._rows["attack"] if r.get("assignable")]
+        assert rows, "no attack skill is assignable"
+        bolt = next(r for r in rows if str(r["skill"]["id"]) == "386")
+        bolt["f_key"].set("F12")
+        bolt["enabled"].set(True)
+        bolt["min_mp"].set(20)
+        bolt["range_px"].set(400)
+        bolt["cooldown"].set(2.5)
+        modal._order_var.set(app.translator.t("cast_order_click_key"))
+        modal._apply()
+        root.update()
+        slot = tab.account.attack("F12")
+        assert slot.enabled and slot.skill_id == "386", slot
+        assert (slot.min_mp, slot.range_px, slot.cooldown) == (20, 400, 2.5), slot
+        assert tab.account.cast_order == "click_key", tab.account.cast_order
+
         # Tab, topmost, geometry are saved.
         tab.select_page("cursor")
         root.update()
@@ -99,6 +123,9 @@ def main():
         rec = saved["accounts"][0]["record"]
         assert rec["real_map"] == "오염된 축복의 땅 - 오크의 땅" and rec["grid_step"] == 60
         assert set(UI_TABS) == {"main", "hunt", "heal", "skills", "cursor", "data"}
+        saved_slot = saved["accounts"][0]["attack_skills"]["F12"]
+        assert saved_slot["skill_id"] == "386" and saved_slot["min_mp"] == 20, saved_slot
+        assert saved["accounts"][0]["cast_order"] == "click_key"
     finally:
         try:
             root.destroy()

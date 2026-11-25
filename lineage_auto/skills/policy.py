@@ -20,6 +20,13 @@ AUTO_ENABLED_SKILL_IDS = frozenset({"383", "385", "388", "391", "397"})
 # Skills the setup modal lets the user assign to a hotkey.
 MODAL_ASSIGNABLE_SKILL_IDS = frozenset({"385", "388", "391", "397"})
 
+# PLAN 1.6: the mechanism every role="attack" skill uses (see AccountSettings.cast_order for the click order).
+ATTACK_MECHANISM = {
+    "kind": "target_click",
+    "summary": "Hover/press the hotkey and click the locked mob; gated by the slot's min MP%, range and cooldown.",
+    "runtime": "wired",
+}
+
 USE_MECHANISM = {
     "383": {
         "kind": "hp_threshold",
@@ -77,15 +84,42 @@ USE_MECHANISM = {
 }
 
 
+_ATTACK_IDS = None
+
+
+def attack_skill_ids() -> frozenset:
+    """PLAN 1.6: every catalog skill with role "attack" may be cast on the locked target.
+
+    Read from the catalog JSON with plain json so offline tools (and policy's importers) do not pull in cv2.
+    All of them use the same mechanism - a key press plus a click on the mob - so a per-id list would only be a
+    list of the catalog's own attack role.
+    """
+    global _ATTACK_IDS
+    if _ATTACK_IDS is None:
+        import json
+        import pathlib
+
+        path = pathlib.Path(__file__).resolve().parent.parent / "data" / "skills" / "skills_catalog.json"
+        try:
+            with open(path, encoding="utf-8") as handle:
+                skills = json.load(handle).get("skills", [])
+        except OSError:
+            skills = []
+        _ATTACK_IDS = frozenset(str(s["id"]) for s in skills if s.get("role") == "attack" and "id" in s)
+    return _ATTACK_IDS
+
+
 def is_auto_enabled(skill_id) -> bool:
-    return str(skill_id) in AUTO_ENABLED_SKILL_IDS
+    return str(skill_id) in AUTO_ENABLED_SKILL_IDS or str(skill_id) in attack_skill_ids()
 
 
 def is_modal_assignable(skill_id) -> bool:
-    return str(skill_id) in MODAL_ASSIGNABLE_SKILL_IDS
+    return str(skill_id) in MODAL_ASSIGNABLE_SKILL_IDS or str(skill_id) in attack_skill_ids()
 
 
 def use_mechanism(skill_id) -> dict:
+    if str(skill_id) in attack_skill_ids():
+        return dict(ATTACK_MECHANISM)
     return dict(
         USE_MECHANISM.get(
             str(skill_id),

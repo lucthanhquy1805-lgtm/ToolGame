@@ -23,8 +23,11 @@ NAMEPLATE_BODY_DROP = 25
 # Pauses inside hold+drag so the client registers each step.
 HOLD_MOVE_SETTLE = 0.02
 HOLD_DOWN_SETTLE = 0.04
-# Consecutive beats without the lock in view before giving up on it.
-LOST_NAME_STREAK = 2
+# PLAN 0.32: the lock must still be in the newest detection. Gone this long -> leave at once (092741: 16 fights
+# stood 25 s on a box that was no longer there while the cursor still read "attack").
+BOX_GONE_SEC = 1.0
+# PLAN 0.32: in melee range without an attack cursor this long -> we are not hitting anything, leave.
+NO_SWORD_SEC = 1.0
 MAX_COMBAT_BURSTS = 400  # safety net; MAX_FIGHT_SEC / scan.melee_max_sec are the real caps (PLAN 0.28 / 0.31)
 # Wait after a detour click before re-arming the attack.
 DETOUR_SETTLE = 0.12
@@ -32,11 +35,10 @@ DETOUR_SETTLE = 0.12
 DIE_NEAR_RADIUS = 40
 # engage() exits that count as a kill (vs lost / gone / unreachable / cap / stopped / char_dead / town).
 # PLAN 0.27: chat_kill = a new "아데나 (n) 획득: <name>" line during the fight; vanished = the box left the lock
-# and stayed away VANISH_CONFIRM s while the cursor there was not a sword (zones whose chat cannot be read).
+# and stayed away BOX_GONE_SEC s (zones whose chat cannot be read).
 KILL_OUTCOMES = ("corpse_cursor", "die_box", "frozen", "chat_kill", "vanished")
 # PLAN 0.31 / 3: the backup kill signals (body / cursor), used when no kill line confirms the fight.
 CORPSE_OUTCOMES = ("corpse_cursor", "die_box", "frozen", "vanished")
-VANISH_CONFIRM = 1.5
 # A kill line this soon after a fight that ended without a kill belongs to that fight.
 LATE_KILL_SEC = 3.0
 # PLAN 0.27 / 3: no step closer for this long (beyond melee) = the target cannot be reached (wall, fence).
@@ -56,6 +58,8 @@ SIDESTEP_AFTER = 5.0
 SIDESTEP_PX = 60
 SIDESTEP_WALK = 0.5
 MAX_FIGHT_SEC = 15.0
+# PLAN 0.33: how long after the last fight beat the detector still treats the hunt as "fighting".
+FIGHT_HINT_SEC = 1.0
 
 
 class CombatFeature(Feature):
@@ -76,6 +80,12 @@ class CombatFeature(Feature):
         self._prev_outcome = None  # last_outcome is reset when a fight starts; this one is not
         self._dist = None
         self._melee = False
+        self._box_gone = None  # s since the lock's box was last in a detection (PLAN 0.32)
+        self._cursor_last = None
+        self._slot_used = {}  # PLAN 1.6: per-slot cooldown clock
+        self._slot_turn = 0
+        self._spells = 0  # spells cast in the fight under way
+        self._skipped = {}  # why a slot was skipped, for the recording
 
     def active_skills(self):
         keys = []
@@ -88,23 +98,70 @@ class CombatFeature(Feature):
             keys.append(key)
         return keys
 
-    def _cast_at_target(self, key, rect, char, anchor):
+    def _slot_ready(self, key, dist, now, mp):
+        """PLAN 1.6 gates for one attack slot: own cooldown, max distance, min MP%. -> (reason, ok)."""
+        setting = self.account.attack(key)
+        wait = setting.cooldown if setting.cooldown > 0 else self.character.skill_interval
+        if now - self._slot_used.get(key, 0.0) < wait:
+            return "cooldown", False
+        if setting.range_px and dist is not None and dist > setting.range_px:
+            return "out_of_range", False
+        if setting.min_mp and mp is not None and mp < setting.min_mp:
+            return "low_mp", False
+        return "", True
+
+    def _pick_skill(self, skills, rect, dist, now):
+        """The next attack slot to fire -> (key or None, mp%). Rotates so several slots share the beats."""
+        mp = self.ctx.read_mp(rect) if any(self.account.attack(k).min_mp for k in skills) else None
+        turn = self._slot_turn % len(skills)
+        for key in skills[turn:] + skills[:turn]:
+            reason, ok = self._slot_ready(key, dist, now, mp)
+            if ok:
+                self._slot_turn += 1
+                return key, mp
+            if reason != "cooldown":
+                self._skipped[reason] = self._skipped.get(reason, 0) + 1
+        return None, mp
+
+    def _cast_at_target(self, key, rect, char, anchor, mp_before=None):
+        """Use the spell on the locked monster, in the order the client wants (AccountSettings.cast_order).
+
+        hover_key_click (default): hover the body, press the key, click it. key_click: press first, then click.
+        click_key: click the monster to select it, then press the key. Switchable on the game PC, no rebuild."""
         self.input.release_left()
         time.sleep(0.05)
 
         target = self.targeting.reacquire_near(rect, char, anchor) if self.targeting else None
         if target is None:
             self.log(f"no nameplate for {key}, skipping this beat")
+            self._skipped["no_nameplate"] = self._skipped.get("no_nameplate", 0) + 1
             return anchor, False
 
         screen_x = target.screen_x
         screen_y = target.screen_y + NAMEPLATE_BODY_DROP
-        self.input.move(screen_x, screen_y)
-        time.sleep(0.02)
-        self.input.press(key)
-        time.sleep(0.05)
-        self.input.click_at(screen_x, screen_y)
-        self.log(f"skill {key} on nameplate {target.local}")
+        order = self.account.cast_order
+        if order == "click_key":
+            self.input.click_at(screen_x, screen_y)
+            time.sleep(0.05)
+            self.input.press(key)
+        else:
+            if order != "key_click":
+                self.input.move(screen_x, screen_y)
+                time.sleep(0.02)
+            self.input.press(key)
+            time.sleep(0.05)
+            self.input.click_at(screen_x, screen_y)
+        now = time.time()
+        self._slot_used[key] = now
+        self._spells += 1
+        self.log(f"skill {key} ({order}) on nameplate {target.local}")
+        rec = getattr(self.ctx, "recorder", None)
+        if rec:
+            rec.count("spell_cast")
+            rec.count(f"spell_{key}")
+            rec.event("spell_cast", key=key, skill_id=self.account.attack(key).skill_id, order=order,
+                      target=list(target.local), mp_before=mp_before, mp_after=self.ctx.read_mp(rect),
+                      fight_sec=round(now - self._fight_start, 1))
         return (target.local_x, target.local_y), True
 
     def _hold_and_drag(self, screen_x, screen_y):
@@ -201,8 +258,12 @@ class CombatFeature(Feature):
             rec.event("fight_end", outcome=outcome, detail=detail, seconds=round(seconds, 1),
                       anchor=list(anchor) if anchor is not None else None,
                       dist=round(self._dist) if self._dist is not None else None, melee=self._melee,
-                      kill_source=source)
+                      kill_source=source, box_seen_last_s=self._box_gone, cursor_last=self._cursor_last,
+                      spells=self._spells, skipped=dict(self._skipped))
             rec.fight(outcome, seconds, outcome in KILL_OUTCOMES)
+            if outcome in KILL_OUTCOMES:
+                # PLAN 1.6: how long a kill takes with spells against bare hands.
+                rec.timing("kill_sec_spell" if self._spells else "kill_sec_hand", seconds)
         return target
 
     def _kill_lines(self, during=True):
@@ -269,6 +330,19 @@ class CombatFeature(Feature):
         if rec:
             rec.count("sidestep")
 
+    def _confirm_switch(self, rect, point):
+        """PLAN 0.32: hover the nearer box before leaving the lock for it.
+
+        092741 switched 17 times to a box 26-62 px from the character (its own sprite / a pet / another player);
+        the fight that followed stood still until the melee cap. Only an attack cursor there is a monster."""
+        if self.targeting is None:
+            return False
+        self.input.release_left()
+        if self.targeting.probe([point], rect) is not None:
+            return True
+        self.log(f"nearer box {point} is not attackable, staying on the lock")
+        return False
+
     def engage(self, target, rect, char):
         """Attack until death/lost/stop. Always hold+drag on entry."""
         self.last_outcome = None
@@ -282,6 +356,7 @@ class CombatFeature(Feature):
         self._fight_start = time.time()
         self._kill_lines(during=False)
         self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
+        self._box_gone, self._cursor_last = 0.0, None
         melee_seen = False
         melee_max = self.account.scan.melee_max_sec
         # PLAN 0.29 / 1: the chat kill line names the monster; compare with the one we lock (when readable).
@@ -290,14 +365,13 @@ class CombatFeature(Feature):
         self._hold_and_drag(screen_x, screen_y)
 
         last_skill = 0.0
+        self._spells, self._skipped = 0, {}
         bursts = 0
-        lost = 0
         # PLAN 0.27: progress toward the lock (unreachable) and how long the box has been gone (kill vs gone).
         progress_t = time.time()
         best = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
         detours = 0
-        gone_since = None
-        started = fight_progress_t = self._fight_start
+        started = fight_progress_t = box_t = sword_t = self._fight_start
         sidestepped = False
         try:
             while self.ctx.running and bursts < MAX_COMBAT_BURSTS:
@@ -308,6 +382,8 @@ class CombatFeature(Feature):
                     break
                 rect = self.ctx.rect()
                 char = self.ctx.char_pos(rect)
+                # PLAN 0.33: tells the detector thread a fight is running (play-area crop, lower rate).
+                self.ctx.state["fight_until"] = time.monotonic() + FIGHT_HINT_SEC
                 if self.cure and self.cure.tick(rect):
                     self._rearm(screen_x, screen_y)
                 if self.health and self.health.check_death(rect):
@@ -320,6 +396,8 @@ class CombatFeature(Feature):
                 cursor = CursorProbe.current_hash()
 
                 sword = self.ctx.cursors.is_attack(cursor)
+                classify = getattr(self.ctx.cursors, "classify", None)
+                self._cursor_last = (classify(cursor) if callable(classify) else None) or "unknown"
                 if not sword and self.ctx.cursors.is_corpse(cursor):
                     return self._finish(target, "corpse_cursor", anchor)
 
@@ -346,11 +424,12 @@ class CombatFeature(Feature):
                                 self.input.move(screen_x, screen_y)
                         else:
                             self._refresh_hold(screen_x, screen_y)
-                        lost = 0
-                        gone_since = None
+                        box_t = time.time()
 
                 dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
-                melee = sword and dist <= MELEE_DIST
+                # PLAN 0.32: melee only while the box is in the newest detection; a stale anchor (own sprite, a pet)
+                # used to hold the fight for the whole melee cap.
+                melee = sword and dist <= MELEE_DIST and updated is not None
                 melee_seen = melee_seen or melee
                 self._dist, self._melee = dist, melee
 
@@ -367,13 +446,20 @@ class CombatFeature(Feature):
                     return self._finish(target, "frozen", anchor)
 
                 now = time.time()
+                self._box_gone = round(now - box_t, 1)
+                if sword:
+                    sword_t = now
+                elif dist <= MELEE_DIST and now - sword_t >= NO_SWORD_SEC:
+                    return self._finish(target, "lost", anchor, f"no attack cursor for {now - sword_t:.1f}s")
                 closer = self.targeting.closer_than(anchor, char) if self.targeting is not None else None
-                if closer is not None:
+                if closer is not None and self._confirm_switch(rect, closer):
                     # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.
                     self._finish(target, "switch", anchor, f"{closer} at "
                                  f"{math.hypot(closer[0] - char[0], closer[1] - char[1]):.0f}px, lock {dist:.0f}px")
                     self._note_lock(closer)
                     return target
+                if closer is not None:
+                    self._hold_and_drag(screen_x, screen_y)  # the hover said no monster there: stay on the lock
                 if melee:
                     fight_progress_t = progress_t = now  # hitting it: never no_progress / side step / unreachable
                 if updated is not None:
@@ -406,36 +492,30 @@ class CombatFeature(Feature):
                 if updated is None:
                     if self._die_near(anchor):
                         return self._finish(target, "die_box", anchor)
-                    if sword:
-                        # PLAN 0.27: most "lost target" of the first orc hunt were a box missing for two beats
-                        # while the monster stood under the mouse; the sword says it is still there.
-                        lost = 0
-                        gone_since = None
-                    else:
-                        lost += 1
-                        if lost >= LOST_NAME_STREAK:
-                            gone_since = gone_since or now
-                            if now - gone_since >= VANISH_CONFIRM:
-                                # Auto-to-bag server with a readable chat: every kill writes a kill line, none
-                                # came -> it walked off. Drop servers write no kill line: the fall IS the kill
-                                # (its place feeds the loot walk, PLAN 0.30 / 3).
-                                gone = self._chat_readable() and self.account.loot.mode == "auto"
-                                return self._finish(target, "gone" if gone else "vanished",
-                                                    anchor, f"box gone {now - gone_since:.1f}s")
-                        self._refresh_hold(screen_x, screen_y)
+                    if now - box_t >= BOX_GONE_SEC:
+                        # PLAN 0.32: no box for a second ends the fight even with the sword up (a stale attack
+                        # cursor kept 16 fights of 092741 standing for 25 s). Auto-to-bag server with a readable
+                        # chat: every kill writes a kill line, none came -> it walked off. Drop servers write no
+                        # kill line: the fall IS the kill (its place feeds the loot walk, PLAN 0.30 / 3).
+                        gone = self._chat_readable() and self.account.loot.mode == "auto"
+                        return self._finish(target, "gone" if gone else "vanished",
+                                            anchor, f"box gone {now - box_t:.1f}s")
+                    self._refresh_hold(screen_x, screen_y)
 
                 now = time.time()
                 paused = now < self.ctx.state.get("skill_pause_until", 0.0)  # PLAN 0.29: "마법 사용: 실패"
                 if skills and not paused and now - last_skill >= interval:
-                    key = skills[bursts % len(skills)]
-                    skill_id = self.account.attack(key).skill_id
-                    last_skill = now
-                    if self.ctx.can_cast(skill_id, rect):
-                        anchor, fired = self._cast_at_target(key, rect, char, anchor)
-                        if fired:
-                            screen_x, screen_y = rect.to_screen(anchor[0], anchor[1] + NAMEPLATE_BODY_DROP)
-                        self._note_lock(anchor)
-                        self._hold_and_drag(screen_x, screen_y)
+                    key, mp = self._pick_skill(skills, rect, self._dist, now)
+                    if key is not None:
+                        last_skill = now
+                        if self.ctx.can_cast(self.account.attack(key).skill_id, rect):
+                            anchor, fired = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
+                            if fired:
+                                screen_x, screen_y = rect.to_screen(anchor[0], anchor[1] + NAMEPLATE_BODY_DROP)
+                            self._note_lock(anchor)
+                            self._hold_and_drag(screen_x, screen_y)
+                        else:
+                            self._skipped["mp_empty"] = self._skipped.get("mp_empty", 0) + 1
 
                 bursts += 1
 

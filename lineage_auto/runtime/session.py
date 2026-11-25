@@ -15,6 +15,7 @@ from ..features.targeting import TargetingFeature
 from ..vision.geometry import play_max_radius
 from ..vision.hud_numbers import percent
 from ..vision.name_reader import KillWatcher, NameReader, save_crop
+from ..vision import yolox_mobs
 from ..vision.yolox_mobs import detect_centers, ensure_session, session_device
 from ..winapi.cursor import CursorProbe, save_png
 from ..winapi.hotkeys import poll_escape
@@ -123,6 +124,8 @@ class AccountSession:
             return False
 
         try:
+            # PLAN 0.33: onnxruntime threads before the FIRST session is built; a cached session keeps its own.
+            yolox_mobs.THREADS = self.account.scan.detect_threads
             yolox_sess = ensure_session(self.account.hunt_map, self.account.scan.input_size)
         except FileNotFoundError as exc:
             self.ctx.log(str(exc))
@@ -183,6 +186,7 @@ class AccountSession:
             return False
         try:
             if not self.account.record.no_model:
+                yolox_mobs.THREADS = self.account.scan.detect_threads
                 ensure_session(self.account.hunt_map)
             self.ctx.recorder = Recorder(self.account, "observe", rect=self.ctx.rect())
         except Exception as exc:
