@@ -323,7 +323,7 @@ class FakeTg:
     def __init__(s,track,crops,dies=(),kill_at=None):
         s.track=list(track); s.crops=list(crops); s.last_dies=list(dies); s.last_figures=[]
         s.kill_at=kill_at; s.pops=0; s.kill_watch=None; s.blocked=[]; s.closer=None; s.locks=[]; s.lines=1
-        s.probe_ok=True; s.probed=[]
+        s.probe_ok=True; s.probed=[]; s.last_monsters=[]
     def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call (s.lines lines: a splash kill)
         s.pops+=1; return [(time.time(),'오염된 오크 전사')]*s.lines if s.pops==s.kill_at else []
     def closer_than(s,anchor,char): return s.closer
@@ -529,8 +529,9 @@ sc=TCtx(); sc.character=sc.account.character; sc.can_cast=lambda *a,**k: True
 sc.read_mp=lambda r: sc.state.get('mp')
 sc.recorder=recmod.Recorder(sc.account,'hunt',rect=sc.rect(),root=rroot)
 f5=sc.account.attack('F5'); f5.enabled=True; f5.skill_id='386'
-cf=cb.CombatFeature(sc,targeting=FakeTg([],[]))
+cf=cb.CombatFeature(sc,targeting=FakeTg([(700,400)]*60,[]))
 assert cf.active_skills()==['F5'], cf.active_skills()
+sc.account.aim_wait_sec=0                 # these cases are about the click order, not about the ellipse wait
 for order,want in (('hover_key_click',['move','pressF5','click']),('key_click',['pressF5','click']),
                    ('click_key',['click','pressF5'])):
     sc.account.cast_order=order; sc.input=SpellIn()
@@ -569,26 +570,63 @@ pg=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),en
     if '"page_switch"' in l]
 assert [(e['from_page'],e['to_page']) for e in pg][:3]==[('F1','F2'),('F2','F1'),('F1','F2')], pg
 
-# PLAN 0.34: the client arms a targeted spell by turning the cursor into an aiming ellipse. No ellipse = the
-# spell never armed (no MP, cooling down, wrong page): clicking would only walk the character, so do not.
+# PLAN 0.35: the aiming ellipse shows a good second after the slot key on the game PC (v16 waited 0.3 s and
+# threw away 144/144 casts). Poll up to account.aim_wait_sec, then click the monster's NEWEST box; no ellipse
+# by the deadline = click anyway, because a click on a monster with no spell armed is only a hand attack.
+Cur.classify=lambda s,h,md5=None: 'cast' if s.aim else 'unknown'
 sc.cursors.cast_registered=True; sc.cursors.aim=True
-sc.input=SpellIn(); sc.state['hotbar_page']='F2'
-_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
-assert fired and sc.input.log==['pressF5','click'], sc.input.log
+sc.account.aim_wait_sec=0.5
+sc.state['hotbar_page']='F2'
+sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
+t0=time.time(); anchor,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert fired and sc.input.log==['pressF5','click'] and anchor==(730,430), (sc.input.log,anchor)
+assert time.time()-t0<0.4, 'the ellipse was up at once: no need to wait out aim_wait_sec'
+# no ellipse at all -> waits the whole aim_wait_sec, then clicks the newest box anyway
 sc.cursors.aim=False
-sc.state['skill_pause_until']=0.0
-for strike in range(cb.NO_CAST_STRIKES):
-    sc.input=SpellIn()
-    _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
-    assert not fired and sc.input.log==['pressF5'], sc.input.log          # pressed, never clicked
-assert sc.state['skill_pause_until']>time.time()+cb.NO_CAST_PAUSE-2, sc.state   # 3 in a row -> spells paused
-miss=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
-      if '"spell_cast"' in l and '"ok": false' in l]
-assert len(miss)==cb.NO_CAST_STRIKES and miss[0]['reason']=='no_target_cursor', miss[:1]
-sc.cursors.cast_registered=False                                           # unregistered -> blind wait, clicks
-sc.input=SpellIn(); _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+sc.input=SpellIn(); cf.targeting=FakeTg([(730,430)],[])
+t0=time.time(); _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
 assert fired and sc.input.log==['pressF5','click'], sc.input.log
-print('attack spells: 3 cast orders, hotbar pages, aiming cursor, MP/range/cooldown gates, events OK')
+assert sc.account.aim_wait_sec <= time.time()-t0 < sc.account.aim_wait_sec+0.4, time.time()-t0
+assert not sc.state.get('skill_pause_until'), sc.state      # no self-inflicted spell pause any more
+# the lock died while the spell armed: throw it at the nearest neighbour instead
+sc.cursors.aim=True
+nb=FakeTg([None],[]); nb.last_monsters=[(900,500),(700,420),(645,381)]   # 645,381 is the character's own box (< SELF_R)
+sc.input=SpellIn(); cf.targeting=nb
+_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert fired and _a==(700,420) and sc.input.log==['pressF5','click'], (_a,sc.input.log)
+# nothing left at all: right-click cancels the armed spell (ESC is the bot's stop hotkey, never usable here)
+class RIn(SpellIn):
+    def click_right(s): s.log.append('rclick')
+sc.input=RIn(); cf.targeting=FakeTg([None],[])
+_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert not fired and sc.input.log==['pressF5','rclick'], sc.input.log
+ev=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
+    if '"spell_cast"' in l]
+assert [e['ok'] for e in ev[-4:]]==[True,True,True,False], [e['ok'] for e in ev[-4:]]
+assert ev[-1]['reason']=='no_target_left' and ev[-4]['aim_delay_s'] is not None, ev[-1]
+assert ev[-3]['aim_delay_s'] is None, ev[-3]          # the deadline run records no delay
+reads=ev[-4]['cursor_after_key']
+assert reads and all('hash' in r and 'md5' in r and 'kind' in r and 'at' in r for r in reads), reads
+sc.account.aim_wait_sec=1.8
+# PLAN 0.35: 3 chat failures = the spell armed and nobody clicked in time -> try the other click order
+tf2=tg.TargetingFeature(sc)
+sc.input.last_key=('F5',time.monotonic())
+sc.account.cast_order='key_click'
+for n in range(tg.SPELL_FAIL_STRIKES):
+    tf2._magic_fail()
+assert sc.account.cast_order=='hover_key_click' and sc.state['spell_fail_strikes']==0, sc.state
+fail=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
+      if '"spell_fail_chat"' in l]
+assert len(fail)==tg.SPELL_FAIL_STRIKES and fail[-1]['switched_to']=='hover_key_click', fail[-1]
+sc.account.cast_order='key_click'; sc.state.pop('skill_pause_until',None)
+# the aim wait survives a save / load round trip (the game PC tunes it in the UI)
+assert _AS.from_dict(sc.account.to_dict()).aim_wait_sec==1.8
+# PLAN 0.35: attack and cast 4 bits apart = one of the two was captured wrong; the Cursor tab warns about it
+from lineage_auto.runtime.cursor_profile import CursorProfile as _CP
+prof=_CP({'attack':'fc92fe3800000000','cast':'fcfefe3800000000'})
+assert prof.near_duplicates()==[('attack','cast',4)], prof.near_duplicates()
+assert _CP({'attack':'fc92fe3800000000','cast':'0000000000000000'}).near_duplicates()==[]
+print('attack spells: 3 orders, pages, 1.8s ellipse wait, newest box / neighbour / cancel OK')
 # PLAN 0.31: YOLOX on its own thread; targeting reads the newest result, never the character's own box
 from lineage_auto.runtime.detector import DetectorThread
 importlib.reload(tg)  # the scan tests above replaced tg.detect_centers / CursorProbe

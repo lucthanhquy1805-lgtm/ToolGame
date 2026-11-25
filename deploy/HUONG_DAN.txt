@@ -1,5 +1,20 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 25/11/2026 (bản 16) — sửa sau lần săn 15 phút bản 15 (11:20–11:35). Cài đè như cũ (mục 2).
+Bản build: 25/11/2026 (bản 17) — sửa sau lần săn 15 phút bản 16 (14:56–15:11: 35 con, bản 15 được 62). Cài đè như cũ (mục 2).
+  ★★★ MỚI Ở BẢN 17 — PHÉP GIỜ MỚI THỰC SỰ BẮN RA:
+    Bản 16 không bắn được phép nào (144/144 lần bỏ qua) vì nó chỉ chờ con trỏ elip 0,3 giây,
+    còn trên máy bạn elip hiện sau HƠN 1 GIÂY. Chat game đã báo 45 lần "마법 사용: 실패" =
+    phép ĐÃ lên tay rồi bị huỷ vì bot không click. Bản 17:
+      · Sau khi bấm ô phép, bot đọc con trỏ mỗi 0,1 giây trong tối đa 1,8 giây (sửa được: tab
+        "Kỹ năng" → "Cài đặt skill" → ô "Chờ con trỏ ngắm (giây)").
+      · Thấy elip → click vào VỊ TRÍ MỚI NHẤT của con quái (nó đã đi tiếp trong hơn một giây đó).
+      · Hết 1,8 giây không thấy elip → VẪN click một lần (không có phép thì đó chỉ là đánh tay, vô hại).
+      · Quái chết trong lúc chờ → ném phép sang con gần nhất; không còn con nào → CLICK PHẢI để huỷ phép.
+      · Bỏ luật "3 lần không thấy elip → ngưng phép 10 giây" (nó tự tắt phép cả trận).
+      · ĐỔI TRANG ÍT HƠN MỘT NỬA: hết trận không quay về trang F1 ngay nữa, chỉ về khi hết quái
+        quanh đó (3 giây không có mục tiêu). Hồi máu / bình / buff vẫn tự đổi trang khi cần.
+      · Tab "Con trỏ" nay cảnh báo khi hai loại con trỏ có HÌNH GẦN GIỐNG NHAU — máy bạn đang có một
+        hình "đánh (kiếm)" rất giống hình "ngắm phép (elip)"; nếu thấy cảnh báo đỏ, hãy xoá hình chụp nhầm
+        rồi đăng ký lại.
   ★★★★★★ MỚI Ở BẢN 16 (bản 15 chạy tốt: 62 con/15 phút, 84% thời gian đang đánh — còn 2 việc):
     a) DÙNG PHÉP TẤN CÔNG (quan trọng nhất). Bản 15 đánh tay nên 26 trận chạm trần 10 giây rồi phải đánh lại
        (30% thời gian săn). Trước đây gán phép vào ô cũng vô ích: tool chỉ cho tự bấm hồi máu/buff/giải độc.
@@ -15,15 +30,14 @@ Bản build: 25/11/2026 (bản 16) — sửa sau lần săn 15 phút bản 15 (1
        trang nào. Khung HP cũng có ô chọn trang cho hồi máu / bình / cuộn về làng / 3 bình phụ.
        !! QUAN TRỌNG: hãy xếp ô trong GAME đúng như khai trong tool, nếu không bot sẽ bấm nhầm ô.
 
-    c) DÙNG PHÉP THEO ĐÚNG CÁCH CỦA GAME (bạn đã xác nhận): bấm phím ô → con trỏ đổi thành HÌNH ELIP NGẮM →
-       click trái vào quái. Tool nay làm đúng vậy, và CHỜ THẤY ELIP rồi mới click:
-         · Thấy elip → click vào quái → phép bắn ra.
-         · KHÔNG thấy elip trong 0,3 giây (hết MP, đang hồi chiêu, sai trang) → tool KHÔNG click (click lúc đó
-           chỉ làm nhân vật đi bộ tới chỗ đó), ghi vào bản ghi, và đánh tay như cũ. 3 lần liên tiếp không thấy
-           elip → tạm ngưng dùng phép 10 giây.
-       !! PHẢI ĐĂNG KÝ CON TRỎ "NGẮM PHÉP (ELIP)" — xem mục 3-8, phím tắt Ctrl+Alt+5. Chưa đăng ký thì tool
-          chạy kiểu cũ (bấm phím, chờ 0,15 giây, click) và thanh dưới sẽ nhắc "Chưa đăng ký con trỏ ngắm phép".
-       Vẫn có ô "Thứ tự dùng phép" (mặc định "phím → click mục tiêu") nếu cần thử kiểu khác.
+    c) DÙNG PHÉP THEO ĐÚNG CÁCH CỦA GAME (bạn đã xác nhận): bấm phím ô → con trỏ đổi thành HÌNH
+       ELIP NGẮM → click trái vào quái. Xem phần "MỚI Ở BẢN 17" ở đầu file: bản 17 chờ elip tối đa
+       1,8 giây rồi click dù có thấy elip hay không.
+       !! VẪN NÊN ĐĂNG KÝ CON TRỏ "NGẮM PHÉP (ELIP)" — xem mục 3-8, phím tắt Ctrl+Alt+5: có đăng ký
+          thì bot click NGAY khi elip hiện thay vì chần chừ đủ 1,8 giây mỗi lần.
+       Vẫn có ô "Thứ tự dùng phép" (mặc định "phím → click mục tiêu"); nếu chat báo huỷ phép 3 lần
+       liên tiếp, bot tự đổi sang kiểu "rê chuột → phím → click" một lần và ghi vào log.
+
     d) HẾT KHỰNG KHI ĐÔNG QUÁI. Bản 15 chiếm khoảng 2 nhân CPU liên tục (log: "175–187 ms avg, 4.8/s"), nên lúc
        đông quái/người chơi (phút 10–14) game bị khựng. Bản 16: tiến trình bot chạy ở mức ưu tiên THẤP HƠN game,
        nhận diện dùng 1 luồng CPU, 2 lần/giây thay vì 5, và khi ĐANG ĐÁNH thì cứ 2 lần có 1 lần chỉ quét vùng

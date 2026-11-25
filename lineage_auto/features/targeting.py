@@ -53,6 +53,9 @@ BLOCK_RADIUS = 48  # client px
 CORPSE_SKIP_RADIUS = 20
 # PLAN 0.29: a "마법 사용: 실패" chat line pauses the attack skills this long.
 SKILL_PAUSE_SEC = 5.0
+# PLAN 0.35: that many chat failures -> the click order is wrong for this client, so try the other one once
+# (hover_key_click puts the mouse on the body before the key, which selects the target first).
+SPELL_FAIL_STRIKES = 3
 # PLAN 0.31: a box centred this close to the character is the character itself (223510: 22 fights "sword=no" there).
 # PLAN 0.33: 30, not 25 — 112040 switched 4 times to a box 26 px from the character (its own sprite).
 SELF_R = 30
@@ -229,15 +232,27 @@ class TargetingFeature(Feature):
             save_png(os.path.join(rec.path, "raw", f"chat_fail_{self._chat_fail_pngs}.png"), frame[int(0.75 * h):])
 
     def _magic_fail(self):
-        """PLAN 0.29: "마법 사용: 실패! 올바른 대상이 아니거나 취소함" in the chat -> pause attack skills, name the key."""
+        """PLAN 0.29: "마법 사용: 실패! 올바른 대상이 아니거나 취소함" in the chat -> pause attack skills, name the key.
+
+        PLAN 0.35: the line proves the spell DID arm and was then cancelled, so it also votes on the click
+        order: SPELL_FAIL_STRIKES of them switch the account from key_click to hover_key_click, once."""
         last = getattr(self.input, "last_key", None)
         ago = f"{last[0]} pressed {time.monotonic() - last[1]:.1f}s before" if last else "no key pressed yet"
         self.ctx.state["skill_pause_until"] = self.clock() + SKILL_PAUSE_SEC
-        self.log(f"chat: 마법 사용: 실패 ({ago}) -> attack skills paused {SKILL_PAUSE_SEC:.0f}s")
+        strikes = self.ctx.state.get("spell_fail_strikes", 0) + 1
+        self.ctx.state["spell_fail_strikes"] = strikes
+        order = self.account.cast_order
+        self.log(f"chat: 마법 사용: 실패 ({ago}, #{strikes}) -> attack skills paused {SKILL_PAUSE_SEC:.0f}s")
+        switched = ""
+        if strikes >= SPELL_FAIL_STRIKES and order == "key_click":
+            self.account.cast_order = switched = "hover_key_click"
+            self.ctx.state["spell_fail_strikes"] = 0
+            self.log(f"{strikes} chat failures: cast order {order} -> {switched}")
         rec = self.ctx.recorder
         if rec:
             rec.count("magic_fail")
-            rec.event("magic_fail", last_key=last[0] if last else None)
+            rec.event("spell_fail_chat", last_key=last[0] if last else None, strikes=strikes,
+                      order=order, switched_to=switched or None)
 
     def read_name(self, local):
         """Name over the monster at a client point from the last grab (None when unreadable / no pictures)."""

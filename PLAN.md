@@ -749,6 +749,47 @@ Kiểm tra thêm
       test_hunt_records chạy đúng logic trang thật (ctx replay dùng mixin HotbarPages).
       CÒN: chạy thật trên máy game — trước hết ĐĂNG KÝ CON TRỎ NGẮM PHÉP, rồi xem phép có bắn không.
 
+- [x] 0.35 v17 SỬA THEO BẢN CHẠY THẬT CỦA v16 (records_game/20261125_145650_hunt: 35 giết/15 phút, v15 được 62).
+      Số liệu: 144/144 spell_cast ok=false reason=no_target_cursor, NHƯNG chat game có 45 dòng
+      "마법 사용: 실패(올바른 대상이 아니거나 취소함)" → elip ĐÃ hiện, phép ĐÃ lên tay, bot không click nên phép bị huỷ.
+      Người dùng đo trên máy game: elip hiện sau KHOẢNG HƠN 1 GIÂY, còn v16 chỉ chờ 0,3 s.
+   • 1 CHỜ ĐÚNG THỜI GIAN THẬT, RỒI LUÔN CLICK. Sau khi bấm ô phép: đọc con trỏ mỗi AIM_POLL = 0,1 s, tối đa
+      `AccountSettings.aim_wait_sec` (mặc định 1,8 s, sửa được ở modal "Cài đặt skill": "Chờ con trỏ ngắm (giây)").
+      Thấy elip → click vào VỊ TRÍ MỚI NHẤT của quái đang khoá (lấy từ lần nhận diện mới nhất qua
+      `targeting.track_current`, không dùng vị trí lúc bấm phím vì quái đã đi tiếp trong hơn một giây đó).
+      Hết thời gian mà không thấy elip → VẪN click một lần vào quái (vô hại: không có phép thì chỉ là đánh tay)
+      và ghi log. Trong lúc chờ KHÔNG click, KHÔNG bấm phím khác, KHÔNG đổi mục tiêu, KHÔNG đi bộ — mọi thao
+      tác khác đều huỷ phép; chỉ `poll_escape` chạy để ESC vẫn dừng được bot.
+      Quái chết/mất trong lúc chờ → click con gần nhất còn lại (phép vẫn trên tay); không còn con nào → CLICK
+      PHẢI để huỷ phép (KHÔNG dùng ESC: ESC chính là phím dừng bot của chính mình), ghi
+      spell_cast {ok:false, reason:"no_target_left"}.
+      BỎ HẲN luật "3 lần không thấy elip → ngưng phép 10 s" (nó tự tắt phép cả trận).
+      Log/events mỗi lần: aim_delay_s (từ lúc bấm phím đến lúc thấy elip) + cursor_after_key [{at, hash, md5,
+      kind}] mỗi hình con trỏ khác nhau đọc được; analyze_records in aim_delay_s trung bình / nhỏ nhất / lớn
+      nhất để chỉnh lại mặc định 1,8 s.
+      Tab Con trỏ cảnh báo khi hai loại có hình GẦN GIỐNG nhau (hamming aHash ≤ 4, `CursorProfile.near_duplicates`):
+      máy game có attack fc92fe3800000000 và cast fcfefe3800000000 — lệch đúng 4 bit, nghĩa là một trong hai
+      hình bị chụp sai, người dùng nên xoá hình nhầm.
+   • 2 GIẢM ĐỔI TRANG. Hết trận KHÔNG quay về trang nhà nữa (101 trong 202 lần đổi trang của 145650 là lần quay
+      về mà trận ngay sau đó lại đổi lại). Ở lại trang mà trận vừa rồi để lại; chỉ về `home_page` khi KHÔNG CÒN
+      quái quanh đó: `session.HOME_IDLE_SEC` = 3 s không có mục tiêu. Hồi máu / bình / buff / giải độc vẫn tự
+      đổi sang trang của nó khi cần rồi phép tiếp theo tự đổi lại F2. analyze_records in số lần đổi trang/phút.
+      Mô phỏng lại trên bản ghi (`python tests/sim_v17.py records_game/20261125_145650_hunt`):
+      202 lần (13,4/phút) → ~114 lần (7,6/phút) = 100 lần F1→F2 cho trận có phép + 14 lần F2→F1 khi hết quái.
+   • 3 Tab Kỹ năng: xoá dòng "Chỉ dùng ô ở trang F1" (từ 0.34 một ô là (trang, phím) nên câu đó đã sai).
+   • 4 analyze_records thêm: số phép thật sự bắn (MP tụt sau khi bấm), số lần chat báo huỷ phép + có đổi thứ tự
+      bấm hay không, trung bình aim_delay_s, các hình con trỏ đọc được, số lần đổi trang/phút. Thời gian giết
+      có phép vs đánh tay đã có từ 1.6.
+   • 5 Chat "마법 사용: 실패" nay ghi event spell_fail_chat {last_key, strikes, order, switched_to} và sau
+      `targeting.SPELL_FAIL_STRIKES` = 3 lần thì tự đổi cast_order key_click → hover_key_click MỘT LẦN rồi ghi log
+      (vẫn giữ ngưng phép 5 s của 0.29 cho mỗi dòng báo lỗi).
+   • Kiểm tra: smoke_test (3 thứ tự bấm, trang hotbar, chờ elip đúng/hết hạn, click vào hộp mới nhất, chuyển
+      sang con gần nhất khi quái chết, click phải huỷ phép khi hết quái, aim_delay_s/cursor_after_key vào
+      events, đổi thứ tự sau 3 lần chat báo lỗi, cảnh báo con trỏ gần giống nhau, aim_wait_sec lưu/đọc lại).
+      `python tests/sim_v17.py <bản ghi>` mô phỏng số lần đổi trang + giá phải trả cho việc chờ elip.
+      RỦI RO ĐÃ BIẾT: chờ 1,8 s mỗi lần bấm phép, nếu elip không bao giờ hiện thì mất tới 259 s trong 904 s
+      (29%) của bản ghi 145650. Chạy thật xong phải xem aim_delay_s trung bình rồi hạ aim_wait_sec cho khớp.
+
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 
 ### 0.1 Nhận diện chậm và bot "đứng im" không săn  [ƯU TIÊN CAO NHẤT]

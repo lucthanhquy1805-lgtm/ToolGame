@@ -343,18 +343,43 @@ def time_report(summary, events):
     spells = [e for e in events if e.get("kind") == "spell_cast"]  # PLAN 1.6
     fired = [e for e in spells if e.get("ok", True)]
     missed = Counter(e.get("reason") for e in spells if not e.get("ok", True))  # PLAN 0.34
+    minutes = max(1e-9, (summary.get("duration_sec") or 0) / 60.0)
     if spells:
         used = Counter(f"{e.get('page', 'F1')}+{e.get('key')}" for e in fired)
         drops = [e["mp_before"] - e["mp_after"] for e in fired
                  if e.get("mp_before") is not None and e.get("mp_after") is not None]
         mp = f", MP -{sum(drops) / len(drops):.1f}%/cast" if drops else ""
         print(f"spells: {len(fired)} casts {dict(used)}, order {spells[-1].get('order')}{mp}")
+        # PLAN 0.35: the only proof from outside the client that a spell really went off is the MP it cost.
+        landed = [d for d in drops if d > 0]
+        if drops:
+            print(f"  really cast (MP dropped): {len(landed)}/{len(drops)} of the casts with an MP reading")
         if missed:
             print(f"  spells that never armed (no aiming cursor): {dict(missed)} of {len(spells)} tries")
+        seen = Counter(r.get("kind") for e in fired for r in (e.get("cursor_after_key") or []))
+        if seen:
+            print(f"  cursor after the slot key: {dict(seen)}")
+        # PLAN 0.35: key -> aiming ellipse. The default aim_wait_sec (1.8) is tuned on this average.
+        delays = [e["aim_delay_s"] for e in spells if e.get("aim_delay_s") is not None]
+        blind = [e for e in spells if "aim_delay_s" in e and e["aim_delay_s"] is None]
+        if delays:
+            print(f"  aiming ellipse after {sum(delays) / len(delays):.2f}s avg, "
+                  f"{min(delays):.2f}-{max(delays):.2f}s ({len(delays)} casts), "
+                  f"never seen {len(blind)}x")
+        elif blind:
+            print(f"  aiming ellipse never seen ({len(blind)} casts clicked blind)")
+    # PLAN 0.35: the chat says the spell DID arm and was cancelled - v16 read that 45 times while claiming
+    # 144/144 casts never armed.
+    chat_fail = [e for e in events if e.get("kind") in ("magic_fail", "spell_fail_chat")]
+    if chat_fail or counts.get("magic_fail"):
+        switched = [e.get("switched_to") for e in chat_fail if e.get("switched_to")]
+        print(f"chat \"마법 사용: 실패\" (spell armed, then cancelled): "
+              f"{len(chat_fail) or counts.get('magic_fail')}"
+              + (f", cast order switched to {switched[-1]}" if switched else ""))
     pages = [e for e in events if e.get("kind") == "page_switch"]  # PLAN 0.34
     if pages:
         moves = Counter(f"{e.get('from_page')}->{e.get('to_page')}" for e in pages)
-        print(f"hotbar pages: {len(pages)} switches {dict(moves)}")
+        print(f"hotbar pages: {len(pages)} switches ({len(pages) / minutes:.1f}/min) {dict(moves)}")
     with_spell = [e for e in ends if e.get("spells") and e["outcome"] in KILL_ENDS]
     hand = [e for e in ends if not e.get("spells") and e["outcome"] in KILL_ENDS]
     if with_spell:

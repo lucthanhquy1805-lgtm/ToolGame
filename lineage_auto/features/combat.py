@@ -8,6 +8,7 @@ and acquire a neighbor — hitting every surrounder pulls the whole pack.
 
 import math
 import time
+import types
 
 from ..skills.policy import is_auto_enabled
 from ..vision.geometry import blocking_figure, detour_point, park_point
@@ -16,6 +17,7 @@ from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
 from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
+from .targeting import SELF_R as SELF_BOX_R
 
 DRAG_OFFSET = 15
 BURST_INTERVAL = 0.1
@@ -60,16 +62,14 @@ SIDESTEP_WALK = 0.5
 MAX_FIGHT_SEC = 15.0
 # PLAN 0.33: how long after the last fight beat the detector still treats the hunt as "fighting".
 FIGHT_HINT_SEC = 1.0
-# PLAN 0.34: the client arms a targeted spell by turning the cursor into an aiming ellipse. Wait this long for
-# it after the slot key; no ellipse means the spell did not arm (no MP, cooling down, wrong hotbar page) and
-# clicking would only walk the character to that spot.
-CAST_CURSOR_WAIT = 0.3
-CAST_POLL = 0.02
-# No "cast" cursor registered: nothing to read, so fall back to the old fixed wait and click anyway.
-CAST_BLIND_WAIT = 0.15
-# Three spells in a row that never armed -> stop trying for a while (the hand attack carries on).
-NO_CAST_STRIKES = 3
-NO_CAST_PAUSE = 10.0
+# PLAN 0.35: the client arms a targeted spell by turning the cursor into an aiming ellipse, and the game PC
+# measured that taking a good SECOND. v16 waited 0.3 s, gave up and fell back to the hand attack, which is why
+# 144/144 casts of 145650 logged "no_target_cursor" while the chat showed 45 "마법 사용: 실패(취소함)" lines -
+# the spell HAD armed and was cancelled because nobody clicked. So: poll the cursor every AIM_POLL for up to
+# AccountSettings.aim_wait_sec, do nothing else while waiting (any other click / key / step cancels the spell),
+# then click the monster's NEWEST box. No ellipse by the deadline = click once anyway (a click on a monster
+# with no spell armed is only a hand attack) and log it.
+AIM_POLL = 0.1
 
 
 class CombatFeature(Feature):
@@ -96,7 +96,6 @@ class CombatFeature(Feature):
         self._slot_turn = 0
         self._spells = 0  # spells cast in the fight under way
         self._skipped = {}  # why a slot was skipped, for the recording
-        self._no_cast = 0  # spells in a row whose aiming cursor never showed (PLAN 0.34)
 
     def active_skills(self):
         keys = []
@@ -135,44 +134,52 @@ class CombatFeature(Feature):
         return None, mp
 
     def _wait_aim_cursor(self):
-        """PLAN 0.34: True once the aiming ellipse is up, so the click will fire the spell.
+        """Poll the cursor until the aiming ellipse shows. -> (aim_delay or None, [{at, hash, md5, kind}]).
 
-        Without a registered "cast" cursor there is nothing to read: wait the old fixed pause and assume the
-        spell armed (the UI warns that the cursor is not registered)."""
-        if not self.ctx.cursors.is_registered("cast"):
-            time.sleep(CAST_BLIND_WAIT)
-            return True
-        deadline = time.time() + CAST_CURSOR_WAIT
-        while time.time() < deadline:
-            if self.ctx.cursors.is_cast(CursorProbe.current_hash()):
-                return True
-            time.sleep(CAST_POLL)
-        return False
+        PLAN 0.35: the reads are kept (one per distinct picture) so the game PC can see what the ellipse over
+        a monster really looks like - the registered "cast" picture was captured over the ground. Nothing but
+        reading happens here: a click, a key or a step would cancel the spell the client is arming."""
+        reads, seen, start = [], set(), time.time()
+        deadline = start + max(0.0, float(getattr(self.account, "aim_wait_sec", 1.8)))
+        while True:
+            cursor_hash = CursorProbe.current_hash()
+            kind = self.ctx.cursors.classify(cursor_hash) or "unknown"
+            if cursor_hash not in seen:
+                seen.add(cursor_hash)
+                reads.append({"at": round(time.time() - start, 2), "hash": cursor_hash,
+                              "md5": getattr(CursorProbe, "last_legacy", None), "kind": kind})
+            if kind == "cast":
+                return round(time.time() - start, 2), reads
+            if time.time() >= deadline or not self.ctx.running:
+                return None, reads
+            poll_escape(self.ctx)
+            time.sleep(AIM_POLL)
 
-    def _cast_failed(self, key, reason, target, mp_before, rect):
-        """The spell never armed: never click (that would walk the character), fall back to the hand attack."""
-        self._no_cast += 1
-        self._skipped[reason] = self._skipped.get(reason, 0) + 1
-        self.log(f"skill {key}: no aiming cursor ({self._no_cast}/{NO_CAST_STRIKES}), attacking by hand")
-        if self._no_cast >= NO_CAST_STRIKES:
-            self.ctx.state["skill_pause_until"] = time.time() + NO_CAST_PAUSE
-            self._no_cast = 0
-            self.log(f"spells paused {NO_CAST_PAUSE:.0f}s ({NO_CAST_STRIKES} in a row did not arm)")
-        rec = getattr(self.ctx, "recorder", None)
-        if rec:
-            rec.count("spell_no_cursor")
-            rec.event("spell_cast", ok=False, reason=reason, key=key, order=self.account.cast_order,
-                      skill_id=self.account.attack(key).skill_id,
-                      target=list(target.local) if target is not None else None, mp_before=mp_before,
-                      mp_after=self.ctx.read_mp(rect), fight_sec=round(time.time() - self._fight_start, 1))
+    def _aim_point(self, rect, char, anchor):
+        """Where to click once the spell is armed: the lock's newest box, else the nearest other monster.
+
+        PLAN 0.35: the monster walks on while the spell arms, and it may well die in that second - the spell is
+        still in hand then, so spend it on the closest neighbour instead of cancelling."""
+        if self.targeting is None:
+            return anchor
+        updated = self.targeting.track_current(rect, anchor, char=char)
+        if updated is not None:
+            return (updated.local_x, updated.local_y)
+        others = [(x, y) for x, y in self.targeting.last_monsters
+                  if math.hypot(x - char[0], y - char[1]) > SELF_BOX_R]
+        if not others:
+            return None
+        return min(others, key=lambda p: math.hypot(p[0] - char[0], p[1] - char[1]))
 
     def _cast_at_target(self, key, rect, char, anchor, mp_before=None):
         """Use the spell on the locked monster, in the order the client wants (AccountSettings.cast_order).
 
-        PLAN 0.34, as the user confirmed from the game: key_click (the default) presses the slot key - after
-        switching hotbar page - waits for the aiming ellipse, then left-clicks the monster. hover_key_click
-        hovers the body first; click_key clicks to select and presses the key after (no ellipse to wait for).
-        The order stays a setting so the game PC can try all three without a rebuild."""
+        PLAN 0.35: key_click (the default) presses the slot key - after switching hotbar page - waits up to
+        AccountSettings.aim_wait_sec for the aiming ellipse, then clicks the monster's newest box. The ellipse
+        is no longer a condition: without it the click is a plain hand attack, so it costs nothing. A lock that
+        died while the spell armed hands it to the nearest neighbour; nothing near = right-click to cancel.
+        hover_key_click hovers the body first; click_key clicks to select and presses the key after. The order
+        stays a setting (targeting flips it after SPELL_FAIL_STRIKES chat failures)."""
         setting = self.account.attack(key)
         self.input.release_left()
         time.sleep(0.05)
@@ -186,6 +193,7 @@ class CombatFeature(Feature):
         screen_x = target.screen_x
         screen_y = target.screen_y + NAMEPLATE_BODY_DROP
         order = self.account.cast_order
+        reads, aim_delay = [], None
         if order == "click_key":
             self.input.click_at(screen_x, screen_y)
             time.sleep(0.05)
@@ -195,23 +203,48 @@ class CombatFeature(Feature):
                 self.input.move(screen_x, screen_y)
                 time.sleep(0.02)
             self.ctx.press_slot(setting.page, key)
-            if not self._wait_aim_cursor():
-                self._cast_failed(key, "no_target_cursor", target, mp_before, rect)
+            aim_delay, reads = self._wait_aim_cursor()
+            point = self._aim_point(rect, char, anchor)
+            if point is None:
+                # An armed spell with nothing left to throw it at: right-click cancels it (ESC is the stop key).
+                self.input.click_right()
+                self.log(f"skill {key}: the target died while the spell armed and nothing else is near, "
+                         f"cancelled with a right click (ellipse after {aim_delay}s)")
+                self._skipped["no_target_left"] = self._skipped.get("no_target_left", 0) + 1
+                self._record_cast(key, setting, order, None, rect, mp_before, aim_delay, reads,
+                                  ok=False, reason="no_target_left")
                 return anchor, False
+            screen_x, screen_y = rect.to_screen(point[0], point[1] + NAMEPLATE_BODY_DROP)
+            target = types.SimpleNamespace(local=(int(point[0]), int(point[1])),
+                                           local_x=int(point[0]), local_y=int(point[1]))
+            if aim_delay is None:
+                wait_for = float(getattr(self.account, "aim_wait_sec", 1.8))
+                self.log(f"skill {key}: no aiming ellipse within {wait_for:.1f}s, clicking anyway")
             self.input.click_at(screen_x, screen_y)
         now = time.time()
         self._slot_used[key] = now
         self._spells += 1
-        self._no_cast = 0
-        self.log(f"skill {setting.page}+{key} ({order}) on nameplate {target.local}")
-        rec = getattr(self.ctx, "recorder", None)
-        if rec:
-            rec.count("spell_cast")
-            rec.count(f"spell_{key}")
-            rec.event("spell_cast", ok=True, key=key, page=setting.page, skill_id=setting.skill_id, order=order,
-                      target=list(target.local), mp_before=mp_before, mp_after=self.ctx.read_mp(rect),
-                      fight_sec=round(now - self._fight_start, 1))
+        self.log(f"skill {setting.page}+{key} ({order}) on {target.local}"
+                 + (f", ellipse after {aim_delay}s" if aim_delay is not None else ""))
+        self._record_cast(key, setting, order, target, rect, mp_before, aim_delay, reads)
         return (target.local_x, target.local_y), True
+
+    def _record_cast(self, key, setting, order, target, rect, mp_before, aim_delay, reads,
+                     ok=True, reason=None):
+        """One spell_cast event. PLAN 0.35: aim_delay_s = slot key -> ellipse, so analyze_records can average
+        it and the "aim wait" default can be tuned; cursor_after_key holds every picture seen while waiting."""
+        rec = getattr(self.ctx, "recorder", None)
+        if rec is None:
+            return
+        rec.count("spell_cast" if ok else "spell_no_target")
+        if ok:
+            rec.count(f"spell_{key}")
+        if aim_delay is None:
+            rec.count("spell_no_ellipse")
+        rec.event("spell_cast", ok=ok, reason=reason, key=key, page=setting.page, skill_id=setting.skill_id,
+                  order=order, target=list(target.local) if target is not None else None,
+                  mp_before=mp_before, mp_after=self.ctx.read_mp(rect), aim_delay_s=aim_delay,
+                  cursor_after_key=reads, fight_sec=round(time.time() - self._fight_start, 1))
 
     def _hold_and_drag(self, screen_x, screen_y):
         """Arm auto-attack: move, hold left, pull down. Never a click."""
@@ -287,8 +320,8 @@ class CombatFeature(Feature):
             self.last_anchor = anchor
             self.last_world = self.targeting.world(anchor) if self.targeting is not None else None
         self._clear_lock()
-        # PLAN 0.34: spells live on another hotbar page; go back to the one with heal / potions.
-        self.ctx.goto_page(self.account.home_page)
+        # PLAN 0.35: no return to the home page here - 145650 spent 101 of its 202 page switches on a return
+        # that the very next fight undid. session._run goes home once the hunt runs dry (HOME_IDLE_SEC).
         note = f" ({detail})" if detail else ""
         source = "chat" if outcome == "chat_kill" else "corpse" if outcome in CORPSE_OUTCOMES else "none"
         self._last_source, self._prev_outcome = source, outcome

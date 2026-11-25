@@ -43,6 +43,21 @@ class CursorProfile:
                     owners[token].append(kind)
         return {token: kinds for token, kinds in owners.items() if len(kinds) > 1}
 
+    def near_duplicates(self, max_dist=4):
+        """PLAN 0.35: [(kind_a, kind_b, dist)] for kinds whose aHashes are nearly the same picture.
+
+        The game PC had attack fc92fe3800000000 and cast fcfefe3800000000 - 4 bits apart. They are told apart
+        exactly here, but a picture that close usually means one of them was captured on the wrong frame, so
+        the Cursor tab says so and the user can delete it."""
+        pairs = []
+        for i, a in enumerate(CURSOR_KINDS):
+            for b in CURSOR_KINDS[i + 1:]:
+                dist = min((hamming_hex(x, y) for x in self._token_list(a) if is_ahash(x)
+                            for y in self._token_list(b) if is_ahash(y)), default=64)
+                if self.max_dist < dist <= max_dist:
+                    pairs.append((a, b, dist))
+        return pairs
+
     def duplicate_kinds(self):
         return {kind for kinds in self.duplicates().values() for kind in kinds}
 

@@ -86,6 +86,10 @@ class SkillSetupModal:
             master=self.window, value=self.tab.t(f"cast_order_{self.account.cast_order}"))
         ttk.Combobox(head, textvariable=self._order_var, values=list(labels), state="readonly",
                      width=24).pack(side="left", padx=(4, 0))
+        # PLAN 0.35: the game PC measured the aiming ellipse arriving a good second after the slot key.
+        ttk.Label(head, text=f"{self.tab.t('aim_wait')}:").pack(side="left", padx=(12, 0))
+        self._aim_var = tk.StringVar(master=self.window, value=f"{self.account.aim_wait_sec:g}")
+        ttk.Entry(head, textvariable=self._aim_var, width=5).pack(side="left", padx=(4, 0))
         ttk.Label(page, text=self.tab.t("attack_page_hint"), foreground="#e65100",
                   padding=(6, 0), wraplength=640).pack(fill="x")
         ttk.Label(page, text=self.tab.t("attack_skills_hint"), foreground="gray",
@@ -327,6 +331,12 @@ class SkillSetupModal:
         order = getattr(self, "_order_var", None)
         if order is not None:
             self.account.cast_order = self._order_labels.get(order.get(), self.account.cast_order)
+        aim = getattr(self, "_aim_var", None)
+        if aim is not None:
+            try:
+                self.account.aim_wait_sec = max(0.0, min(5.0, float(aim.get().replace(",", "."))))
+            except ValueError:
+                pass
         self.account.attack_skills = attack_map
         self.account.buff_skills = buff_map
         self.account.utility_skills = utility_map

@@ -396,6 +396,9 @@ class AccountSettings:
     buff_vision: dict = field(default_factory=dict)
     cursor_keys: dict = field(default_factory=lambda: dict(DEFAULT_CURSOR_KEYS))
     cast_order: str = CAST_ORDERS[0]  # PLAN 1.6
+    # PLAN 0.35: the game PC measured the aiming ellipse appearing a good second after the slot key (v16
+    # waited 0.3 s and threw every cast away). Seconds to keep polling the cursor before clicking anyway.
+    aim_wait_sec: float = 1.8
     # PLAN 0.34: page to go back to when a fight ends (the page with heal / potions). "" = stay where we are.
     home_page: str = HOTBAR_PAGES[0]
 
@@ -491,6 +494,7 @@ class AccountSettings:
             "buff_vision": dict(self.buff_vision),
             "cursor_keys": dict(self.cursor_keys),
             "cast_order": self.cast_order,
+            "aim_wait_sec": self.aim_wait_sec,
             "home_page": self.home_page,
         }
 
@@ -545,6 +549,7 @@ class AccountSettings:
             cursor_keys={k: str((data.get("cursor_keys") or {}).get(k) or v) for k, v in DEFAULT_CURSOR_KEYS.items()},
             cast_order=(str(data.get("cast_order", "")) if str(data.get("cast_order", "")) in CAST_ORDERS
                         else CAST_ORDERS[0]),
+            aim_wait_sec=max(0.0, min(5.0, float(data.get("aim_wait_sec", 1.8) or 0.0))),
             home_page=("" if data.get("home_page") == "" else hotbar_page(data.get("home_page"))),
         )
         return account

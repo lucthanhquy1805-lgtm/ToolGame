@@ -37,6 +37,11 @@ class InputController:
         time.sleep(settle)
         self.backend.click("left")
 
+    def click_right(self):
+        """Right button where the mouse already is. PLAN 0.35: cancels an armed spell (ESC is the bot's
+        own stop hotkey, so it can never be used for that)."""
+        self.backend.click("right")
+
     def hold_left(self):
         self._held_buttons.add("left")
         self.backend.mouse_down("left")

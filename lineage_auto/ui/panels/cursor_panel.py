@@ -224,9 +224,15 @@ class CursorPanel(Panel):
                 label.config(text=self.t("status_none"), foreground="gray")
             self._show_pictures(kind)
             self.key_labels[kind].config(text=self.account.cursor_keys.get(kind, ""))
+        lines = []
         if clash:
             names = ", ".join(self._kind_name(k) for k in CURSOR_KINDS if k in clash)
-            self.lbl_warn.config(text=self.t("cursor_dup_warn", kinds=names))
+            lines.append(self.t("cursor_dup_warn", kinds=names))
+        # PLAN 0.35: attack and cast were 4 bits apart on the game PC - one of the two was captured wrong.
+        for a, b, dist in self._profile().near_duplicates():
+            lines.append(self.t("cursor_near_warn", a=self._kind_name(a), b=self._kind_name(b), dist=dist))
+        if lines:
+            self.lbl_warn.config(text="\n".join(lines))
             self.lbl_warn.pack(anchor="w", after=self.lbl_hint)
         else:
             self.lbl_warn.pack_forget()

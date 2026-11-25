@@ -26,6 +26,11 @@ from .recorder import Recorder
 # Seconds a session waits for the shared mouse before skipping its turn.
 MOUSE_WAIT = 8.0
 IDLE_PAUSE = 0.05
+# PLAN 0.35: the attack spells live on page F2 and a fight used to hand the hotbar back to F1 the moment it
+# ended, which the next fight undid (101 of 145650's 202 page switches). Stay on whatever page the last fight
+# left open and only go home - the page with heal / potions / return scroll - once nothing has been engaged
+# for this long. Heal, potion, buff and cure still switch to their own page whenever they fire.
+HOME_IDLE_SEC = 3.0
 # The tool window taking focus stops the bot (PLAN 0.7) once the game had this long to come forward.
 FOCUS_GRACE = 2.0
 # Observe mode reads the player's cursor this often, so corpse / HP 0 frames are caught between regular frames.
@@ -310,6 +315,7 @@ class AccountSession:
             self.ctx.log("stopped")
 
     def _run(self):
+        last_target = time.monotonic()  # PLAN 0.35: when the hotbar goes back to the home page
         try:
             while self.ctx.running:
                 poll_escape(self.ctx)
@@ -342,6 +348,7 @@ class AccountSession:
 
                     rec = self.ctx.recorder
                     if target is not None:
+                        last_target = time.monotonic()
                         if rec:
                             rec.count("engage")
                         self.exploration.remember_hunt(char, target.local)
@@ -358,6 +365,8 @@ class AccountSession:
                         if rec:
                             rec.count("wander")
                         self.targeting.reset_misses()
+                        if time.monotonic() - last_target > HOME_IDLE_SEC:
+                            self.ctx.goto_page(self.account.home_page)
                         self.exploration.wander(rect, char)
 
                 time.sleep(IDLE_PAUSE)
