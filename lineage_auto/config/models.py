@@ -319,7 +319,6 @@ class LootSettings:
 LOOT_MODES = ("auto", "walk_f4", "walk_click")
 
 
-AUTO_FRAMES_NO_TIMER = 1200
 OLD_DEFAULT_MAX_FRAMES = 600
 
 
@@ -343,17 +342,20 @@ class RecordSettings:
     grid_scan: bool = False  # hunt mode: hover a grid when YOLOX finds nothing (labels only, no click)
     grid_step: int = 40
     grid_radius: int = 200
-    # Applies to hunting and observing, recording or not (PLAN 0.7). 0 = off.
-    auto_stop_min: int = 15
+    # Applies to hunting and observing, recording or not (PLAN 0.7). 0 = off = hunt 24/7 (PLAN 0.38 default).
+    auto_stop_min: int = 0
     stop_key: str = "Pause"
+    # PLAN 0.38: records/ never grows past this; the oldest recordings go first (a long run rotates its
+    # recording into a new folder every recorder.ROTATE_SEC).
+    max_gb: float = 5.0
 
     def frame_cap(self):
-        """Regular frames before the recording stops by itself."""
+        """Regular frames before the RECORDING stops (PLAN 0.38: a hunt goes on without it). None = no cap."""
         if self.max_frames > 0:
             return self.max_frames
         if self.auto_stop_min > 0:
             return max(1, math.ceil(self.auto_stop_min * 60 / self.interval_sec))
-        return AUTO_FRAMES_NO_TIMER
+        return None
 
     @classmethod
     def from_dict(cls, data):
@@ -367,8 +369,9 @@ class RecordSettings:
             grid_scan=bool(data.get("grid_scan", False)),
             grid_step=min(200, max(10, int(data.get("grid_step", 40)))),
             grid_radius=min(600, max(40, int(data.get("grid_radius", 200)))),
-            auto_stop_min=min(600, max(0, int(data.get("auto_stop_min", 15)))),
+            auto_stop_min=min(600, max(0, int(data.get("auto_stop_min", 0)))),
             stop_key=str(data.get("stop_key", "Pause")) if data.get("stop_key") in STOP_KEYS else "Pause",
+            max_gb=min(500.0, max(0.5, float(data.get("max_gb", 5.0)))),
         )
 
 

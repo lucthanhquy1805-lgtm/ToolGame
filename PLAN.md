@@ -522,6 +522,10 @@ Giai đoạn 1 — Săn cơ bản
        HP dưới ngưỡng 2 lần đọc → thả chuột, bấm cuộn 1 lần, trạng thái "귀환 - 정지됨"; hồi máu/bình chạy trước.
        CHƯA KIỂM TRÊN GAME: cuộn phải nằm ở trang hotbar đang mở; chưa kiểm tra đã thật sự về làng)
 - [ ] 1.3b Nút "TIẾP TỤC SĂN" + lộ trình quay lại theo từng bãi: cuộn chúc phúc tới "/기억" / NPC dịch chuyển / đi bộ theo lộ trình đã ghi (A5+)
+      (25/11, PLAN 0.38 — CẦN CHO CHẠY 24/24: hiện về làng do HP thấp = DỪNG hẳn, người phải tự đưa về bãi.
+       Tuỳ chọn "Quay lại bãi săn" sau khi về làng: chờ hồi HP/MP trong làng → cách quay lại của từng bãi (cuộn
+       chúc phúc tới điểm "/기억" đã lưu, hoặc NPC dịch chuyển, hoặc lộ trình ghi sẵn) → săn tiếp; thất bại (không
+       thấy bãi sau N giây) → dừng an toàn. CHƯA LÀM: cần người dùng cho biết cách họ quay lại từng bãi.)
 - [x] 1.4 Nhiều loại bình hồi phục (HP/MP), phím + ngưỡng riêng
       (XONG 23/11: HealthSettings.potions = 3 ô "bình thêm" (bật, HP/MP, ngưỡng %, phím, chờ giây), mặc định TẮT;
        bình chính cũ giữ nguyên; skill hồi/bình chính chạy trước, mỗi lượt đọc chỉ bấm 1 bình, ô trên ưu tiên;
@@ -818,8 +822,27 @@ Kiểm tra thêm
    • XONG: prelabel `--glow purple` 273 ảnh (217 train / 56 test, 8 test mỗi bản từ 30 % cuối).
    • CHỜ NGƯỜI DÙNG: duyệt 7 bản bằng label_tool --review (~273 ảnh × 10–15 s ≈ 45–70 phút).
    • SAU ĐÓ: train orc_v3 (11 bản ghi), bảng v2 vs v3 theo bãi / mùa / ngày-đêm trên test riêng từng bản.
-   • Để sau: khu yêu tinh (cần đọc tên khu đúng trong game cho real_map), ảnh tên/chat của 5 loại orc tím
-      (analyze_records đọc 0 lượt giết vì chưa có ảnh tên dòng chat), xuân ĐÊM.
+   • Khu yêu tinh CÙNG bản đồ mùa xuân (game ghi 타락한 축복의 땅의 봄), khu vực khác: ô chọn khu theo LOẠI QUÁI
+      (`zone_name`), bản ghi mang `"zone"` = khoá catalog.
+   • Để sau: khu yêu tinh (model), ảnh tên/chat của 5 loại orc tím (analyze_records đọc 0 lượt giết vì chưa có
+      ảnh tên dòng chat), xuân ĐÊM.
+- [x] 0.38 CHẠY 24/24 (25/11; người dùng để tool săn liên tục, 15 phút chỉ là cấu hình thu dữ liệu).
+   • LỖI: "Tự dừng sau" = 75 nhưng bot dừng sau 15 phút: record.max_frames = 900 với nhịp 1 s, và hết khung ghi
+      thì `_limit_reached` DỪNG CẢ LƯỢT SĂN. Nay hết khung chỉ dừng GHI (`session._recording_tick`: lưu bản ghi,
+      log "recording cap reached, hunting continues"); chế độ quan sát vẫn dừng khi đầy (không còn việc gì làm).
+      UI: "Tối đa (khung): 0 = theo thời gian tự dừng (n); đầy thì chỉ dừng ghi, vẫn săn".
+   • `auto_stop_min` = 0 → không giới hạn; mặc định (config mới / thiếu khoá) = 0. Config cũ giữ giá trị đã lưu.
+      `frame_cap()` = None khi cả hai là 0 (trước là 1200 khung).
+   • Ghi lâu: `recorder.ROTATE_SEC` = 15 phút một thư mục (giới hạn khung tính trên tổng các thư mục), records/
+      giữ ≤ `record.max_gb` (mặc định 5 GB, ô "records/ tối đa (GB)"): `recorder.prune_records` xoá bản ghi cũ
+      nhất (<stamp>_* và .zip của nó, CHỈ trong records/, không bao giờ bản đang ghi, không đụng deaths/…).
+   • session_log.txt xoay vòng > 20 MB, giữ 3 file (session_log.1.txt, .2.txt). RSS mỗi 10 phút vào log +
+      events.jsonl ("memory"), cảnh báo khi tăng > 5 MB 6 lần liên tiếp (1 giờ).
+   • Lỗi trong một nhịp săn: log + traceback, thả hết phím/chuột, chờ 1 s, chạy tiếp vòng lặp; 20 lỗi trong 5 phút
+      = hỏng thật → dừng (ERROR). HUD "HP:x/y" đọc được rồi mất 60 s (mất kết nối / đăng xuất) → dừng an toàn +
+      log, không click gì thêm. (Chỉ khi đọc số HUD đang bật; cửa sổ game đóng thì đã dừng từ trước.)
+   • Test: tests/test_24h.py (giới hạn khung + xoay vòng, xoá bản cũ, xoay log, HUD mất, RSS) + smoke (lỗi 1 nhịp).
+   • Còn cho 24/24: 1.3b "Quay lại bãi săn" sau khi về làng (chưa làm, xem 1.3b).
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

@@ -439,7 +439,16 @@ glab=json.load(open(os.path.join(gdir,'labels.json'),encoding='utf-8'))['images'
 assert 0<len(glab['monster'])<gs['grid_attack'] and glab['boxes']==[] and 'map' in glab, glab   # grid hits merged per monster
 # PLAN 0.7 auto stop: deadline passed -> loop ends at once
 tctx.running=True; calls.clear(); sess._deadline=time.monotonic()-1; sess._run(); assert calls==[]; sess._deadline=None
-assert RecordSettings.from_dict({}).auto_stop_min==15 and RecordSettings.from_dict({'stop_key':'F12'}).stop_key=='Pause'
+# PLAN 0.38 (24/7): one bad beat is logged and the loop goes on; it does not end the run
+class Boom(Noop):
+    n=0
+    def tick(s,r):
+        Boom.n+=1
+        if Boom.n==1: raise RuntimeError('boom')
+sess.cure=Boom(); tctx.running=True; calls.clear(); sess._run(); sess.cure=Noop()
+assert Boom.n>=2 and calls[-1]=='wander' and sess.state!=SessionState.ERROR, (Boom.n, calls, sess.state)
+sess.state=SessionState.RUNNING
+assert RecordSettings.from_dict({}).auto_stop_min==0 and RecordSettings.from_dict({}).max_gb==5.0 and RecordSettings.from_dict({'stop_key':'F12'}).stop_key=='Pause'
 # observe: no model, player's cursor + events (corpse cross, HP 0), stop key / STOP file stop observe too
 import itertools
 Cur.classify=lambda s,h,md5=None: h if h in ('attack','corpse','ground') else None

@@ -17,7 +17,8 @@ class RecordPanel(Panel):
         self.interval = tk.IntVar(value=3)
         self.max_frames = tk.IntVar(value=0)
         self.no_model = tk.BooleanVar(value=False)
-        self.auto_stop = tk.IntVar(value=15)
+        self.auto_stop = tk.IntVar(value=0)
+        self.max_gb = tk.IntVar(value=5)
         self.stop_key = tk.StringVar(value="Pause")
         save = self.tab.request_save
 
@@ -39,6 +40,12 @@ class RecordPanel(Panel):
         self.spin_max.pack(side="left")
         self.lbl_max_auto = ttk.Label(top, text="", foreground="gray")  # "0" = automatic, shows the number
         self.lbl_max_auto.pack(side="left", padx=(4, 0))
+        row_gb = ttk.Frame(self.frame)  # PLAN 0.38: oldest recordings are deleted past this
+        row_gb.pack(fill="x", pady=(4, 0))
+        self.lbl_max_gb = ttk.Label(row_gb, text="")
+        self.lbl_max_gb.pack(side="left")
+        self.spin_max_gb = ttk.Spinbox(row_gb, from_=1, to=500, width=4, textvariable=self.max_gb, command=save)
+        self.spin_max_gb.pack(side="left", padx=4)
         self.chk_no_model = ttk.Checkbutton(self.frame, text="", variable=self.no_model, command=save)
         self.chk_no_model.pack(anchor="w", pady=(4, 0))
 
@@ -81,6 +88,7 @@ class RecordPanel(Panel):
         self._show_cap()
         self.no_model.set(rec.no_model)
         self.auto_stop.set(rec.auto_stop_min)
+        self.max_gb.set(int(round(rec.max_gb)))
         self.stop_key.set(rec.stop_key)
 
     def store(self):
@@ -94,13 +102,15 @@ class RecordPanel(Panel):
             frames = int(self.max_frames.get())
             rec.max_frames = 0 if frames <= 0 else max(10, min(5000, frames))
             rec.auto_stop_min = max(0, min(600, int(self.auto_stop.get())))
+            rec.max_gb = float(max(1, min(500, int(self.max_gb.get()))))
         except (tk.TclError, ValueError):
             pass  # half-typed box: keep the saved value
         self._show_cap()
 
     def _show_cap(self):
         rec = self.account.record
-        self.lbl_max_auto.config(text=self.t("rec_max_auto", n=rec.frame_cap()) if rec.max_frames == 0 else "")
+        cap = rec.frame_cap()
+        self.lbl_max_auto.config(text=self.t("rec_max_auto", n="∞" if cap is None else cap) if rec.max_frames == 0 else "")
 
     def show_last(self):
         path = recorder.latest_record()
@@ -130,6 +140,7 @@ class RecordPanel(Panel):
         self.chk_hunt.config(text=self.t("rec_while_hunting"))
         self.lbl_interval.config(text=self.t("rec_interval"))
         self.lbl_max.config(text=self.t("rec_max_frames"))
+        self.lbl_max_gb.config(text=self.t("rec_max_gb"))
         self.btn_zip.config(text=self.t("rec_zip"))
         self.chk_no_model.config(text=self.t("rec_no_model"))
         self.lbl_auto_stop.config(text=self.t("rec_auto_stop"))
@@ -144,7 +155,7 @@ class RecordPanel(Panel):
         )
         state = "disabled" if running else "normal"
         for widget in (self.chk_hunt, self.spin_interval, self.spin_max, self.btn_zip,
-                       self.chk_no_model, self.spin_auto_stop):
+                       self.chk_no_model, self.spin_auto_stop, self.spin_max_gb):
             widget.config(state=state)
         self.combo_stop_key.config(state="disabled" if running else "readonly")
         self.show_last()

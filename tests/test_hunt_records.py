@@ -250,7 +250,7 @@ def check_223510(rec):
     r.ctx.recorder = types.SimpleNamespace(
         count=lambda k, n=1: counts.update({k: n}), event=lambda kind, **d: events.append(dict(d, kind=kind)),
         fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
-        path=os.path.join(ROOT, "records_game", "_check"))
+        hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
     windows = r.fights()
     r.combat.on_stop()
     r.report(windows, "118 = 34 corpse + 3 frozen + 51 no_progress + 15 unreachable + 13 gone + 2 cap")

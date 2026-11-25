@@ -31,6 +31,9 @@ RECORDS_DIR = "records"
 JPEG_QUALITY = 92
 # 2 = exact-MD5 / nearest-aHash classifier (PLAN 0.11). Older recordings' cursor labels are not trusted.
 CURSOR_CLASSIFIER = 2
+# PLAN 0.38 (24/7 runs): a long recording is split into one folder per ROTATE_SEC, and records/ is kept under
+# RecordSettings.max_gb by deleting the oldest recordings.
+ROTATE_SEC = 15 * 60
 
 
 def records_root():
@@ -56,17 +59,48 @@ def save_snapshot(frame_bgr, folder, root=None):
     return path
 
 
+def _size(path):
+    if os.path.isfile(path):
+        return os.path.getsize(path)
+    return sum(os.path.getsize(os.path.join(d, f)) for d, _s, files in os.walk(path) for f in files)
+
+
+def prune_records(max_bytes, keep=None, root=None):
+    """Delete the oldest recordings (<stamp>_* folders and their .zip, in records/ only) until the recordings
+    weigh at most ``max_bytes``. ``keep`` (the one being written) is never deleted. Returns the deleted paths."""
+    root = root or records_root()
+    if not os.path.isdir(root):
+        return []
+    keep = os.path.normcase(os.path.abspath(keep)) if keep else None
+    items = sorted(os.path.join(root, d) for d in os.listdir(root) if d[:1].isdigit())  # stamp order = age
+    sizes = {p: _size(p) for p in items}
+    total, deleted = sum(sizes.values()), []
+    for path in items:
+        if total <= max_bytes:
+            break
+        if os.path.normcase(os.path.abspath(path)) == keep:
+            continue
+        try:
+            shutil.rmtree(path) if os.path.isdir(path) else os.remove(path)
+        except OSError:
+            continue
+        total -= sizes[path]
+        deleted.append(path)
+    return deleted
+
+
 def zip_record(path):
     """Zip one recording next to it; returns the .zip path."""
     return shutil.make_archive(path, "zip", root_dir=path)
 
 
 class Recorder:
-    def __init__(self, account, mode, rect=None, root=None, clock=time.time):
+    def __init__(self, account, mode, rect=None, root=None, clock=time.time, prior_frames=0):
         self.clock = clock
         self.mode = mode
         self.interval = account.record.interval_sec
         self.max_frames = account.record.frame_cap()
+        self.prior_frames = prior_frames  # PLAN 0.38: regular frames of the earlier folders of this run
         self.event_frames = 0  # corpse / kill / HP 0 frames: outside the regular cap (PLAN 0.19)
         self.real_map = account.record.real_map
         self.started = clock()
@@ -100,8 +134,17 @@ class Recorder:
         })
 
     @property
+    def regular_frames(self):
+        """Regular frames of the whole run (this folder + the folders it rotated from)."""
+        return self.prior_frames + self.frames - self.event_frames
+
+    @property
     def full(self):
-        return self.frames - self.event_frames >= self.max_frames
+        return self.max_frames is not None and self.regular_frames >= self.max_frames
+
+    @property
+    def due_rotation(self):
+        return self.clock() - self.started >= ROTATE_SEC
 
     def count(self, name, n=1):
         self.counts[name] = self.counts.get(name, 0) + n

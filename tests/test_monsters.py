@@ -261,10 +261,10 @@ def test_frame_cap_follows_timer():
     corpse / kill frames do not count, so the cap never ends a recording before the timer."""
     from lineage_auto.config.models import AccountSettings, RecordSettings
     from lineage_auto.runtime import recorder as recmod
-    assert RecordSettings.from_dict({"interval_sec": 1, "max_frames": 600}).frame_cap() == 900
-    assert RecordSettings.from_dict({"interval_sec": 3}).frame_cap() == 300
+    assert RecordSettings.from_dict({"interval_sec": 1, "max_frames": 600, "auto_stop_min": 15}).frame_cap() == 900
+    assert RecordSettings.from_dict({"interval_sec": 3, "auto_stop_min": 15}).frame_cap() == 300
     assert RecordSettings.from_dict({"max_frames": 250}).frame_cap() == 250
-    assert RecordSettings.from_dict({"auto_stop_min": 0}).frame_cap() == 1200
+    assert RecordSettings.from_dict({}).frame_cap() is None  # PLAN 0.38: 24/7 default, no cap
     account = AccountSettings(name="t")
     account.record = RecordSettings.from_dict({"max_frames": 20})
     rec = recmod.Recorder(account, "observe", root=tempfile.mkdtemp())

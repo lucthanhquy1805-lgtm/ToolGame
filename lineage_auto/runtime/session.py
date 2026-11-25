@@ -2,8 +2,10 @@
 import os
 import threading
 import time
+import traceback
 
 from .. import hunt_maps, monsters
+from ..logging_setup import rss_mb
 from ..features.buff import BuffFeature
 from ..features.combat import CombatFeature
 from ..features.cure_poison import CurePoisonFeature
@@ -21,7 +23,7 @@ from ..winapi.cursor import CursorProbe, save_png
 from ..winapi.hotkeys import poll_escape
 from .context import BotContext
 from .detector import DetectorThread
-from .recorder import Recorder
+from .recorder import Recorder, prune_records
 
 # Seconds a session waits for the shared mouse before skipping its turn.
 MOUSE_WAIT = 8.0
@@ -37,6 +39,14 @@ FOCUS_GRACE = 2.0
 OBSERVE_TICK = 0.25
 RAW_EVERY = 100  # observe: one lossless PNG per this many saved frames (PLAN 0.21)
 HP0_FRAME_GAP = 1.0  # while HUD HP is 0: one frame per second (to catch the restart window)
+# PLAN 0.38 (24/7): a bad beat restarts the loop; this many errors within LOOP_ERRORS_WINDOW s = really broken.
+LOOP_ERRORS_MAX = 20
+LOOP_ERRORS_WINDOW = 300.0
+# The HUD text HP:x/y was readable and then is not for this long = disconnected / logged out -> safe stop.
+HUD_LOST_SEC = 60.0
+MEM_EVERY = 600.0  # RSS to the log every 10 min
+MEM_GROW_WARN = 6  # warn when it grew this many checks in a row (an hour)
+MEM_GROW_MB = 5.0  # smaller rises are noise
 
 
 class SessionState:
@@ -74,6 +84,8 @@ class AccountSession:
         self._thread = None
         self._deadline = None
         self.started_at = None  # monotonic start of the current run (UI run time)
+        self._mem_next, self._mem_last, self._mem_rises = 0.0, None, 0
+        self._hud_seen = None
 
     @property
     def window(self):
@@ -110,8 +122,8 @@ class AccountSession:
     def _limit_reached(self):
         """Auto stop (PLAN 0.7): time limit, or the recording hit max_frames."""
         rec = self.ctx.recorder
-        if rec is not None and rec.full:
-            self.ctx.log(f"stop: record full ({rec.frames} frames)")
+        if rec is not None and rec.full and rec.mode == "observe":  # a hunt only stops recording (PLAN 0.38)
+            self.ctx.log(f"stop: record full ({rec.regular_frames} frames)")
         elif self._deadline is not None and time.monotonic() > self._deadline:
             self.ctx.log(f"stop: auto stop after {self.account.record.auto_stop_min} min")
         else:
@@ -222,10 +234,16 @@ class AccountSession:
         kills = KillWatcher(NameReader(catalog, "chat"))
         next_regular = next_hp0 = 0.0
         prev_kind = None
+        self._mem_next, self._mem_last, self._mem_rises = 0.0, None, 0
         try:
             while self.ctx.running and not self._limit_reached():
                 if not self.ctx.window.is_alive():
                     self.ctx.log("game window closed")
+                    break
+                self._recording_tick()
+                self._watch_memory()
+                rec = self.ctx.recorder
+                if rec is None:
                     break
                 rect = self.ctx.rect()
                 # PLAN 0.17: one consistent read; the probe's last_* may change before the frame is saved.
@@ -300,6 +318,61 @@ class AccountSession:
         rec, self.ctx.recorder = self.ctx.recorder, None
         if rec is not None:
             self.ctx.log(f"record saved: {rec.path} {rec.close()}")
+            self._prune_records()
+
+    def _prune_records(self):
+        keep = self.ctx.recorder.path if self.ctx.recorder is not None else None
+        try:
+            for path in prune_records(self.account.record.max_gb * 1024 ** 3, keep=keep):
+                self.ctx.log(f"records over {self.account.record.max_gb} GB: deleted {path}")
+        except Exception as exc:
+            self.ctx.log(f"records cleanup error: {exc}")
+
+    def _recording_tick(self):
+        """PLAN 0.38: the frame cap ends the RECORDING, never the hunt; a long recording rotates into a new
+        folder every recorder.ROTATE_SEC (the cap counts the frames of all of them)."""
+        rec = self.ctx.recorder
+        if rec is None:
+            return
+        if rec.full:
+            self._close_recorder()
+            self.ctx.log("recording cap reached, hunting continues")
+        elif rec.due_rotation:
+            mode, prior = rec.mode, rec.regular_frames
+            self._close_recorder()
+            try:
+                self.ctx.recorder = Recorder(self.account, mode, rect=self.ctx.rect(), prior_frames=prior)
+                self.ctx.log(f"recording -> {self.ctx.recorder.path} (rotated)")
+            except Exception as exc:
+                self.ctx.log(f"record rotate error: {exc}")
+
+    def _watch_memory(self):
+        """PLAN 0.38: RSS every MEM_EVERY s; a steady rise over an hour is a leak worth reporting."""
+        now = time.monotonic()
+        if now < self._mem_next:
+            return
+        self._mem_next = now + MEM_EVERY
+        rss = rss_mb()
+        if rss is None:
+            return
+        grew = self._mem_last is not None and rss > self._mem_last + MEM_GROW_MB
+        self._mem_rises = self._mem_rises + 1 if grew else 0
+        self._mem_last = rss
+        warn = f" - WARNING: grew {self._mem_rises} checks in a row" if self._mem_rises >= MEM_GROW_WARN else ""
+        self.ctx.log(f"memory: RSS {rss:.0f} MB{warn}")
+        if self.ctx.recorder is not None:
+            self.ctx.recorder.event("memory", rss_mb=round(rss, 1), rises=self._mem_rises)
+
+    def _hud_lost(self):
+        """PLAN 0.38: HP text readable before and gone for HUD_LOST_SEC = disconnected / logged out."""
+        now = time.monotonic()
+        if self.ctx.state.get("hp_abs") is not None:
+            self._hud_seen = now
+            return False
+        if self._hud_seen is not None and now - self._hud_seen > HUD_LOST_SEC:
+            self.ctx.log(f"game HUD gone for {HUD_LOST_SEC:.0f} s (disconnected / logged out?) -> safe stop")
+            return True
+        return False
 
     def stop(self):
         if self.state == SessionState.OBSERVING:
@@ -316,6 +389,8 @@ class AccountSession:
 
     def _run(self):
         last_target = time.monotonic()  # PLAN 0.35: when the hotbar goes back to the home page
+        errors = []  # monotonic times of loop errors (PLAN 0.38)
+        self._mem_next, self._mem_last, self._mem_rises, self._hud_seen = 0.0, None, 0, None
         try:
             while self.ctx.running:
                 poll_escape(self.ctx)
@@ -325,51 +400,65 @@ class AccountSession:
                     self.ctx.log("game window closed")
                     break
 
-                rect = self.ctx.rect()
-                char = self.ctx.char_pos(rect)
+                self._recording_tick()
+                self._watch_memory()
+                try:
+                    rect = self.ctx.rect()
+                    char = self.ctx.char_pos(rect)
 
-                with self.ctx.arbiter.hold(self.account.id, timeout=MOUSE_WAIT) as owned:
-                    if not owned:
-                        continue
+                    with self.ctx.arbiter.hold(self.account.id, timeout=MOUSE_WAIT) as owned:
+                        if not owned:
+                            continue
 
-                    if not self.ctx.window.is_foreground():
-                        self.ctx.window.activate()
+                        if not self.ctx.window.is_foreground():
+                            self.ctx.window.activate()
 
-                    self.cure.tick(rect)
-                    if self.health.check_death(rect):
-                        self._set_state(SessionState.RETURNED if self.health.returned else SessionState.DEAD)
-                        break
+                        self.cure.tick(rect)
+                        if self.health.check_death(rect):
+                            self._set_state(SessionState.RETURNED if self.health.returned else SessionState.DEAD)
+                            break
+                        if self._hud_lost():
+                            break
 
-                    self.buff.tick(rect)
-                    target = self.targeting.rehover_last(rect)
-                    if target is None:
-                        target = self.targeting.acquire(rect, char)
-                        self.exploration.observe()
+                        self.buff.tick(rect)
+                        target = self.targeting.rehover_last(rect)
+                        if target is None:
+                            target = self.targeting.acquire(rect, char)
+                            self.exploration.observe()
 
-                    rec = self.ctx.recorder
-                    if target is not None:
-                        last_target = time.monotonic()
-                        if rec:
-                            rec.count("engage")
-                        self.exploration.remember_hunt(char, target.local)
-                        self.combat.engage(target, rect, char)
-                        self.loot.after_fight(self.combat.last_outcome, self.combat.last_anchor)
-                    elif self.targeting.should_rescan():
-                        # Detected but not confirmed: rescan a few times
-                        # (scan.misses_before_wander), then walk away.
-                        if rec:
-                            rec.count("rescan")
-                    else:
-                        if not self.targeting.last_scan_points and not self.targeting.last_skipped:
-                            self.grid.sweep(rect, char)  # no-op unless recording with grid_scan on
-                        if rec:
-                            rec.count("wander")
-                        self.targeting.reset_misses()
-                        if time.monotonic() - last_target > HOME_IDLE_SEC:
-                            self.ctx.goto_page(self.account.home_page)
-                        self.exploration.wander(rect, char)
+                        rec = self.ctx.recorder
+                        if target is not None:
+                            last_target = time.monotonic()
+                            if rec:
+                                rec.count("engage")
+                            self.exploration.remember_hunt(char, target.local)
+                            self.combat.engage(target, rect, char)
+                            self.loot.after_fight(self.combat.last_outcome, self.combat.last_anchor)
+                        elif self.targeting.should_rescan():
+                            # Detected but not confirmed: rescan a few times
+                            # (scan.misses_before_wander), then walk away.
+                            if rec:
+                                rec.count("rescan")
+                        else:
+                            if not self.targeting.last_scan_points and not self.targeting.last_skipped:
+                                self.grid.sweep(rect, char)  # no-op unless recording with grid_scan on
+                            if rec:
+                                rec.count("wander")
+                            self.targeting.reset_misses()
+                            if time.monotonic() - last_target > HOME_IDLE_SEC:
+                                self.ctx.goto_page(self.account.home_page)
+                            self.exploration.wander(rect, char)
 
-                time.sleep(IDLE_PAUSE)
+                    time.sleep(IDLE_PAUSE)
+                except Exception as exc:  # PLAN 0.38: one bad beat must not end a 24/7 run
+                    now = time.monotonic()
+                    errors = [t for t in errors if now - t < LOOP_ERRORS_WINDOW] + [now]
+                    self.ctx.log(f"loop error {len(errors)}/{LOOP_ERRORS_MAX} in {LOOP_ERRORS_WINDOW:.0f}s, "
+                                 f"restarting the loop: {exc!r}\n{traceback.format_exc()}")
+                    self.ctx.input.release_all()
+                    if len(errors) >= LOOP_ERRORS_MAX:
+                        raise
+                    self.ctx.sleep(1.0)
         except Exception as exc:
             self.ctx.log(f"loop error: {exc}")
             self._set_state(SessionState.ERROR)

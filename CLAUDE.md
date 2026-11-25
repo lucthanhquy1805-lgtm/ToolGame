@@ -40,6 +40,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   melee fight of 190646 ends at the melee cap scan.melee_max_sec; 223510: no melee fight ends no_progress, candidates
   nearest first without the character's own box, every chat kill line counted once; 092741: no fight keeps a lock
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap).
+- 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
+  rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).
 - Remote stop (PLAN 0.28): `python tests/test_remote_stop.py` (Windows; SendInput mouse/ESC like TeamViewer ->
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. Fight endings + unreachable: `features/combat.py`.
