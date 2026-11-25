@@ -807,6 +807,19 @@ Kiểm tra thêm
       xác f0f0f038 cách 8 bit.
       Cảnh báo "hai hình gần giống" chỉ khi ≤ 2 bit: xác f0f0f038 và NPC f0f06020 lệch 4 bit, cả hai đúng.
       Test: tests/test_cursor.py test_cast_ellipse_variants.
+- [ ] 0.37 타락한 축복의 땅 4 MÙA (orc tím) → orc_v3 (25/11). Chi tiết + lệnh: docs/TRAINING.md 6.9.
+   • XONG: nhập 8 bản ghi 1334x1008 (7 orc: xuân/hạ/thu/đông ngày + hạ/thu/đông đêm; 1 khu yêu tinh xuân ngày),
+      real_map sửa đúng mùa. Catalog `fallen_blessed.json` (4 mùa trong `real_maps` — monsters.Catalog đọc được
+      nhiều tên khu; export_dataset/analyze_records --map lọc theo cả 4) + `fallen_blessed_elf.json` (3 loại, cùng bản
+      đồ mùa xuân; ô chọn khu theo loại quái = `zone_name`, bản ghi mang `"zone"` = khoá catalog);
+      cả hai hiện trong ô chọn khu, `hunt_map: null` → khu chọn vào là chế độ thu dữ liệu.
+   • XONG: zero-shot orc_v2 = 1–6 % điểm con trỏ (conf 0.1) ở cả 7 bản → giả thuyết 0.20 "cùng chủng loại khác
+      màu" sai; cần train.
+   • XONG: prelabel `--glow purple` 273 ảnh (217 train / 56 test, 8 test mỗi bản từ 30 % cuối).
+   • CHỜ NGƯỜI DÙNG: duyệt 7 bản bằng label_tool --review (~273 ảnh × 10–15 s ≈ 45–70 phút).
+   • SAU ĐÓ: train orc_v3 (11 bản ghi), bảng v2 vs v3 theo bãi / mùa / ngày-đêm trên test riêng từng bản.
+   • Để sau: khu yêu tinh (cần đọc tên khu đúng trong game cho real_map), ảnh tên/chat của 5 loại orc tím
+      (analyze_records đọc 0 lượt giết vì chưa có ảnh tên dòng chat), xuân ĐÊM.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 
@@ -989,6 +1002,31 @@ Thêm nút "Lấy mẫu thanh MP" trên UI: người dùng kéo chọn vùng tha
 
 ---------------------------------------------------------------------------------------------------
 ## Giai đoạn 3 — Nhiều nhân vật & tổ đội
+
+### 3.0 SĂN THEO NHÓM Ở 타락한 축복의 땅 (ghi 25/11/2026 — CHỜ DỮ LIỆU, chưa làm)
+Lý do: bãi orc tím (타락한 축복의 땅 봄/여름/가을/겨울) quái mạnh, đi một mình dễ chết (game KHÔNG bắt buộc nhóm).
+Nhóm gồm cả nhân vật của mình (mỗi máy 1 bot, vd. Pháp sư SKCU724 + Kỵ sĩ G1RN30H) và người chơi thật.
+Người dùng cần cả 4 việc: đi theo trưởng nhóm · đánh cùng mục tiêu (assist) · hồi máu/buff đồng đội · tự mời/nhận lời mời.
+
+- [ ] DỮ LIỆU CẦN TRƯỚC (người dùng chụp, chép vào records_game/party_ui/):
+  1. cửa sổ/thanh nhóm 2–3 người (tên + thanh máu) — lúc đầy máu và lúc có người mất máu;
+  2. hộp thoại được mời vào nhóm (nút đồng ý/từ chối);
+  3. cách mời người khác (lệnh chat kiểu /초대 tên hay menu chuột phải);
+  4. minimap khi có đồng đội (có chấm màu riêng không);
+  5. ảnh đang đánh quái cùng nhóm, thấy tên đồng đội trên đầu;
+  6. hồi máu cho đồng đội bằng tay: F1+F5 (Hồi phục) có hiện elip để click người khác không.
+- [ ] Thiết kế (tab "Nhóm", mặc định TẮT):
+  a) vai trò Trưởng nhóm / Thành viên + tên trưởng nhóm + danh sách đồng đội cho phép;
+  b) đọc nhóm: tên + % máu từng thành viên → frames.jsonl party[];
+  c) đi theo trưởng nhóm: tìm bằng tên trên đầu (OCR như name_reader) hoặc chấm minimap, giữ 80–200 px, mất dấu >10 s → đứng yên + cảnh báo;
+  d) assist: chỉ đánh quái trong bán kính R quanh trưởng nhóm, ưu tiên quái đang đánh trưởng nhóm/đồng đội, không đuổi xa;
+  e) hồi máu/buff đồng đội (phím → elip → click vào đồng đội), bản thân vẫn ưu tiên khi HP mình thấp hơn;
+  f) mời/nhận lời mời chỉ với tên trong danh sách cho phép, không nhận người lạ, không gửi chat khác;
+  g) an toàn: không bao giờ click/đánh người chơi; trưởng nhóm chết/rời nhóm → dừng, về làng nếu HP thấp;
+  h) events: party_state, follow_dist, assist_target, party_heal, invite.
+- [ ] Làm từng bước có test bằng ảnh party_ui: (b) → (c) → (d) → build thử trên máy game → (e) → (f).
+- Thứ tự trước đó: v18 (orc_v2 + nhận elip nhiều biến thể) → duyệt nhãn orc tím + train orc_v3 (8 bản ghi records_game/spring_summer_autumn) → dữ liệu nhóm → 3.0.
+
 
 ### 3.1 Giao diện nhiều tài khoản
 Bật `MULTI_ACCOUNT_UI` (ui/main_window.py) — phần lõi đã hỗ trợ (SessionManager, InputArbiter).

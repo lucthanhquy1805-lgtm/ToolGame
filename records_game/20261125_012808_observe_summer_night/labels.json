@@ -1,0 +1,12626 @@
+{
+ "_doc": "auto labels from cursor checks; finish the todo frames with tests/label_tool.py",
+ "images": {
+  "f_00001.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00002.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00003.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00004.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00005.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00006.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00007.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00008.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00009.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00010.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00011.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00012.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00013.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00014.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00015.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00016.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00017.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00018.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     630,
+     539
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00019.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00020.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00021.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00022.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [
+    [
+     675,
+     528,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     885,
+     402,
+     939,
+     488,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     637,
+     495,
+     691,
+     581,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ]
+   ]
+  },
+  "f_00023.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [
+    [
+     675,
+     528,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00024.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00025.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00026.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00027.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     528
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00028.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     527
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00029.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00030.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     846,
+     535
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00031.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     840,
+     533
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00032.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     840,
+     533
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00033.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     835,
+     533
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00034.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00035.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00036.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00037.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00038.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00039.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00040.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00041.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00042.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00043.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00044.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00045.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00046.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00047.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00048.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00049.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00050.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00051.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00052.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00053.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00054.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00055.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00056.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     672,
+     630
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00057.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     667,
+     290
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00058.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00059.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     514,
+     539
+    ]
+   ],
+   "monster_names": [
+    [
+     514,
+     539,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     470,
+     201,
+     524,
+     286,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     306,
+     380,
+     360,
+     465,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1007,
+     447,
+     1061,
+     532,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     888,
+     460,
+     942,
+     546,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     478,
+     501,
+     532,
+     586,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     942,
+     495,
+     996,
+     580,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1036,
+     485,
+     1090,
+     570,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00060.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00061.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00062.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00063.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00064.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00065.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     470,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00066.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00067.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00068.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00069.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00070.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00071.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00072.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00073.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     469,
+     521
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     936,
+     154,
+     990,
+     239,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1041,
+     147,
+     1095,
+     232,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     422,
+     349,
+     476,
+     435,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     442,
+     478,
+     495,
+     563,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00074.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00075.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00076.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00077.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00078.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00079.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     963,
+     359
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00080.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00081.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00082.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00083.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00084.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00085.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00086.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00087.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00088.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00089.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00090.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00091.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00092.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00093.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00094.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00095.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00096.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00097.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00098.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00099.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00100.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00101.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00102.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00103.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00104.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00105.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00106.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00107.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00108.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00109.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00110.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00111.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     605,
+     408
+    ]
+   ],
+   "monster_names": [
+    [
+     605,
+     408,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1139,
+     81,
+     1193,
+     167,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     644,
+     286,
+     698,
+     371,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     550,
+     360,
+     604,
+     445,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     678,
+     541,
+     732,
+     626,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     744,
+     569,
+     798,
+     655,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00112.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00113.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00114.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     681,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00115.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     681,
+     344
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00116.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     695,
+     332
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00117.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00118.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00119.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00120.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00121.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00122.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     761,
+     380
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     844,
+     91,
+     898,
+     177,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1048,
+     130,
+     1102,
+     215,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     859,
+     141,
+     913,
+     226,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     862,
+     529,
+     916,
+     614,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     730,
+     572,
+     784,
+     657,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     734,
+     337,
+     787,
+     422,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00123.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     756,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00124.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00125.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00126.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00127.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00128.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00129.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00130.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00131.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00132.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00133.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00134.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00135.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00136.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00137.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00138.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00139.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00140.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00141.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00142.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     732,
+     291,
+     786,
+     376,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     464,
+     312,
+     518,
+     397,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     979,
+     357,
+     1033,
+     442,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     465,
+     376,
+     518,
+     461,
+     0,
+     "orc_warrior",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00143.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00144.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     419
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     419,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00145.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     492,
+     418
+    ]
+   ],
+   "monster_names": [
+    [
+     492,
+     418,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00146.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00147.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00148.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00149.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00150.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00151.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00152.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00153.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00154.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00155.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     327,
+     377
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     342,
+     303,
+     395,
+     388,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     699,
+     344,
+     753,
+     429,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     475,
+     572,
+     529,
+     657,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     300,
+     334,
+     353,
+     419,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00156.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00157.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     513,
+     357
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00158.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     510,
+     357
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00159.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     510,
+     357
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00160.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00161.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     675,
+     383
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00162.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     650,
+     376
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00163.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00164.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     650,
+     395
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00165.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00166.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     664,
+     396
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00167.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     663,
+     395
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00168.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00169.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00170.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00171.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00172.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     806,
+     285,
+     860,
+     370,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     697,
+     373,
+     751,
+     459,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     720,
+     504,
+     774,
+     589,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     501,
+     501,
+     555,
+     586,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     561,
+     602,
+     615,
+     688,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     634,
+     351,
+     687,
+     436,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00173.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     661,
+     394
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00174.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00175.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00176.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     664,
+     386
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00177.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00178.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00179.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00180.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00181.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00182.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00183.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00184.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00185.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     764,
+     372
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00186.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00187.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00188.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00189.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     945,
+     421
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00190.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     877,
+     420
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00191.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     839,
+     387
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00192.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     839,
+     387
+    ]
+   ],
+   "monster_names": [
+    [
+     839,
+     387,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     549,
+     342,
+     603,
+     427,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     702,
+     506,
+     756,
+     591,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     727,
+     555,
+     781,
+     640,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     812,
+     344,
+     865,
+     429,
+     0,
+     "orc_archer",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00193.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     838,
+     387
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00194.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     573,
+     410
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00195.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     573,
+     410
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00196.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00197.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00198.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00199.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     616,
+     392
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00200.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     582,
+     350
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00201.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     589,
+     350
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00202.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00203.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00204.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00205.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00206.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00207.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00208.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00209.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00210.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00211.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     845,
+     409
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     646,
+     460,
+     700,
+     546,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     621,
+     501,
+     675,
+     586,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     933,
+     519,
+     987,
+     605,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     514,
+     547,
+     568,
+     632,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     818,
+     366,
+     871,
+     451,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00212.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00213.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00214.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00215.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00216.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00217.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00218.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00219.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00220.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00221.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00222.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00223.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00224.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00225.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00226.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00227.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     698,
+     419
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     682,
+     364,
+     736,
+     449,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     808,
+     429,
+     862,
+     515,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     773,
+     433,
+     826,
+     519,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     760,
+     468,
+     814,
+     554,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00228.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00229.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00230.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     714,
+     157
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00231.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00232.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00233.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00234.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00235.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00236.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00237.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00238.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00239.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00240.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00241.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00242.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     727,
+     359
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00243.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00244.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00245.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00246.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00247.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00248.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00249.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00250.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00251.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00252.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00253.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     495,
+     369,
+     549,
+     454,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     851,
+     441,
+     905,
+     527,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     824,
+     485,
+     878,
+     571,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     887,
+     498,
+     941,
+     584,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     922,
+     500,
+     976,
+     586,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     697,
+     317,
+     750,
+     402,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00254.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     724,
+     360
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00255.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00256.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00257.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1116,
+     240
+    ]
+   ],
+   "monster_names": [
+    [
+     1116,
+     240,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00258.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1012,
+     229
+    ]
+   ],
+   "monster_names": [
+    [
+     1012,
+     229,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00259.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00260.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [
+    [
+     995,
+     226,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00261.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [
+    [
+     995,
+     226,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00262.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00263.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00264.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     712,
+     139,
+     766,
+     225,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     755,
+     198,
+     809,
+     284,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     747,
+     262,
+     801,
+     347,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     701,
+     275,
+     755,
+     360,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     294,
+     418,
+     348,
+     504,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     627,
+     451,
+     681,
+     536,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     545,
+     463,
+     599,
+     548,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     694,
+     496,
+     748,
+     581,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     968,
+     183,
+     1021,
+     268,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00265.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00266.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00267.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00268.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00269.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00270.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00271.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00272.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00273.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00274.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     995,
+     226
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00275.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00276.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     717,
+     373
+    ]
+   ],
+   "monster_names": [
+    [
+     717,
+     373,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     794,
+     215,
+     847,
+     300,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     678,
+     240,
+     732,
+     325,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     676,
+     285,
+     730,
+     370,
+     0,
+     "orc_warrior",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     618,
+     319,
+     672,
+     405,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     758,
+     435,
+     812,
+     521,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     481,
+     554,
+     535,
+     639,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00277.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00278.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00279.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00280.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00281.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00282.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00283.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00284.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00285.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00286.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00287.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00288.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00289.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00290.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00291.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00292.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00293.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00294.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00295.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00296.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [
+    [
+     699,
+     342,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     731,
+     147,
+     785,
+     232,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     521,
+     255,
+     575,
+     341,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     572,
+     269,
+     626,
+     354,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     769,
+     293,
+     822,
+     378,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     624,
+     523,
+     678,
+     608,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     10,
+     545,
+     64,
+     631,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     672,
+     299,
+     725,
+     384,
+     0,
+     "orc_warrior",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00297.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00298.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00299.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     699,
+     342
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00300.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00301.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1085,
+     556
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00302.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00303.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00304.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00305.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00306.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00307.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00308.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00309.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00310.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00311.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [
+    [
+     1066,
+     584,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     755,
+     147,
+     809,
+     233,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     791,
+     152,
+     845,
+     238,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1053,
+     422,
+     1107,
+     508,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1069,
+     490,
+     1123,
+     576,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     581,
+     590,
+     635,
+     675,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00312.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00313.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00314.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00315.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1066,
+     584
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00316.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     709,
+     463
+    ]
+   ],
+   "monster_names": [
+    [
+     709,
+     463,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00317.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00318.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00319.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00320.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00321.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00322.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00323.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00324.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00325.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00326.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00327.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00328.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00329.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00330.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     747,
+     405
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00331.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     747,
+     405
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00332.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     747,
+     405
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     807,
+     259,
+     861,
+     344,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     478,
+     285,
+     532,
+     370,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     828,
+     428,
+     882,
+     514,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     941,
+     476,
+     995,
+     562,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     720,
+     362,
+     773,
+     447,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00333.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00334.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     747,
+     405
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00335.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00336.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00337.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00338.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00339.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00340.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00341.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00342.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00343.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00344.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00345.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00346.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00347.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     807,
+     59,
+     861,
+     144,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     854,
+     58,
+     908,
+     143,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     719,
+     291,
+     773,
+     376,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     672,
+     273,
+     726,
+     359,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     277,
+     330,
+     331,
+     416,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     720,
+     394,
+     774,
+     479,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     309,
+     480,
+     363,
+     565,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00348.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00349.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00350.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00351.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00352.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00353.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00354.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00355.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     414
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00356.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     413
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00357.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     413
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00358.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     753,
+     413
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00359.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     481,
+     383
+    ]
+   ],
+   "monster_names": [
+    [
+     481,
+     383,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     522,
+     148,
+     576,
+     233,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     565,
+     181,
+     619,
+     267,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     546,
+     231,
+     600,
+     316,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     351,
+     278,
+     404,
+     364,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     462,
+     328,
+     516,
+     414,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     700,
+     427,
+     754,
+     513,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     683,
+     471,
+     737,
+     556,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00360.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     363
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00361.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00362.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00363.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00364.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00365.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00366.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00367.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00368.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00369.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00370.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00371.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00372.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00373.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [
+    [
+     499,
+     365,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     600,
+     90,
+     654,
+     175,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     640,
+     154,
+     694,
+     239,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     768,
+     176,
+     822,
+     262,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     624,
+     201,
+     678,
+     286,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     701,
+     227,
+     755,
+     312,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     468,
+     322,
+     522,
+     407,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     798,
+     363,
+     852,
+     448,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00374.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00375.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00376.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00377.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00378.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00379.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00380.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00381.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00382.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00383.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00384.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     727,
+     382,
+     781,
+     467,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1010,
+     390,
+     1064,
+     475,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1054,
+     505,
+     1108,
+     590,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     472,
+     322,
+     525,
+     407,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00385.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00386.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00387.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00388.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00389.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     499,
+     365
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00390.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00391.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00392.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00393.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00394.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00395.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00396.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00397.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00398.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     763,
+     177,
+     817,
+     262,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     972,
+     292,
+     1026,
+     378,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     727,
+     389,
+     781,
+     474,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     1030,
+     368,
+     1084,
+     454,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     788,
+     420,
+     842,
+     506,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     930,
+     451,
+     984,
+     537,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     904,
+     475,
+     958,
+     561,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00399.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00400.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00401.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     746,
+     462
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00402.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00403.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00404.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00405.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00406.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00407.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00408.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00409.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     761,
+     222,
+     815,
+     307,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1077,
+     364,
+     1131,
+     450,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     515,
+     540,
+     568,
+     625,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     718,
+     385,
+     771,
+     470,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00410.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00411.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00412.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00413.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00414.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00415.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00416.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00417.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     745,
+     428
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00418.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     702,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00419.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00420.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     734,
+     75,
+     788,
+     160,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     684,
+     196,
+     738,
+     281,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     414,
+     556,
+     468,
+     642,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     433,
+     432,
+     486,
+     517,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00421.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00422.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00423.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00424.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00425.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00426.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00427.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00428.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00429.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00430.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00431.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00432.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00433.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00434.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     417,
+     187,
+     471,
+     272,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     753,
+     190,
+     807,
+     276,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     404,
+     232,
+     458,
+     317,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     618,
+     271,
+     672,
+     357,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     433,
+     432,
+     486,
+     517,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00435.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00436.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00437.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00438.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00439.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     460,
+     475
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00440.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00441.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00442.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00443.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     728,
+     370
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00444.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00445.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00446.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     805,
+     2,
+     859,
+     88,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     836,
+     16,
+     890,
+     102,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     678,
+     240,
+     732,
+     325,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     680,
+     296,
+     734,
+     381,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     617,
+     319,
+     671,
+     405,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00447.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00448.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00449.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00450.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00451.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00452.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00453.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00454.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00455.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00456.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00457.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00458.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1049,
+     75,
+     1103,
+     160,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     885,
+     154,
+     939,
+     240,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1130,
+     156,
+     1184,
+     242,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     686,
+     172,
+     740,
+     257,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     653,
+     240,
+     707,
+     326,
+     0,
+     "orc_warrior",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     687,
+     299,
+     741,
+     384,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     469,
+     339,
+     523,
+     425,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00459.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00460.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00461.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00462.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00463.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00464.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00465.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00466.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00467.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00468.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00469.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     884,
+     28,
+     937,
+     114,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     691,
+     266,
+     745,
+     351,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     565,
+     317,
+     619,
+     402,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     668,
+     328,
+     722,
+     414,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     717,
+     468,
+     771,
+     553,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00470.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00471.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00472.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00473.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00474.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00475.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00476.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00477.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00478.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     713,
+     334
+    ]
+   ],
+   "monster_names": [
+    [
+     713,
+     334,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00479.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     711,
+     328
+    ]
+   ],
+   "monster_names": [
+    [
+     711,
+     328,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00480.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     709,
+     312
+    ]
+   ],
+   "monster_names": [
+    [
+     709,
+     312,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00481.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     709,
+     312
+    ]
+   ],
+   "monster_names": [
+    [
+     709,
+     312,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00482.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     709,
+     312
+    ]
+   ],
+   "monster_names": [
+    [
+     709,
+     312,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00483.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     709,
+     312
+    ]
+   ],
+   "monster_names": [
+    [
+     709,
+     312,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00484.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     519,
+     261
+    ]
+   ],
+   "monster_names": [
+    [
+     519,
+     261,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     452,
+     230,
+     505,
+     315,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     671,
+     247,
+     725,
+     333,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     724,
+     251,
+     778,
+     336,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     675,
+     305,
+     729,
+     390,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     293,
+     337,
+     347,
+     423,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     545,
+     349,
+     599,
+     435,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     492,
+     218,
+     545,
+     303,
+     0,
+     "orc_archer",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00485.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     514,
+     244
+    ]
+   ],
+   "monster_names": [
+    [
+     514,
+     244,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00486.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     579,
+     314
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00487.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00488.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00489.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00490.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00491.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00492.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00493.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00494.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00495.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     230,
+     318,
+     284,
+     403,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     475,
+     343,
+     529,
+     428,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     723,
+     363,
+     777,
+     448,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     646,
+     396,
+     700,
+     482,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     964,
+     515,
+     1018,
+     600,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     537,
+     268,
+     590,
+     353,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00496.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00497.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     564,
+     311
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00498.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00499.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00500.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00501.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00502.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00503.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00504.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00505.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00506.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00507.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00508.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     626,
+     372
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00509.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     736,
+     273,
+     790,
+     359,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     224,
+     305,
+     278,
+     390,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     600,
+     324,
+     654,
+     410,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     764,
+     372,
+     818,
+     458,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     665,
+     374,
+     719,
+     459,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00510.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00511.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00512.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00513.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00514.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00515.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00516.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00517.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00518.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00519.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00520.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00521.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00522.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00523.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00524.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00525.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00526.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00527.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00528.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00529.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00530.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1051,
+     290,
+     1105,
+     375,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1125,
+     325,
+     1179,
+     410,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     466,
+     382,
+     520,
+     468,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     769,
+     430,
+     823,
+     515,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     481,
+     432,
+     535,
+     518,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     602,
+     328,
+     655,
+     413,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00531.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00532.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00533.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00534.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     629,
+     371
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00535.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00536.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00537.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00538.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00539.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00540.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00541.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00542.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00543.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00544.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00545.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00546.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00547.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00548.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00549.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00550.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00551.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00552.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00553.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00554.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00555.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00556.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     824,
+     358
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00557.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00558.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     819,
+     354
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00559.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     819,
+     354
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00560.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     819,
+     354
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00561.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     819,
+     354
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00562.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00563.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00564.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00565.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00566.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00567.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00568.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00569.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00570.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [
+    [
+     977,
+     349,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00571.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00572.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [
+    [
+     977,
+     349,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00573.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00574.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [
+    [
+     977,
+     349,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00575.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     553,
+     300,
+     606,
+     385,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     886,
+     296,
+     940,
+     381,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     636,
+     326,
+     690,
+     411,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     950,
+     306,
+     1003,
+     391,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00576.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00577.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00578.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00579.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00580.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00581.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00582.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00583.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00584.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00585.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00586.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     818,
+     223,
+     872,
+     308,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     872,
+     227,
+     926,
+     312,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     678,
+     324,
+     732,
+     409,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     880,
+     331,
+     934,
+     416,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     257,
+     333,
+     311,
+     418,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     269,
+     374,
+     323,
+     460,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     950,
+     306,
+     1003,
+     391,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00587.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00588.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00589.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00590.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00591.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00592.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00593.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00594.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00595.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00596.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00597.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     977,
+     349
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     712,
+     178,
+     766,
+     264,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     659,
+     177,
+     713,
+     262,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     825,
+     192,
+     879,
+     277,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     304,
+     467,
+     358,
+     552,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     950,
+     306,
+     1003,
+     391,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00598.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00599.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     913,
+     117
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00600.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00601.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [
+    [
+     744,
+     195,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00602.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [
+    [
+     744,
+     195,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00603.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [
+    [
+     744,
+     195,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00604.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [
+    [
+     744,
+     195,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00605.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00606.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00607.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00608.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00609.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     499,
+     223,
+     553,
+     309,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     669,
+     249,
+     723,
+     335,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     712,
+     289,
+     766,
+     375,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     672,
+     307,
+     726,
+     393,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     717,
+     152,
+     770,
+     237,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00610.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00611.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00612.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00613.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00614.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00615.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00616.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00617.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00618.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00619.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00620.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     669,
+     250,
+     723,
+     335,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     712,
+     289,
+     766,
+     375,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     672,
+     307,
+     726,
+     393,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     977,
+     338,
+     1031,
+     424,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     717,
+     152,
+     770,
+     237,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00621.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00622.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00623.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00624.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00625.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00626.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00627.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00628.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00629.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00630.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00631.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00632.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00633.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00634.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00635.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00636.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     744,
+     195
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00637.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00638.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00639.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00640.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     690,
+     341
+    ]
+   ],
+   "monster_names": [
+    [
+     690,
+     341,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00641.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00642.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00643.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00644.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     593,
+     227
+    ]
+   ],
+   "monster_names": [
+    [
+     593,
+     227,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     566,
+     184,
+     619,
+     269,
+     0,
+     "orc_archer",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00645.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00646.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00647.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00648.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00649.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00650.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00651.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00652.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00653.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00654.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00655.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00656.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00657.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00658.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00659.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00660.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     560,
+     165
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00661.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     766,
+     470
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00662.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00663.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00664.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00665.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00666.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00667.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00668.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00669.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00670.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00671.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00672.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00673.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00674.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00675.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00676.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00677.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00678.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00679.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00680.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00681.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00682.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00683.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     755,
+     452
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00684.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     429,
+     480
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00685.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00686.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00687.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00688.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00689.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00690.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00691.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00692.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00693.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00694.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [
+    [
+     426,
+     456,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     72,
+     209,
+     126,
+     295,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     686,
+     372,
+     740,
+     457,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     482,
+     413,
+     536,
+     498,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     484,
+     494,
+     538,
+     579,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     399,
+     413,
+     452,
+     498,
+     0,
+     "orc",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00695.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00696.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00697.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00698.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00699.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00700.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00701.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00702.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00703.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00704.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00705.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     426,
+     456
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00706.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00707.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00708.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00709.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00710.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00711.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00712.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00713.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00714.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00715.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00716.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00717.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00718.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00719.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00720.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00721.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1218,
+     595
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00722.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     1045,
+     568
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00723.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00724.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     971,
+     559
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00725.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00726.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00727.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00728.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00729.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00730.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00731.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00732.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00733.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00734.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00735.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00736.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00737.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00738.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00739.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00740.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00741.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00742.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     967,
+     551
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00743.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00744.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00745.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00746.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     319,
+     115
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00747.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00748.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00749.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00750.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00751.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00752.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00753.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00754.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00755.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00756.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00757.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     298,
+     161
+    ]
+   ],
+   "monster_names": [
+    [
+     298,
+     161,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00758.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00759.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     257,
+     104,
+     310,
+     189,
+     0,
+     "orc_archer",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00760.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00761.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00762.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00763.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00764.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00765.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00766.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00767.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00768.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00769.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [
+    [
+     284,
+     147,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00770.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00771.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00772.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     284,
+     147
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00773.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00774.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00775.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00776.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00777.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00778.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     433,
+     282
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00779.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00780.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00781.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00782.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00783.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00784.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00785.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00786.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00787.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00788.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00789.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00790.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00791.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00792.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00793.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00794.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00795.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00796.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     360,
+     272
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00797.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00798.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00799.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00800.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00801.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00802.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     748,
+     328
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00803.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     754,
+     344
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00804.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     754,
+     370
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00805.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     754,
+     370
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00806.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 여름",
+   "monster": [
+    [
+     754,
+     370
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  }
+ }
+}

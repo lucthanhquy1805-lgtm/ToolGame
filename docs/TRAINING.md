@@ -294,3 +294,49 @@ Recall / precision ở conf 0.2 (v2 ở 0.3 trong ngoặc), "char" = box trên c
 
 ms/khung bằng nhau (cùng kiến trúc). Hai tập con trỏ nghiêng về v1 (bot rê chuột theo box của v1 lúc ghi), nhưng
 1 ca sót của v2 là thật (183803 f_00024: 오크 전사 trong cỏ cao). Chưa có ảnh 1334×1008 nào được duyệt.
+
+### 6.9 타락한 축복의 땅 (4 mùa, orc tím) → orc_v3 (PLAN 0.37, 25/11) — CHỜ DUYỆT
+8 bản quan sát 1334×1008 nhập từ `records_game/spring_summer_autumn/*.zip` thành
+`records_game/<started>_observe_<spring|summer|autumn|winter>_<day|night>` (meta + frames.jsonl: `real_map` sửa
+thành "타락한 축복의 땅의 봄/여름/가을/겨울"; bản ghi gốc ghi nhầm "오크의 땅"). Khu yêu tinh:
+`20261124_230953_observe_spring_day_elf` (cùng bản đồ "타락한 축복의 땅의 봄", khu khác; meta `"zone": "fallen_blessed_elf"`, để sau). Ô chọn khu chọn theo LOẠI QUÁI (`zone_name`): "타락한 축복의 땅 (봄/여름/가을/겨울) - 오크" / "타락한 축복의 땅의 봄 - 요정"; bản ghi mới ghi thêm `"zone"` = khoá catalog, analyze_records ưu tiên nó hơn tên bản đồ.
+Catalog `fallen_blessed.json`: một file cho 4 mùa (`real_maps`), 5 loại orc, `hunt_map: null` (chưa có model).
+
+**Zero-shot orc_v2** (điểm con trỏ attack = nhãn yếu, khớp ≤ 60 px):
+
+| bản ghi | điểm | conf 0.1 | conf 0.3 |
+|---|---|---|---|
+| xuân ngày | 498 | 3% | 1% |
+| hạ ngày | 279 | 3% | 1% |
+| thu ngày | 419 | 1% | 0% |
+| đông ngày | 494 | 6% | 6% |
+| hạ đêm | 523 | 2% | 1% |
+| thu đêm | 441 | 2% | 1% |
+| đông đêm | 403 | 1% | 1% |
+
+→ Giả thuyết PLAN 0.20 "cùng chủng loại khác màu, model học hình dáng" **SAI** với orc_v2 (dù đã train với
+`strong_hsv` hue ±0,15): orc tím gần như vô hình với nó (~0,1 box/khung). Đã xem ảnh: nhãn con trỏ đúng.
+
+**prelabel** (`--glow purple`: khối tím đóng kín, chỉ lọc kích thước — các bộ lọc của glow xanh bỏ mất 70–90 % orc tím;
+49–81 % điểm con trỏ nằm trong một box tím, 2–5 box/khung): mỗi bản 32 train + 8 test (test = 30 % cuối bản ghi, cách
+ảnh train ≥ 30 s → test riêng từng mùa/ngày-đêm), cách nhau ≥ 12 s. Kết quả: 217 train + 56 test = 273 ảnh
+(hạ ngày chỉ 25+8: bản ghi 10 phút), 5,1 gợi ý/ảnh (glow 1111, cursor 176, cursor+glow 90, yolox 3).
+Box tím sai hay gặp: người chơi có hiệu ứng tím, bóng cây tối; quái đứng sát nhau = 1 box → bấm thêm.
+
+    python tests/prelabel.py --train <rec>:32 --test <rec>:8 [... 7 bản] --gap 12 --glow purple --map-model blessed_orc
+
+Duyệt (mỗi lệnh một bản, như 6.1b):
+
+    .venv\Scripts\python tests\label_tool.py records_game\20261124_235143_observe_spring_day --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_001022_observe_summer_day --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_003058_observe_autumn_day --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_005357_observe_winter_day --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_012808_observe_summer_night --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_015330_observe_autumn_night --review
+    .venv\Scripts\python tests\label_tool.py records_game\20261125_021734_observe_winter_night --review
+
+Loại quái hiện ở gợi ý (궁수/전사/"orc") đọc bằng ảnh tên của 오크의 땅 nên không tin được; train 1 lớp "orc" nên
+không ảnh hưởng. Chưa có xuân ĐÊM.
+Train orc_v3 sau khi duyệt (một model orc chung: 오크의 땅 + 4 mùa; mọi catalog có `group: "orc"` → 1 lớp):
+
+    powershell -ExecutionPolicy Bypass -Command "& .\train\train_orc.ps1 -Epochs 60 -Name orc_v3 -Out model\yolox_tiny_blessed_orc_v3.onnx -Train @('records_game\20261124_111355_observe','records_game\20261124_130457_observe','records_game\20261124_133425_observe','records_game\20261125_092741_hunt','records_game\20261124_235143_observe_spring_day','records_game\20261125_001022_observe_summer_day','records_game\20261125_003058_observe_autumn_day','records_game\20261125_005357_observe_winter_day','records_game\20261125_012808_observe_summer_night','records_game\20261125_015330_observe_autumn_night','records_game\20261125_021734_observe_winter_night') -Test @()"

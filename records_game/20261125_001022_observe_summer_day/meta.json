@@ -1,0 +1,40 @@
+{
+ "mode": "observe",
+ "started": "20261125_001022",
+ "account": "Account 1",
+ "class": "wizard",
+ "hunt_map": "blessed_orc",
+ "model": "blessed_orc",
+ "real_map": "타락한 축복의 땅의 여름",
+ "channels": "bgr",
+ "conf": 0.2,
+ "scan": {
+  "misses_before_wander": 2,
+  "max_probe_points": 5,
+  "hover_settle": 0.01,
+  "hover_retry": 0.02,
+  "hover_reads": 2,
+  "miss_ttl": 4.0,
+  "detect_conf": 0.5,
+  "conf_map": ""
+ },
+ "record": {
+  "while_hunting": true,
+  "interval_sec": 1.0,
+  "max_frames": 900,
+  "real_map": "타락한 축복의 땅의 여름",
+  "no_model": false,
+  "grid_scan": false,
+  "grid_step": 40,
+  "grid_radius": 200,
+  "auto_stop_min": 15,
+  "stop_key": "Pause"
+ },
+ "window": [
+  1334,
+  1008
+ ],
+ "cursor_classifier": 2,
+ "imported_from": "Vùng đất phước lành mùa hè Ban ngày ORE.zip",
+ "zone": "fallen_blessed"
+}

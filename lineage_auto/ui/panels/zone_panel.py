@@ -17,7 +17,7 @@ class ZonePanel(Panel):
         self.lbl_real_map = ttk.Label(row, text="")
         self.lbl_real_map.pack(side="left")
         # Zones with a monster catalog (data/monsters/*.json) first, then the older plain names; typing is allowed.
-        zones = monsters.real_maps()
+        zones = monsters.zone_names()  # PLAN 0.37: by monster kind
         self.combo_map = ttk.Combobox(row, textvariable=self.real_map,
                                       values=zones + tuple(m for m in REAL_MAPS if m not in zones), width=30)
         self.combo_map.pack(side="left", fill="x", expand=True, padx=4)

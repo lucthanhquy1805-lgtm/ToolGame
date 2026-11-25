@@ -1,0 +1,11503 @@
+{
+ "_doc": "auto labels from cursor checks; finish the todo frames with tests/label_tool.py",
+ "images": {
+  "f_00001.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00002.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00003.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00004.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00005.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00006.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00007.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00008.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00009.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00010.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00011.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00012.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00013.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00014.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00015.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00016.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00017.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00018.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00019.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00020.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     565,
+     585
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     986,
+     321,
+     1039,
+     407,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     945,
+     344,
+     999,
+     429,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     514,
+     519,
+     568,
+     604,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ]
+   ]
+  },
+  "f_00021.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00022.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00023.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00024.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00025.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00026.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00027.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00028.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00029.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00030.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00031.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [
+    [
+     559,
+     581,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1100,
+     234,
+     1154,
+     319,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     717,
+     339,
+     771,
+     425,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     520,
+     515,
+     574,
+     600,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     722,
+     600,
+     776,
+     685,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     724,
+     304,
+     772,
+     371,
+     0,
+     null,
+     "yolox",
+     0.11
+    ]
+   ]
+  },
+  "f_00032.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00033.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00034.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00035.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00036.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00037.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00038.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     559,
+     581
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00039.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00040.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     627,
+     309
+    ]
+   ],
+   "monster_names": [
+    [
+     627,
+     309,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00041.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     623,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00042.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     623,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00043.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     623,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00044.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00045.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00046.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00047.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00048.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00049.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00050.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00051.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00052.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [
+    [
+     622,
+     306,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     594,
+     279,
+     648,
+     365,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     799,
+     478,
+     853,
+     564,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     805,
+     526,
+     859,
+     612,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00053.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00054.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00055.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     622,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00056.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     619,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00057.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00058.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00059.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00060.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00061.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00062.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00063.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00064.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00065.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00066.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00067.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00068.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00069.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00070.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00071.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1132,
+     565
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00072.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1114,
+     619
+    ]
+   ],
+   "monster_names": [
+    [
+     1114,
+     619,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1177,
+     258,
+     1231,
+     343,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1042,
+     508,
+     1096,
+     593,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1072,
+     558,
+     1126,
+     643,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ]
+   ]
+  },
+  "f_00073.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1090,
+     611
+    ]
+   ],
+   "monster_names": [
+    [
+     1090,
+     611,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00074.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1080,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1080,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00075.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1078,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00076.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1077,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00077.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1073,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1073,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00078.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1070,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1070,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00079.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1069,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1069,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00080.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1069,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1069,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00081.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1068,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00082.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1067,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00083.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1066,
+     610
+    ]
+   ],
+   "monster_names": [
+    [
+     1066,
+     610,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00084.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1064,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00085.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1058,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1117,
+     476,
+     1171,
+     561,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1149,
+     537,
+     1203,
+     622,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1098,
+     576,
+     1152,
+     662,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1031,
+     567,
+     1084,
+     652,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00086.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1057,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00087.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00088.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00089.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00090.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00091.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00092.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     855,
+     592
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00093.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00094.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00095.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00096.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00097.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     813,
+     459,
+     867,
+     545,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     815,
+     531,
+     868,
+     616,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00098.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00099.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00100.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00101.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     842,
+     574
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00102.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00103.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00104.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00105.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00106.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00107.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00108.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00109.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     682,
+     362,
+     736,
+     448,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     710,
+     369,
+     764,
+     454,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     598,
+     405,
+     652,
+     491,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00110.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00111.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00112.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00113.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00114.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00115.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00116.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00117.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00118.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00119.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00120.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00121.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00122.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00123.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1110,
+     335,
+     1164,
+     421,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     511,
+     357,
+     564,
+     442,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     989,
+     472,
+     1043,
+     558,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1031,
+     478,
+     1084,
+     563,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     827,
+     596,
+     880,
+     681,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00124.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00125.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00126.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00127.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00128.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00129.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00130.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00131.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00132.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     854,
+     639
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00133.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00134.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     870,
+     621
+    ]
+   ],
+   "monster_names": [
+    [
+     870,
+     621,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     759,
+     206,
+     813,
+     291,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     297,
+     224,
+     351,
+     310,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     474,
+     287,
+     528,
+     372,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     928,
+     445,
+     982,
+     530,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     824,
+     579,
+     878,
+     664,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ]
+   ]
+  },
+  "f_00135.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00136.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00137.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00138.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00139.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00140.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00141.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00142.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00143.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00144.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00145.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     222,
+     128,
+     276,
+     213,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     557,
+     250,
+     611,
+     335,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     769,
+     401,
+     823,
+     486,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     391,
+     442,
+     445,
+     528,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     844,
+     567,
+     897,
+     652,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00146.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00147.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     871,
+     610
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00148.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00149.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     802,
+     505
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00150.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00151.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00152.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00153.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00154.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00155.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00156.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00157.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00158.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     795,
+     491
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00159.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00160.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00161.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     728,
+     379,
+     782,
+     464,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     394,
+     407,
+     448,
+     493,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     244,
+     544,
+     298,
+     629,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     211,
+     544,
+     265,
+     630,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     769,
+     442,
+     822,
+     527,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00162.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00163.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00164.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00165.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00166.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00167.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00168.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00169.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00170.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00171.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00172.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00173.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     709,
+     375,
+     763,
+     461,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     703,
+     417,
+     757,
+     502,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     820,
+     592,
+     874,
+     678,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     872,
+     587,
+     926,
+     673,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     769,
+     442,
+     822,
+     527,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00174.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00175.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00176.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00177.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00178.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00179.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00180.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     796,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00181.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00182.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00183.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00184.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1082,
+     657
+    ]
+   ],
+   "monster_names": [
+    [
+     1082,
+     657,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00185.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1073,
+     644
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00186.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1073,
+     644
+    ]
+   ],
+   "monster_names": [
+    [
+     1073,
+     644,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1049,
+     505,
+     1103,
+     590,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     477,
+     505,
+     531,
+     590,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1077,
+     549,
+     1131,
+     634,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ]
+   ]
+  },
+  "f_00187.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1073,
+     644
+    ]
+   ],
+   "monster_names": [
+    [
+     1073,
+     644,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00188.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1073,
+     644
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00189.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00190.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00191.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00192.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00193.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00194.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00195.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00196.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00197.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00198.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1096,
+     551
+    ]
+   ],
+   "monster_names": [
+    [
+     1096,
+     551,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     304,
+     261,
+     358,
+     346,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     465,
+     408,
+     519,
+     493,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1052,
+     521,
+     1106,
+     606,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     1076,
+     560,
+     1130,
+     645,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     572,
+     564,
+     626,
+     650,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00199.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1077,
+     597
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00200.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00201.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00202.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00203.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00204.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00205.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00206.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00207.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00208.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00209.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     213,
+     359,
+     267,
+     444,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1043,
+     507,
+     1097,
+     592,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1067,
+     560,
+     1121,
+     646,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00210.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00211.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00212.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00213.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00214.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00215.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00216.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00217.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00218.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00219.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00220.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     935,
+     399,
+     989,
+     484,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     330,
+     456,
+     384,
+     541,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     312,
+     483,
+     366,
+     568,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     351,
+     494,
+     405,
+     579,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00221.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00222.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00223.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00224.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00225.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00226.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00227.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00228.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00229.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00230.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00231.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00232.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00233.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00234.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00235.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00236.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00237.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00238.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00239.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00240.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00241.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00242.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00243.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00244.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00245.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00246.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00247.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00248.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00249.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00250.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00251.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00252.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00253.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     704,
+     366
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00254.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     704,
+     366
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00255.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     704,
+     366
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00256.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     704,
+     366
+    ]
+   ],
+   "monster_names": [
+    [
+     704,
+     366,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00257.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     691,
+     382
+    ]
+   ],
+   "monster_names": [
+    [
+     691,
+     382,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     677,
+     305,
+     731,
+     391,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     426,
+     501,
+     480,
+     586,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00258.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     687,
+     388
+    ]
+   ],
+   "monster_names": [
+    [
+     687,
+     388,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00259.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     687,
+     388
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00260.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     685,
+     390
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00261.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00262.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     685,
+     390
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00263.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     685,
+     390
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00264.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     685,
+     390
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00265.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00266.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00267.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00268.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00269.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00270.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00271.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00272.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00273.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00274.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00275.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00276.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00277.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00278.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1065,
+     332
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1034,
+     223,
+     1088,
+     308,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1068,
+     225,
+     1122,
+     310,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     658,
+     531,
+     712,
+     616,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1038,
+     289,
+     1091,
+     374,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00279.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1050,
+     305
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00280.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1050,
+     306
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00281.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1043,
+     312
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00282.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00283.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00284.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00285.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00286.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00287.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00288.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00289.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00290.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00291.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00292.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00293.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00294.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1017,
+     454
+    ]
+   ],
+   "monster_names": [
+    [
+     1017,
+     454,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1007,
+     468,
+     1061,
+     554,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1039,
+     507,
+     1093,
+     592,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     990,
+     411,
+     1043,
+     496,
+     0,
+     "orc_archer",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00295.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00296.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00297.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00298.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00299.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00300.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00301.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00302.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00303.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00304.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00305.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00306.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00307.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00308.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00309.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00310.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     424,
+     476
+    ]
+   ],
+   "monster_names": [
+    [
+     424,
+     476,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00311.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     440,
+     433
+    ]
+   ],
+   "monster_names": [
+    [
+     440,
+     433,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00312.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     465,
+     433
+    ]
+   ],
+   "monster_names": [
+    [
+     465,
+     433,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00313.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00314.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00315.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [
+    [
+     554,
+     398,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00316.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00317.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [
+    [
+     554,
+     398,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00318.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00319.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     627,
+     297,
+     681,
+     382,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     687,
+     275,
+     741,
+     361,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     607,
+     352,
+     661,
+     438,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     527,
+     355,
+     580,
+     440,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00320.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [
+    [
+     554,
+     398,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00321.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00322.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [
+    [
+     554,
+     398,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00323.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00324.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00325.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [
+    [
+     554,
+     398,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00326.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     554,
+     398
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00327.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00328.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     675,
+     375
+    ]
+   ],
+   "monster_names": [
+    [
+     675,
+     375,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00329.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     805,
+     342
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00330.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00331.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00332.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00333.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     647,
+     414
+    ]
+   ],
+   "monster_names": [
+    [
+     647,
+     414,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     612,
+     311,
+     666,
+     396,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     395,
+     441,
+     449,
+     527,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     362,
+     465,
+     416,
+     550,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     388,
+     482,
+     442,
+     568,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1056,
+     523,
+     1110,
+     608,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     620,
+     371,
+     673,
+     456,
+     0,
+     "orc_warrior",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00334.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     632,
+     382
+    ]
+   ],
+   "monster_names": [
+    [
+     632,
+     382,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00335.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     631,
+     382
+    ]
+   ],
+   "monster_names": [
+    [
+     631,
+     382,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00336.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00337.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00338.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     635,
+     433
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00339.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     635,
+     433
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00340.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     635,
+     433
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00341.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     635,
+     433
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00342.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     635,
+     433
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00343.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00344.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [
+    [
+     697,
+     415,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     615,
+     324,
+     669,
+     409,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     509,
+     384,
+     563,
+     469,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     521,
+     436,
+     575,
+     521,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     670,
+     372,
+     723,
+     457,
+     0,
+     "orc_warrior",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00345.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00346.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00347.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00348.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     697,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00349.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     696,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00350.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     696,
+     415
+    ]
+   ],
+   "monster_names": [
+    [
+     696,
+     415,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00351.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     696,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00352.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     696,
+     415
+    ]
+   ],
+   "monster_names": [
+    [
+     696,
+     415,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00353.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00354.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     632,
+     382
+    ]
+   ],
+   "monster_names": [
+    [
+     632,
+     382,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00355.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00356.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00357.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00358.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00359.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00360.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00361.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00362.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00363.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00364.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00365.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00366.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00367.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00368.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00369.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00370.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00371.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00372.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00373.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00374.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00375.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00376.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00377.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00378.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00379.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00380.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00381.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00382.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1117,
+     389
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1089,
+     320,
+     1143,
+     405,
+     0,
+     null,
+     "cursor+glow",
+     1.0
+    ],
+    [
+     1152,
+     328,
+     1206,
+     414,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1181,
+     359,
+     1234,
+     444,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     879,
+     583,
+     933,
+     668,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00383.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00384.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00385.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00386.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00387.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00388.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00389.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00390.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00391.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00392.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00393.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00394.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00395.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00396.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00397.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00398.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00399.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00400.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00401.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     719,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00402.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     804,
+     411
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00403.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     803,
+     411
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00404.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     791,
+     404
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00405.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     819,
+     392
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00406.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     822,
+     383
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00407.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     822,
+     383
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00408.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00409.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     822,
+     383
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     893,
+     248,
+     947,
+     334,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     910,
+     474,
+     964,
+     559,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     795,
+     340,
+     848,
+     425,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00410.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00411.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00412.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00413.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00414.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00415.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00416.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00417.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00418.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00419.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00420.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00421.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00422.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00423.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00424.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00425.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00426.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00427.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00428.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00429.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00430.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00431.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00432.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00433.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00434.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00435.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00436.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00437.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00438.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00439.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     633,
+     278
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00440.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00441.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     581,
+     287
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     594,
+     232,
+     648,
+     317,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1204,
+     330,
+     1258,
+     415,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     554,
+     244,
+     607,
+     329,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00442.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00443.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00444.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     586,
+     234
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00445.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00446.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00447.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00448.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00449.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00450.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00451.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00452.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00453.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00454.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     486,
+     396
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00455.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     486,
+     396
+    ]
+   ],
+   "monster_names": [
+    [
+     486,
+     396,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00456.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00457.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00458.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     715,
+     400
+    ]
+   ],
+   "monster_names": [
+    [
+     715,
+     400,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00459.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00460.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00461.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     870,
+     323,
+     924,
+     408,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1005,
+     384,
+     1059,
+     470,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     558,
+     376,
+     612,
+     461,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     523,
+     411,
+     577,
+     496,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     509,
+     356,
+     562,
+     441,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00462.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00463.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00464.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00465.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00466.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00467.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00468.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00469.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00470.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00471.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00472.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     934,
+     225,
+     988,
+     310,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     917,
+     288,
+     971,
+     373,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     616,
+     363,
+     670,
+     448,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1007,
+     379,
+     1061,
+     465,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     509,
+     356,
+     562,
+     441,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00473.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00474.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00475.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00476.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00477.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00478.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00479.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00480.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00481.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00482.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00483.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     484,
+     28,
+     538,
+     113,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     606,
+     360,
+     660,
+     445,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     896,
+     466,
+     950,
+     551,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     509,
+     356,
+     562,
+     441,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00484.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00485.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     536,
+     399
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00486.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00487.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     857,
+     527
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00488.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     862,
+     468
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00489.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00490.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00491.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00492.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00493.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00494.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00495.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00496.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00497.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     777,
+     347,
+     831,
+     432,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     770,
+     400,
+     824,
+     485,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     822,
+     430,
+     875,
+     515,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00498.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00499.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00500.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00501.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00502.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00503.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00504.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00505.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00506.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00507.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00508.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     584,
+     -9,
+     638,
+     75,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     681,
+     358,
+     735,
+     443,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     822,
+     430,
+     875,
+     515,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00509.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00510.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00511.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00512.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00513.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00514.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00515.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00516.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     849,
+     473
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00517.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00518.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00519.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     1111,
+     345
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00520.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     999,
+     404
+    ]
+   ],
+   "monster_names": [
+    [
+     999,
+     404,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00521.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     857,
+     411
+    ]
+   ],
+   "monster_names": [
+    [
+     857,
+     411,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     957,
+     243,
+     1011,
+     328,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     794,
+     295,
+     848,
+     381,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     791,
+     358,
+     845,
+     443,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     830,
+     368,
+     883,
+     453,
+     0,
+     "orc_warrior",
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00522.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     751,
+     412
+    ]
+   ],
+   "monster_names": [
+    [
+     751,
+     412,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00523.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     750,
+     411
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00524.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     750,
+     411
+    ]
+   ],
+   "monster_names": [
+    [
+     750,
+     411,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00525.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     750,
+     411
+    ]
+   ],
+   "monster_names": [
+    [
+     750,
+     411,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00526.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     750,
+     411
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00527.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00528.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     750,
+     411
+    ]
+   ],
+   "monster_names": [
+    [
+     750,
+     411,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00529.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00530.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00531.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00532.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00533.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00534.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00535.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00536.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00537.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00538.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00539.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "train",
+   "suggest": [
+    [
+     1053,
+     158,
+     1107,
+     243,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     1065,
+     203,
+     1119,
+     288,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     683,
+     324,
+     737,
+     409,
+     0,
+     "orc_warrior",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     -13,
+     330,
+     40,
+     416,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00540.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00541.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00542.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00543.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00544.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00545.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00546.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00547.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00548.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00549.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00550.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00551.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00552.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00553.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00554.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00555.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00556.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00557.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00558.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00559.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00560.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00561.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00562.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00563.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [
+    [
+     707,
+     406,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00564.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00565.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00566.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00567.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00568.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00569.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00570.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     707,
+     406
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00571.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00572.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00573.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00574.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00575.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00576.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00577.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00578.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00579.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00580.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     540,
+     282,
+     594,
+     368,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     353,
+     435,
+     407,
+     521,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     375,
+     471,
+     429,
+     556,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     116,
+     488,
+     169,
+     573,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     156,
+     509,
+     210,
+     594,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     461,
+     296,
+     514,
+     381,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00581.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00582.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00583.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00584.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00585.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00586.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00587.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00588.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00589.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00590.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00591.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00592.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00593.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00594.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     488,
+     339
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00595.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     333,
+     474
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00596.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00597.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00598.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00599.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00600.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00601.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00602.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00603.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00604.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00605.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00606.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00607.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00608.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00609.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00610.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00611.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00612.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00613.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00614.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00615.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00616.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00617.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00618.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00619.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00620.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00621.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00622.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00623.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00624.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00625.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00626.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00627.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00628.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00629.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00630.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00631.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00632.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00633.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00634.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00635.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00636.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00637.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00638.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00639.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00640.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00641.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00642.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [
+    [
+     412,
+     579,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00643.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00644.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00645.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00646.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     412,
+     579
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00647.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     924,
+     485
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00648.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00649.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00650.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00651.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00652.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00653.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00654.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00655.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00656.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00657.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00658.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00659.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00660.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00661.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     845,
+     498
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00662.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00663.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00664.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00665.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00666.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00667.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00668.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00669.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00670.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00671.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00672.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00673.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00674.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     583,
+     366
+    ]
+   ],
+   "monster_names": [
+    [
+     583,
+     366,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00675.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [
+    [
+     611,
+     415,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00676.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00677.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00678.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00679.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00680.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00681.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00682.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00683.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00684.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00685.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [
+    [
+     611,
+     415,
+     "orc_warrior"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00686.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00687.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00688.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     611,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00689.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     740,
+     477
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     594,
+     323,
+     648,
+     409,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     811,
+     403,
+     865,
+     488,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     814,
+     449,
+     867,
+     534,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     482,
+     489,
+     536,
+     574,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     713,
+     434,
+     766,
+     519,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00690.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00691.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00692.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00693.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00694.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00695.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00696.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00697.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00698.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00699.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00700.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     991,
+     256,
+     1045,
+     342,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     605,
+     305,
+     659,
+     390,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     602,
+     496,
+     656,
+     582,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     833,
+     565,
+     887,
+     651,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     711,
+     372,
+     764,
+     457,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00701.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00702.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00703.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00704.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     738,
+     415
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00705.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     733,
+     429
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00706.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00707.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     733,
+     429
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00708.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     733,
+     429
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00709.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     439
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00710.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00711.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00712.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00713.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00714.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00715.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     429
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     1030,
+     255,
+     1083,
+     340,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     594,
+     313,
+     648,
+     398,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     592,
+     375,
+     646,
+     460,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     782,
+     467,
+     836,
+     553,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     768,
+     513,
+     822,
+     598,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     702,
+     386,
+     755,
+     471,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00716.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     747,
+     420
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00717.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     747,
+     420
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00718.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     747,
+     420
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00719.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     745,
+     423
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00720.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     742,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00721.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     742,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00722.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     742,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00723.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     742,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00724.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     741,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00725.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     741,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00726.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     741,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     512,
+     217,
+     566,
+     303,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     808,
+     395,
+     862,
+     480,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     668,
+     395,
+     722,
+     481,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     714,
+     379,
+     767,
+     464,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00727.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     741,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00728.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     741,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00729.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     737,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00730.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     737,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00731.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     737,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00732.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     737,
+     422
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00733.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00734.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00735.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00736.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00737.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     752,
+     419
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     490,
+     170,
+     544,
+     255,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     693,
+     523,
+     746,
+     609,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     673,
+     575,
+     727,
+     660,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     725,
+     376,
+     778,
+     461,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00738.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00739.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     728,
+     427
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00740.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00741.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00742.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00743.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00744.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00745.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00746.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     730,
+     425
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00747.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     732,
+     403
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00748.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     735,
+     416
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     852,
+     460,
+     906,
+     546,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     828,
+     497,
+     882,
+     582,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     704,
+     531,
+     758,
+     617,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     708,
+     373,
+     761,
+     458,
+     0,
+     null,
+     "cursor",
+     1.0
+    ]
+   ]
+  },
+  "f_00749.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     732,
+     423
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00750.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00751.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00752.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00753.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00754.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00755.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00756.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00757.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00758.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00759.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00760.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00761.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00762.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00763.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     729,
+     426
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00764.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00765.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00766.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     346,
+     301
+    ]
+   ],
+   "monster_names": [
+    [
+     346,
+     301,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00767.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     326,
+     289
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00768.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     326,
+     289
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00769.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     326,
+     289
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00770.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [
+    [
+     325,
+     290,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00771.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00772.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00773.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00774.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [
+    [
+     325,
+     290,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00775.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [
+    [
+     325,
+     290,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00776.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     325,
+     290
+    ]
+   ],
+   "monster_names": [
+    [
+     325,
+     290,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00777.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00778.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00779.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00780.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00781.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00782.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00783.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00784.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00785.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00786.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00787.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00788.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00789.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00790.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00791.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00792.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00793.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [
+    [
+     346,
+     432
+    ]
+   ],
+   "monster_names": [
+    [
+     346,
+     432,
+     "orc_archer"
+    ]
+   ],
+   "boxes": [],
+   "ignore": [],
+   "todo": true,
+   "split": "test",
+   "suggest": [
+    [
+     627,
+     240,
+     681,
+     325,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     166,
+     274,
+     220,
+     360,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     728,
+     262,
+     782,
+     348,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     201,
+     272,
+     255,
+     357,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     301,
+     372,
+     355,
+     457,
+     0,
+     "orc_archer",
+     "cursor+glow",
+     1.0
+    ],
+    [
+     685,
+     501,
+     739,
+     587,
+     0,
+     null,
+     "glow",
+     0.5
+    ],
+    [
+     585,
+     586,
+     639,
+     672,
+     0,
+     null,
+     "glow",
+     0.5
+    ]
+   ]
+  },
+  "f_00794.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00795.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00796.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00797.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00798.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00799.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00800.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00801.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00802.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00803.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00804.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00805.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00806.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00807.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00808.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00809.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00810.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00811.jpg": {
+   "night": true,
+   "map": "타락한 축복의 땅의 겨울",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  }
+ }
+}

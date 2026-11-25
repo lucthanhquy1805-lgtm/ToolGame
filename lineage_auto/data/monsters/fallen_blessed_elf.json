@@ -1,0 +1,15 @@
+{
+ "_doc": "PLAN 0.37: the elf area of 타락한 축복의 땅 (spring, day record 20261124_230953_observe_spring_day_elf). Same map as the spring orcs (the game shows 타락한 축복의 땅의 봄), another area: the zone box offers it by monster kind (zone_name). No model yet (collect data).",
+ "key": "fallen_blessed_elf",
+ "real_map": "타락한 축복의 땅의 봄",
+ "zone_name": "타락한 축복의 땅의 봄 - 요정",
+ "name_en": "Fallen Blessed Land - corrupted elves",
+ "name_vi": "Vùng đất phước lành sa đọa - yêu tinh tha hoá",
+ "hunt_map": null,
+ "group": "elf",
+ "monsters": [
+  {"name": "타락한 요정 궁수", "class": "elf_archer", "name_en": "Corrupted Elf Archer", "name_vi": "Yêu tinh cung thủ tha hoá", "attack": "ranged"},
+  {"name": "타락한 요정 마법사", "class": "elf_mage", "name_en": "Corrupted Elf Mage", "name_vi": "Yêu tinh pháp sư tha hoá", "attack": "ranged"},
+  {"name": "타락한 만드라고라", "class": "mandragora", "name_en": "Corrupted Mandragora", "name_vi": "Mandragora tha hoá", "attack": "melee"}
+ ]
+}

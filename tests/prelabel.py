@@ -42,6 +42,7 @@ from lineage_auto import monsters  # noqa: E402
 BASE_W = 1187  # sizes below are 1187-wide pixels (game PC 23/11), scaled with the frame width
 BOX_W, BOX_H = 48, 76  # an orc standing (label_tool default 44x72 + margin)
 GREEN_LO, GREEN_HI = (26, 80, 80), (52, 255, 255)  # HSV of the "polluted" glow / green skin (daylight)
+PURPLE_LO, PURPLE_HI = (125, 50, 35), (170, 255, 255)  # PLAN 0.37: 타락한 orcs, purple body + aura, day and night
 DAY_BRIGHTNESS = 95  # mean BGR of a 오크의 땅 day frame; night frames (43-61) get the value limits scaled down
 DARK_V = 75  # ring pixels darker than this (daylight) are leaf shadow
 RING_GREEN_MAX = 0.3
@@ -60,6 +61,7 @@ def play_mask(shape):
     m[int(0.66 * h):, :] = 0
     m[:int(0.21 * h), :int(0.18 * w)] = 0
     m[:, int(0.94 * w):] = 0
+    m[:int(0.08 * h), int(0.88 * w):] = 0  # PLAN 0.37: the pink buff icon left of the skill column
     return m
 
 
@@ -82,11 +84,17 @@ def green_range(frame):
     return (GREEN_LO[0], round(GREEN_LO[1] * (0.5 + 0.5 * k)), round(GREEN_LO[2] * k)), GREEN_HI
 
 
-def glow_boxes(frame):
-    """[[x0, y0, x1, y1, score]] green blobs standing on open ground (see the module doc)."""
+def colour_range(frame, glow):
+    return green_range(frame) if glow == "green" else (PURPLE_LO, PURPLE_HI)
+
+
+def glow_boxes(frame, glow="green"):
+    """[[x0, y0, x1, y1, score]] green (or purple) blobs standing on open ground (see the module doc)."""
     f = scale_of(frame)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    green = cv2.inRange(hsv, *green_range(frame)) * play_mask(frame.shape)
+    green = cv2.inRange(hsv, *colour_range(frame, glow)) * play_mask(frame.shape)
+    if glow == "purple":
+        return purple_blobs(green, f)
     dark_v = DARK_V * light_of(frame)
     blob = cv2.morphologyEx(green, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
     blob = cv2.morphologyEx(blob, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
@@ -115,12 +123,28 @@ def glow_boxes(frame):
     return out
 
 
-def green_share(frame, box):
+def purple_blobs(mask, f):
+    """PLAN 0.37: the purple aura breaks into pieces and spills on the ground, so the green filters (upright,
+    solid, plain ring) dropped 70-90 % of the 타락한 orcs. Closed mask + size only: 49-81 % of the cursor points
+    of the 7 orc records fall in a box, 2-5 boxes/frame (players with purple effects too: the reviewer drops them)."""
+    blob = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+    n, _labels, stats, cents = cv2.connectedComponentsWithStats(blob)
+    out = []
+    for i in range(1, n):
+        x, y, w, h, a = (int(v) for v in stats[i])
+        if 12 * f <= w <= 110 * f and 20 * f <= h <= 130 * f and a >= 120 * f * f:
+            box = box_at(*cents[i], f) + [0.5]
+            if all(iou(box, o) < 0.3 for o in out):
+                out.append(box)
+    return out
+
+
+def green_share(frame, box, glow="green"):
     x0, y0, x1, y1 = (max(0, int(v)) for v in box[:4])
     roi = frame[y0:y1, x0:x1]
     if roi.size == 0:
         return 0.0
-    return float(cv2.inRange(cv2.cvtColor(roi, cv2.COLOR_BGR2HSV), *green_range(frame)).mean() / 255)
+    return float(cv2.inRange(cv2.cvtColor(roi, cv2.COLOR_BGR2HSV), *colour_range(frame, glow)).mean() / 255)
 
 
 def yolox_boxes(frame, map_key, conf=YOLOX_CONF):
@@ -160,11 +184,12 @@ def contains(box, x, y, pad=0):
     return box[0] - pad <= x <= box[2] + pad and box[1] - pad <= y <= box[3] + pad
 
 
-def suggest(frame, entry, reader=None, yolox_map=None, yolox_conf=YOLOX_CONF):
-    """Suggestions for one frame + the "hard" cursor points (no glow box on them)."""
+def suggest(frame, entry, reader=None, yolox_map=None, yolox_conf=YOLOX_CONF, glow="green"):
+    """Suggestions for one frame + the "hard" cursor points (no glow box on them).
+    glow: the zone's monster colour ("green" 오염된 orcs, "purple" 타락한 orcs, "none" = no colour boxes and
+    the yolox boxes are not colour-filtered)."""
     f = scale_of(frame)
-    glow = glow_boxes(frame)
-    out = [[*g[:4], 0, None, "glow", g[4]] for g in glow]
+    out = [[*g[:4], 0, None, "glow", g[4]] for g in (glow_boxes(frame, glow) if glow != "none" else [])]
     named = {(p[0], p[1]): p[2] for p in entry.get("monster_names", [])}
     hard = 0
     for x, y in entry.get("monster", []):
@@ -186,7 +211,7 @@ def suggest(frame, entry, reader=None, yolox_map=None, yolox_conf=YOLOX_CONF):
         out.append([*box, 0, label, "cursor", 1.0])
     if yolox_map:
         for b in yolox_boxes(frame, yolox_map, yolox_conf):
-            if green_share(frame, b) >= YOLOX_GREEN_MIN and all(iou(b, s) < 0.3 for s in out):
+            if (glow == "none" or green_share(frame, b, glow) >= YOLOX_GREEN_MIN) and all(iou(b, s) < 0.3 for s in out):
                 out.append([*b[:4], 0, None, "yolox", b[4]])
     boxes = entry.get("boxes", [])
     out = [s for s in out if all(iou(s, b) < 0.3 for b in boxes)]
@@ -269,7 +294,7 @@ def time_window(folder, split, train_dirs, test_dirs, times):
 
 
 def run(train, test, n_train=200, n_test=50, gap=4.0, yolox_map="dragon_valley", dry_run=False,
-        yolox_conf=YOLOX_CONF):
+        yolox_conf=YOLOX_CONF, glow="green"):
     """train / test: ["folder[:N]", ...]. Recordings without N share what is left of the set's n by size."""
     from lineage_auto.vision.name_reader import NameReader
     train_specs = [parse_record(a) for a in train]
@@ -295,7 +320,7 @@ def run(train, test, n_train=200, n_test=50, gap=4.0, yolox_map="dragon_valley",
                 frame = cv2.imread(os.path.join(folder, name))
                 if frame is None:
                     continue
-                sugg, hard = suggest(frame, entry, reader, yolox_map, yolox_conf)
+                sugg, hard = suggest(frame, entry, reader, yolox_map, yolox_conf, glow)
                 mine.append({"record": folder, "name": name, "t": t, "sugg": sugg, "hard": hard,
                              "night": bool(light_of(frame) < 0.67), "score": frame_score(sugg, hard),
                              "thumb": thumb(frame)})
@@ -356,12 +381,14 @@ def main():
     parser.add_argument("--yolox-conf", type=float, default=YOLOX_CONF,
                         help="threshold of those boxes (0.03 for an old model; ~0.15 for the orc trial model)")
     parser.add_argument("--no-yolox", action="store_true")
+    parser.add_argument("--glow", choices=("green", "purple", "none"), default="green",
+                        help="monster colour for the glow boxes (purple = 타락한 축복의 땅 orcs, PLAN 0.37)")
     parser.add_argument("--dry-run", action="store_true", help="print only, do not write labels.json")
     args = parser.parse_args()
     if not args.train and not args.test:
         sys.exit(__doc__)
     run(args.train, args.test, args.n_train, args.n_test, args.gap, None if args.no_yolox else args.map_model,
-        args.dry_run, args.yolox_conf)
+        args.dry_run, args.yolox_conf, args.glow)
 
 
 if __name__ == "__main__":

@@ -85,7 +85,8 @@ def load(arg):
 
 
 def zone_of(meta, frame=None, set_map=None):
-    return set_map or (frame or {}).get("real_map") or meta.get("real_map") or ""
+    # PLAN 0.37: "zone" (catalog key) beats the map name - spring holds the orc and the elf catalogs
+    return set_map or meta.get("zone") or (frame or {}).get("real_map") or meta.get("real_map") or ""
 
 
 OFFLINE_FILE = "frames_offline.jsonl"
@@ -485,7 +486,7 @@ def main(argv):
     for arg in args:
         arg, meta, summary, frames, hovers = load(arg)
         if only_map:
-            frames = [f for f in frames if zone_of(meta, f, set_map) == only_map]
+            frames = [f for f in frames if zone_of(meta, f, set_map) in (only.real_maps if only else (only_map,))]
             if not frames:
                 print(f"== {os.path.basename(arg)}: no frame in {only_map}, skipped")
                 continue

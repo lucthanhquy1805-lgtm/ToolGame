@@ -3,6 +3,9 @@
 One file per zone: ``lineage_auto/data/monsters/<key>.json``
   key        file-safe id (also the folder of the name pictures: names/<key>/<class>.png)
   real_map   the zone name picked in the record panel ("실제 사냥터"), Korean as in game
+  real_maps  optional: several zone names sharing this catalog (the 4 seasons of 타락한 축복의 땅, PLAN 0.37)
+  zone_name  optional: what the zone box offers (PLAN 0.37: one map holds several monster kinds - spring has
+             the purple orcs AND the elves - so the user picks the monster kind, not the map name)
   hunt_map   hunt_maps key of the YOLOX model for this zone, or null = no model yet (collect data)
   group      label used when every monster of the zone is merged into one class (e.g. "orc")
   monsters   [{name (Korean, as in game), class (label), level, attack melee/ranged,
@@ -23,7 +26,9 @@ COMMON_CLASSES = ("corpse", "player", "npc")
 class Catalog:
     def __init__(self, data, folder):
         self.key = data["key"]
-        self.real_map = data.get("real_map", "")
+        self.real_maps = tuple(data.get("real_maps") or ([data["real_map"]] if data.get("real_map") else []))
+        self.real_map = self.real_maps[0] if self.real_maps else ""
+        self.zone_name = data.get("zone_name") or self.real_map
         self.name_en = data.get("name_en", self.key)
         self.hunt_map = data.get("hunt_map")
         self.group = data.get("group") or "monster"
@@ -83,12 +88,21 @@ def load_all(folder=None):
 
 
 def real_maps(folder=None):
-    return tuple(c.real_map for c in load_all(folder) if c.real_map)
+    return tuple(z for c in load_all(folder) for z in c.real_maps)
+
+
+def zone_names(folder=None):
+    """One entry per catalog (= per monster kind) for the zone box."""
+    return tuple(c.zone_name for c in load_all(folder) if c.zone_name)
 
 
 def for_real_map(real_map, folder=None):
-    """Catalog whose zone is ``real_map`` (exact, or its key), or None."""
+    """Catalog whose zone is ``real_map`` (its key, its zone_name, or one of its maps), or None.
+    A map shared by several catalogs (타락한 축복의 땅의 봄) gives the first in file order (fallen_blessed before
+    fallen_blessed_elf): recordings name their catalog with "zone" (the key) to be exact."""
     real_map = (real_map or "").strip()
     if not real_map:
         return None
-    return next((c for c in load_all(folder) if real_map in (c.real_map, c.key)), None)
+    cats = load_all(folder)
+    return (next((c for c in cats if real_map in (c.key, c.zone_name)), None)
+            or next((c for c in cats if real_map in c.real_maps), None))

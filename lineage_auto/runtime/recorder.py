@@ -23,7 +23,7 @@ from dataclasses import asdict
 
 import cv2
 
-from .. import app_paths, hunt_maps
+from .. import app_paths, hunt_maps, monsters
 from ..vision.name_reader import NIGHT_BRIGHTNESS
 from ..winapi.cursor import CursorProbe, image_print, save_png
 
@@ -90,6 +90,7 @@ class Recorder:
             "hunt_map": hunt.key,
             "model": None if mode == "observe" and account.record.no_model else hunt.key,
             "real_map": self.real_map,
+            "zone": getattr(monsters.for_real_map(self.real_map), "key", None),  # PLAN 0.37: the monster catalog
             "channels": hunt.channels,
             "conf": account.scan.conf_for(hunt.key) or hunt.conf,  # the threshold really used (PLAN 0.27)
             "scan": asdict(account.scan),  # detect_fps / input_size / detect_roi (PLAN 0.31)

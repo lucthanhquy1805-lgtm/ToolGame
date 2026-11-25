@@ -392,6 +392,27 @@ def test_orc_model_packed():
     assert zone.hunt_map == "blessed_orc" and zone.has_model == hunt_maps.model_exists("blessed_orc")
 
 
+
+def test_fallen_blessed_seasons():
+    """PLAN 0.37: one catalog for the 4 seasons of 타락한 축복의 땅 (+ the elf area apart), both offered as zones."""
+    seasons = [f"타락한 축복의 땅의 {s}" for s in ("봄", "여름", "가을", "겨울")]
+    for zone in seasons:
+        cat = monsters.for_real_map(zone)
+        assert cat.key == "fallen_blessed" and cat.group == "orc" and not cat.has_model, zone
+    assert monsters.for_real_map("fallen_blessed").real_map == seasons[0]
+    assert monsters.for_real_map(seasons[2]).monster_classes() == [
+        "orc_gandi", "orc_archer", "orc_mage", "orc_dudamara", "orc_warrior"]
+    assert all(m["name_vi"] and m["name_en"] for m in monsters.for_real_map(seasons[0]).monsters)
+    # spring holds both kinds: the zone box offers them by monster kind, a recording names its catalog key
+    elf = monsters.for_real_map("fallen_blessed_elf")
+    assert elf.monster_classes() == ["elf_archer", "elf_mage", "mandragora"] and not elf.has_model
+    assert elf.real_maps == (seasons[0],) and monsters.for_real_map(seasons[0]).key == "fallen_blessed"
+    orc = monsters.for_real_map("fallen_blessed")
+    assert {orc.zone_name, elf.zone_name} <= set(monsters.zone_names()) and orc.zone_name != elf.zone_name
+    assert monsters.for_real_map(elf.zone_name).key == "fallen_blessed_elf"
+    assert monsters.for_real_map(orc.zone_name).key == "fallen_blessed"
+    assert "오염된 축복의 땅 - 오크의 땅" in monsters.zone_names()  # catalogs without zone_name: their map
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     for name, fn in list(globals().items()):

@@ -73,6 +73,7 @@ def export(out_dir, folders, val_every=5, keep_hud=False, zone=None, mode="model
            use_suggestions=False):
     only = monsters.for_real_map(zone) if zone else None
     only_map = only.real_map if only else zone
+    only_maps = {*only.real_maps, only.key, only.zone_name} if only else {zone}
     items = []  # (folder, name, lab, zone)
     for folder in folders:
         labels = json.load(open(os.path.join(folder, "labels.json"), encoding="utf-8"))["images"]
@@ -85,7 +86,7 @@ def export(out_dir, folders, val_every=5, keep_hud=False, zone=None, mode="model
             if lab.get("todo", True):
                 continue
             where = lab.get("map", "")
-            if only_map and where != only_map:
+            if only_map and where not in only_maps:
                 continue
             items.append((folder, name, lab, where))
 
