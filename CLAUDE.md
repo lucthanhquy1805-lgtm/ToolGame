@@ -58,11 +58,25 @@ The dev machine has no game; the bot will run on a separate game PC.
   640 (alternating costs 8% of the boxes, cropping every fight frame cost 17%: `tests/eval_detect_modes.py`).
   A fight announces itself through `ctx.state["fight_until"]`. One log line a minute carries ms, real fps,
   process CPU% (`time.process_time`, no psutil) and boxes/frame, and goes to events.jsonl as `detect_stats`.
-- Attack spells (PLAN 1.6 / 0.33): every catalog skill with `role: "attack"` is auto-castable
+  PLAN 0.34: rate and threads are split by what the bot is doing — searching never drops below `FPS_FLOOR`
+  (2/s) and uses `scan.search_threads` (2, the full 640 frame needs them), a fight may fall to 1/s on
+  `scan.detect_threads` (1). `yolox_mobs` caches sessions by (path, threads) because the count is baked in at
+  build time. The log line and `detect_stats` carry one block per mode.
+- Attack spells (PLAN 1.6 / 0.33 / 0.34): every catalog skill with `role: "attack"` is auto-castable
   (`skills/policy.attack_skill_ids`); each slot carries `min_mp` / `range_px` / `cooldown`
-  (`config.AttackSkillSetting`) and `AccountSettings.cast_order` picks the click order the client wants
-  (`hover_key_click` default / `key_click` / `click_key`) — it is a setting because the dev machine cannot test it.
+  (`config.AttackSkillSetting`). The client arms a targeted spell when the cursor turns into an aiming ellipse,
+  so `cast_order` defaults to `key_click`: press the slot key, wait `CAST_CURSOR_WAIT` for the "cast" cursor,
+  then click. No ellipse = the spell never armed — never click (that walks the character), record
+  `spell_cast {ok: false}`, and after `NO_CAST_STRIKES` in a row pause spells for `NO_CAST_PAUSE`.
   Assigned in `ui/skill_setup_modal.py` (the live UI; `ui/panels/skills_panel.AttackSkillsPanel` is NOT wired up).
+- Hotbar pages (PLAN 0.34): a slot is **(page, key)**, not a key — the game has pages F1/F2/F3 of F5–F12 and
+  page F1 is full, so attack spells live on F2. Every feature presses through
+  `BotContext.press_slot(page, key)` (the `HotbarPages` mixin, which test doubles inherit), never
+  `input.press(key)`; it switches page first and remembers the open one in `state["hotbar_page"]`.
+  `session.start` sets that to None and presses the home page once. Settings: `page` on
+  `AttackSkillSetting` / `BuffSkillSetting` / `PotionSetting`, `skill_page` / `potion_page` / `return_page`
+  on `HealthSettings`, `AccountSettings.home_page` for where a fight returns to. A config older than v16 has
+  no page and reads as F1. Exclusivity between roles compares (page, key).
   Smaller inputs = `model/<name>_<size>.onnx` from `train/export_onnx.py --size` (only blessed_orc has 416/320).
 - Orc model (PLAN 0.20): `tests/prelabel.py` (pick frames + box suggestions) → `tests/label_tool.py <rec> --review`
   → `train/train_orc.ps1` (GPU, `.venv_train` + `train/YOLOX`, not shipped) → `model/yolox_tiny_blessed_orc.onnx`.
@@ -100,7 +114,7 @@ Each iteration, while holding the mouse arbiter:
 3. `buff.tick` — timer-based rebuff of allowed `maintain_buff` skills
 4. `targeting.rehover_last` (keep the current lock) else `targeting.acquire`
    (YOLOX centers → hover each → confirm by the *attack* cursor hash)
-4b. attack spells: one slot per beat (`combat._pick_skill`, round robin over the enabled `attack_skills` whose
+4b. attack spells (page-aware, aiming-cursor gated): one slot per beat (`combat._pick_skill`, round robin over the enabled `attack_skills` whose
    own cooldown / `range_px` / `min_mp` allow it), cast with `cast_order` on the nameplate under the lock.
 5. target → `combat.engage` (hold-left + drag auto-attack, follow the YOLOX box, attack skills
    on nameplates, ends on kill line / corpse cursor / lost / switch to a much closer monster / caps; melee = lock

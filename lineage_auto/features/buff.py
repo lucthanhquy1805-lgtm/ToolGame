@@ -115,7 +115,7 @@ class BuffFeature(Feature):
             self.log(f"{key} skip buff {skill_id} (no MP)")
             return False
 
-        self.input.double_press(key)
+        self.ctx.press_slot(self.account.buff(key).page, key, double=True)
         pressed_at = time.monotonic()
         self._last_attempt[self._slot(key)] = self.clock()
         self.log(f"{key} buff {self.account.buff(key).skill_id} (self-cast)")

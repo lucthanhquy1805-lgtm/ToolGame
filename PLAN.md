@@ -708,8 +708,46 @@ Kiểm tra thêm
       kiểm tra detector mặc định (640, không ROI, 2/s, xen kẽ 416+ROI khi đánh, tự hạ fps). test_ui mở modal
       "Cài đặt skill", gán 에너지 볼트 vào F12 với MP 20% / 400 px / 2,5 s và thứ tự "click → phím", rồi kiểm tra
       file config đã lưu. test_hunt_records (092741) và eval_detection không đổi kết quả.
-      CÒN: chạy thật trên máy game (dist/LineageAuto_20261125_v16.zip) để biết client nhận phép theo thứ tự nào,
-      thời gian giết khi có phép, và CPU/độ khựng thực tế.
+      CÒN: chạy thật trên máy game (dist/LineageAuto_20261125_v16.zip) để biết thời gian giết khi có phép và
+      CPU/độ khựng thực tế. Thứ tự bấm phép ĐÃ CÓ CÂU TRẢ LỜI (xem 0.34 mục 3: phím → elip → click).
+
+- [x] 0.34 v16 HOÀN THIỆN TRƯỚC KHI CÀI LÊN MÁY GAME (tiếp 0.33, chưa chạy thật). Trang F1 của người dùng đã kín 8 ô
+      (F5 Hồi phục, F6 Bình máu, F7 Bình máu lớn, F8 Cuộn về làng, F9 Tăng tốc, F10 Khiên, F11 Ban phước giáp,
+      F12 Tăng cường sức mạnh) nên phép tấn công phải nằm ở trang F2.
+   • 1 Ô KỸ NĂNG = (TRANG F1/F2/F3, Ô F5–F12). Thêm `page` vào AttackSkillSetting / BuffSkillSetting /
+      PotionSetting và `skill_page` / `potion_page` / `return_page` cho HP. Cấu hình cũ chỉ có "F5" → trang F1.
+      Bấm một ô = `BotContext.press_slot(page, key)` (mixin HotbarPages): nếu game đang ở trang khác thì bấm
+      F1/F2/F3, chờ PAGE_SETTLE = 0,1 s, rồi bấm ô. Bot NHỚ trang hiện tại nên không bấm thừa; hồi máu/bình
+      khẩn cấp cũng đi qua đúng đường này nên luôn tự đổi về trang của nó. Lúc Start, trang đang mở là KHÔNG
+      BIẾT → đặt state về None và bấm trang nhà một lần. Hết trận → quay về `AccountSettings.home_page`
+      (mặc định F1, đặt "" là không quay). events.jsonl: page_switch {from_page, to_page}.
+      "Một ô chỉ thuộc một vai trò" giờ so theo (trang, ô): F1+F5 hồi máu và F2+F5 phép cùng tồn tại.
+      HẠN CHẾ CÓ CHỦ Ý: mỗi vai trò vẫn lưu theo ô, nên KHÔNG thể có 2 phép tấn công cùng ô F5 ở 2 trang khác nhau.
+   • 2 LUẬT CPU 30% TÁCH THEO VIỆC ĐANG LÀM: đang TÌM QUÁI không bao giờ xuống dưới 2 lần/giây (FPS_FLOOR), đang
+      ĐÁNH được xuống 1 lần/giây. Luồng ONNX cũng tách: scan.search_threads = 2 khi tìm quái (640 toàn khung,
+      1 luồng không kham nổi 2/s), scan.detect_threads = 1 khi đánh. Cache session của yolox_mobs nay khoá theo
+      (đường dẫn, số luồng) vì số luồng bị nướng vào session lúc tạo. Log mỗi phút tách 2 dòng:
+      "[detect] ...: search 180 ms 2.0/s 36%core 1.52 boxes | fight 120 ms 2.0/s 24%core 2.23 boxes |
+      process cpu 42%"; analyze_records in từng mode.
+   • 3 DÙNG PHÉP CÓ MỤC TIÊU ĐÚNG CÁCH GAME (người dùng xác nhận bằng ảnh màn hình): bấm phím ô → con trỏ đổi
+      thành HÌNH ELIP NGẮM → click trái vào quái. Mặc định cast_order = "key_click" (bỏ bước rê chuột).
+      Thêm loại con trỏ "cast" (Ngắm phép/elip) vào CURSOR_KINDS → tab Con trỏ có đủ nút/phím tắt Ctrl+Alt+5/
+      danh sách "Con trỏ đã thấy", và bộ phân loại trả về "cast" chứ không phải đất/NPC/không rõ.
+      Sau khi bấm phím: chờ tối đa CAST_CURSOR_WAIT = 0,3 s cho elip. Thấy → click. KHÔNG thấy (hết MP, hồi
+      chiêu, sai trang) → KHÔNG click (click chỉ làm nhân vật đi bộ tới đó), ghi spell_cast {ok:false,
+      reason:"no_target_cursor"}, đánh tay tiếp; 3 lần liên tiếp → tạm ngưng phép NO_CAST_PAUSE = 10 s
+      (dùng lại ctx.state["skill_pause_until"] của 0.29). Chưa đăng ký con trỏ elip → cách cũ (bấm, chờ
+      CAST_BLIND_WAIT = 0,15 s, click) và thanh dưới cảnh báo "Chưa đăng ký con trỏ ngắm phép".
+   • 4 GIAO DIỆN: modal "Cài đặt skill" có ô chọn TRANG cạnh ô chọn phím cho mọi skill (đánh/buff/tiện ích),
+      dòng nhắc cam "Gán phép tấn công vào trang F2 (vd. F2 → F5) trong game"; khung HP có ô trang cho hồi máu /
+      bình chính / cuộn về làng / 3 bình phụ; dòng tóm tắt ở tab Kỹ năng hiện "F2+F5 에너지 볼트"; khung Quét
+      thêm "Số luồng ONNX khi tìm quái".
+   • Kiểm tra: smoke_test thêm chuỗi phím đúng thứ tự ("F2","F5",click rồi "F1","F5" cho hồi máu ngay sau đó;
+      lần sau ở lại F2 thì không bấm trang nữa), con trỏ elip (có elip → click; không có → không click + 3 lần
+      là ngưng 10 s; chưa đăng ký → chờ mù rồi click), và detector (2/1 luồng, sàn 2/s khi tìm, 1/s khi đánh).
+      test_ui gán 에너지 볼트 vào F2+F5 trong modal, kiểm tra F1+F5 hồi máu vẫn còn và file config lưu đúng.
+      test_hunt_records chạy đúng logic trang thật (ctx replay dùng mixin HotbarPages).
+      CÒN: chạy thật trên máy game — trước hết ĐĂNG KÝ CON TRỎ NGẮM PHÉP, rồi xem phép có bắn không.
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 
@@ -1100,7 +1138,8 @@ Bản 2 có cả HUONG_DAN.txt (tiếng Việt, đã cập nhật) và GUIDE_KO.
 BẢN PHÁT HÀNH CHO KHÁCH (25/11/2026): dist\LineageAuto_20261125_v15_release.zip — dựng từ CHÍNH zip bản 15
 (dist\LineageAuto_20261125_v15.zip, bản đã chạy thật 11:20-11:35: 62 quái/15 phút), KHÔNG dùng code v16.
 Không có commit nào đúng là v15 (v15 nằm trong working tree và đã bị gộp vào commit v16 c29f0a6), nên không thể
-checkout lại để build; cách làm là giải nén zip v15 rồi chỉ thay 3 thứ, nguồn ở deployelease_v15\:
+checkout lại để build; cách làm là giải nén zip v15 rồi chỉ thay 3 thứ, nguồn ở deploy
+elease_v15\:
   · main\lineage_auto_config.json MỚI: scan.detect_fps 2 thay vì 5 (nút duy nhất bản 15 có để giảm CPU; 5/s
     chiếm ~1,7 nhân và làm game khựng lúc đông quái). CHƯA chạy thử thực tế ở mức 2/s.
   · 1_CAI_DAT.bat: thêm 1 dòng chép cấu hình mặc định CHỈ KHI máy chưa có cấu hình (robocopy vẫn /XF file này,

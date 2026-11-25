@@ -140,6 +140,10 @@ class AccountSession:
         self.ctx.state["focus_stop_after"] = time.monotonic() + FOCUS_GRACE
         self.ctx.window.activate()
         time.sleep(0.2)
+        # PLAN 0.34: which hotbar page the player left open is unknown, so press the home page once and
+        # remember it; every slot press from here on switches page only when it has to.
+        self.ctx.state["hotbar_page"] = None
+        self.ctx.goto_page(self.account.home_page or "F1")
         for feature in self._features():
             feature.on_start()
         if not self.ctx.running:

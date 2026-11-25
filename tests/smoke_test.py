@@ -31,6 +31,7 @@ print('imported',len(mods),'modules OK')
 
 from lineage_auto.config import ConfigStore, AppSettings
 from lineage_auto.config.models import AccountSettings
+from lineage_auto.runtime.context import HotbarPages
 d=tempfile.mkdtemp()
 # legacy v1 config migration
 json.dump({'hp_threshold_pct':40,'skill_hp_enabled':True,'hp_skill_key':'F5','pot_hp_enabled':False,'hp_pot_key':'F7',
@@ -94,7 +95,7 @@ class In:
 class HR:
     def __init__(s,v): s.v=v; s.last_fill_is_green=False
     def read_percent(s,g,r): return s.v
-class Ctx:
+class Ctx(HotbarPages):
     def __init__(s,acc,hp):
         s.account=acc; s.input=In(); s.hp_reader=HR(hp); s.grabber=None; s.state={}; s.running=True
     def read_mp(s,r): return None
@@ -162,8 +163,12 @@ tg.detect_centers=lambda *a,**k: list(fake_hits)
 tg.CursorProbe.current_hash=staticmethod(lambda: 'ground')     # never the attack cursor
 class Cur:
     ready=True
+    cast_registered=False          # PLAN 0.34: no aiming cursor registered -> the old blind wait
+    aim=True                       # what the ellipse probe sees when it is registered
     def is_attack(s,h): return h=='attack'
     def is_corpse(s,h): return h=='corpse'
+    def is_registered(s,kind): return bool(s.cast_registered) if kind=='cast' else True
+    def is_cast(s,h): return bool(s.aim)
 class Mv:
     def __init__(s): s.moves=[]
     def move(s,x,y): s.moves.append((x,y))
@@ -175,7 +180,7 @@ class Win:
 class Arb:
     @contextlib.contextmanager
     def hold(s,i,timeout=0): yield True
-class TCtx:
+class TCtx(HotbarPages):
     def __init__(s):
         s.account=AccountSettings(); s.running=True; s.input=Mv(); s.cursors=Cur(); s.window=Win(); s.arbiter=Arb()
         s.recorder=None; s.state={}
@@ -518,6 +523,7 @@ class SpellIn:
     def move(s,x,y): s.log.append('move')
     def click_at(s,x,y): s.log.append('click')
     def press(s,k): s.log.append('press'+k)
+    def double_press(s,k): s.log.append('dbl'+k)
     def __getattr__(s,n): return lambda *a,**k: None
 sc=TCtx(); sc.character=sc.account.character; sc.can_cast=lambda *a,**k: True
 sc.read_mp=lambda r: sc.state.get('mp')
@@ -547,7 +553,42 @@ assert cf._skipped=={'out_of_range':1,'low_mp':1}, cf._skipped
 from lineage_auto.config.models import AccountSettings as _AS
 back=_AS.from_dict(sc.account.to_dict())
 assert back.cast_order=='click_key' and back.attack('F5').min_mp==40 and back.attack('F5').cooldown==5.0
-print('attack spells: 3 cast orders, MP/range/cooldown gates, events OK')
+# PLAN 0.34: a slot is (page, key). Page F1 is full, so the spell sits on F2: pressing it switches the page
+# first, and the heal that follows is on F1, which switches back. The page key is never pressed twice in a row.
+sc.account.cast_order='key_click'
+f5.page='F2'
+sc.input=SpellIn(); sc.state['hotbar_page']='F1'
+cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+sc.press_slot('F1','F5',double=True)                       # the heal right after, as HealthFeature presses it
+assert sc.input.log==['pressF2','pressF5','click','pressF1','dblF5'], sc.input.log
+sc.input=SpellIn(); cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert sc.input.log==['pressF2','pressF5','click'], sc.input.log          # back on F2 -> one switch, not two
+sc.input=SpellIn(); cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert sc.input.log==['pressF5','click'], sc.input.log                    # already on F2 -> no page key
+pg=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
+    if '"page_switch"' in l]
+assert [(e['from_page'],e['to_page']) for e in pg][:3]==[('F1','F2'),('F2','F1'),('F1','F2')], pg
+
+# PLAN 0.34: the client arms a targeted spell by turning the cursor into an aiming ellipse. No ellipse = the
+# spell never armed (no MP, cooling down, wrong page): clicking would only walk the character, so do not.
+sc.cursors.cast_registered=True; sc.cursors.aim=True
+sc.input=SpellIn(); sc.state['hotbar_page']='F2'
+_a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert fired and sc.input.log==['pressF5','click'], sc.input.log
+sc.cursors.aim=False
+sc.state['skill_pause_until']=0.0
+for strike in range(cb.NO_CAST_STRIKES):
+    sc.input=SpellIn()
+    _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+    assert not fired and sc.input.log==['pressF5'], sc.input.log          # pressed, never clicked
+assert sc.state['skill_pause_until']>time.time()+cb.NO_CAST_PAUSE-2, sc.state   # 3 in a row -> spells paused
+miss=[json.loads(l) for l in open(os.path.join(sc.recorder.path,'events.jsonl'),encoding='utf-8')
+      if '"spell_cast"' in l and '"ok": false' in l]
+assert len(miss)==cb.NO_CAST_STRIKES and miss[0]['reason']=='no_target_cursor', miss[:1]
+sc.cursors.cast_registered=False                                           # unregistered -> blind wait, clicks
+sc.input=SpellIn(); _a,fired=cf._cast_at_target('F5',sc.rect(),(640,380),(700,400))
+assert fired and sc.input.log==['pressF5','click'], sc.input.log
+print('attack spells: 3 cast orders, hotbar pages, aiming cursor, MP/range/cooldown gates, events OK')
 # PLAN 0.31: YOLOX on its own thread; targeting reads the newest result, never the character's own box
 from lineage_auto.runtime.detector import DetectorThread
 importlib.reload(tg)  # the scan tests above replaced tg.detect_centers / CursorProbe
@@ -556,11 +597,13 @@ if dframe is not None:
     dctx2=TCtx(); dctx2.account.hunt_map='blessed_orc'
     dctx2.rect=lambda: ClientRect(0,0,1280,960); dctx2.char_pos=lambda r: (640,380)
     dctx2.grabber=types.SimpleNamespace(grab_bgr=lambda r: dframe, close_thread=lambda: None)
-    det=DetectorThread(dctx2); assert det.size==640 and not det.roi and det.fps==2, det.describe()
-    assert det.adaptive and det.fight_size==416                      # PLAN 0.33: every 2nd fight detect is cheap
-    assert det._mode(0)==(640,False) and det._mode(1)==(640,False)   # no fight running: always the full frame
+    det=DetectorThread(dctx2)
+    assert det.size==640 and not det.roi and det.fps=={'search':2,'fight':2}, det.describe()
+    assert det.threads=={'search':2,'fight':1}, det.threads           # PLAN 0.34: 2 threads only while searching
+    assert det.adaptive and det.fight_size==416                       # PLAN 0.33: every 2nd fight detect is cheap
+    assert det._mode(0)==(640,False,2,'search') and det._mode(1)==(640,False,2,'search')
     dctx2.state['fight_until']=time.monotonic()+1
-    assert det._mode(0)==(640,False) and det._mode(1)==(416,True), (det._mode(0),det._mode(1))
+    assert det._mode(0)==(640,False,1,'fight') and det._mode(1)==(416,True,1,'fight'), (det._mode(0),det._mode(1))
     dctx2.state['fight_until']=0
     det.start(); first=det.newest(0,wait=5.0); second=det.newest(first.seq,wait=5.0)
     assert first and second.seq>first.seq and first.hits, (first, second)
@@ -571,7 +614,11 @@ if dframe is not None:
     det._step_down(60); assert det.size==640                     # fast enough on the first log: kept for good
     det._stepped=False; det._step_down(95); assert det.size==640      # 95 ms still keeps 2/s: no step down
     det._stepped=False; det._step_down(600); assert det.size==416     # cannot keep 2/s: one step down
-    det.fps=5; det.period=0.2; det._slow_down(180,5)                 # PLAN 0.33: 180 ms x 5/s = 0.9 core -> 4/s
-    assert det.fps==4 and det._slow_down(10,1)<0.03 and det.fps==4
+    det.fps['search']=5; det._slow_down('search',180,5)               # PLAN 0.33: 180 ms x 5/s -> one step down
+    assert det.fps['search']==4 and det._slow_down('search',10,1)<0.03 and det.fps['search']==4
+    for _ in range(5): det._slow_down('search',300,2)                 # PLAN 0.34: searching never goes under 2/s
+    assert det.fps['search']==2, det.fps
+    for _ in range(5): det._slow_down('fight',300,2)                  # a fight may go down to 1/s
+    assert det.fps['fight']==1, det.fps
     print(f'detector thread: {det.describe()}, {first.ms:.0f} ms, hits {first.hits[:3]} OK')
 print('ALL SMOKE TESTS PASSED')

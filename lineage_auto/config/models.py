@@ -12,7 +12,9 @@ from .. import characters, hunt_maps
 from ..characters.base import HOTKEYS
 
 # Cursor shapes the bot tells apart. Only "attack" is required.
-CURSOR_KINDS = ("attack", "corpse", "ground", "npc")
+# PLAN 0.34: "cast" is the aiming ellipse the client shows after a spell hotkey is pressed - seeing it is how
+# the bot knows the spell is armed and it may click the monster.
+CURSOR_KINDS = ("attack", "corpse", "ground", "npc", "cast")
 
 # v1/v2 config names for the same cursors.
 LEGACY_CURSOR_ALIASES = {
@@ -23,7 +25,8 @@ LEGACY_CURSOR_ALIASES = {
 }
 
 # Cursor registration hotkeys (PLAN 0.11 v5). Never F1-F12 / ESC / Pause (game + bot keys).
-DEFAULT_CURSOR_KEYS = {"attack": "Ctrl+Alt+1", "corpse": "Ctrl+Alt+2", "ground": "Ctrl+Alt+3", "npc": "Ctrl+Alt+4"}
+DEFAULT_CURSOR_KEYS = {"attack": "Ctrl+Alt+1", "corpse": "Ctrl+Alt+2", "ground": "Ctrl+Alt+3",
+                       "npc": "Ctrl+Alt+4", "cast": "Ctrl+Alt+5"}
 
 
 @dataclass
@@ -43,7 +46,19 @@ class SkillSetting:
 
 
 # PLAN 1.6: how the client takes a targeted spell. The user can switch this on the game PC without a rebuild.
-CAST_ORDERS = ("hover_key_click", "key_click", "click_key")
+# PLAN 0.34, confirmed by the user from the game: press the slot key, the cursor turns into an aiming
+# ellipse, then left-click the monster. "key_click" is therefore the default.
+CAST_ORDERS = ("key_click", "hover_key_click", "click_key")
+
+# PLAN 0.34: the game has three hotbar pages (F1/F2/F3), each with the eight slots F5-F12. A slot is therefore
+# (page, key), not a key: page F1 is full of heal / potions / return scroll / buffs, so attack spells live on F2.
+# A config older than v16 has only the key, which always meant the page the player had open: F1.
+HOTBAR_PAGES = ("F1", "F2", "F3")
+
+
+def hotbar_page(value, default=HOTBAR_PAGES[0]):
+    page = str(value or "").upper()
+    return page if page in HOTBAR_PAGES else default
 
 
 @dataclass
@@ -52,6 +67,7 @@ class AttackSkillSetting:
 
     enabled: bool = False
     skill_id: str = ""
+    page: str = HOTBAR_PAGES[0]  # PLAN 0.34: hotbar page this slot sits on
     min_mp: int = 0  # % MP below which this slot is skipped (hand attack instead); 0 = never skip
     range_px: int = 0  # max character->target distance in client px; 0 = any distance
     cooldown: float = 0.0  # s between two uses of this slot; 0 = the class skill_interval
@@ -62,6 +78,7 @@ class AttackSkillSetting:
         return cls(
             enabled=bool(data.get("enabled", False)),
             skill_id=str(data.get("skill_id", "")),
+            page=hotbar_page(data.get("page")),
             min_mp=min(100, max(0, int(data.get("min_mp", 0) or 0))),
             range_px=max(0, int(data.get("range_px", 0) or 0)),
             cooldown=max(0.0, float(data.get("cooldown", 0.0) or 0.0)),
@@ -73,6 +90,7 @@ class BuffSkillSetting:
     enabled: bool = False
     duration_min: float = 20.0
     skill_id: str = ""
+    page: str = HOTBAR_PAGES[0]
 
     @classmethod
     def from_dict(cls, data):
@@ -82,6 +100,7 @@ class BuffSkillSetting:
             enabled=bool(data.get("enabled", False)),
             duration_min=max(0.1, duration),
             skill_id=str(data.get("skill_id", "")),
+            page=hotbar_page(data.get("page")),
         )
 
 
@@ -128,6 +147,7 @@ class PotionSetting:
     enabled: bool = False
     stat: str = "hp"  # "hp" | "mp"
     key: str = "F7"
+    page: str = HOTBAR_PAGES[0]
     pct: int = 50
     cooldown: float = 1.5
 
@@ -138,6 +158,7 @@ class PotionSetting:
             enabled=bool(data.get("enabled", False)),
             stat="mp" if data.get("stat") == "mp" else "hp",
             key=str(data.get("key", "F7")),
+            page=hotbar_page(data.get("page")),
             pct=min(95, max(5, int(data.get("pct", 50)))),
             cooldown=max(0.2, float(data.get("cooldown", 1.5))),
         )
@@ -153,14 +174,17 @@ class HealthSettings:
     threshold_pct: int = 50
     use_skill: bool = True
     skill_key: str = "F5"
+    skill_page: str = HOTBAR_PAGES[0]
     use_potion: bool = True
     potion_key: str = "F6"
+    potion_page: str = HOTBAR_PAGES[0]
     # PLAN 0.3: exact "HP:x/y" / "MP:x/y" from the HUD text, bar reading as fallback.
     read_hud_numbers: bool = True
     # PLAN 1.3 (A5): return scroll (귀환 주문서) below this HP, then stop. Off = old behaviour.
     return_town: bool = False
     return_pct: int = 35
     return_key: str = "F8"
+    return_page: str = HOTBAR_PAGES[0]
     potions: list = field(default_factory=lambda: _potion_slots(None))
 
     @classmethod
@@ -170,12 +194,15 @@ class HealthSettings:
             threshold_pct=int(data.get("threshold_pct", 50)),
             use_skill=bool(data.get("use_skill", True)),
             skill_key=str(data.get("skill_key", "F5")),
+            skill_page=hotbar_page(data.get("skill_page")),
             use_potion=bool(data.get("use_potion", True)),
             potion_key=str(data.get("potion_key", "F6")),
+            potion_page=hotbar_page(data.get("potion_page")),
             read_hud_numbers=bool(data.get("read_hud_numbers", True)),
             return_town=bool(data.get("return_town", False)),
             return_pct=min(90, max(5, int(data.get("return_pct", 35)))),
             return_key=str(data.get("return_key", "F8")),
+            return_page=hotbar_page(data.get("return_page")),
             potions=_potion_slots(data.get("potions")),
         )
 
@@ -207,7 +234,8 @@ class ScanSettings:
     # is running (near boxes only are needed then) and drops the rate further when a detect costs more CPU than
     # CPU_SHARE of one core. ``detect_threads`` is onnxruntime's intra_op threads (1 = one core).
     detect_fps: int = 2
-    detect_threads: int = 1
+    detect_threads: int = 1  # onnxruntime threads while fighting (the cheap crop, next to the game)
+    search_threads: int = 2  # PLAN 0.34: full 640 frame while searching; one thread cannot keep 2/s
     adaptive_detect: bool = True
     input_size: int = 640
     detect_roi: bool = False
@@ -246,6 +274,7 @@ class ScanSettings:
             # PLAN 0.33: 5 was the v15 default that pinned two cores -> read back as "not chosen".
             detect_fps=min(15, max(1, 2 if int(data.get("detect_fps", 2)) == 5 else int(data.get("detect_fps", 2)))),
             detect_threads=min(8, max(1, int(data.get("detect_threads", 1)))),
+            search_threads=min(8, max(1, int(data.get("search_threads", 2)))),
             adaptive_detect=bool(data.get("adaptive_detect", True)),
             **cls._detect_v15(data),
         )
@@ -367,6 +396,8 @@ class AccountSettings:
     buff_vision: dict = field(default_factory=dict)
     cursor_keys: dict = field(default_factory=lambda: dict(DEFAULT_CURSOR_KEYS))
     cast_order: str = CAST_ORDERS[0]  # PLAN 1.6
+    # PLAN 0.34: page to go back to when a fight ends (the page with heal / potions). "" = stay where we are.
+    home_page: str = HOTBAR_PAGES[0]
 
     def __post_init__(self):
         for kind in CURSOR_KINDS:
@@ -410,8 +441,9 @@ class AccountSettings:
         self.utility(key).enabled = False
 
     def enforce_skill_exclusivity(self):
-        """One F-key may only be enabled in one of attack / buff / utility.
+        """One hotbar SLOT may only be enabled in one of attack / buff / utility.
 
+        PLAN 0.34: a slot is (page, key), so F5 on page F1 (heal) and F5 on page F2 (a spell) live side by side.
         Priority when conflicts exist: buff keeps, then utility, attack cleared.
         """
         for key in HOTKEYS:
@@ -425,6 +457,12 @@ class AccountSettings:
                 )
                 if mapping[key].enabled
             ]
+            pages = {
+                name: mapping[key].page
+                for name, mapping in (("buff", self.buff_skills), ("utility", self.utility_skills),
+                                      ("attack", self.attack_skills))
+            }
+            enabled = [name for name in enabled if sum(pages[n] == pages[name] for n in enabled) > 1]
             if len(enabled) <= 1:
                 continue
             keep = enabled[0]
@@ -453,6 +491,7 @@ class AccountSettings:
             "buff_vision": dict(self.buff_vision),
             "cursor_keys": dict(self.cursor_keys),
             "cast_order": self.cast_order,
+            "home_page": self.home_page,
         }
 
     @classmethod
@@ -506,6 +545,7 @@ class AccountSettings:
             cursor_keys={k: str((data.get("cursor_keys") or {}).get(k) or v) for k, v in DEFAULT_CURSOR_KEYS.items()},
             cast_order=(str(data.get("cast_order", "")) if str(data.get("cast_order", "")) in CAST_ORDERS
                         else CAST_ORDERS[0]),
+            home_page=("" if data.get("home_page") == "" else hotbar_page(data.get("home_page"))),
         )
         return account
 

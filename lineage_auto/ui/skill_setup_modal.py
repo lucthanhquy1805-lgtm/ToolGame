@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 
 from ..characters.base import HOTKEYS
-from ..config.models import CAST_ORDERS, AttackSkillSetting, BuffSkillSetting
+from ..config.models import CAST_ORDERS, HOTBAR_PAGES, AttackSkillSetting, BuffSkillSetting, hotbar_page
 from ..skills.catalog import get_catalog
 from ..skills.policy import HEAL_SKILL_ID, is_modal_assignable
 from .skill_icons import load_photo_icon
@@ -86,8 +86,10 @@ class SkillSetupModal:
             master=self.window, value=self.tab.t(f"cast_order_{self.account.cast_order}"))
         ttk.Combobox(head, textvariable=self._order_var, values=list(labels), state="readonly",
                      width=24).pack(side="left", padx=(4, 0))
+        ttk.Label(page, text=self.tab.t("attack_page_hint"), foreground="#e65100",
+                  padding=(6, 0), wraplength=640).pack(fill="x")
         ttk.Label(page, text=self.tab.t("attack_skills_hint"), foreground="gray",
-                  padding=(6, 0)).pack(fill="x")
+                  padding=(6, 0), wraplength=640).pack(fill="x")
 
     def _build_scrollable_page(self, page, role):
         if role == "attack":
@@ -156,6 +158,10 @@ class SkillSetupModal:
             ttk.Separator(parent).pack(fill="x", padx=6)
             return
 
+        f_page = tk.StringVar(master=self.window,
+                              value=current.page if current is not None else HOTBAR_PAGES[0])
+        ttk.Combobox(row, textvariable=f_page, values=list(HOTBAR_PAGES), state="readonly",
+                     width=4).pack(side="left", padx=(4, 0))
         f_key = tk.StringVar(master=self.window, value=current_key)
         enabled = tk.BooleanVar(
             master=self.window,
@@ -173,6 +179,7 @@ class SkillSetupModal:
         row_state = {
             "skill": skill,
             "f_key": f_key,
+            "f_page": f_page,
             "enabled": enabled,
             "assignable": True,
         }
@@ -243,9 +250,11 @@ class SkillSetupModal:
                         enabled=enabled,
                         skill_id=skill_id,
                         duration_min=duration,
+                        page=hotbar_page(row["f_page"].get()),
                     )
                 else:
-                    setting = AttackSkillSetting(enabled=enabled, skill_id=skill_id)
+                    setting = AttackSkillSetting(enabled=enabled, skill_id=skill_id,
+                                                 page=hotbar_page(row["f_page"].get()))
                     for field, cast in (("min_mp", int), ("range_px", int), ("cooldown", float)):
                         if field in row:
                             try:
@@ -282,7 +291,7 @@ class SkillSetupModal:
             setting.f_key
             for draft in (attack_draft, buff_draft, utility_draft)
             for setting in draft.values()
-            if setting.enabled and setting.f_key in reserved
+            if setting.enabled and (setting.page, setting.f_key) in reserved
         }
         if hp_overlap:
             # The HP panel owns these keys; drop the skill slots, keep the rest.
@@ -300,7 +309,7 @@ class SkillSetupModal:
         for setting in attack_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
                 attack_map[setting.f_key] = AttackSkillSetting(
-                    enabled=True, skill_id=setting.skill_id, min_mp=setting.min_mp,
+                    enabled=True, skill_id=setting.skill_id, page=setting.page, min_mp=setting.min_mp,
                     range_px=setting.range_px, cooldown=setting.cooldown)
         for setting in buff_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
@@ -308,10 +317,12 @@ class SkillSetupModal:
                     enabled=True,
                     skill_id=setting.skill_id,
                     duration_min=setting.duration_min,
+                    page=setting.page,
                 )
         for setting in utility_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
-                utility_map[setting.f_key] = AttackSkillSetting(enabled=True, skill_id=setting.skill_id)
+                utility_map[setting.f_key] = AttackSkillSetting(enabled=True, skill_id=setting.skill_id,
+                                                                 page=setting.page)
 
         order = getattr(self, "_order_var", None)
         if order is not None:
@@ -339,17 +350,20 @@ class SkillSetupModal:
                     continue
                 key = getattr(setting, "f_key", "")
                 if key in HOTKEYS:
-                    counts[key] = counts.get(key, 0) + 1
-        return {key for key, count in counts.items() if count > 1}
+                    # PLAN 0.34: F5 on page F1 and F5 on page F2 are two different slots.
+                    slot = (setting.page, key)
+                    counts[slot] = counts.get(slot, 0) + 1
+        return {key for (page, key), count in counts.items() if count > 1}
 
     def _hp_reserved_keys(self):
+        """Hotbar slots the HP panel owns, as (page, key) - PLAN 0.34."""
         health = self.account.health
-        keys = set()
+        slots = set()
         if health.use_skill and health.skill_key in HOTKEYS:
-            keys.add(health.skill_key)
+            slots.add((health.skill_page, health.skill_key))
         if health.use_potion and health.potion_key in HOTKEYS:
-            keys.add(health.potion_key)
-        return keys
+            slots.add((health.potion_page, health.potion_key))
+        return slots
 
     def _clear_row_hotkeys(self, fkeys):
         """Reset modal comboboxes that still show a conflicting F-key."""
@@ -368,6 +382,10 @@ class SkillSetupModal:
                 if getattr(setting, "f_key", "") in fkeys:
                     setting.enabled = False
                     setting.f_key = ""
+
+    @staticmethod
+    def _keys_of(slots):
+        return {key for _page, key in slots}
 
     def _hp_overlap_messages(self, overlap_keys):
         health = self.account.health
@@ -389,16 +407,13 @@ class SkillSetupModal:
 
     def _hp_overlap_warnings(self):
         reserved = self._hp_reserved_keys()
-        enabled_keys = {
-            key
+        enabled_slots = {
+            (getter(key).page, key)
             for key in HOTKEYS
-            if (
-                self.account.attack(key).enabled
-                or self.account.buff(key).enabled
-                or self.account.utility(key).enabled
-            )
+            for getter in (self.account.attack, self.account.buff, self.account.utility)
+            if getter(key).enabled
         }
-        return self._hp_overlap_messages(reserved & enabled_keys)
+        return self._hp_overlap_messages(self._keys_of(reserved & enabled_slots))
 
     def _cancel(self):
         self._destroy()

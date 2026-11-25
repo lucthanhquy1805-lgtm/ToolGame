@@ -70,8 +70,8 @@ class HealthFeature(Feature):
                 continue
             if now - self._extra_used.get(i, 0.0) < potion.cooldown:
                 continue
-            self.log(f"{value}% {potion.stat} -> potion {potion.key}")
-            self.input.press(potion.key)
+            self.log(f"{value}% {potion.stat} -> potion {potion.page}+{potion.key}")
+            self.ctx.press_slot(potion.page, potion.key)
             self._extra_used[i] = now
             self.just_acted = True
             return
@@ -80,8 +80,8 @@ class HealthFeature(Feature):
         now = time.time()
         can_heal = self.ctx.can_cast(HEAL_SKILL_ID)
         if self.settings.use_skill and now - self._last_skill > SKILL_COOLDOWN and can_heal:
-            self.log(f"{hp}% hp -> heal skill {self.settings.skill_key}")
-            self.input.double_press(self.settings.skill_key)
+            self.log(f"{hp}% hp -> heal skill {self.settings.skill_page}+{self.settings.skill_key}")
+            self.ctx.press_slot(self.settings.skill_page, self.settings.skill_key, double=True)
             self._last_skill = now
             self.just_acted = True
         elif (
@@ -91,8 +91,8 @@ class HealthFeature(Feature):
         ):
             mp = self.ctx.state.get("mp")
             extra = f" mp {mp}%" if mp is not None else ""
-            self.log(f"{hp}% hp{extra} -> potion {self.settings.potion_key}")
-            self.input.press(self.settings.potion_key)
+            self.log(f"{hp}% hp{extra} -> potion {self.settings.potion_page}+{self.settings.potion_key}")
+            self.ctx.press_slot(self.settings.potion_page, self.settings.potion_key)
             self._last_potion = now
             self.just_acted = True
 
@@ -133,8 +133,9 @@ class HealthFeature(Feature):
 
     def _go_town(self, hp):
         self.input.release_left()
-        self.log(f"{hp}% hp < {self.settings.return_pct}% -> return scroll {self.settings.return_key}, stopping")
-        self.input.press(self.settings.return_key)
+        self.log(f"{hp}% hp < {self.settings.return_pct}% -> return scroll "
+                 f"{self.settings.return_page}+{self.settings.return_key}, stopping")
+        self.ctx.press_slot(self.settings.return_page, self.settings.return_key)
         self.returned = True
 
     def _snapshot_death(self, rect):

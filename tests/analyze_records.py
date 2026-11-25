@@ -325,17 +325,36 @@ def time_report(summary, events):
     load = [e for e in events if e.get("kind") == "detect_stats"]  # PLAN 0.33, one per minute
     if load:
         avg = lambda k: sum(e.get(k) or 0 for e in load) / len(load)  # noqa: E731
-        print(f"detector load ({len(load)} min): cpu {avg('cpu_pct'):.0f}% of a core, {avg('fps'):.1f}/s real, "
-              f"{avg('ms'):.0f} ms, {avg('boxes_per_frame'):.2f} boxes/frame, duty {avg('duty'):.0%} "
-              f"(size {load[-1].get('size')}, fight {load[-1].get('fight_size')}, "
-              f"threads {load[-1].get('threads')}, cap {load[-1].get('max_fps')}/s)")
+        if any("search" in e or "fight" in e for e in load):  # PLAN 0.34: split by what the bot was doing
+            print(f"detector load ({len(load)} min): process cpu {avg('cpu_pct'):.0f}% of a core")
+            for mode in ("search", "fight"):
+                rows = [e[mode] for e in load if isinstance(e.get(mode), dict)]
+                if not rows:
+                    continue
+                m = lambda k: sum(r.get(k) or 0 for r in rows) / len(rows)  # noqa: E731
+                print(f"  {mode:6s} {m('ms'):.0f} ms, {m('fps'):.1f}/s, {m('duty'):.0%} of a core, "
+                      f"{m('boxes_per_frame'):.2f} boxes/frame "
+                      f"({rows[-1].get('threads')} threads, cap {rows[-1].get('max_fps')}/s)")
+        else:  # v16 before the split
+            print(f"detector load ({len(load)} min): cpu {avg('cpu_pct'):.0f}% of a core, {avg('fps'):.1f}/s real, "
+                  f"{avg('ms'):.0f} ms, {avg('boxes_per_frame'):.2f} boxes/frame, duty {avg('duty'):.0%} "
+                  f"(size {load[-1].get('size')}, fight {load[-1].get('fight_size')}, "
+                  f"threads {load[-1].get('threads')}, cap {load[-1].get('max_fps')}/s)")
     spells = [e for e in events if e.get("kind") == "spell_cast"]  # PLAN 1.6
+    fired = [e for e in spells if e.get("ok", True)]
+    missed = Counter(e.get("reason") for e in spells if not e.get("ok", True))  # PLAN 0.34
     if spells:
-        used = Counter(e.get("key") for e in spells)
-        drops = [e["mp_before"] - e["mp_after"] for e in spells
+        used = Counter(f"{e.get('page', 'F1')}+{e.get('key')}" for e in fired)
+        drops = [e["mp_before"] - e["mp_after"] for e in fired
                  if e.get("mp_before") is not None and e.get("mp_after") is not None]
         mp = f", MP -{sum(drops) / len(drops):.1f}%/cast" if drops else ""
-        print(f"spells: {len(spells)} casts {dict(used)}, order {spells[-1].get('order')}{mp}")
+        print(f"spells: {len(fired)} casts {dict(used)}, order {spells[-1].get('order')}{mp}")
+        if missed:
+            print(f"  spells that never armed (no aiming cursor): {dict(missed)} of {len(spells)} tries")
+    pages = [e for e in events if e.get("kind") == "page_switch"]  # PLAN 0.34
+    if pages:
+        moves = Counter(f"{e.get('from_page')}->{e.get('to_page')}" for e in pages)
+        print(f"hotbar pages: {len(pages)} switches {dict(moves)}")
     with_spell = [e for e in ends if e.get("spells") and e["outcome"] in KILL_ENDS]
     hand = [e for e in ends if not e.get("spells") and e["outcome"] in KILL_ENDS]
     if with_spell:

@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from ...characters.base import HOTKEYS
-from ...config.models import EXTRA_POTION_SLOTS, PotionSetting
+from ...config.models import EXTRA_POTION_SLOTS, HOTBAR_PAGES, PotionSetting, hotbar_page
 from ...skills import HEAL_SKILL_ID, get_catalog
 from ..skill_icons import load_photo_icon
 from .base import Panel
@@ -14,12 +14,15 @@ class HealthPanel(Panel):
         self.threshold = tk.IntVar(value=50)
         self.use_skill = tk.BooleanVar(value=True)
         self.skill_key = tk.StringVar(value="F5")
+        self.skill_page = tk.StringVar(value=HOTBAR_PAGES[0])
         self.use_potion = tk.BooleanVar(value=True)
         self.potion_key = tk.StringVar(value="F6")
+        self.potion_page = tk.StringVar(value=HOTBAR_PAGES[0])
         self.read_hud = tk.BooleanVar(value=True)
         self.return_town = tk.BooleanVar(value=False)
         self.return_pct = tk.IntVar(value=35)
         self.return_key = tk.StringVar(value="F8")
+        self.return_page = tk.StringVar(value=HOTBAR_PAGES[0])
         self._heal_photo = None
 
         self.frame = ttk.LabelFrame(self.parent, text=" HP ", padding=6)
@@ -48,6 +51,9 @@ class HealthPanel(Panel):
         self.lbl_heal_name = ttk.Label(bottom, foreground="gray")
         self.lbl_heal_name.pack(side="left", padx=(0, 4))
         ttk.Combobox(
+            bottom, textvariable=self.skill_page, values=list(HOTBAR_PAGES), width=3, state="readonly"
+        ).pack(side="left", padx=(4, 0))
+        ttk.Combobox(
             bottom, textvariable=self.skill_key, values=list(HOTKEYS), width=5, state="readonly"
         ).pack(side="left", padx=4)
         potion = ttk.Frame(self.frame)  # own row: the tool is ~440 px wide now
@@ -57,8 +63,11 @@ class HealthPanel(Panel):
         )
         self.chk_potion.pack(side="left")
         ttk.Combobox(
+            potion, textvariable=self.potion_page, values=list(HOTBAR_PAGES), width=3, state="readonly"
+        ).pack(side="left", padx=(6, 0))
+        ttk.Combobox(
             potion, textvariable=self.potion_key, values=list(HOTKEYS), width=5, state="readonly"
-        ).pack(side="left", padx=8)
+        ).pack(side="left", padx=4)
 
         town = ttk.Frame(self.frame)
         town.pack(fill="x", pady=(4, 0))
@@ -69,9 +78,16 @@ class HealthPanel(Panel):
             width=5, command=self.tab.request_save,
         ).pack(side="left", padx=6)
         ttk.Label(town, text="%").pack(side="left")
+        # PLAN 0.34: the page picker does not fit beside the long "return when HP below" label -> own row.
+        town_slot = ttk.Frame(self.frame)
+        town_slot.pack(fill="x")
+        ttk.Label(town_slot, text="", width=3).pack(side="left")
         ttk.Combobox(
-            town, textvariable=self.return_key, values=list(HOTKEYS), width=5, state="readonly"
-        ).pack(side="left", padx=8)
+            town_slot, textvariable=self.return_page, values=list(HOTBAR_PAGES), width=3, state="readonly"
+        ).pack(side="left", padx=(6, 0))
+        ttk.Combobox(
+            town_slot, textvariable=self.return_key, values=list(HOTKEYS), width=5, state="readonly"
+        ).pack(side="left", padx=(2, 0))
 
         # PLAN 1.4: extra potion slots: [on] HP/MP < pct% key cooldown s
         self.potion_rows = []
@@ -81,6 +97,7 @@ class HealthPanel(Panel):
             v = {
                 "enabled": tk.BooleanVar(value=False), "stat": tk.StringVar(value="HP"),
                 "pct": tk.IntVar(value=50), "key": tk.StringVar(value="F7"),
+                "page": tk.StringVar(value=HOTBAR_PAGES[0]),
                 "cooldown": tk.DoubleVar(value=1.5),
             }
             v["chk"] = ttk.Checkbutton(row, text="", variable=v["enabled"], command=self.tab.request_save)
@@ -91,8 +108,10 @@ class HealthPanel(Panel):
             ttk.Spinbox(row, from_=5, to=95, increment=5, textvariable=v["pct"], width=5,
                         command=self.tab.request_save).pack(side="left", padx=4)
             ttk.Label(row, text="%").pack(side="left")
+            ttk.Combobox(row, textvariable=v["page"], values=list(HOTBAR_PAGES), width=3,
+                         state="readonly").pack(side="left", padx=(6, 0))
             ttk.Combobox(row, textvariable=v["key"], values=list(HOTKEYS), width=5, state="readonly").pack(
-                side="left", padx=8)
+                side="left", padx=4)
             ttk.Spinbox(row, from_=0.2, to=60, increment=0.5, textvariable=v["cooldown"], width=5,
                         command=self.tab.request_save).pack(side="left")
             ttk.Label(row, text="s").pack(side="left", padx=(2, 0))
@@ -120,17 +139,21 @@ class HealthPanel(Panel):
         self.threshold.set(settings.threshold_pct)
         self.use_skill.set(settings.use_skill)
         self.skill_key.set(settings.skill_key)
+        self.skill_page.set(settings.skill_page)
         self.use_potion.set(settings.use_potion)
         self.potion_key.set(settings.potion_key)
+        self.potion_page.set(settings.potion_page)
         self.read_hud.set(settings.read_hud_numbers)
         self.return_town.set(settings.return_town)
         self.return_pct.set(settings.return_pct)
         self.return_key.set(settings.return_key)
+        self.return_page.set(settings.return_page)
         for v, potion in zip(self.potion_rows, settings.potions):
             v["enabled"].set(potion.enabled)
             v["stat"].set(potion.stat.upper())
             v["pct"].set(potion.pct)
             v["key"].set(potion.key)
+            v["page"].set(potion.page)
             v["cooldown"].set(potion.cooldown)
         self._refresh_heal_skill_badge()
 
@@ -139,16 +162,19 @@ class HealthPanel(Panel):
         settings.threshold_pct = int(self.threshold.get())
         settings.use_skill = bool(self.use_skill.get())
         settings.skill_key = self.skill_key.get()
+        settings.skill_page = hotbar_page(self.skill_page.get())
         settings.use_potion = bool(self.use_potion.get())
         settings.potion_key = self.potion_key.get()
+        settings.potion_page = hotbar_page(self.potion_page.get())
         settings.read_hud_numbers = bool(self.read_hud.get())
         settings.return_town = bool(self.return_town.get())
         settings.return_pct = min(90, max(5, int(self.return_pct.get())))
         settings.return_key = self.return_key.get()
+        settings.return_page = hotbar_page(self.return_page.get())
         settings.potions = [
             PotionSetting.from_dict({
                 "enabled": v["enabled"].get(), "stat": v["stat"].get().lower(), "pct": v["pct"].get(),
-                "key": v["key"].get(), "cooldown": v["cooldown"].get(),
+                "key": v["key"].get(), "page": v["page"].get(), "cooldown": v["cooldown"].get(),
             })
             for v in self.potion_rows
         ]

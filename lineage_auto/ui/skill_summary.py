@@ -19,6 +19,11 @@ def _format_duration_minutes(duration_min):
     return f"{duration_min:g}m"
 
 
+def _slot(setting, key):
+    """How a slot reads in the summary: always page + key ("F2+F5"), so a wrong page is visible (PLAN 0.34)."""
+    return f"{getattr(setting, 'page', 'F1')}+{key}"
+
+
 def _skill_name(catalog, skill_id):
     entry = catalog.get(skill_id)
     if entry is None:
@@ -43,7 +48,7 @@ def format_skill_summary(account, catalog, t=None):
         if buff.enabled and buff.skill_id and is_auto_enabled(buff.skill_id):
             name = _skill_name(catalog, buff.skill_id)
             duration = _format_duration_minutes(buff.duration_min)
-            buff_parts.append(f"{key} {name} ({duration})")
+            buff_parts.append(f"{_slot(buff, key)} {name} ({duration})")
 
         attack = account.attack(key)
         if (
@@ -52,7 +57,7 @@ def format_skill_summary(account, catalog, t=None):
             and is_auto_enabled(attack.skill_id)
         ):
             name = _skill_name(catalog, attack.skill_id)
-            attack_parts.append(f"{key} {name}")
+            attack_parts.append(f"{_slot(attack, key)} {name}")
 
         utility = account.utility(key)
         if not utility.enabled:
@@ -62,7 +67,7 @@ def format_skill_summary(account, catalog, t=None):
         if not is_auto_enabled(utility.skill_id):
             continue
         name = _skill_name(catalog, utility.skill_id)
-        utility_parts.append(f"{key} {name}")
+        utility_parts.append(f"{_slot(utility, key)} {name}")
 
     segments = []
     if buff_parts:
@@ -79,16 +84,18 @@ def format_skill_summary(account, catalog, t=None):
 
 
 def _draft_fkey_map(draft):
-    """Map assigned F-keys to draft keys for enabled entries."""
-    by_fkey = {}
+    """Map assigned hotbar slots to draft keys for enabled entries.
+
+    PLAN 0.34: a slot is (page, F-key) - F5 on page F1 and F5 on page F2 are different slots."""
+    by_slot = {}
     for key, setting in draft.items():
         if not setting.enabled:
             continue
         f_key = key if key in HOTKEYS else getattr(setting, "f_key", "")
         if not f_key or f_key not in HOTKEYS:
             continue
-        by_fkey.setdefault(f_key, []).append(key)
-    return by_fkey
+        by_slot.setdefault((getattr(setting, "page", "F1"), f_key), []).append(key)
+    return by_slot
 
 
 def validate_skill_draft(attack_draft, buff_draft, utility_draft=None):

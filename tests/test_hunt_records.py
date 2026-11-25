@@ -30,6 +30,8 @@ import cv2
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 os.chdir(ROOT)
+
+from lineage_auto.runtime.context import HotbarPages  # noqa: E402
 BEAT_COST = 0.25
 CURSOR_R = 30
 CHAR = (640, 380)
@@ -56,6 +58,10 @@ def read_jsonl(path):
     if not os.path.exists(path):
         return []
     return [json.loads(line) for line in open(path, encoding="utf-8") if line.strip()]
+
+
+class _ReplayCtx(HotbarPages, types.SimpleNamespace):
+    pass
 
 
 class Replay:
@@ -98,11 +104,13 @@ class Replay:
             drag_nudge=lambda x, y, d: None, click_at=lambda x, y: self.clicks.append((x, y)),
             press=lambda k: None)
         self.logs = []
-        self.ctx = types.SimpleNamespace(
+        # PLAN 0.34: the real hotbar-page logic (BotContext mixin), so a replay presses pages like the bot does.
+        self.ctx = _ReplayCtx(
             account=account, running=True, recorder=None, state={}, input=inp, log=self.logs.append,
             grabber=types.SimpleNamespace(grab_bgr=lambda r: self.frame_at(clock.now)),
             cursors=types.SimpleNamespace(is_attack=lambda h: h == "attack", is_corpse=lambda h: h == "corpse",
-                                          classify=lambda h, m="": h, get=lambda k: ""),
+                                          classify=lambda h, m="": h, get=lambda k: "",
+                                          is_registered=lambda k: False, is_cast=lambda h: False),
             rect=lambda: self.rect, char_pos=lambda r: CHAR, sleep=clock.sleep, can_cast=lambda *a: True,
             character=types.SimpleNamespace(skill_interval=1.0))
         cb.time = tg.time = clock  # the features' time module -> fake clock

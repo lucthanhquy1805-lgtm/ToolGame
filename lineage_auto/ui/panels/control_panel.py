@@ -76,8 +76,15 @@ class ControlPanel(Panel):
                                     state="disabled" if running and not observing else "normal")
             key, colour = STATE_LABELS.get(state, ("state_stopped", "gray"))
             self.lbl_state.config(text=self.t(key), foreground=colour)
-            off = running and self.tab.session.ctx.state.get("minimap") is False
-            self.lbl_warn.config(text=self.t("warn_no_minimap") if off else "")
+            warnings = []
+            if running and self.tab.session.ctx.state.get("minimap") is False:
+                warnings.append(self.t("warn_no_minimap"))
+            # PLAN 0.34: without the aiming cursor the bot cannot tell an armed spell from a dead key press.
+            if self.account.cast_order != "click_key" and any(
+                    self.account.attack(k).enabled for k in self.account.attack_skills
+            ) and not self.tab.session.ctx.cursors.is_registered("cast"):
+                warnings.append(self.t("warn_no_cast_cursor"))
+            self.lbl_warn.config(text="  ".join(warnings))
         except tk.TclError:
             return
 

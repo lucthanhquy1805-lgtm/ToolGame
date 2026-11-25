@@ -172,6 +172,10 @@ class CursorProfile:
     def is_npc(self, cursor_hash):
         return self.matches("npc", cursor_hash)
 
+    def is_cast(self, cursor_hash):
+        """PLAN 0.34: the aiming ellipse after a spell hotkey - the spell is armed, the click will fire it."""
+        return self.matches("cast", cursor_hash)
+
     def register(self, kind, cursor_hash, add=False):
         """Replace the kind's cursor (``add``: keep the old pictures too — attack = sword AND arrow, 1.1c);
         refuses a cursor another kind already holds."""

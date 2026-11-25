@@ -52,7 +52,7 @@ class CurePoisonFeature(Feature):
 
         # A held attack button would turn the self-cast into a target cast.
         self.input.release_left()
-        self.input.double_press(key)
+        self.ctx.press_slot(self.account.utility(key).page, key, double=True)
         self.last_cast = now
         self.log(f"{key} cure poison (self-cast)")
         return True

@@ -23,6 +23,9 @@ class SkillSetupPanel(Panel):
             self.frame, text="", foreground="gray", wraplength=390
         )
         self.summary_label.pack(fill="x", pady=(6, 0))
+        # PLAN 0.34: page F1 is full of heal / potions / buffs, so say where attack spells belong.
+        self.hint_label = ttk.Label(self.frame, text="", foreground="#e65100", wraplength=390)
+        self.hint_label.pack(fill="x", pady=(4, 0))
 
     def _open_modal(self):
         parent = getattr(self.tab, "frame", None)
@@ -40,6 +43,7 @@ class SkillSetupPanel(Panel):
     def apply_language(self):
         self.frame.config(text=f" {self.t('sec_skill_setup')} ")
         self.setup_button.config(text=self.t("btn_skill_setup"))
+        self.hint_label.config(text=self.t("attack_page_hint"))
         self.refresh_summary()
 
     def set_busy(self, running):

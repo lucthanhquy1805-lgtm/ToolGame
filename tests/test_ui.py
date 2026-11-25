@@ -95,6 +95,7 @@ def main():
         assert rows, "no attack skill is assignable"
         bolt = next(r for r in rows if str(r["skill"]["id"]) == "386")
         bolt["f_key"].set("F12")
+        bolt["f_page"].set("F2")          # PLAN 0.34: page F1 is full, spells go on page F2
         bolt["enabled"].set(True)
         bolt["min_mp"].set(20)
         bolt["range_px"].set(400)
@@ -106,6 +107,22 @@ def main():
         assert slot.enabled and slot.skill_id == "386", slot
         assert (slot.min_mp, slot.range_px, slot.cooldown) == (20, 400, 2.5), slot
         assert tab.account.cast_order == "click_key", tab.account.cast_order
+        assert slot.page == "F2", slot
+        # The same key on another page is a different slot: heal keeps F1+F5, the spell may use F2+F5.
+        from lineage_auto.ui.skill_setup_modal import SkillSetupModal as _Modal
+        modal2 = _Modal(root, tab)
+        modal2.show()
+        root.update()
+        bolt2 = next(r for r in modal2._rows["attack"]
+                     if r.get("assignable") and str(r["skill"]["id"]) == "386")
+        bolt2["f_key"].set("F5")
+        bolt2["f_page"].set("F2")
+        bolt2["enabled"].set(True)
+        modal2._apply()
+        root.update()
+        assert tab.account.attack("F5").enabled and tab.account.attack("F5").page == "F2"
+        assert tab.account.health.skill_key == "F5" and tab.account.health.skill_page == "F1"
+        assert "F2+F5" in tab.skill_setup.summary_label.cget("text"), tab.skill_setup.summary_label.cget("text")
 
         # Tab, topmost, geometry are saved.
         tab.select_page("cursor")
@@ -123,9 +140,11 @@ def main():
         rec = saved["accounts"][0]["record"]
         assert rec["real_map"] == "오염된 축복의 땅 - 오크의 땅" and rec["grid_step"] == 60
         assert set(UI_TABS) == {"main", "hunt", "heal", "skills", "cursor", "data"}
-        saved_slot = saved["accounts"][0]["attack_skills"]["F12"]
+        saved_slot = saved["accounts"][0]["attack_skills"]["F5"]
         assert saved_slot["skill_id"] == "386" and saved_slot["min_mp"] == 20, saved_slot
+        assert saved_slot["page"] == "F2" and saved["accounts"][0]["home_page"] == "F1", saved_slot
         assert saved["accounts"][0]["cast_order"] == "click_key"
+        assert saved["accounts"][0]["health"]["skill_page"] == "F1"
     finally:
         try:
             root.destroy()

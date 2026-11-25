@@ -18,6 +18,7 @@ FIELDS = (
     ("input_size", "scan_input", INPUT_SIZES[0], INPUT_SIZES[-1], 0, 1),  # step 0 = one of INPUT_SIZES
     ("detect_roi", "scan_roi", 0, 1, 1, 1),
     ("detect_threads", "scan_threads", 1, 8, 1, 1),  # PLAN 0.33: onnxruntime intra_op threads
+    ("search_threads", "scan_search_threads", 1, 8, 1, 1),  # PLAN 0.34
     ("adaptive_detect", "scan_adaptive", 0, 1, 1, 1),
     ("melee_max_sec", "scan_melee_max", 5, 120, 1, 1),
 )

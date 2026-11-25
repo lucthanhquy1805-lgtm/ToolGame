@@ -128,12 +128,12 @@ def ort_threads():
     return max(2, min(4, (os.cpu_count() or 4) // 2))
 
 
-def _create_onnx_session(path):
+def _create_onnx_session(path, threads=None):
     """CPU only. No CUDA / DirectML — driver mismatch made GPU boxes unstable."""
     import onnxruntime as ort
 
     opts = ort.SessionOptions()
-    opts.intra_op_num_threads = ort_threads()
+    opts.intra_op_num_threads = int(threads) if threads else ort_threads()
     return ort.InferenceSession(path, opts, providers=[_CPU_PROVIDER])
 
 
@@ -146,15 +146,19 @@ def model_path(map_key, size=INPUT_SIZE):
     return path if os.path.exists(path) else None
 
 
-def ensure_session(map_key, size=INPUT_SIZE):
-    """Load and cache the ONNX session for this hunt map (falls back to 640 when ``size`` was not exported)."""
+def ensure_session(map_key, size=INPUT_SIZE, threads=None):
+    """Load and cache the ONNX session for this hunt map (falls back to 640 when ``size`` was not exported).
+
+    PLAN 0.34: ``threads`` is baked into a session when it is built, so the cache is keyed by it too - the
+    detector wants more threads for the full frame it searches with than for the crop it fights with."""
     key = hunt_maps.get(map_key).key
     path = model_path(key, size) or model_path(key)
     if path is None:
         raise FileNotFoundError(f"YOLOX model not found: {hunt_maps.onnx_path(key)}")
-    sess = _SESSIONS.get(path)
+    cache_key = (path, int(threads) if threads else 0)
+    sess = _SESSIONS.get(cache_key)
     if sess is None:
-        sess = _SESSIONS[path] = _create_onnx_session(path)
+        sess = _SESSIONS[cache_key] = _create_onnx_session(path, threads)
     return sess
 
 
@@ -164,8 +168,8 @@ def session_size(sess):
     return int(shape[-1]) if isinstance(shape[-1], int) else INPUT_SIZE
 
 
-def _infer_onnx(blob, map_key=None, size=INPUT_SIZE):
-    sess = ensure_session(map_key or hunt_maps.DEFAULT_MAP_KEY, size)
+def _infer_onnx(blob, map_key=None, size=INPUT_SIZE, threads=None):
+    sess = ensure_session(map_key or hunt_maps.DEFAULT_MAP_KEY, size, threads)
     name = sess.get_inputs()[0].name
     return sess.run(None, {name: blob})[0]
 
@@ -207,7 +211,8 @@ def roi_box(gw, gh, cx, cy):
     return x0, y0, x1, y1
 
 
-def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=INPUT_SIZE, roi=False):
+def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=INPUT_SIZE,
+           roi=False, threads=None):
     """(monsters, figures, dies) centers nearest (cx, cy) inside radius, in frame coordinates.
 
     ``size`` picks the ONNX export (falls back to 640); ``roi`` crops the play area around the character first.
@@ -216,7 +221,7 @@ def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=
         return [], [], []
     hunt = hunt_maps.get(map_key)
     if infer is None:
-        sess = ensure_session(hunt.key, size)
+        sess = ensure_session(hunt.key, size, threads)
         size = session_size(sess)
         name = sess.get_inputs()[0].name
         infer = lambda b: sess.run(None, {name: b})[0]  # noqa: E731
@@ -241,8 +246,8 @@ def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=
             project(die_id, conf) if die_id is not None else [])
 
 
-def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=None, conf=None, size=INPUT_SIZE,
-                   roi=False):
+def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=None, conf=None,
+                   size=INPUT_SIZE, roi=False, threads=None):
     """Monster box-center hover points, nearest (cx, cy), inside radius.
 
     ``conf`` None/0 uses the hunt map's threshold. Figures from the same frame
@@ -250,5 +255,5 @@ def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=No
     """
     global _LAST_FIGURES, _LAST_DIES
     points, _LAST_FIGURES, _LAST_DIES = detect(frame_bgr, cx, cy, radius, infer=infer, map_key=map_key, conf=conf,
-                                               size=size, roi=roi)
+                                               size=size, roi=roi, threads=threads)
     return points if max_n is None else points[:max_n]

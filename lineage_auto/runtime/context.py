@@ -9,6 +9,7 @@ import threading
 import time
 
 from .. import app_paths
+from ..config.models import HOTBAR_PAGES, hotbar_page
 from ..control.controller import InputController
 from ..vision.geometry import char_anchor
 from ..vision.hud_numbers import HudNumberReader, percent
@@ -19,7 +20,43 @@ from .cursor_collection import CursorCollection
 from .cursor_profile import CursorProfile
 
 
-class BotContext:
+# PLAN 0.34: the client needs a moment to redraw the hotbar after a page key (F1/F2/F3).
+PAGE_SETTLE = 0.1
+
+
+class HotbarPages:
+    """Which hotbar page the game is showing, and how to press a slot on another one.
+
+    PLAN 0.34: page F1 is full (heal, potions, return scroll, buffs), so attack spells sit on F2. A slot is
+    (page, key): the bot presses the page key, waits for the client to redraw, then the slot key. Kept as a
+    mixin so the offline tests drive the real page logic instead of a copy of it.
+    """
+
+    def goto_page(self, page):
+        """Make ``page`` the open hotbar page. True when a page key was actually pressed."""
+        page = hotbar_page(page, "")
+        # No key at all = the game is on the home page (nothing has switched it yet). An explicit None means
+        # "unknown", which the session sets at start so the first press really happens.
+        was = self.state.get("hotbar_page", HOTBAR_PAGES[0])
+        if not page or page == was:
+            return False
+        self.input.press(page)
+        time.sleep(PAGE_SETTLE)
+        self.state["hotbar_page"] = page
+        self.log(f"hotbar page {was or '?'} -> {page}")
+        rec = getattr(self, "recorder", None)
+        if rec is not None:
+            rec.count("page_switch")
+            rec.event("page_switch", from_page=was or "?", to_page=page)
+        return True
+
+    def press_slot(self, page, key, double=False):
+        """Press hotbar slot (page, key), switching page first when the game shows another one."""
+        self.goto_page(page)
+        (self.input.double_press if double else self.input.press)(key)
+
+
+class BotContext(HotbarPages):
     def __init__(self, account, backend, grabber, arbiter, window=None):
         self.account = account
         self.window = window or GameWindow()
