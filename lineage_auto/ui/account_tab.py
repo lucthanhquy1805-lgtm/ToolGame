@@ -1,4 +1,4 @@
-"""One account = one set of pages (UI v7): a ttk.Notebook with 6 tabs + a bottom bar that is always visible.
+"""One account = one set of pages (UI v7): a ttk.Notebook with 7 tabs + a bottom bar that is always visible.
 
 Panels keep their own logic and config keys; only the frame they are built in changed. Each page scrolls only
 when its content does not fit (it fits at the default 440x640)."""
@@ -18,6 +18,7 @@ from .panels import (
     RecordPanel,
     ScanPanel,
     SkillSetupPanel,
+    StatsPanel,
     StatusPanel,
     WindowPanel,
     ZonePanel,
@@ -100,6 +101,7 @@ class AccountTab:
         self.skill_setup = SkillSetupPanel(self.pages["skills"], self)
         self.cursor = CursorPanel(self.pages["cursor"], self)
         self.record = RecordPanel(self.pages["data"], self)
+        self.stats = StatsPanel(self.pages["stats"], self)  # PLAN 4.1
 
         self.select_page(app.settings.ui.tab)
         self.notebook.bind("<<NotebookTabChanged>>", self._page_changed)
@@ -204,6 +206,7 @@ class AccountTab:
     def refresh_state(self):
         running = self.session.running
         self.control.show_state(self.session.state, running)
+        self.stats.refresh()  # PLAN 4.1
         try:
             for panel in self.panels():
                 panel.set_busy(running)

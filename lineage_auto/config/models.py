@@ -558,7 +558,7 @@ class AccountSettings:
         return account
 
 
-UI_TABS = ("main", "hunt", "heal", "skills", "cursor", "data")
+UI_TABS = ("main", "hunt", "heal", "skills", "cursor", "data", "stats")  # PLAN 4.1: "stats" added in v21
 RUN_MODES = ("hunt", "observe")
 
 

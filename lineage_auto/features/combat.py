@@ -10,6 +10,7 @@ import math
 import time
 import types
 
+from ..runtime.stats import bump, kill_name
 from ..skills.policy import is_auto_enabled
 from ..vision.geometry import blocking_figure, detour_point, park_point
 from ..vision.motion_watch import DeathWatch
@@ -264,6 +265,7 @@ class CombatFeature(Feature):
         spell_mp event (engage)."""
         if ok:
             self._mp_pending = (time.time(), key, mp_before)
+        bump(self.ctx, "spell_cast" if ok else "spell_no_cast")  # PLAN 4.1
         rec = getattr(self.ctx, "recorder", None)
         if rec is None:
             return
@@ -346,6 +348,7 @@ class CombatFeature(Feature):
         state = self.ctx.state
         state[key] = state.get(key, 0) + n
         state["kills"] = state.get("kills_chat", 0) + state.get("kills_corpse_only", 0)
+        bump(self.ctx, key, n)  # PLAN 4.1
         rec = getattr(self.ctx, "recorder", None)
         if rec:
             rec.count(key, n)
@@ -420,6 +423,7 @@ class CombatFeature(Feature):
                 rec.event("kill_line", name=name, fight=self._prev_outcome if late else None)
             if late:
                 self._last_source = "chat"
+            kill_name(self.ctx, name)  # PLAN 4.1
         return mine
 
     def on_stop(self):
@@ -578,6 +582,7 @@ class CombatFeature(Feature):
                     killed = kills[-1][1] or ""
                     match = "" if not locked_name else (" = locked" if killed == locked_name else
                                                          f" != locked {locked_name}")
+                    kill_name(self.ctx, killed)  # PLAN 4.1: kills per monster
                     return self._finish(target, "chat_kill", anchor, killed + match, lines=len(kills))
 
                 # Body stopped moving under the lock and the sword is gone: dead.

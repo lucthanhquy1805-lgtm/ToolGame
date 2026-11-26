@@ -86,6 +86,7 @@ print('HP read on template-only HUD:',r.read_percent(G(),ClientRect(0,0,1280,960
 # feature logic with a fake context
 from lineage_auto.features.survival import HealthFeature
 from lineage_auto.features.buff import BuffFeature
+from lineage_auto.runtime.stats import Stats
 class In:
     def __init__(s): s.log=[]
     def double_press(s,k): s.log.append(('dbl',k))
@@ -150,7 +151,18 @@ print('loot: modes + F4 after kill OK')
 acc.buff('F9').enabled=True; acc.buff('F9').skill_id='385'; acc.buff('F9').duration_min=20
 ctx2=Ctx(acc,100); b=BuffFeature(ctx2,health=None,icon_present=lambda sid:True,cast_gap=0)
 b.on_start(); assert ctx2.input.log==[('dbl','F9')] and b.remaining('F9')>1190
-b.tick(None); assert len(ctx2.input.log)==1; print('buff: start cast + timer hold OK')
+b.tick(None); assert len(ctx2.input.log)==1
+# PLAN 2.1b: a "buff ran out" chat line recasts that slot at once (the timer still said 20 min left)
+ctx2.state['buff_gone']=['385','399']
+b.tick(None); assert ctx2.input.log==[('dbl','F9'),('dbl','F9')] and ctx2.state['buff_gone']==[]
+b.tick(None); assert len(ctx2.input.log)==2                      # nothing new in the chat: timer again
+# the real picture cut from records_game/20261126_101941_hunt reads back as its skill, and only it
+from lineage_auto.vision import name_reader as nr
+import numpy as np
+tpl=[(sid,m) for sid,m in nr.buff_gone_templates() if sid=='399'][0][1]
+assert nr.buff_gone_skill(tpl)=='399' and nr.buff_gone_skill(np.zeros_like(tpl)) is None
+assert nr.buff_gone_skill(tpl[:, :int(tpl.shape[1]*0.6)]) is None          # a shorter line is another line
+print('buff: start cast + timer hold + chat "ran out" recast OK')
 # PLAN 0.1: unconfirmed detections -> rescan N-1 times, then wander; missed spots are not re-hovered
 import contextlib
 from lineage_auto.features import targeting as tg
@@ -183,7 +195,7 @@ class Arb:
 class TCtx(HotbarPages):
     def __init__(s):
         s.account=AccountSettings(); s.running=True; s.input=Mv(); s.cursors=Cur(); s.window=Win(); s.arbiter=Arb()
-        s.recorder=None; s.state={}
+        s.recorder=None; s.state={}; s.stats=Stats()        # PLAN 4.1: BotContext carries one
         s.grabber=types.SimpleNamespace(grab_bgr=lambda r: np.zeros((960,1280,3),np.uint8), close_thread=lambda:None)
     def request_stop(s): s.running=False
     def sleep(s,t): time.sleep(t); return s.running
@@ -301,7 +313,8 @@ dctx=object.__new__(BotContext)
 dctx.account=AccountSettings(); dctx.account.health.use_skill=dctx.account.health.use_potion=False   # healing off
 dctx.hud=hud; dctx._hud_cache=(0.0,None); dctx.state={}; dctx.input=In(); dctx.hp_reader=HR(100)
 dctx.mp_reader=types.SimpleNamespace(available=False)
-dctx.log=lambda m: print('   log:',m)
+hf_logs=[]
+dctx.log=lambda m: (hf_logs.append(m), print('   log:',m))[0]
 frame_now={'f':hud_frame('1/432')}
 dctx.grabber=types.SimpleNamespace(grab_bgr=lambda r: frame_now['f'])
 hf=HealthFeature(dctx)
@@ -309,7 +322,20 @@ assert not hf.check_death(None) and hf.last_hp==1 and dctx.state['hp_source']=='
 frame_now['f']=hud_frame('0/432'); time.sleep(0.06)
 assert not hf.check_death(None); time.sleep(0.06)
 assert hf.check_death(None), 'HUD HP:0 twice = dead (bar would need 3 and healing on)'
-assert len(os.listdir(os.path.join(rroot,'deaths')))==1 and recmod.latest_record(rroot).endswith('_observe')
+deaths=sorted(os.listdir(os.path.join(rroot,'deaths')))       # PLAN 0.3: 3 raw pictures of the death screen
+assert len(deaths)==3 and all(f.startswith('death_') and f.endswith('.png') for f in deaths), deaths
+assert recmod.latest_record(rroot).endswith('_observe')
+assert dctx.input.log==[] and any('WARNING' in m for m in hf_logs), (dctx.input.log, hf_logs)  # no key, WARNING
+# PLAN 0.3: HUD HP low and then gone for HUD_GONE_DEAD_SEC = dead too (the death window hides the numbers)
+import lineage_auto.features.survival as sv
+sv.HUD_GONE_DEAD_SEC=0.05
+dctx.state={}; dctx._hud_cache=(0.0,None); dctx.account.health.read_hud_numbers=True
+frame_now['f']=hud_frame('40/432'); hf2=HealthFeature(dctx)
+assert not hf2.check_death(None) and dctx.state['hp_abs']==(40,432)
+dctx._hud_cache=(0.0,None); frame_now['f']=hud_frame('')              # HUD numbers gone (death window)
+assert not hf2.check_death(None); time.sleep(0.06); dctx._hud_cache=(0.0,None)
+assert hf2.check_death(None) and hf2.dead and dctx.input.log==[], dctx.input.log
+sv.HUD_GONE_DEAD_SEC=2.0
 dctx.account.health.read_hud_numbers=False; dctx._hud_cache=(0.0,None)
 assert dctx.read_hp(None)==100 and dctx.state['hp_source']=='bar'                        # toggle off -> bar
 print('hud numbers: 10/10 frames, HP:0 -> dead in 2 reads with healing off, snapshot saved OK')

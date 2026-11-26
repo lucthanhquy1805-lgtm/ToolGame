@@ -13,6 +13,13 @@ Bản build: 26/11/2026 (bản 21rc1 — BẢN THỬ) — bản 20 + các sửa 
         타락한 축복의 땅 — ở 오크의 땅 không áp dụng để không giảm số quái giết) → uống bình/hồi máu NGAY
         (không chờ ngưỡng), lùi ra khỏi đám quái và rời trận. Nếu hết MP hồi máu mà cũng không bật bình HP nào
         thì dùng cuộn về làng ngay khi HP còn trên 50 %.
+      · CHẾT LÀ DỪNG NGAY: thấy "HP:0" trên màn hình (hoặc dòng HP biến mất quá 2 giây khi máu đang dưới 50 %)
+        thì bot thả chuột/phím, KHÔNG bấm gì nữa, ghi WARNING vào log và lưu 3 ảnh màn hình lúc chết vào
+        records/deaths/death_*.png (gửi kèm khi gửi số liệu để làm phần tự hồi sinh sau này).
+      · BUFF LẠI KHI HẾT: đọc dòng chat báo hết buff rồi buff lại ngay (không chờ hết giờ đã cài). Hiện mới nhận
+        được câu của 인챈트 덱스터리티; muốn thêm 실드 / 블레스드 아머 thì gửi một bản ghi CÓ ẢNH có hai dòng đó.
+      · TAB MỚI "Thống kê": thời gian chạy, số quái giết (tổng, mỗi giờ, theo loại), bình máu/mana đã dùng,
+        số lần về làng, chết, phép đã bắn. Cứ 10 phút ghi ra records/stats_<ngày>.json để xem lại sau một đêm.
       · NHẮC BÌNH MANA: chọn bãi "타락한 축복의 땅 - 오크" mà chưa bật bình MP nào ở "Bình thêm 1–3"
         (tab Hồi máu) thì thanh dưới hiện cảnh báo cam.
   (bản 20 — CHÍNH THỨC) — bản 19 + các sửa dưới đây.

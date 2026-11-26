@@ -1,4 +1,4 @@
-"""Auto buff upkeep: start casts, then timer rebuff only.
+"""Auto buff upkeep: start casts, timer rebuff, and an instant recast when the chat says a buff ran out.
 
 A press always starts the duration timer. The buff-bar icon is only used
 to wait out the ~1s hotbar spin before the next F-key, so F11 is not eaten
@@ -148,10 +148,30 @@ class BuffFeature(Feature):
                 continue
             self._try_cast(key)
 
+    def expired_from_chat(self):
+        """PLAN 2.1b: a "<buff> ran out" chat line clears that slot's timer, so tick recasts it now.
+
+        The ids come from vision/name_reader.buff_gone_skill (ctx.state["buff_gone"], filled by targeting.see).
+        A line for a skill no slot is set to is only logged - the picture is there but nobody casts it."""
+        gone = self.ctx.state.get("buff_gone") or []
+        if not gone:
+            return
+        self.ctx.state["buff_gone"] = []
+        keys = {self.account.buff(key).skill_id: key for key in self.enabled_keys()}
+        for skill_id in gone:
+            key = keys.get(skill_id)
+            if key is None:
+                self.log(f"chat: buff {skill_id} ran out but no slot is set to it")
+                continue
+            self.last_cast.pop(self._slot(key), None)
+            self._last_attempt.pop(self._slot(key), None)
+            self.log(f"chat: buff {skill_id} ran out -> recast {key} now")
+
     def tick(self, rect):
         if self.health is not None and self.health.active and self.health.last_hp < self.health.settings.threshold_pct:
-            # Healing has priority; do not spend a turn on buffs at low HP.
+            # Healing has priority; do not spend a turn on buffs at low HP (the chat lines wait in the state).
             return
+        self.expired_from_chat()
         now = self.clock()
         for key in self.enabled_keys():
             if self.remaining(key, now) > 0:

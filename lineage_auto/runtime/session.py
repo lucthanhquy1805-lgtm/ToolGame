@@ -163,6 +163,7 @@ class AccountSession:
             return False
 
         self.ctx.reset_stop()
+        self.ctx.stats.start()  # PLAN 4.1
         self._arm_auto_stop()
         self.ctx.state["focus_stop_after"] = time.monotonic() + FOCUS_GRACE
         self.ctx.window.activate()
@@ -252,6 +253,7 @@ class AccountSession:
                     break
                 self._recording_tick()
                 self._watch_memory()
+                self._stats_tick()
                 rec = self.ctx.recorder
                 if rec is None:
                     break
@@ -373,6 +375,12 @@ class AccountSession:
         if self.ctx.recorder is not None:
             self.ctx.recorder.event("memory", rss_mb=round(rss, 1), rises=self._mem_rises)
 
+    def _stats_tick(self):
+        """PLAN 4.1: records/stats_<date>.json every stats.SAVE_EVERY_SEC (10 min) for a 24/7 night."""
+        path = self.ctx.stats.tick(account=self.account.name)
+        if path:
+            self.ctx.log(f"statistics saved: {path}")
+
     def _hud_lost(self):
         """PLAN 0.38: HP text readable before and gone for HUD_LOST_SEC = disconnected / logged out."""
         now = time.monotonic()
@@ -477,6 +485,9 @@ class AccountSession:
         was_active = self.state == SessionState.RUNNING or self.running
         self.ctx.request_stop()
         self.ctx.input.release_all()
+        if was_active:  # PLAN 4.1: the totals of this run are on disk even if the tool is closed next
+            self.ctx.stats.stop()
+            self.ctx.log(f"statistics saved: {self.ctx.stats.save(account=self.account.name)}")
         if self.state == SessionState.RUNNING:
             self._set_state(SessionState.STOPPED)
         if was_active:

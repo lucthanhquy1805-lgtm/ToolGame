@@ -102,14 +102,16 @@ The dev machine has no game; the bot will run on a separate game PC.
 winapi/      cursor bitmap hashing (aHash + MD5), window lookup, ESC hotkey (RegisterHotKey + Interception)
 control/     InputBackend (Interception, pyautogui fallback), InputController, InputArbiter (mouse lock)
 vision/      mss capture, YOLOX (yolox_mobs), HP/MP bar reader (stat_bar), nameplates, buff icons, poison, geometry
-features/    HealthFeature (survival), TargetingFeature, CombatFeature, BuffFeature, CurePoisonFeature, ExplorationFeature
+features/    HealthFeature (survival: heal, potions, danger, death), TargetingFeature, CombatFeature, BuffFeature
+             (timer + "buff ran out" chat lines), CurePoisonFeature, ExplorationFeature
              (without the game minimap ExplorationFeature holds one walk direction DWELL_SEC and turns when the
              picture stops changing; the UI warns that the minimap is off)
-runtime/     BotContext (per account), CursorProfile, AccountSession (thread + main loop), SessionManager
+runtime/     BotContext (per account), CursorProfile, AccountSession (thread + main loop), SessionManager,
+             Stats (PLAN 4.1: counters -> Statistics tab + records/stats_<date>.json every 10 min)
 config/      dataclass settings (AppSettings → AccountSettings), JSON store, v1/v2 config import
 skills/      catalog (data/skills/skills_catalog.json + icons), role classifier, policy allow-list
 characters/  Prince / Knight / Elf / Wizard — data only, currently identical behaviour
-ui/          Tk MainWindow → AccountTab (Notebook: main/hunt/heal/skills/cursor/data + bottom ControlPanel bar)
+ui/          Tk MainWindow → AccountTab (Notebook: main/hunt/heal/skills/cursor/data/stats + bottom ControlPanel bar)
              → panels/*, SkillSetupModal, i18n (ko/en/vi). Window state in AppSettings.ui
 hunt_maps.py hunt map → model/yolox_tiny_*.onnx
 monsters.py  zone monster catalogs (data/monsters/*.json): names, label classes, zone → hunt_map; read by
@@ -120,8 +122,12 @@ app_paths.py frozen-vs-source path resolution
 ## Main loop (`runtime/session.py: AccountSession._run`)
 Each iteration, while holding the mouse arbiter:
 1. `cure.tick` — Cure Poison (388) when the HP bar fill turns green (2 consecutive reads)
-2. `health.check_death` — reads HP/MP, heals (skill F5 by default, then potion), 3×0% = dead → stop
-3. `buff.tick` — timer-based rebuff of allowed `maintain_buff` skills
+2. `health.check_death` — reads HP/MP, heals (skill F5 by default, then potion), 3×0% = dead → stop.
+   PLAN 0.3: HUD "HP:0" (2 reads) or the HUD HP numbers gone 2 s after HP was under 50% = dead → release
+   everything, WARNING, 3 raw records/deaths/death_*.png, stop; a beat whose HUD HP is 0 presses nothing.
+3. `buff.tick` — timer-based rebuff of allowed `maintain_buff` skills; PLAN 2.1b: a chat line that announces a
+   buff ran out (whole-line match against `data/chat/buff_gone/<skill_id>.png`, cut with
+   `tests/build_chat_phrases.py`) clears that slot's timer, so it is recast at once (after healing)
 4. `targeting.rehover_last` (keep the current lock) else `targeting.acquire`
    (YOLOX centers → hover each → confirm by the *attack* cursor hash)
 4b. attack spells (page-aware, aiming-cursor gated): one slot per beat (`combat._pick_skill`, round robin over the enabled `attack_skills` whose

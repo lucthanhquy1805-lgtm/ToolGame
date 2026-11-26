@@ -7,6 +7,7 @@
 - a loop error restarts the loop (too many = stop), the HUD gone for HUD_LOST_SEC = safe stop, RSS logged.
 Usage:  python tests/test_24h.py      (any OS)
 """
+import json
 import os
 import sys
 import tempfile
@@ -129,6 +130,29 @@ def test_hud_lost_and_memory():
         sess._watch_memory()
     mem = [m for m in logs if m.startswith("memory: RSS")]
     assert len(mem) == 8 and "WARNING" not in mem[4] and "WARNING: grew 6" in mem[6], mem
+
+
+def test_stats_file():
+    """PLAN 4.1: counters, kills/hour and records/stats_<date>.json every SAVE_EVERY_SEC."""
+    from lineage_auto.runtime.stats import Stats
+
+    clock = Clock()
+    st = Stats(clock=clock)
+    st.start()
+    st.bump("kills_chat", 5); st.bump("kills_corpse_only"); st.bump("potion_hp", 3); st.kill("오크")
+    clock.now += 1800  # half an hour
+    snap = st.snapshot()
+    assert snap["kills"] == 6 and snap["kills_per_hour"] == 12.0 and snap["runtime_sec"] == 1800.0, snap
+    assert snap["kills_by_name"] == {"오크": 1} and snap["counts"]["potion_hp"] == 3, snap
+    root = tempfile.mkdtemp()
+    assert st.tick(root, "A1") and not st.tick(root, "A1")        # due once, then not again
+    clock.now += 600
+    path = st.tick(root, "A1")
+    assert path and os.path.basename(path).startswith("stats_") and path.endswith(".json")
+    data = json.load(open(path, encoding="utf-8"))
+    assert data["kills"] == 6 and data["account"] == "A1" and data["saved"], data
+    st.stop()
+    assert st.runtime_sec() == 2400.0 and st.tick(root) is None    # stopped: no more files
 
 
 def test_loop_error_restarts():

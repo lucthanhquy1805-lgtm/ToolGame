@@ -16,9 +16,12 @@ cùng 3.5. Khi tóm tắt tiến độ phải đi theo danh sách này, không c
 Giai đoạn 0 — Sửa lỗi & tốc độ
 - [x] 0.1 Bot đứng im khi nhận nhầm + quét chậm (đếm lượt quét nhầm → wander, blacklist điểm đã rê, ~6 điểm/lượt, đo thời gian)
 - [x] 0.2 Chọn cửa sổ theo process LC.exe
-- [ ] 0.3 Phát hiện NHÂN VẬT chết nhanh: đọc số "HP:0/xxx" trên HUD + nhận cửa sổ hồi sinh (A1)
+- [x] 0.3 Phát hiện NHÂN VẬT chết nhanh: đọc số "HP:0/xxx" trên HUD + nhận cửa sổ hồi sinh (A1)
       (phần đọc số XONG 23/11: vision/hud_numbers.py, 10/10 ảnh, 3.5ms; HP:0 → chết sau 2 lần đọc, kể cả khi tắt hồi máu;
-       còn cửa sổ hồi sinh: CẦN DỮ LIỆU GAME — tool tự lưu ảnh màn hình lúc chết vào records/deaths/)
+       XONG 26/11 v21rc1 (chi tiết ở 0.40): HP HUD = 0 → KHÔNG bấm/không click gì nữa, dừng ngay, log WARNING,
+       lưu 3 ảnh THÔ records/deaths/death_*.png, trạng thái đỏ "Nhân vật chết - đã dừng"; thêm dấu hiệu thứ hai:
+       số HP HUD biến mất > 2 s sau khi HP đã < 50 % (cửa sổ chết che HUD) cũng là chết.
+       CÒN (cần dữ liệu game): nhận DẠNG cửa sổ hồi sinh để tự hồi sinh/đi tiếp — 3 ảnh chết chính là dữ liệu đó.)
 - [ ] 0.5 NHẬN DIỆN ĐỦ MỌI QUÁI TRONG PHẠM VI SĂN (độ phủ/recall) — có bộ đo trên ảnh thật (xem mục 0.5)
       (đang làm: bộ đo xong; model dragon_valley đo trên ảnh bãi 풍룡의 상흔 (KHÔNG phải bãi của nó) 38% → 76%;
        CHƯA model nào được đo trên đúng bãi của nó; chưa đạt 90% — xem "Tiến độ 0.5" và "Video 23/11")
@@ -49,7 +52,7 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        • (c) "자동 정지(분)" mặc định 15 (0 = tắt) cho cả săn và quan sát + dừng khi bản ghi đủ max_frames.
        • (d) file STOP cạnh main.exe, kiểm tra 0.5s, xóa sau khi dừng; deploy/3_DUNG_BOT.bat + lối tắt Desktop
          "DUNG Lineage Auto". Chưa làm (b) "chuột di chuyển không phải do bot". HP 75% spam: chưa xử lý.)
-- [ ] 0.8 KẾT QUẢ CHẾ ĐỘ 2 ĐẦU TIÊN (records_game/20261123_162251_hunt.zip, 23/11 16:22, 464s, 133 khung, bãi
+- [x] 0.8 KẾT QUẢ CHẾ ĐỘ 2 ĐẦU TIÊN (records_game/20261123_162251_hunt.zip, 23/11 16:22, 464s, 133 khung, bãi
       오염된 축복의 땅, ban ngày, class wizard, model dragon_valley, conf 0.5): 0 detection / 133 khung dù màn hình đầy
       오염된 오크 전사/궁수 → 642 lượt quét = 642 lượt wander, 0 lần rê chuột. Model hiện có KHÔNG nhận quái bãi này.
       Việc: (a) thêm bãi 오염된 축복의 땅 vào hunt_maps; (b) gán nhãn 133 khung này (labels.json "todo") để huấn luyện/
@@ -66,16 +69,23 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        hud_numbers phóng ảnh về rộng 1280 trước khi đọc → 133/133. Bar reader/buff icon đã đa tỉ lệ. Ô hotbar
        mặc định của buff_icons (cx_frac 0.28+…) rơi vào KHUNG CHAT, sai ở mọi cỡ — nhưng không nơi nào dùng.
        eval_detection.py lấy vị trí nhân vật/bán kính theo cỡ ảnh thật (trước cố định 640,380 / 1280x960).)
-- [ ] 0.9 BÃI 오염된 축복의 땅 CÓ 4 KHU (ảnh docs/game_reference/npc_teleport_nonamae_oyeom.png, 23/11): NPC 장로 노나메
+      (RÀ 26/11, v21rc1 — XONG ở v11–v19: (a) bãi có model riêng (`blessed_orc` orc_v1, `fallen_blessed` orc_v3);
+       (b) 133 khung + các bản sau đã gán và duyệt, orc_v1/orc_v3 train từ đó; (c) quét lưới + đọc tên quái + dòng
+       chat giết đều chạy. Không còn việc gì trong mục này.)
+- [x] 0.9 BÃI 오염된 축복의 땅 CÓ 4 KHU (ảnh docs/game_reference/npc_teleport_nonamae_oyeom.png, 23/11): NPC 장로 노나메
       hỏi đi khu nào: 요정의 땅 / 인간의 땅 / 오크의 땅 / 정령의 땅. Mỗi khu quái khác nhau (bản ghi 16:22 = 오염된 오크;
       video 23/11 = 오염된 인간 검사/투사/궁수) → "실제 사냥터" và hunt_maps phải tách theo khu, vd.
       "오염된 축복의 땅 - 인간의 땅". Đây cũng là mẫu hộp thoại NPC dịch chuyển cho 1.3b (danh sách chữ, khu đang
       rê chuột chuyển màu xanh lá, con trỏ bàn tay).
-- [ ] 0.10 GHI NHẬN 23/11 17:40: game KHÔNG nhận chuột từ TeamViewer (click, giữ chuột để đi, click đánh quái đều không có
+      (RÀ 26/11 — XONG phần tách khu: 4 khu có trong `data/monsters/*.json` và ô "Bãi săn thực tế", mỗi khu trỏ
+       sang hunt_map của nó. Phần HỘP THOẠI NPC DỊCH CHUYỂN vẫn chưa làm và thuộc 1.3b (quay lại bãi sau khi về làng).)
+- [x] 0.10 GHI NHẬN 23/11 17:40: game KHÔNG nhận chuột từ TeamViewer (click, giữ chuột để đi, click đánh quái đều không có
       tác dụng; cửa sổ tool/Explorer thì nhận bình thường) → client chặn input giả lập (SendInput), giải thích vì sao bot
       phải dùng Interception. Hệ quả: Claude/TeamViewer không chơi thay được; người chơi phải ngồi máy game khi thu chế độ 1.
       Bản ghi chế độ 1 đầu tiên: bãi 오염된 축복의 땅 (khu 인간의 땅, ban đêm), bắt đầu 17:40. Danh sách "실제 사냥터"
       chưa có khu con → cần thêm 4 khu (mục 0.9).
+      (RÀ 26/11 — GHI NHẬN, đã xử lý: bot dùng Interception (control/InputBackend) nên game nhận input; chính vì
+       SendInput không vào game mà 0.28 dùng SendInput của TeamViewer làm tín hiệu "người dùng đang điều khiển" → dừng.)
 - [x] 0.11 LỖI PHÂN LOẠI CON TRỎ (phát hiện trên records_game/20261123_174023_observe, chế độ 1, 900s, 284 khung,
       203 đêm, người chơi tự đánh 오염된 인간 궁수/투사/도끼병): cả 284/284 khung bị gán cursor="attack" dù có 5 hash
       khác nhau (80e0e0e060000000 x243, c0e0783028000000 x34, 80c0e0e0e0000000 x5, f0f0f03800000000, c0e0c0c0e0c00000).
@@ -212,7 +222,7 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
       đối), ghi thêm "mp" vào frames.jsonl; nhãn tool hiện "HP 156/190 (82%)". Kiểm tra cả chế độ săn.
       (XONG 24/11: vòng quan sát ghi state hp/mp % mỗi lần đọc HUD; nhãn hiện "HP 156/190 (82%)" / "MP x/y (z%)"
        khi đọc được số HUD (cả lúc rảnh và lúc săn, lấy state hp_abs/mp_abs); frames.jsonl có "mp".)
-- [ ] 0.16 TẬP TRUNG QUÁI ORC (người dùng 24/11 01:51): máy game chỉ săn orc ở 오염된 축복의 땅 khu 오크. Danh sách
+- [x] 0.16 TẬP TRUNG QUÁI ORC (người dùng 24/11 01:51): máy game chỉ săn orc ở 오염된 축복의 땅 khu 오크. Danh sách
       quái, đặc điểm, nguồn, đề xuất lớp nhãn: docs/game_reference/ORC_MONSTERS.md. Ưu tiên: model 1 lớp "orc" cho bãi
       này + OCR tên trên đầu quái / dòng chat "아데나 획득" để gán loại tự động.
       LƯU Ý (người dùng 24/11 02:01): orc chỉ là BÃI ĐẦU TIÊN, sau này cần nhiều loại quái/bãi khác → mọi thứ phải
@@ -234,6 +244,9 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        • 20261123_193903_observe: labels.json 60 điểm + loại (orc 3, 창병 33, 전사 15, 궁수 4, 도끼병 5), ảnh kiểm
          tra records_game/_check_orc/. Quy trình: docs/ADD_NEW_MAP.md.)
       (24/11 tối, v11: model orc_v1 + bật săn khu 오크 XONG (0.20). CÒN: săn thật + "Ghi khi đang săn" trên máy game.)
+      (RÀ 26/11 — XONG: danh mục quái theo khu là file dữ liệu, đọc tên trên đầu + dòng chat giết theo danh mục,
+       model theo bãi (hunt_maps), quy trình thu → nhãn → train → đo ở docs/ADD_NEW_MAP.md + docs/TRAINING.md.
+       Yêu cầu "tổng quát hoá" đã được giữ ở mọi mục sau (bãi orc tím thêm vào chỉ bằng file danh mục + ONNX).)
 - [x] 0.17 GIAO DIỆN CHIA TAB (người dùng 24/11, bản v7): ttk.Notebook 6 tab Chính / Săn / Hồi phục / Kỹ năng / Con trỏ /
       Dữ liệu + thanh dưới cố định (nút lớn theo chế độ Săn/Quan sát, nút Quan sát, HP/MP, trạng thái, phím dừng).
       (XONG 24/11: ui/account_tab.py (ScrollPage: thanh cuộn chỉ hiện khi tràn; cả 6 tab vừa 440x640, đo bằng
@@ -314,14 +327,17 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        model". Giả lập săn tests/test_hunt_replay.py: mục tiêu 48/50 ảnh ngày, 32/34 ảnh đêm. docs/TRAINING.md 6.5.
        train_orc.ps1 dòng 26/53 gọi .venv\Scripts\python.exe (người dùng sửa). Đóng gói dist/LineageAuto_20261124_v11.zip
        (có model orc; 1_CAI_DAT giữ config/records/cursors, đã thử cài vào thư mục tạm). CÒN: thử săn thật trên máy game.)
-- [ ] 0.20 GIẢ THUYẾT CỦA NGƯỜI DÙNG (24/11 13:15): mọi bãi cấp 0–35 đều là quái ORC trên đất bị tha hóa, KHÁC MÀU nhưng
+- [x] 0.20 GIẢ THUYẾT CỦA NGƯỜI DÙNG (24/11 13:15): mọi bãi cấp 0–35 đều là quái ORC trên đất bị tha hóa, KHÁC MÀU nhưng
       CÙNG CHỦNG LOẠI (cùng hình dáng) → có thể dùng CHUNG một model orc, không cần thu đủ dữ liệu từng bãi.
       KIỂM CHỨNG sau bản ghi đêm khu 오크: (1) ở mỗi bãi orc khác chỉ chạy QUAN SÁT ~5 phút (không model, rê chuột lên
       quái); (2) trên máy dev chạy model orc OFFLINE trên bản ghi đó, recall = số điểm con trỏ tấn công có box model
       (eval_detection); (3) ≥80% → dùng chung; thấp hơn → thêm 1 lượt ngắn bãi đó vào dataset và fine-tune CHÍNH model
       orc (một model nhiều bãi). Thêm tăng cường màu (hue/saturation jitter) khi train để model ít phụ thuộc màu.
       Ghi chú: tests/prelabel.py đang dựa vào màu xanh đặc trưng → bãi màu khác cần nguồn gợi ý khác.
-- [ ] 0.21 BẢN GHI 24/11 13:04 (records_game/20261124_130457_observe, v9, 오크의 땅, NGÀY, 1302x976, 814 khung): con trỏ
+      (RÀ 26/11 — ĐÃ KIỂM CHỨNG ở 0.37: một model orc dùng chung cho CẢ 4 MÙA của 타락한 축복의 땅 (orc_v3, 78–91 %
+       recall) nhưng KHÔNG dùng chung được với 오크의 땅 (orc_v1 vẫn tốt hơn ở đó) → "cùng chủng loại" đúng trong một
+       bãi 4 mùa, sai khi khác bãi. Tăng cường màu HSV đã có trong train (train/exps/strong_hsv).)
+- [x] 0.21 BẢN GHI 24/11 13:04 (records_game/20261124_130457_observe, v9, 오크의 땅, NGÀY, 1302x976, 814 khung): con trỏ
       tấn công 146 (도끼병 42, 오크 31, 궁수 24, 전사 20, 창병 13, không rõ 16), xác 81; hp/mp đọc 814/814 (0.18/0.19 OK
       trên máy game). LỖI: không có sự kiện kill nào trong frames.jsonl (chỉ "corpse") dù có giết → đọc chat lượt giết chỉ
       chạy offline, chưa ghi khi quan sát trực tiếp; kiểm tra. VẪN CHƯA CÓ ẢNH ĐÊM.
@@ -333,7 +349,10 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        trong JPEG p90 54 / p99 69 sát giới hạn 60 của whiteness; mô phỏng màu đậm hơn 25 % chỉ giảm 8→5, không về 0
        → chưa chắc. v10 ghi summary "chat_frames"/"chat_lines" (analyze_records in ra) + raw/f_xxxxx.png mỗi 100 khung.
        Bản ghi v10 tiếp theo: chat_lines ≈ 0 → so raw/*.png với JPEG cùng khung để sửa whiteness của chat.)
-- [ ] 0.22 BẢN GHI ĐÊM ĐẦU TIÊN (records_game/20261124_133425_observe, v9, 오크의 땅, 1302x976, 797 khung): độ sáng
+      (RÀ 26/11 — XONG: lỗi "không có sự kiện kill khi quan sát" hết từ 0.31/0.32 (đọc chat qua cùng JPEG như bản
+       ghi); bản chạy thật v20 20261126_090350_hunt đọc được 53 dòng giết TRỰC TIẾP. tests/test_observe_kills.py
+       vẫn còn để kiểm lại, nhưng ảnh của 130457 không còn trên máy dev nên test đó bị bỏ qua ở đây.)
+- [x] 0.22 BẢN GHI ĐÊM ĐẦU TIÊN (records_game/20261124_133425_observe, v9, 오크의 땅, 1302x976, 797 khung): độ sáng
       43–61 (TB 51; ban ngày ~90–100) → cả bản là ĐÊM, nhưng cờ "night" chỉ bật 66/797 (ngưỡng 45 quá thấp ở cỡ cửa
       sổ/khu này) → đổi phân loại ngày/đêm: so với độ sáng ban ngày của khu, hoặc ngưỡng ~70, hoặc đọc biểu tượng
       mặt trời/trăng trên HUD. Con trỏ tấn công 174 (전사 33, 창병 30, 궁수 22, 도끼병 19, 오크 18, KHÔNG ĐỌC ĐƯỢC TÊN 52
@@ -359,13 +378,15 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
          ở 0.15), ~40 ms/khung CPU; precision nhìn mắt ~45 % ở 0.3 (khung người chơi/bụi) → KHÔNG đóng gói. docs 6.3b.
        • Đóng gói v10 (dist/LineageAuto_20261124_v10.zip): đọc tên đêm + chẩn đoán 0.21; không có model orc.
        Nhãn đã duyệt → orc_v1 đóng gói ở v11 (xem 0.20). CÒN: khuôn/đọc tên ở 1280x960 đêm (0.24).)
+      (RÀ 26/11 — XONG: ngày/đêm theo NIGHT_BRIGHTNESS 64, ngưỡng trắng 150 ban đêm, test_monsters có bài đêm;
+       cửa sổ 1280x960 ban đêm nay đọc được cả tên lẫn chat (các bản ghi 0.39/0.40 đều là đêm).)
 - [ ] 0.23 VIDEO MÁY GAME 23/11 (người dùng gửi 24/11 15:34): LC_2026_11_23_163033_Screen.mp4 (9:53) và
       LC_2026_11_23_190135_Screen.mp4 (10:55), 1280x960 30fps. Bãi 해적섬 던전 2층 (hầm ngục rất tối), nhân vật Lv54
       (군주, HP 510, MP 50) TỔ ĐỘI 2 người: 형수패 (trưởng nhóm, vương miện) + 형수팬. Quái: 라버본, 라버본 솔져,
       헤비 리자드맨 — KHÔNG phải orc. Hữu ích cho: (a) bãi hầm ngục tối (sau orc), (b) giai đoạn 3 tổ đội 2 nhân vật
       (khung danh sách party góc trái: tên + thanh HP/MP từng thành viên → đọc HP đồng đội để hồi/buff), (c) hotbar
       khác (F1: skill + bình 36/10 + cuộn 25/20). Video không có con trỏ được ghi → chỉ dùng làm ảnh tham khảo/gán tay.
-- [ ] 0.24 GÓI DỮ LIỆU MÁY GAME THỨ 2 (records_game/LineageAuto_data_20261124_1602.zip, người dùng gửi 24/11 15:40):
+- [~] 0.24 GÓI DỮ LIỆU MÁY GAME THỨ 2 (records_game/LineageAuto_data_20261124_1602.zip, người dùng gửi 24/11 15:40):
       nhân vật KHÁC – Lv26 Knight (HP 209, MP 130), cửa sổ 1280x960, 오염된 축복의 땅 khu orc, ĐÊM (độ sáng TB 36–38),
       đang bật ATS (tự săn của game, "남은시간"). Config máy này SAI: attack = 80e0e0e060000000 (= con trỏ BÀN TAY/đất),
       corpse/ground/npc trống → 6 lượt săn (15:27–15:33) "hover_confirm 100%" nhưng toàn "lost target" (đánh vào đất).
@@ -374,16 +395,25 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
       nhãn, chỉ làm ảnh nền đêm. Tên quái không đọc được (None) – cần kiểm tra ở 1280x960 đêm tối.
       Việc: (a) cảnh báo khi đăng ký attack trùng con trỏ mặc định 80e0e0e060000000 (từ chối như mũi tên Windows);
       (b) nạp 2 bản ghi vào dataset đêm (phân loại lại theo hash với config chuẩn); (c) đăng ký lại con trỏ trên máy này.
-- [ ] 0.25 MÁY GAME THỨ 2 (người dùng xác nhận 24/11 15:57): chạy Knight Lv26 (오염된 축복의 땅, đêm, ATS bật, cửa sổ
+      (RÀ 26/11 — BỎ: máy game thứ 2 (Knight Lv26, ATS của game) không còn dùng từ 25/11, dữ liệu của nó không
+       vào dataset orc_v1/v3. (a) cảnh báo khi đăng ký nhầm con trỏ bàn tay 80e0e0e060000000 KHÔNG làm riêng: kiểm
+       tra "trùng kind" (0.13) đã chặn đúng trường hợp này (attack = ground = corpse) và báo ở tab Con trỏ.)
+- [~] 0.25 MÁY GAME THỨ 2 (người dùng xác nhận 24/11 15:57): chạy Knight Lv26 (오염된 축복의 땅, đêm, ATS bật, cửa sổ
       1280x960) và Knight/군주 Lv54 (해적섬 던전 2층, tổ đội 형수패 + 형수팬 – video 0.23). Bản tool trên máy này cũ hơn v8
       (log không có [CONFIG]/v8; mp_template missing). Việc: cài bản mới nhất (v10 khi có), đăng ký lại 4 con trỏ (attack =
       kiếm + mũi tên), đặt "Bãi săn thực tế" đúng; quy trình thu/gửi dữ liệu giống máy 1; ghi tên máy vào meta.json
       (hostname) để phân biệt nguồn dữ liệu. Lưu ý ATS của game đang bật khi quan sát – không chạy bot săn của tool cùng
       lúc với ATS.
+      (RÀ 26/11 — BỎ: chỉ chạy một máy game (máy 1, pháp sư Lv30). Nếu dùng lại máy 2 thì làm theo đúng quy trình
+       cài đặt hiện tại (deploy/HUONG_DAN.txt) chứ không cần mục riêng.)
 - [ ] 0.26 CÀI v11 LÊN MÁY GAME 1 (24/11 18:27): mở được, cửa sổ game giờ 1280x960. Sau khi cài, ô "Bãi săn" vẫn là
       Dragon Valley và "Không dùng model" vẫn tích dù khu đã là 오크의 땅 — chỉ đổi đúng khi CHỌN LẠI khu (Claude chọn
       khu khác rồi chọn lại 오크). Sửa: khi nạp config, áp dụng quy tắc khu → bãi/model ngay lúc khởi động.
       Trên máy game còn bản quan sát 20261124_171102_observe chưa kéo về.
+      (RÀ 26/11 — CÒN MỞ (một phần): v20 đã làm phần nguy hiểm nhất: lúc BẮT ĐẦU săn, tên bản đồ trên màn hình
+       quyết định zone/danh mục chat và ghi lại record.real_map (0.39/7), và chọn bãi ở khung Bản đồ kéo zone theo.
+       CHƯA làm: khi NẠP config lúc khởi động, tự áp quy tắc khu → bãi/model (config cũ vẫn giữ bãi cũ cho tới khi
+       người dùng chọn lại khu).)
 - [x] 0.27 LẦN SĂN THẬT ĐẦU TIÊN VỚI orc_v1 (v11, máy game 1, pháp sư Lv30, 오크의 땅 ĐÊM, 1280x960, 24/11 18:34–18:50;
       records_game/20261124_183457_hunt (3 phút) + 20261124_183803_hunt (12.6 phút, 654 khung); log
       records_game/game_pc_session_log_1858.txt). Bot TỰ SĂN ĐƯỢC: 140 lần rê trúng quái (tỉ lệ con trỏ xác nhận 71%),
@@ -509,8 +539,14 @@ Giai đoạn 0 — Sửa lỗi & tốc độ
        • 6 Khu "오크 숲": data/monsters/orc_forest.json (hunt_map null → thu dữ liệu). Chỉ "아투바 오크" đã thấy trong game;
          네루가/두다-마라/간디 오크, 오크 궁수, 오크 스카우트 ghi "verify". Bản ghi 205449 chưa kéo về → chưa đo orc_v1.)
 Giai đoạn 1 — Săn cơ bản
-- [ ] 1.1 Đánh "nhấn–kéo nhẹ–thả" (mặc định) / "kéo vào khung chat"; đánh lại nếu quái chạy xa (A6)
-- [ ] 1.1b ĐÁNH TỪNG CON: chọn con gần nhất, giết xong mới sang con khác, không đánh lan; ưu tiên con đang đánh mình (A8)
+- [x] 1.1 Đánh "nhấn–kéo nhẹ–thả" (mặc định) / "kéo vào khung chat"; đánh lại nếu quái chạy xa (A6)
+      (RÀ 26/11: nhấn–giữ–kéo là cách đánh duy nhất từ v11 (`combat._hold_and_drag`), bám theo box và đánh lại khi
+       quái dịch (`track_current` + `_refresh_hold`); quái chạy xa > best+4x16 px = "lost" rồi quét lại.
+       BỎ biến thể "kéo vào khung chat": không cần, cách hiện tại đạt 5,25 giết/phút ở bản v20.)
+- [x] 1.1b ĐÁNH TỪNG CON: chọn con gần nhất, giết xong mới sang con khác, không đánh lan; ưu tiên con đang đánh mình (A8)
+      (RÀ 26/11: ứng viên xếp gần nhất trước (`targeting.candidates`), mỗi lúc chỉ một khoá; chỉ đổi mục tiêu khi
+       khoá hiện tại CHƯA sát người và có con sát người (0.39/6, `closer_than` + xác nhận bằng rê chuột);
+       "đang đánh mình" = HP đang tụt + box ≤ 70 px → `session._defend` (0.39).)
 - [x] 1.1c Con trỏ tấn công = KIẾM hoặc CUNG (đăng ký cả hai), quái chết = THÁNH GIÁ (A8)
       (XONG 24/11: mọi is_attack/is_corpse/classify (targeting, combat, grid_scan, observe) đi qua
        CursorProfile.classify, loại "attack" giữ nhiều hình; nút 등록/phím tắt cho attack nay CỘNG thêm hình
@@ -567,7 +603,11 @@ Giai đoạn 1 — Săn cơ bản
       Cần hỏi lại người dùng: "diện rộng" là chế độ di chuyển rộng hay kỹ năng AoE (ghi cả hai ở trên).
 Giai đoạn 2 — Buff & MP
 - [ ] 2.1 15 ô buff, mỗi ô = (trang F1/F2/F3, ô F5–F12), skill hoặc vật phẩm (A4)
-- [ ] 2.1b BUFF LIÊN TỤC: giáp/tốc độ/biến hình hết là buff lại ngay; phát hiện hết qua chat "사라집니다", icon cột buff, đồng hồ; chèn buff giữa nhịp đánh (A3/A4+)
+- [x] 2.1b BUFF LIÊN TỤC: giáp/tốc độ/biến hình hết là buff lại ngay; phát hiện hết qua chat "사라집니다", icon cột buff, đồng hồ; chèn buff giữa nhịp đánh (A3/A4+)
+      (XONG 26/11 v21rc1 qua ĐỒNG HỒ + DÒNG CHAT (chi tiết ở 0.40): dòng chat báo hết buff → xoá đồng hồ của ô đó →
+       buff lại ngay ở nhịp sau, sau hồi máu. Mỗi buff một ẢNH DÒNG CHAT `data/chat/buff_gone/<skill_id>.png`
+       (cắt bằng tests/build_chat_phrases.py) vì mỗi buff một câu khác nhau. Mới có ảnh của 399 인챈트 덱스터리티;
+       실드/블레스드 아머 CẦN một bản ghi có ảnh (bản 001245 chỉ còn jsonl trên máy dev). Icon cột buff: chưa dùng.)
 - [ ] 2.1c CHẾ ĐỘ HỌC: ghi lại người chơi buff gì/khi nào → đề xuất lịch buff để duyệt (A3)
 - [x] 2.2 Đọc MP (OCR số "MP:x/y" trên HUD; mp_template là dự phòng) — xong cùng 0.3 (ctx.read_mp đọc số HUD trước)
 Giai đoạn 3 — Nhiều nhân vật & tổ đội
@@ -577,7 +617,10 @@ Giai đoạn 3 — Nhiều nhân vật & tổ đội
 - [ ] 3.4 Săn bán tự động nhóm: người chơi di chuyển, bot đánh/hồi/buff; vai trò nhân vật 2 tùy chọn (A8)
 - [ ] 3.5 Các nhân vật TƯƠNG TÁC & HỖ TRỢ LẪN NHAU: PartyBoard, hồi/buff cho nhau, đánh cùng mục tiêu, bảo vệ, đi theo, cùng về làng/tiếp tục săn
 Giai đoạn 4 — Tiện ích & nhận diện
-- [ ] 4.1 Thống kê (thời gian, quái đã giết, bình đã dùng, về làng, chết)
+- [x] 4.1 Thống kê (thời gian, quái đã giết, bình đã dùng, về làng, chết)
+      (XONG 26/11 v21rc1: tab "Thống kê" (runtime/stats.py + ui/panels/stats_panel.py) — thời gian chạy, giết tổng
+       và /giờ, giết theo loại quái, bình máu/mana, phép hồi máu, phép tấn công (và số lần phép không lên), về làng,
+       chết, lùi lại; ghi records/stats_<ngày>.json mỗi 10 phút và khi dừng.)
 - [ ] 4.2 Model YOLOX CHUNG cho mọi bãi/mọi quái (ngày + đêm) + công cụ thu ảnh và gán nhãn bán tự động (A1)
       (23/11 v3: thu dữ liệu XONG phần công cụ — xem 0.6b; gán nhãn tests/label_tool.py; xuất COCO/YOLO
        tests/export_dataset.py; quy trình fine-tune docs/TRAINING.md (chưa train).
@@ -876,7 +919,25 @@ Kiểm tra thêm
    • BÌNH MANA: `HuntMap.mp_hungry` (bật cho `fallen_blessed`); chọn bãi đó mà chưa bật bình MP nào trong
       "Bình thêm 1–3" → cảnh báo cam ở thanh dưới (`warn_no_mp_potion`, ko/en/vi).
    • Test: smoke (nguy cấp: hồi máu / lùi / về làng sớm) + `tests/test_hunt_records.py` (replay 101941).
-   • BẢN THỬ v21rc1: BUILD TRÊN MÁY GAME bằng Python 3.12 (laptop chỉ có 3.13/3.14 — xem cuối 0.39), KHÔNG tag.
+   • CHẾT (0.3, yêu cầu 26/11): `survival._die` — HP HUD = 0 (2 lần đọc) hoặc số HP HUD mất > `HUD_GONE_DEAD_SEC`
+      2 s sau khi HP < `LOW_FOR_DEATH_PCT` 50 % → thả hết phím/chuột, log WARNING, lưu `DEATH_SNAPSHOTS` 3 ảnh PNG
+      THÔ records/deaths/death_<n>_<giờ>.png, dừng (trạng thái đỏ "Nhân vật chết - đã dừng" đã có sẵn ở thanh dưới).
+      Nhịp có HP HUD = 0 KHÔNG bấm gì (trước đây vẫn bấm hồi máu ở 0 %). Test: smoke (ảnh HUD giả "0/432" và ảnh
+      mất số HUD sau khi HP thấp).
+   • BUFF LẠI KHI HẾT (2.1b, yêu cầu 26/11): mỗi buff một câu chat khác nhau ("블레스드 아머: … 사라집니다",
+      "쉴드: 쉴드가 사라집니다", nhưng "인챈트 덱스터리티: 몸놀림이 둔해지는 것이 느껴집니다" KHÔNG có 사라집니다)
+      → so CẢ DÒNG với một ảnh dòng chat trong `lineage_auto/data/chat/buff_gone/<skill_id>[_ghi chú].png`
+      (`name_reader.buff_gone_skill`, ngưỡng 0,72 + bề rộng ±8 %). Tên file = bảng map chat ↔ skill_id.
+      `KillWatcher` thu các dòng này → `state["buff_gone"]` → `BuffFeature.expired_from_chat()` xoá đồng hồ ô đó
+      (buff lại ở nhịp sau, SAU hồi máu); dòng của skill không gán ô nào → log "no slot is set to it".
+      Đã cắt được 399 (인챈트 덱스터리티) từ records_game/20261126_101941_hunt f_00275: trong 63 dòng chat mới của
+      bản ghi, chỉ dòng đó khớp — dòng BẬT buff ngay sau (cùng bề rộng 653 px) không khớp.
+      CHƯA CÓ ảnh cho 실드 (385) / 블레스드 아머 (397): bản ghi 001245 không còn ảnh trên máy dev → cắt trên máy game:
+      `python tests/build_chat_phrases.py <bản ghi> --save 385 --line <n>` (xem sheet_NN.png do lệnh in ra).
+   • THỐNG KÊ (4.1, yêu cầu 26/11): `runtime/stats.py` (một Stats trên mỗi BotContext; features gọi `bump`/`kill_name`),
+      tab "Thống kê" thứ 7, và records/stats_<ngày>.json mỗi 10 phút + khi dừng (để xem sau một đêm 24/24).
+   • BẢN THỬ v21rc1: BUILD TRÊN PC NHÀ bằng Python 3.12 theo main.spec (người dùng 26/11; KHÔNG build trên laptop
+      — .venv ở đây là 3.14 — và KHÔNG build trên máy game), KHÔNG tag.
       Cần một buổi 15 phút có ghi ảnh + minimap BẬT để so: giết/phút (mốc v20 5,25), unreachable/phút
       (mốc 1,88 ở 오크의 땅 / 6,4 ở bãi orc tím), số `wall`, `danger`, `retreat`, MP thấp nhất.
 - [x] 0.38 CHẠY 24/24 (25/11; người dùng để tool săn liên tục, 15 phút chỉ là cấu hình thu dữ liệu).

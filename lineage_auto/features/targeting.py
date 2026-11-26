@@ -191,7 +191,7 @@ class TargetingFeature(Feature):
         self._blocked = [b for b in self._blocked if b[3] is not None]
 
     def see(self, frame, char):
-        """Everything read from one grab besides the boxes: minimap + odometry and new chat kill lines."""
+        """Everything read from one grab besides the boxes: minimap + odometry, chat kill / buff lines."""
         self.last_frame = frame
         self.char = char
         self.minimap = minimap.read(frame)
@@ -212,6 +212,10 @@ class TargetingFeature(Feature):
             if watch.magic_fail:
                 watch.magic_fail = 0
                 self._magic_fail()
+            # PLAN 2.1b: "<buff>: ... ran out" chat lines; BuffFeature.tick recasts those skills at once.
+            gone = watch.pop_buff_gone()
+            if gone:
+                self.ctx.state.setdefault("buff_gone", []).extend(gone)
 
     def _chat_fail(self, frame, reason):
         """PLAN 0.31: chat not read -> one log line per CHAT_FAIL_LOG s; the first CHAT_FAIL_PNGS lossless

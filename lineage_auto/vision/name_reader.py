@@ -9,6 +9,7 @@ then a width check and an end-of-name check (see ``match``).
 """
 
 import os
+from functools import lru_cache
 
 import cv2
 import numpy as np
@@ -345,6 +346,46 @@ def phrase_score(mask, tpl):
     return float(cv2.minMaxLoc(cv2.matchTemplate(head, tpl, cv2.TM_CCOEFF_NORMED))[1])
 
 
+# PLAN 2.1b: "this buff ran out" chat lines. The wording differs per buff ("... 사라집니다", but Enchant
+# Dexterity says "몸놀림이 둔해지는 것이 느껴집니다"), and the line that CASTS the buff starts with the same
+# name, so the whole line is matched against a picture of it: data/chat/buff_gone/<skill_id>[_note].png
+# (cut with tests/build_chat_phrases.py). One file per skill id = the chat-line <-> skill map.
+BUFF_GONE_DIR = "buff_gone"
+BUFF_GONE_MIN = 0.72
+BUFF_GONE_WIDTH_TOL = 0.08
+
+
+@lru_cache(maxsize=1)
+def buff_gone_templates():
+    """[(skill_id, mask)] read from data/chat/buff_gone/ (empty when no picture was cut yet)."""
+    folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "chat", BUFF_GONE_DIR)
+    out = []
+    for name in sorted(os.listdir(folder)) if os.path.isdir(folder) else []:
+        if not name.endswith(".png"):
+            continue
+        img = cv2.imdecode(np.fromfile(os.path.join(folder, name), dtype=np.uint8), cv2.IMREAD_GRAYSCALE)
+        if img is not None:
+            out.append((os.path.splitext(name)[0].split("_")[0], (img > 127).astype(np.float32)))
+    return out
+
+
+def buff_gone_skill(mask):
+    """Skill id of the buff whose "ran out" line this chat line is, or None."""
+    if mask is None or not mask.size:
+        return None
+    best, found = BUFF_GONE_MIN, None
+    for skill_id, tpl in buff_gone_templates():
+        if abs(mask.shape[1] - tpl.shape[1]) > BUFF_GONE_WIDTH_TOL * tpl.shape[1]:
+            continue
+        pad = cv2.copyMakeBorder(mask.astype(np.float32), 3, 3, 6, 6, cv2.BORDER_CONSTANT, value=0)
+        if pad.shape[0] < tpl.shape[0] or pad.shape[1] < tpl.shape[1]:
+            continue
+        score = float(cv2.minMaxLoc(cv2.matchTemplate(pad, tpl, cv2.TM_CCOEFF_NORMED))[1])
+        if score > best:
+            best, found = score, skill_id
+    return found
+
+
 class KillWatcher:
     """New "아데나 획득: <name>" chat lines between two frames = kills (PLAN 0.16).
 
@@ -359,6 +400,7 @@ class KillWatcher:
         self.last_lines = 0
         self.new_lines = 0  # every new chat line, kill or not, summed until the caller resets it (loot wait)
         self.magic_fail = 0  # new "마법 사용: 실패" lines, summed until the caller resets it
+        self.buff_gone = []  # PLAN 2.1b: skill ids whose "buff ran out" line just appeared
         self.fail_reason = ""  # why the last frame was not readable (PLAN 0.31 log)
         if KillWatcher.MAGIC_FAIL is None:
             KillWatcher.MAGIC_FAIL = _phrase_template("magic_fail.png")
@@ -388,7 +430,14 @@ class KillWatcher:
         self.new_lines += len(new)
         self.magic_fail += sum(1 for _s, name, mask in new
                                if not name and phrase_score(mask, KillWatcher.MAGIC_FAIL) >= MAGIC_FAIL_MIN)
+        self.buff_gone += [skill for _s, name, mask in new if not name
+                           for skill in [buff_gone_skill(mask)] if skill]
         return [line[1] for line in new if line[1]]
+
+    def pop_buff_gone(self):
+        """Skill ids whose buff just ran out (and forget them)."""
+        out, self.buff_gone = self.buff_gone, []
+        return out
 
 
 def save_crop(path, frame_bgr, box, pad=4):

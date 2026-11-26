@@ -18,6 +18,7 @@ from ..vision.stat_bar import BarColor, StatBarReader
 from ..winapi.window import GameWindow
 from .cursor_collection import CursorCollection
 from .cursor_profile import CursorProfile
+from .stats import Stats
 
 
 # PLAN 0.34: the client needs a moment to redraw the hotbar after a page key (F1/F2/F3).
@@ -83,6 +84,8 @@ class BotContext(HotbarPages):
         self.state = {}
         # runtime.recorder.Recorder while recording field data, else None.
         self.recorder = None
+        # PLAN 4.1: hunt statistics (Statistics tab + records/stats_<date>.json).
+        self.stats = Stats()
 
     @property
     def character(self):

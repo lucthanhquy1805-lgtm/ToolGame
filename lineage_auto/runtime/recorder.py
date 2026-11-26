@@ -50,12 +50,14 @@ def latest_record(root=None):
     return os.path.join(root, dirs[-1]) if dirs else None
 
 
-def save_snapshot(frame_bgr, folder, root=None):
-    """One full frame to records/<folder>/<stamp>.jpg (e.g. the death screen)."""
+def save_snapshot(frame_bgr, folder, root=None, prefix="", png=False):
+    """One full frame to records/<folder>/<prefix><stamp>.jpg (e.g. the death screen).
+
+    PLAN 0.3: ``png`` writes the raw picture instead (no JPEG blocks) - the death window is read later."""
     target = os.path.join(root or records_root(), folder)
     os.makedirs(target, exist_ok=True)
-    path = os.path.join(target, time.strftime("%Y%m%d_%H%M%S") + ".jpg")
-    cv2.imwrite(path, frame_bgr, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
+    path = os.path.join(target, prefix + time.strftime("%Y%m%d_%H%M%S") + (".png" if png else ".jpg"))
+    cv2.imwrite(path, frame_bgr) if png else cv2.imwrite(path, frame_bgr, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
     return path
 
 

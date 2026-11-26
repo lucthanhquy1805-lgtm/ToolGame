@@ -35,8 +35,16 @@ def main():
     tab = app.current_tab
     root.update()
     try:
-        assert tab.notebook.index("end") == 6
-        titles = [tab.notebook.tab(i, "text") for i in range(6)]
+        assert tab.notebook.index("end") == 7  # PLAN 4.1: + the Statistics tab
+        titles = [tab.notebook.tab(i, "text") for i in range(7)]
+        assert titles[6].startswith("Thống kê"), titles
+        # PLAN 4.1: the Statistics tab shows the context counters, translated, refreshed on the UI poll
+        st = tab.session.ctx.stats
+        st.bump("kills_chat", 3); st.bump("potion_mp"); st.kill("오염된 오크 전사")
+        tab.stats.refresh()
+        assert "3 (" in tab.stats.lbl_kills.cget("text"), tab.stats.lbl_kills.cget("text")
+        assert "오염된 오크 전사  1" in tab.stats.monsters.get("1.0", "end")
+        assert "Bình mana  1" in tab.stats.counts.get("1.0", "end"), tab.stats.counts.get("1.0", "end")
         assert titles[0].startswith("Chính") and titles[0].endswith("⚠"), titles  # no game window -> warning
         assert titles[4].startswith("Con trỏ") and titles[4].endswith("⚠")  # nothing registered
         # Old keys still land in the moved widgets.
@@ -158,7 +166,7 @@ def main():
         assert saved["ui"]["geometry"].startswith("500x700"), saved["ui"]
         rec = saved["accounts"][0]["record"]
         assert rec["real_map"] == "오염된 축복의 땅 - 오크의 땅" and rec["grid_step"] == 60
-        assert set(UI_TABS) == {"main", "hunt", "heal", "skills", "cursor", "data"}
+        assert set(UI_TABS) == {"main", "hunt", "heal", "skills", "cursor", "data", "stats"}
         saved_slot = saved["accounts"][0]["attack_skills"]["F5"]
         assert saved_slot["skill_id"] == "386" and saved_slot["min_mp"] == 20, saved_slot
         assert saved_slot["page"] == "F2" and saved["accounts"][0]["home_page"] == "F1", saved_slot

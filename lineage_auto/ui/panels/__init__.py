@@ -11,6 +11,7 @@ from .record_panel import RecordPanel
 from .scan_panel import ScanPanel
 from .skill_setup_panel import SkillSetupPanel
 from .skills_panel import AttackSkillsPanel, BuffSkillsPanel
+from .stats_panel import StatsPanel
 from .status_panel import StatusPanel
 from .window_panel import WindowPanel
 from .zone_panel import ZonePanel
@@ -30,6 +31,7 @@ __all__ = [
     "BuffSkillsPanel",
     "ControlPanel",
     "ZonePanel",
+    "StatsPanel",
     "StatusPanel",
     "GridPanel",
 ]

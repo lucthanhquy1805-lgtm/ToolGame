@@ -3,6 +3,7 @@ import math
 import time
 
 from .. import hunt_maps
+from ..runtime.stats import bump
 from ..skills.policy import HEAL_SKILL_ID
 from .base import Feature
 
@@ -16,6 +17,11 @@ DEATH_CONFIRMATIONS = 3
 HUD_DEATH_CONFIRMATIONS = 2
 # Consecutive reads under return_pct before using the return scroll (PLAN 1.3).
 RETURN_CONFIRMATIONS = 2
+# PLAN 0.3: the death window covers the HUD, so HP numbers that vanish while HP was already low mean death
+# (the bar reader keeps "reading" the window behind it). Death stops the hunt before any key / click.
+LOW_FOR_DEATH_PCT = 50
+HUD_GONE_DEAD_SEC = 2.0
+DEATH_SNAPSHOTS = 3
 # PLAN 0.40 (20261126_101941_hunt: HP 90 -> 46 % in 2 s at the end, MP down to 2 % so no heal spell was left):
 # a burst of damage or a crowd next to the character is an emergency - heal / drink at once whatever
 # threshold_pct says, step back out of the crowd, and use the return scroll while HP is still high when nothing
@@ -55,6 +61,8 @@ class HealthFeature(Feature):
         self._danger_until = 0.0
         self._hp_log = []
         self._last_retreat = 0.0
+        self._hud_t = 0.0  # PLAN 0.3: when the HUD HP numbers were last read, and whether HP was low then
+        self._hud_low = False
 
     @property
     def settings(self):
@@ -74,6 +82,8 @@ class HealthFeature(Feature):
         """Read HP/MP and recover if needed. Returns the current HP percentage."""
         hp = self.read(rect)
         self.just_acted = False
+        if hp == 0 and self.ctx.state.get("hp_source") == "hud":
+            return hp  # PLAN 0.3: the HUD says exactly 0 - dead, never press anything (check_death stops)
         if self._danger_now(hp):
             self._emergency(rect, hp)
         elif self.active and hp < self.settings.threshold_pct:
@@ -136,6 +146,7 @@ class HealthFeature(Feature):
         self._last_retreat = now
         self.input.release_left()
         self.input.click_at(*rect.to_screen(int(x), int(y)))
+        bump(self.ctx, "retreat")
         rec = getattr(self.ctx, "recorder", None)
         if rec:
             rec.count("retreat")
@@ -154,6 +165,7 @@ class HealthFeature(Feature):
                 continue
             self.log(f"{value}% {potion.stat} -> potion {potion.page}+{potion.key}")
             self.ctx.press_slot(potion.page, potion.key)
+            bump(self.ctx, f"potion_{potion.stat}")
             self._extra_used[i] = now
             self.just_acted = True
             return
@@ -164,6 +176,7 @@ class HealthFeature(Feature):
         if self.settings.use_skill and now - self._last_skill > SKILL_COOLDOWN and can_heal:
             self.log(f"{hp}% hp -> heal skill {self.settings.skill_page}+{self.settings.skill_key}")
             self.ctx.press_slot(self.settings.skill_page, self.settings.skill_key, double=True)
+            bump(self.ctx, "heal_skill")
             self._last_skill = now
             self.just_acted = True
         elif (
@@ -175,6 +188,7 @@ class HealthFeature(Feature):
             extra = f" mp {mp}%" if mp is not None else ""
             self.log(f"{hp}% hp{extra} -> potion {self.settings.potion_page}+{self.settings.potion_key}")
             self.ctx.press_slot(self.settings.potion_page, self.settings.potion_key)
+            bump(self.ctx, "potion_hp")
             self._last_potion = now
             self.just_acted = True
 
@@ -188,6 +202,10 @@ class HealthFeature(Feature):
         """
         if self.returned:
             return True
+        if self._hud_death():  # PLAN 0.3: checked before the tick, so the death beat presses nothing
+            self._die("HUD HP gone for "
+                      f"{HUD_GONE_DEAD_SEC:.0f} s after {self.last_hp}% hp", rect)
+            return True
         hp = self.tick(rect)
         if self._should_return(hp):
             self._go_town(hp)
@@ -197,9 +215,7 @@ class HealthFeature(Feature):
             self._zero_reads += 1
             needed = HUD_DEATH_CONFIRMATIONS if from_hud else DEATH_CONFIRMATIONS
             if self._zero_reads >= needed:
-                self.dead = True
-                self.log(f"character is dead ({'hud HP:0' if from_hud else 'bar 0%'}), stopping")
-                self._snapshot_death(rect)
+                self._die("hud HP:0" if from_hud else "bar 0%", rect)
                 return True
             return False
         self._zero_reads = 0
@@ -218,23 +234,43 @@ class HealthFeature(Feature):
         self.log(f"{why or f'{hp}% hp < {self.settings.return_pct}%'} -> return scroll "
                  f"{self.settings.return_page}+{self.settings.return_key}, stopping")
         self.ctx.press_slot(self.settings.return_page, self.settings.return_key)
+        bump(self.ctx, "town")
         self.returned = True
 
-    def _snapshot_death(self, rect):
-        """Keep the death screen (records/deaths/) to teach the restart-window check later."""
-        try:
-            from ..runtime.recorder import save_snapshot
+    def _hud_death(self):
+        """PLAN 0.3: the HUD HP numbers were low and then vanished for HUD_GONE_DEAD_SEC = dead."""
+        now = time.time()
+        if self.ctx.state.get("hp_abs") is not None:
+            self._hud_t, self._hud_low = now, self.last_hp is not None and self.last_hp <= LOW_FOR_DEATH_PCT
+            return False
+        return self._hud_low and now - self._hud_t >= HUD_GONE_DEAD_SEC
 
-            path = save_snapshot(self.ctx.grabber.grab_bgr(rect), "deaths")
-            self.log(f"death screen saved: {path}")
-        except Exception as exc:
-            self.log(f"death screen not saved: {exc}")
+    def _die(self, why, rect):
+        """Stop the hunt: no more clicks or keys, a WARNING in the log, the death screen kept (PLAN 0.3)."""
+        self.dead = True
+        bump(self.ctx, "death")
+        self.input.release_all()
+        self.log(f"WARNING: character is dead ({why}), stopping - no more clicks or keys")
+        self._snapshot_death(rect)
+
+    def _snapshot_death(self, rect):
+        """Keep DEATH_SNAPSHOTS raw death screens (records/deaths/death_*.png) for the restart-window check."""
+        from ..runtime.recorder import save_snapshot
+
+        for i in range(DEATH_SNAPSHOTS):
+            try:
+                path = save_snapshot(self.ctx.grabber.grab_bgr(rect), "deaths", prefix=f"death_{i + 1}_", png=True)
+                self.log(f"death screen saved: {path}")
+            except Exception as exc:
+                self.log(f"death screen not saved: {exc}")
+                return
 
     def on_start(self):
         self.dead = False
         self.returned = False
         self._zero_reads = 0
         self._low_reads = 0
+        self._hud_t, self._hud_low = 0.0, False
         self.danger = False
         self._danger_until = 0.0
         self._hp_log = []
