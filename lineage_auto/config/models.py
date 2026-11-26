@@ -212,6 +212,12 @@ INPUT_SIZES = (320, 416, 640)
 HUNT_RANGES = (0, 1, 3, 5, 10, 15, 20, 30)  # PLAN 1.2: hunt range in steps; 0 = no limit, 1 = stay put
 
 
+def _step_mm(value):
+    """PLAN 1.2: a saved step outside minimap.STEP_MM_RANGE (1-20 minimap px) is a misread -> the default."""
+    value = float(value)
+    return value if 1.0 <= value <= 20.0 else 0.0
+
+
 @dataclass
 class ScanSettings:
     """Target scan tuning (PLAN 0.1). Timings in seconds."""
@@ -245,8 +251,9 @@ class ScanSettings:
     # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
     # is ignored and the UI says so.
     hunt_range: int = 0
-    # PLAN 1.2: client px of one step, measured with the Hunt tab button; 0 = minimap.STEP_PX.
-    step_px: float = 0.0
+    # PLAN 1.2: minimap px of one step, measured with the Hunt tab button; 0 = minimap.STEP_MM.
+    # (v21rc1 saved client px under "step_px": that key is no longer read.)
+    step_mm: float = 0.0
 
     @staticmethod
     def _detect_v15(data):
@@ -284,7 +291,7 @@ class ScanSettings:
             search_threads=min(8, max(1, int(data.get("search_threads", 2)))),
             adaptive_detect=bool(data.get("adaptive_detect", True)),
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
-            step_px=min(200.0, max(0.0, float(data.get("step_px", 0.0)))),
+            step_mm=_step_mm(data.get("step_mm", 0.0)),
             **cls._detect_v15(data),
         )
 

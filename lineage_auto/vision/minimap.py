@@ -24,23 +24,21 @@ ARROW_R = 7  # minimap px around the centre hidden by the character arrow
 GOAL_SLACK = 2  # minimap px before the goal not checked: monsters stand right next to fences and trees
 ODO_W = 216  # odometry crop width (see Odometry)
 CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the character is not a point)
-# PLAN 1.2: client px of one character step (one map tile); the game draws tiles at a fixed size, so
-# minimap px per step = STEP_PX / Minimap.scale.
-# Only the fallback: the Hunt tab's "measure a step" button writes the measured value to
-# scan.step_px (walk a known number of steps, read the odometry), so the game PC needs no new build.
-STEP_PX = 48.0
-STEP_PX_RANGE = (8.0, 200.0)  # a measurement outside this is a misread, not a tile size
+# PLAN 1.2: minimap px (1280-wide grid, = screen px on the minimap at 1280) of one character step.
+# records_game/20261126_192615_observe: 2 walks of 5 steps, the map moved (+4,-2) px per step = 4.5 px.
+# Only the fallback: the Hunt tab's "measure a step" button saves the measured value to scan.step_mm.
+STEP_MM = 4.5
+STEP_MM_RANGE = (1.0, 20.0)  # a measurement outside this is a misread, not a step
+# Odometry features (PLAN 1.2b): the minimap is see-through, so its gray level follows the game scene under
+# it; only the small dark marks of the map (black-hat) are kept, the arrow in the middle is masked out.
+ODO_HAT = 11  # black-hat kernel, minimap px: dark marks smaller than this
+ODO_DARK = 50  # black-hat level of a map mark
+ODO_ARROW_R = 10  # ARROW_R + its outline
 
 
 def box(w):
     f = w / BASE_W
     return round(BOX_W * f), round(BOX_H * f)
-
-
-def step_px(mm_dist, steps, scale):
-    """PLAN 1.2: client px of one character step, from a walk of ``steps`` steps that moved ``mm_dist``
-    minimap px at this ``Minimap.scale``."""
-    return mm_dist * scale / steps
 
 
 class Minimap:
@@ -196,6 +194,8 @@ class Odometry:
 
     The origin is where the minimap was first seen; it restarts (new origin, ``epoch`` + 1) whenever the minimap
     goes missing, so positions from different epochs are never compared.
+    A shift whose correlation peak is under MIN_RESPONSE is dropped (the position stays): the old raw-gray
+    correlation peaked at 0.02-0.2 while walking on the see-through minimap of 192615 and lost 8 of 10 steps.
     shortcut: drifts a little per read (sub-pixel phase noise), fine for a few minutes of blacklist / heat map;
     use the "/위치" coordinates (PLAN 1.2) when an exact position is needed."""
 
@@ -215,8 +215,7 @@ class Odometry:
                 self.epoch += 1
             self.pos, self._prev = None, None
             return None
-        x0 = (BOX_W - ODO_W) // 2
-        cur = mm.gray[:, x0:x0 + ODO_W].astype(np.float32)
+        cur = odo_marks(mm.gray)
         if self.pos is None:
             self.pos = (0.0, 0.0)
         elif self._prev is not None:
@@ -233,3 +232,12 @@ class Odometry:
             return None
         x, y = mm.to_mm(char, local)
         return self.pos[0] + x - mm.center[0], self.pos[1] + y - mm.center[1]
+
+
+def odo_marks(gray):
+    """Odometry picture of a minimap read: 1 on the dark map marks, 0 elsewhere (and on the arrow)."""
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (ODO_HAT, ODO_HAT))
+    marks = (cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, kernel) > ODO_DARK).astype(np.float32)
+    cv2.circle(marks, (BOX_W // 2, BOX_H // 2), ODO_ARROW_R, 0, -1)
+    x0 = (BOX_W - ODO_W) // 2
+    return marks[:, x0:x0 + ODO_W]

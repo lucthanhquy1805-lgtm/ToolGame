@@ -43,8 +43,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
   minimap on in every frame): unreachable under 15% of the fights).
   PLAN 1.2 (`check_range` on the 101941 frames): `scan.hunt_range` steps from the hunt start
-  (`ctx.state["home"]`, first odometry position; 1 step = `scan.step_px`, measured with the Hunt tab's
-  "measure a step" button, else `minimap.STEP_PX`) - `targeting.out_of_range`
+  (`ctx.state["home"]`, first odometry position; 1 step = `scan.step_mm` minimap px, measured with the Hunt tab's
+  "measure a step" button, else `minimap.STEP_MM` 4.5) - `targeting.out_of_range`
   drops far boxes, wander stays inside the circle and walks back (why `go_home`), 1 step = no walking,
   no minimap = no range (UI warning).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
@@ -54,7 +54,9 @@ The dev machine has no game; the bot will run on a separate game PC.
   `python tests/test_map_name.py`.
 - Remote stop (PLAN 0.28): `python tests/test_remote_stop.py` (Windows; SendInput mouse/ESC like TeamViewer ->
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
-  Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. Fight endings + unreachable: `features/combat.py`.
+  Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. The minimap is see-through: odometry
+  correlates only the dark map marks (`minimap.odo_marks`, black-hat), `python tests/test_odometry.py` (PLAN 1.2b,
+  records_game/20261126_192615_observe: 2 walks of 5 steps). Fight endings + unreachable: `features/combat.py`.
 - Detect modes (PLAN 0.33): `python tests/eval_detect_modes.py [<record dir> ...]` — boxes/frame of the full 640
   frame against the adaptive mix, on the saved frames of real hunts. Run it before changing a detector default.
 - Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi] [--config X]` (recall / false

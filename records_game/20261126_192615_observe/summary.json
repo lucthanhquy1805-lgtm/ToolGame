@@ -1,0 +1,21 @@
+{
+ "mode": "observe",
+ "duration_sec": 28.6,
+ "frames_saved": 23,
+ "counts": {
+  "chat_frames": 23,
+  "chat_lines": 207,
+  "scans": 23
+ },
+ "hover_confirm_rate": null,
+ "fights": {},
+ "fight_endings": {},
+ "chat_kill_lines": 0,
+ "kills_chat": 0,
+ "kills_corpse_only": 0,
+ "kills_total": 0,
+ "detections_per_min": 0.0,
+ "avg_ms": {
+  "detect_ms": 268.0
+ }
+}

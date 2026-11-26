@@ -389,7 +389,7 @@ def check_range(rec):
             w, home = tgt.world(p), r.ctx.state.get("home")
             if w is None or home is None:
                 return None
-            return math.hypot(w[0] - home[0], w[1] - home[1]) * tgt.minimap.scale / minimap.STEP_PX
+            return math.hypot(w[0] - home[0], w[1] - home[1]) / minimap.STEP_MM
 
         kept, skipped, far = [], 0, 0.0
         for f in r.frames:

@@ -127,7 +127,7 @@ class ScanPanel(Panel):
             time.sleep(MEASURE_TICK)
 
     def _finish_measure(self):
-        """Save client px per step from what the odometry followed, or say why it was not saved."""
+        """Save minimap px per step from what the odometry followed, or say why it was not saved."""
         stop, self._measure = self._measure, None
         if stop is not None:
             stop.set()
@@ -138,18 +138,18 @@ class ScanPanel(Panel):
             print("[STEP] no minimap while measuring: nothing saved")
             return
         dist = math.hypot(pos[0], pos[1])  # minimap px walked between the two presses
-        px = minimap.step_px(dist, MEASURE_STEPS, scale)
-        lo, hi = minimap.STEP_PX_RANGE
+        px = dist / MEASURE_STEPS
+        lo, hi = minimap.STEP_MM_RANGE
         if not lo <= px <= hi:
             self.lbl_step.config(text=self.t("step_bad", px=f"{px:.1f}"))
             print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps = {px:.1f} px/step, "
                   f"outside {lo:.0f}-{hi:.0f}: nothing saved")
             return
-        self.account.scan.step_px = round(px, 1)
+        self.account.scan.step_mm = round(px, 1)
         self.tab.request_save()
         self.lbl_step.config(text=self.t("step_value", px=f"{px:.1f}"))
-        print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps (scale {scale:.2f}) = "
-              f"{px:.1f} client px per step, saved to the config")
+        print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps = {px:.1f} minimap px per step, "
+              f"saved to the config")
 
     def toggle_advanced(self):
         self._adv_open = not self._adv_open
@@ -165,7 +165,7 @@ class ScanPanel(Panel):
             value = scan.conf_for(self.account.hunt_map) if name == "detect_conf" else getattr(scan, name)
             self.vars[name].set(int(round(value * scale)))
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
-            self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_px or minimap.STEP_PX:.1f}"))
+            self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
         self.load_model()
 
     def store(self):
@@ -192,7 +192,7 @@ class ScanPanel(Panel):
         self.btn_step.config(text=self.t("step_done" if self._measure is not None else "step_measure"))
         if self._measure is None:
             self.lbl_step.config(
-                text=self.t("step_value", px=f"{self.account.scan.step_px or minimap.STEP_PX:.1f}"))
+                text=self.t("step_value", px=f"{self.account.scan.step_mm or minimap.STEP_MM:.1f}"))
         self.btn_adv.config(text=("▾ " if self._adv_open else "▸ ") + self.t("scan_advanced"))
 
     def set_busy(self, running):

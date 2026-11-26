@@ -277,9 +277,9 @@ class TargetingFeature(Feature):
             return None
         return self.odo.world(self.minimap, self.char, local)
 
-    def step_px(self):
-        """Client px of one character step: measured on the game PC (scan.step_px) or the default."""
-        return self.scan.step_px or minimap.STEP_PX
+    def step_mm(self):
+        """Minimap px of one character step: measured on the game PC (scan.step_mm) or the default."""
+        return self.scan.step_mm or minimap.STEP_MM
 
     def range_mm(self):
         """PLAN 1.2: the hunt range in minimap px, or None (no range chosen / no minimap).
@@ -288,14 +288,14 @@ class TargetingFeature(Feature):
         steps = self.scan.hunt_range
         if not steps or self.minimap is None:
             return None
-        return max(steps * self.step_px(), MELEE_DIST) / self.minimap.scale
+        return max(steps * self.step_mm(), MELEE_DIST / self.minimap.scale)
 
     def steps_from_home(self):
         """Steps between the character and the hunt start point, or None (no minimap / nothing seen yet)."""
         home, pos = self.ctx.state.get("home"), self.odo.pos
         if home is None or pos is None or self.minimap is None:
             return None
-        return math.hypot(pos[0] - home[0], pos[1] - home[1]) * self.minimap.scale / self.step_px()
+        return math.hypot(pos[0] - home[0], pos[1] - home[1]) / self.step_mm()
 
     def out_of_range(self, local):
         """PLAN 1.2: point farther from the hunt start than the chosen range (False without a minimap)."""
