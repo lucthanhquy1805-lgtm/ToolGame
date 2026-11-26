@@ -26,14 +26,21 @@ ODO_W = 216  # odometry crop width (see Odometry)
 CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the character is not a point)
 # PLAN 1.2: client px of one character step (one map tile); the game draws tiles at a fixed size, so
 # minimap px per step = STEP_PX / Minimap.scale.
-# shortcut: read off the sprites, not counted in game (the client shows no coordinates); if "5 steps"
-# walks the wrong distance on the game PC, walk a known number of steps and compare with the odometry.
+# Only the fallback: the Hunt tab's "measure a step" button writes the measured value to
+# scan.step_px (walk a known number of steps, read the odometry), so the game PC needs no new build.
 STEP_PX = 48.0
+STEP_PX_RANGE = (8.0, 200.0)  # a measurement outside this is a misread, not a tile size
 
 
 def box(w):
     f = w / BASE_W
     return round(BOX_W * f), round(BOX_H * f)
+
+
+def step_px(mm_dist, steps, scale):
+    """PLAN 1.2: client px of one character step, from a walk of ``steps`` steps that moved ``mm_dist``
+    minimap px at this ``Minimap.scale``."""
+    return mm_dist * scale / steps
 
 
 class Minimap:

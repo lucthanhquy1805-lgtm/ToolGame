@@ -43,7 +43,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
   minimap on in every frame): unreachable under 15% of the fights).
   PLAN 1.2 (`check_range` on the 101941 frames): `scan.hunt_range` steps from the hunt start
-  (`ctx.state["home"]`, first odometry position; 1 step = `minimap.STEP_PX`) - `targeting.out_of_range`
+  (`ctx.state["home"]`, first odometry position; 1 step = `scan.step_px`, measured with the Hunt tab's
+  "measure a step" button, else `minimap.STEP_PX`) - `targeting.out_of_range`
   drops far boxes, wander stays inside the circle and walks back (why `go_home`), 1 step = no walking,
   no minimap = no range (UI warning).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).

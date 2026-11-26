@@ -245,6 +245,8 @@ class ScanSettings:
     # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
     # is ignored and the UI says so.
     hunt_range: int = 0
+    # PLAN 1.2: client px of one step, measured with the Hunt tab button; 0 = minimap.STEP_PX.
+    step_px: float = 0.0
 
     @staticmethod
     def _detect_v15(data):
@@ -282,6 +284,7 @@ class ScanSettings:
             search_threads=min(8, max(1, int(data.get("search_threads", 2)))),
             adaptive_detect=bool(data.get("adaptive_detect", True)),
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
+            step_px=min(200.0, max(0.0, float(data.get("step_px", 0.0)))),
             **cls._detect_v15(data),
         )
 

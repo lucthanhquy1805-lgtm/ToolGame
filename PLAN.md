@@ -556,7 +556,11 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 26/11, v21rc1: `ScanSettings.hunt_range` (0 = không giới hạn, 1 = tại chỗ, 3/5/10/15/20/30) + ô
        "Phạm vi săn (bước)" ở tab Săn. Điểm xuất phát = vị trí odometry đầu tiên sau khi bấm Bắt đầu
        (`ctx.state["home"]`, ExplorationFeature.observe; minimap tắt rồi bật lại = epoch mới = mốc mới).
-       1 bước = `minimap.STEP_PX` 48 px client (CHƯA ĐẾM TRÊN GAME — xem ghi chú trong minimap.py).
+       1 bước = `scan.step_px` nếu đã đo, nếu chưa thì `minimap.STEP_PX` = 48 px client.
+       HIỆU CHỈNH (26/11): nút "Đo bước" ở tab Săn — bật minimap, bấm Đo, tự đi thẳng 10 bước, bấm Xong;
+       tool theo odometry 0,3 s/lần rồi lưu px/bước vào config (`scan.step_px`, KHÔNG cần build lại) và
+       ghi log `[STEP] ... = xx client px per step, saved`. Ngoài khoảng 8-200 px/bước = đo sai, không lưu.
+       KHÔNG tự đi 10 bước hộ: lệnh đi là click theo px, đúng cái đang cần đo.
        Chọn mục tiêu: `TargetingFeature.out_of_range` bỏ quái ngoài phạm vi (đếm out_of_range_skip).
        Lang thang: vòng tròn phạm vi thay MAX_RADIUS_MM khi chấm điểm hướng; ra ngoài phạm vi → đi bộ về
        (why go_home); 1 bước = KHÔNG click đi bộ. Trận đang đánh ngoài phạm vi vẫn đánh xong.
@@ -1203,7 +1207,7 @@ Chế độ: tại chỗ (1), 3, 5, 10, 15, 20, 30 bước, 0 = không giới h�
 (odometry minimap, KHÔNG gõ "/위치" vào chat — người dùng yêu cầu 26/11).
 Không chọn quái ngoài phạm vi, lang thang chỉ trong vòng tròn, ra ngoài thì đi bộ về; "tại chỗ" không đi.
 Trận đang đánh mà quái kéo ra ngoài: đánh xong rồi mới về. Không có minimap = không có phạm vi (cảnh báo trên UI).
-CÒN LẠI: đếm bước thật trên máy game để sửa `minimap.STEP_PX` nếu "5 bước" không đúng cỡ 5 ô.
+Hiệu chỉnh: nút "Đo bước" (tab Săn) đo px/bước bằng minimap và lưu vào `scan.step_px` — làm 1 lần trên máy game.
 
 ### 1.3 Về làng khi HP thấp
 Ngưỡng cấu hình 30–40% (mặc định 35%), phím cuộn về làng cấu hình. Khi HP < ngưỡng (đọc 2 lần liên tiếp):

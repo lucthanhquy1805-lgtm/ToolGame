@@ -7,6 +7,8 @@ import os
 import shutil
 import sys
 import tempfile
+import threading
+import types
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -66,6 +68,33 @@ def main():
         tab.scan.model.set("orc_v1")
         tab.scan._on_model()
         assert tab.account.hunt_map == "blessed_orc"
+
+        # PLAN 1.2: hunt range + the step measurement (the walk itself is faked: an odometry position
+        # and a minimap scale are all _finish_measure reads).
+        from lineage_auto.vision import minimap
+
+        tab.scan.vars["hunt_range"].set(5)
+        tab.scan.store()
+        assert tab.account.scan.hunt_range == 5
+        tab.scan.vars["hunt_range"].set(7)  # not one of the offered ranges -> nearest
+        tab.scan.store()
+        assert tab.account.scan.hunt_range == 5, tab.account.scan.hunt_range
+        tab.scan.load()
+        assert tab.scan.lbl_step.cget("text") == f"1 bước = {minimap.STEP_PX:.1f} px"
+        tab.scan._odo = types.SimpleNamespace(pos=(30.0, 40.0))  # 50 minimap px walked
+        tab.scan._measure, tab.scan._scale = threading.Event(), 10.0
+        tab.scan._finish_measure()  # 50 px * 10 / 10 steps = 50 client px per step
+        assert tab.account.scan.step_px == 50.0, tab.account.scan.step_px
+        assert tab.scan.lbl_step.cget("text") == "1 bước = 50.0 px"
+        tab.scan._odo, tab.scan._measure, tab.scan._scale = types.SimpleNamespace(pos=(1.0, 0.0)), \
+            threading.Event(), 10.0
+        tab.scan._finish_measure()  # 1 px / 10 steps = 1 px per step: a misread, keep the measured value
+        assert tab.account.scan.step_px == 50.0 and "1.0" in tab.scan.lbl_step.cget("text")
+        tab.scan._odo, tab.scan._measure = None, threading.Event()
+        tab.scan._finish_measure()  # the minimap was off the whole time
+        assert tab.account.scan.step_px == 50.0
+        assert tab.scan.btn_step.cget("text") == app.translator.t("step_measure")
+        tab.account.scan.step_px = 0.0
 
         # Mode -> big button text and what it starts.
         calls = []
