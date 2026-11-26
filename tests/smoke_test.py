@@ -326,19 +326,27 @@ deaths=sorted(os.listdir(os.path.join(rroot,'deaths')))       # PLAN 0.3: 3 raw 
 assert len(deaths)==3 and all(f.startswith('death_') and f.endswith('.png') for f in deaths), deaths
 assert recmod.latest_record(rroot).endswith('_observe')
 assert dctx.input.log==[] and any('WARNING' in m for m in hf_logs), (dctx.input.log, hf_logs)  # no key, WARNING
-# PLAN 0.3: HUD HP low and then gone for HUD_GONE_DEAD_SEC = dead too (the death window hides the numbers)
+# PLAN 0.3 (user 26/11): HUD HP low and then gone = SAFE STOP "HUD lost", never a death (a loading screen or
+# a dialog over the HUD looks the same); a dark screen or another map name only restarts the 2 s timer.
 import lineage_auto.features.survival as sv
 sv.HUD_GONE_DEAD_SEC=0.05
 dctx.state={}; dctx._hud_cache=(0.0,None); dctx.account.health.read_hud_numbers=True
 frame_now['f']=hud_frame('40/432'); hf2=HealthFeature(dctx)
 assert not hf2.check_death(None) and dctx.state['hp_abs']==(40,432)
-dctx._hud_cache=(0.0,None); frame_now['f']=hud_frame('')              # HUD numbers gone (death window)
+dark=hud_frame(''); dark[:]=5                                         # loading / teleport screen: all black
+dctx._hud_cache=(0.0,None); frame_now['f']=dark
 assert not hf2.check_death(None); time.sleep(0.06); dctx._hud_cache=(0.0,None)
-assert hf2.check_death(None) and hf2.dead and dctx.input.log==[], dctx.input.log
+assert not hf2.check_death(None) and not hf2.hud_lost, 'a dark screen must not stop the hunt'
+assert any('dark' in m for m in hf_logs), hf_logs[-3:]
+dctx._hud_cache=(0.0,None); frame_now['f']=hud_frame('')              # HUD numbers gone, the ground still there
+assert not hf2.check_death(None); time.sleep(0.06); dctx._hud_cache=(0.0,None)
+assert hf2.check_death(None) and hf2.hud_lost and not hf2.dead and dctx.input.log==[], dctx.input.log
+assert any('WARNING' in m and 'not counted as a death' in m for m in hf_logs), hf_logs[-3:]
+assert len([f for f in os.listdir(os.path.join(rroot,'deaths')) if f.startswith('hud_lost_')])==3
 sv.HUD_GONE_DEAD_SEC=2.0
 dctx.account.health.read_hud_numbers=False; dctx._hud_cache=(0.0,None)
 assert dctx.read_hp(None)==100 and dctx.state['hp_source']=='bar'                        # toggle off -> bar
-print('hud numbers: 10/10 frames, HP:0 -> dead in 2 reads with healing off, snapshot saved OK')
+print('hud numbers: HP:0 -> dead in 2 reads, HUD gone -> safe stop (dark screen waits), snapshots OK')
 # PLAN 0.4: why a fight ended - corpse cursor / YOLOX die box at the lock / body frozen / lost
 from lineage_auto.features import combat as cb
 from lineage_auto.features.targeting import Target

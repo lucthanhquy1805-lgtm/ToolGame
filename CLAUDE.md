@@ -123,8 +123,12 @@ app_paths.py frozen-vs-source path resolution
 Each iteration, while holding the mouse arbiter:
 1. `cure.tick` — Cure Poison (388) when the HP bar fill turns green (2 consecutive reads)
 2. `health.check_death` — reads HP/MP, heals (skill F5 by default, then potion), 3×0% = dead → stop.
-   PLAN 0.3: HUD "HP:0" (2 reads) or the HUD HP numbers gone 2 s after HP was under 50% = dead → release
-   everything, WARNING, 3 raw records/deaths/death_*.png, stop; a beat whose HUD HP is 0 presses nothing.
+   PLAN 0.3: HUD "HP:0" (2 reads) = dead → release everything, WARNING, 3 raw records/deaths/death_*.png, stop;
+   a beat whose HUD HP is 0 presses nothing. HUD HP numbers *gone* 2 s after HP was under 50% is NOT a death
+   (a loading / teleport screen or a dialog over the HUD looks the same, user 26/11): a dark screen (mean
+   brightness < LOADING_DARK, night frames read 54-62) or a readable map name from another zone only restarts
+   the timer; otherwise the hunt stops safely as SessionState.HUD_LOST (yellow "HUD lost", hud_lost_*.png, no
+   death counted), the same state as the 60 s `session._hud_lost` disconnect rule.
 3. `buff.tick` — timer-based rebuff of allowed `maintain_buff` skills; PLAN 2.1b: a chat line that announces a
    buff ran out (whole-line match against `data/chat/buff_gone/<skill_id>.png`, cut with
    `tests/build_chat_phrases.py`) clears that slot's timer, so it is recast at once (after healing)

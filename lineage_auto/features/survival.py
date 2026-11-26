@@ -17,10 +17,14 @@ DEATH_CONFIRMATIONS = 3
 HUD_DEATH_CONFIRMATIONS = 2
 # Consecutive reads under return_pct before using the return scroll (PLAN 1.3).
 RETURN_CONFIRMATIONS = 2
-# PLAN 0.3: the death window covers the HUD, so HP numbers that vanish while HP was already low mean death
-# (the bar reader keeps "reading" the window behind it). Death stops the hunt before any key / click.
+# PLAN 0.3: the death window covers the HUD, so HP numbers vanish while HP was already low - but so do a
+# loading / teleport screen and any dialog drawn over the HUD (user 26/11). Missing numbers are therefore never
+# called a death: the hunt stops safely as "HUD lost" instead, and only "HP:0" is death. Loading screens are
+# ruled out first: the 83 night frames of 20261126_101941_hunt have a mean brightness of 54-62, a loading
+# screen is nearly black, so under LOADING_DARK the timer just starts over.
 LOW_FOR_DEATH_PCT = 50
 HUD_GONE_DEAD_SEC = 2.0
+LOADING_DARK = 30
 DEATH_SNAPSHOTS = 3
 # PLAN 0.40 (20261126_101941_hunt: HP 90 -> 46 % in 2 s at the end, MP down to 2 % so no heal spell was left):
 # a burst of damage or a crowd next to the character is an emergency - heal / drink at once whatever
@@ -58,6 +62,8 @@ class HealthFeature(Feature):
         self.just_acted = False
         # PLAN 0.40: emergency (damage burst / crowd); combat leaves the fight while it is on.
         self.danger = False
+        # PLAN 0.3: True when the HUD HP numbers vanished for good - a safe stop, not a death.
+        self.hud_lost = False
         self._danger_until = 0.0
         self._hp_log = []
         self._last_retreat = 0.0
@@ -202,9 +208,9 @@ class HealthFeature(Feature):
         """
         if self.returned:
             return True
-        if self._hud_death():  # PLAN 0.3: checked before the tick, so the death beat presses nothing
-            self._die("HUD HP gone for "
-                      f"{HUD_GONE_DEAD_SEC:.0f} s after {self.last_hp}% hp", rect)
+        why = self._hud_gone(rect)  # PLAN 0.3: checked before the tick, so this beat presses nothing
+        if why:
+            self._stop_hud_lost(why, rect)
             return True
         hp = self.tick(rect)
         if self._should_return(hp):
@@ -237,13 +243,50 @@ class HealthFeature(Feature):
         bump(self.ctx, "town")
         self.returned = True
 
-    def _hud_death(self):
-        """PLAN 0.3: the HUD HP numbers were low and then vanished for HUD_GONE_DEAD_SEC = dead."""
+    def _hud_gone(self, rect):
+        """PLAN 0.3 (user 26/11): the reason for a safe stop when the HUD HP numbers are gone, else None.
+
+        Low HP and then no numbers is NOT read as a death: a loading / teleport screen or a dialog over the
+        HUD looks exactly the same. Only "HP:0" (check_death) and the resurrection window are deaths."""
         now = time.time()
         if self.ctx.state.get("hp_abs") is not None:
             self._hud_t, self._hud_low = now, self.last_hp is not None and self.last_hp <= LOW_FOR_DEATH_PCT
-            return False
-        return self._hud_low and now - self._hud_t >= HUD_GONE_DEAD_SEC
+            return None
+        if not self._hud_low or now - self._hud_t < HUD_GONE_DEAD_SEC:
+            return None
+        loading = self._loading_screen(rect)
+        if loading:
+            self._hud_t = now  # start the 2 s over once the ground is back on screen
+            self.log(f"HUD HP gone but {loading} - waiting, not a death")
+            return None
+        return f"HUD HP gone for {HUD_GONE_DEAD_SEC:.0f} s after {self.last_hp}% hp"
+
+    def _loading_screen(self, rect):
+        """Why the HUD may be missing without anything being wrong (dark screen / another map), else ""."""
+        from .. import monsters
+        from ..vision.map_name import MapNameReader
+
+        try:
+            frame = self.ctx.grabber.grab_bgr(rect)
+            if frame is None:
+                return "there is no frame"
+            if float(frame[::4, ::4].mean()) < LOADING_DARK:
+                return "the whole screen is dark (loading / teleport)"
+            zone = self.account.record.real_map
+            cat = monsters.for_real_map(zone)
+            seen = MapNameReader().read(frame)[0]
+            if seen and cat is not None and not monsters.fits_map_name(cat, seen):
+                return f"the map on screen is {seen}, not {zone} (teleported)"
+        except Exception as exc:
+            return f"the screen could not be checked ({exc})"
+        return ""
+
+    def _stop_hud_lost(self, why, rect):
+        """Safe stop: release everything, keep pictures, but do not count a death (PLAN 0.3, user 26/11)."""
+        self.hud_lost = True
+        self.input.release_all()
+        self.log(f"WARNING: {why} -> safe stop (HUD lost; not counted as a death)")
+        self._snapshot_death(rect, "hud_lost")
 
     def _die(self, why, rect):
         """Stop the hunt: no more clicks or keys, a WARNING in the log, the death screen kept (PLAN 0.3)."""
@@ -253,20 +296,22 @@ class HealthFeature(Feature):
         self.log(f"WARNING: character is dead ({why}), stopping - no more clicks or keys")
         self._snapshot_death(rect)
 
-    def _snapshot_death(self, rect):
-        """Keep DEATH_SNAPSHOTS raw death screens (records/deaths/death_*.png) for the restart-window check."""
+    def _snapshot_death(self, rect, kind="death"):
+        """Keep DEATH_SNAPSHOTS raw screens (records/deaths/<kind>_*.png) for the restart-window check."""
         from ..runtime.recorder import save_snapshot
 
         for i in range(DEATH_SNAPSHOTS):
             try:
-                path = save_snapshot(self.ctx.grabber.grab_bgr(rect), "deaths", prefix=f"death_{i + 1}_", png=True)
-                self.log(f"death screen saved: {path}")
+                path = save_snapshot(self.ctx.grabber.grab_bgr(rect), "deaths",
+                                     prefix=f"{kind}_{i + 1}_", png=True)
+                self.log(f"{kind} screen saved: {path}")
             except Exception as exc:
-                self.log(f"death screen not saved: {exc}")
+                self.log(f"{kind} screen not saved: {exc}")
                 return
 
     def on_start(self):
         self.dead = False
+        self.hud_lost = False
         self.returned = False
         self._zero_reads = 0
         self._low_reads = 0

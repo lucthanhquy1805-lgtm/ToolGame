@@ -919,11 +919,20 @@ Kiểm tra thêm
    • BÌNH MANA: `HuntMap.mp_hungry` (bật cho `fallen_blessed`); chọn bãi đó mà chưa bật bình MP nào trong
       "Bình thêm 1–3" → cảnh báo cam ở thanh dưới (`warn_no_mp_potion`, ko/en/vi).
    • Test: smoke (nguy cấp: hồi máu / lùi / về làng sớm) + `tests/test_hunt_records.py` (replay 101941).
-   • CHẾT (0.3, yêu cầu 26/11): `survival._die` — HP HUD = 0 (2 lần đọc) hoặc số HP HUD mất > `HUD_GONE_DEAD_SEC`
-      2 s sau khi HP < `LOW_FOR_DEATH_PCT` 50 % → thả hết phím/chuột, log WARNING, lưu `DEATH_SNAPSHOTS` 3 ảnh PNG
-      THÔ records/deaths/death_<n>_<giờ>.png, dừng (trạng thái đỏ "Nhân vật chết - đã dừng" đã có sẵn ở thanh dưới).
-      Nhịp có HP HUD = 0 KHÔNG bấm gì (trước đây vẫn bấm hồi máu ở 0 %). Test: smoke (ảnh HUD giả "0/432" và ảnh
-      mất số HUD sau khi HP thấp).
+   • CHẾT (0.3, yêu cầu 26/11): `survival._die` — HP HUD = 0 (2 lần đọc) → thả hết phím/chuột, log WARNING, lưu
+      `DEATH_SNAPSHOTS` 3 ảnh PNG THÔ records/deaths/death_<n>_<giờ>.png, dừng (trạng thái đỏ "Nhân vật chết -
+      đã dừng"). Nhịp có HP HUD = 0 KHÔNG bấm gì (trước đây vẫn bấm hồi máu ở 0 %).
+   • SỬA (yêu cầu 26/11, sau khi làm): số HP HUD MẤT > `HUD_GONE_DEAD_SEC` 2 s khi HP < `LOW_FOR_DEATH_PCT` 50 %
+      KHÔNG còn bị kết luận là chết — màn hình tải/dịch chuyển và hộp thoại che HUD trông y như vậy. Nay:
+      `survival._hud_gone` → loại trừ trước (`_loading_screen`): màn hình tối toàn bộ (trung bình sáng <
+      `LOADING_DARK` 30; đo 83 khung ĐÊM của 20261126_101941_hunt là 54–62 nên đêm không bị tính) hoặc đọc được
+      TÊN BẢN ĐỒ khác zone đang săn (`vision/map_name` + `monsters.fits_map_name`) → khởi động lại đồng hồ 2 s,
+      chỉ log, không dừng. Cuộn về làng vẫn thoát trước đó bằng `returned` (trạng thái "Đã về làng"). Hết loại
+      trừ → `_stop_hud_lost`: thả hết, WARNING "not counted as a death", 3 ảnh hud_lost_<n>_*.png, trạng thái
+      VÀNG "Mất HUD - đã dừng" (`SessionState.HUD_LOST`, `state_hud_lost` ko/en/vi) — KHÔNG đếm vào thống kê
+      `death`. Cùng trạng thái đó cho luật 60 s `session._hud_lost` (mất kết nối). CHƯA LÀM: nhận "cửa sổ hồi
+      sinh" làm bằng chứng chết thứ hai — không có ảnh bản ghi nào có cửa sổ đó trên máy dev để cắt mẫu.
+      Test: smoke (ảnh HUD giả "0/432"; mất số HUD trên màn hình tối = chờ, trên nền bãi = dừng an toàn).
    • BUFF LẠI KHI HẾT (2.1b, yêu cầu 26/11): mỗi buff một câu chat khác nhau ("블레스드 아머: … 사라집니다",
       "쉴드: 쉴드가 사라집니다", nhưng "인챈트 덱스터리티: 몸놀림이 둔해지는 것이 느껴집니다" KHÔNG có 사라집니다)
       → so CẢ DÒNG với một ảnh dòng chat trong `lineage_auto/data/chat/buff_gone/<skill_id>[_ghi chú].png`

@@ -62,6 +62,7 @@ class SessionState:
     RUNNING = "running"
     OBSERVING = "observing"
     DEAD = "dead"
+    HUD_LOST = "hud_lost"  # HUD HP numbers gone - safe stop, not a death (PLAN 0.3)
     RETURNED = "returned"  # return scroll used on low HP (PLAN 1.3)
     ERROR = "error"
 
@@ -522,9 +523,11 @@ class AccountSession:
 
                         self.cure.tick(rect)
                         if self.health.check_death(rect):
-                            self._set_state(SessionState.RETURNED if self.health.returned else SessionState.DEAD)
+                            self._set_state(SessionState.HUD_LOST if self.health.hud_lost else
+                                            SessionState.RETURNED if self.health.returned else SessionState.DEAD)
                             break
                         if self._hud_lost():
+                            self._set_state(SessionState.HUD_LOST)
                             break
 
                         self.buff.tick(rect)

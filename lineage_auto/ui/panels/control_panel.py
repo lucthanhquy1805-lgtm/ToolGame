@@ -12,6 +12,7 @@ STATE_LABELS = {
     SessionState.RUNNING: ("state_running", "green"),
     SessionState.OBSERVING: ("state_observing", "#1565c0"),
     SessionState.DEAD: ("state_dead", "#c62828"),
+    SessionState.HUD_LOST: ("state_hud_lost", "#f9a825"),
     SessionState.RETURNED: ("state_returned", "#e65100"),
     SessionState.ERROR: ("state_error", "#c62828"),
 }
