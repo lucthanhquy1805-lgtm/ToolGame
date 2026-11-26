@@ -166,7 +166,7 @@ class Recorder:
             if kill:
                 g = kill_kind.get(k, "kill_fall")  # die_box / vanished / frozen: the body fell / vanished
             else:
-                g = k if k in ("gone", "unreachable", "no_progress", "cap", "lost", "switch") else "other"
+                g = k if k in ("gone", "unreachable", "wall", "danger", "no_progress", "cap", "lost", "switch") else "other"
             gn, gt = groups.get(g, (0, 0.0))
             groups[g] = (gn + n, gt + t)
         return per, {g: {"n": n, "avg_s": round(t / n, 1)} for g, (n, t) in groups.items()}

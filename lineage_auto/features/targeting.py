@@ -387,6 +387,9 @@ class TargetingFeature(Feature):
             figures, dies = list(yolox_mobs._LAST_FIGURES), list(yolox_mobs._LAST_DIES)
             detect_ms = 1000 * (time.perf_counter() - t0)
         hits = [p for p in hits if math.hypot(p[0] - char[0], p[1] - char[1]) > SELF_R]
+        # PLAN 0.40: what HealthFeature uses to see a crowd around the character (and where to step back to).
+        self.ctx.state["mobs_near"] = [p for p in hits
+                                       if math.hypot(p[0] - char[0], p[1] - char[1]) <= MELEE_DIST]
         if new:
             self.see(frame, char)
         return frame, hits, figures, dies, detect_ms

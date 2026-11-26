@@ -344,11 +344,33 @@ def check_001245(rec):
     assert wall and sum(wall) / len(wall) <= 3.5 and max(wall) <= 6.0, wall
 
 
+def check_101941(rec):
+    """PLAN 0.40: purple orcs with the minimap ON in every frame (8.6 min, 114 fights, 55 unreachable in the game).
+    Measured on these frames: 44 of those 55 ended 70-92 px away with the attack cursor on a live box, where the
+    minimap cannot see a fence at all (70 px = 7 minimap px, inside the character arrow); only 11 stood 200-533 px
+    away, which is what route() can judge. Target (user, 26/11): unreachable under 15% of the fights."""
+    r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+    events = []
+    r.ctx.recorder = types.SimpleNamespace(
+        count=lambda k, n=1: None, event=lambda kind, **d: events.append(dict(d, kind=kind)),
+        fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+        hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
+    windows = r.fights()
+    groups = r.report(windows, "114 = 55 unreachable (3.0 s) + 35 gone + 11 cap + 5 lost + 4 switch + 3 kill")
+    wall = groups.get("unreachable", [])
+    ends = [e for e in events if e["kind"] == "fight_end"]
+    far = [e for e in ends if e["outcome"] in ("unreachable", "wall") and (e["dist"] or 0) > 150]
+    print(f"   unreachable {len(wall)}/{len(windows)} ({len(wall) / len(windows):.0%}); "
+          f"wall (minimap said blocked before the first click) {sum(1 for e in ends if e['outcome'] == 'wall')}; "
+          f"far (> 150 px) walls {len(far)}")
+    assert len(wall) < 0.15 * len(windows), f"{len(wall)}/{len(windows)} unreachable"
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
-                        ("20261126_001245_hunt", check_001245)):
+                        ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

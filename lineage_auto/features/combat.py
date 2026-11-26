@@ -46,6 +46,13 @@ LATE_KILL_SEC = 3.0
 # PLAN 0.27 / 3: no step closer for this long (beyond melee) = the target cannot be reached (wall, fence).
 # PLAN 0.39: 2.5 -> 1.5 (233615: 20 unreachable fights stood 2.8-7.4 s hitting a fence).
 UNREACH_SEC = 1.5
+# PLAN 0.40: the minimap cannot see a fence closer than ~7 of its pixels, and 70 client px are 7 minimap px inside
+# the character arrow (forced walkable) - so near a monster there is no wall signal at all. 44 of the 55
+# "unreachable" fights of 20261126_101941_hunt stood 70-92 px away with the attack cursor on a live box and were
+# dropped after 1.8 s, while a kill by hand takes 3.8 s on that ground (5 of its 6 kill lines arrived just AFTER
+# such a fight was left). Within NEAR_FIGHT_DIST the fight gets NEAR_UNREACH_SEC instead of UNREACH_SEC.
+NEAR_FIGHT_DIST = 100
+NEAR_UNREACH_SEC = 4.0
 DETOUR_AFTER = 0.8  # s without progress before walking to the minimap gap once
 PROGRESS_PX = 16
 MAX_DETOURS = 2
@@ -355,6 +362,7 @@ class CombatFeature(Feature):
             self.last_anchor = anchor
             self.last_world = self.targeting.world(anchor) if self.targeting is not None else None
         self._clear_lock()
+        self.ctx.state["fight_until"] = 0.0  # PLAN 0.40: the fight is over now (health may step back at once)
         # PLAN 0.35: no return to the home page here - 145650 spent 101 of its 202 page switches on a return
         # that the very next fight undid. session._run goes home once the hunt runs dry (HOME_IDLE_SEC).
         note = f" ({detail})" if detail else ""
@@ -369,7 +377,9 @@ class CombatFeature(Feature):
         else:
             self.log({"lost": "lost target", "cap": f"fight cap {seconds:.0f}s, leaving lock",
                       "gone": "target gone, no kill line", "unreachable": "target unreachable, blacklisted",
-                      "no_progress": "no progress, blacklisted", "switch": "closer monster, switching"}
+                      "no_progress": "no progress, blacklisted", "switch": "closer monster, switching",
+                      "wall": "no way on the minimap, blacklisted",
+                      "danger": "danger, leaving the fight"}
                      .get(outcome, outcome) + note)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -480,6 +490,13 @@ class CombatFeature(Feature):
         melee_max = self.account.scan.melee_max_sec
         # PLAN 0.29 / 1: the chat kill line names the monster; compare with the one we lock (when readable).
         locked_name = self.targeting.read_name(anchor) if self.targeting is not None else None
+        # PLAN 0.40: the minimap says there is no way to this monster (behind a fence / hut / watchtower) ->
+        # never click: blacklist the spot (60 s, minimap coordinates) and look for another target.
+        if self.targeting is not None and self.targeting.route(anchor)[0] == "blocked":
+            self.targeting.block(anchor)
+            return self._finish(target, "wall", anchor, f"{self._dist:.0f}px, no way on the minimap")
+        if self.health is not None and getattr(self.health, "danger", False):
+            return self._finish(target, "danger", anchor, "not starting a fight")  # PLAN 0.40
         self._detour_if_blocked(rect, char, target)
         self._hold_and_drag(screen_x, screen_y)
 
@@ -510,6 +527,9 @@ class CombatFeature(Feature):
 
                 if self.health and getattr(self.health, "just_acted", False):
                     self._rearm(screen_x, screen_y)
+                # PLAN 0.40: a damage burst / a crowd next to us: leave the fight so health can step back.
+                if self.health is not None and getattr(self.health, "danger", False):
+                    return self._finish(target, "danger", anchor)
 
                 time.sleep(BURST_INTERVAL)
                 self._check_mp_pending(rect)
@@ -591,7 +611,8 @@ class CombatFeature(Feature):
                         best, progress_t = min(best, dist), now
                     elif now - progress_t > UNREACH_SEC and dist > best + 4 * PROGRESS_PX:
                         return self._finish(target, "lost", anchor, f"ran off to {dist:.0f}px")
-                    elif now - progress_t > UNREACH_SEC:
+                    elif now - progress_t > (NEAR_UNREACH_SEC if sword and dist <= NEAR_FIGHT_DIST
+                                             else UNREACH_SEC):
                         if self.targeting is not None:
                             self.targeting.block(anchor)
                         return self._finish(target, "unreachable", anchor,
@@ -643,7 +664,10 @@ class CombatFeature(Feature):
 
                 bursts += 1
 
-            return self._finish(target, "cap" if self.ctx.running else "stopped")
+            if self.ctx.running and not melee_seen and self.targeting is not None:
+                self.targeting.block(anchor)  # PLAN 0.40: 10 s next to it without ever touching it = a wall
+            return self._finish(target, "cap" if self.ctx.running else "stopped",
+                                anchor if self.ctx.running else None)
         finally:
             self.input.release_left()
         return target

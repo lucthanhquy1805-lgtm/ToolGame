@@ -844,6 +844,41 @@ Kiểm tra thêm
       (`zone_name`), bản ghi mang `"zone"` = khoá catalog.
    • Để sau: khu yêu tinh (model), ảnh tên/chat của 5 loại orc tím (analyze_records đọc 0 lượt giết vì chưa có
       ảnh tên dòng chat), xuân ĐÊM.
+- [ ] 0.40 v21rc1: BÃI ORC TÍM — RÀO, AN TOÀN, BÌNH MANA (26/11, yêu cầu người dùng trên
+      records_game/20261126_101941_hunt: fallen_blessed/orc_v3 @416, 8,6 phút, đêm, MINIMAP BẬT ở cả 412 khung;
+      8 giết, 55/114 trận unreachable, 11 cap 10 s, 0 phép (MP tụt tới 2 % vì hồi máu), HP 90→46 % trong 2 s
+      ở cuối → về làng).
+   • ĐO TRƯỚC KHI SỬA (quan trọng): trong 55 trận unreachable, **44 trận kết thúc ở 70–92 px** với con trỏ attack
+      và box CÒN trong khung mới nhất; chỉ 11 trận ở 200–533 px. `minimap.route` ở điểm kết thúc: 39 "clear",
+      8 "detour", 8 "blocked". Lý do 39 trận "clear": 70 px = 7 px minimap, mà vòng tròn mũi tên nhân vật
+      (`ARROW_R` 7) BỊ ÉP thành đi được → **minimap không bao giờ thấy rào ở gần**. Đánh tay giết mất 3,8 s
+      (`kill_sec_hand`) nhưng `UNREACH_SEC` = 1,5 s → bot bỏ trận nó đang thắng: 5/6 dòng chat giết đến NGAY SAU
+      khi trận vừa bị bỏ (`late_chat_kill` = 5).
+   • SỬA 1 (rào): trước cú click đầu tiên, `combat.engage` hỏi `targeting.route(anchor)`; "blocked" → KHÔNG click,
+      ghi đen chỗ đó 60 s theo toạ độ minimap (`targeting.block`, đã là toạ độ odometry từ 0.39) và kết thúc
+      outcome mới `wall` (0 s). Trận chạm trần 10 s mà CHƯA BAO GIỜ vào tầm đánh (`melee_seen`) cũng bị ghi đen.
+   • SỬA 2 (gần): còn con trỏ attack và box sống trong `NEAR_FIGHT_DIST` 100 px → chờ `NEAR_UNREACH_SEC` 4,0 s
+      (> 3,8 s giết tay) thay vì 1,5 s. Ngoài 100 px vẫn 1,5 s.
+   • KẾT QUẢ REPLAY (`tests/test_hunt_records.check_101941`, 91 → 83 trận mô phỏng): unreachable 33 (36 %) →
+      **8 (10 %, đạt mức < 15 %)**, thêm 14 trận `wall` kết thúc ở 0,0 s (trước mỗi trận mất 2,4 s), cap vẫn 7.
+      CHƯA KIỂM ĐƯỢC: replay chạy trên khung đã lưu nên KHÔNG thể sinh thêm lượt giết — "chờ 4 s thì giết được"
+      chỉ máy game trả lời được.
+   • AN TOÀN (`features/survival.py`): HP tụt ≥ 20 % trong 2 s HOẶC ≥ 3 box trong `MELEE_DIST` quanh nhân vật
+      (`state["mobs_near"]`, do `targeting._detect` ghi) = nguy cấp, giữ 3 s: hồi máu/bình NGAY (bỏ qua
+      `threshold_pct`, nhưng chỉ khi HP < 90 % — bắn hồi máu lúc đầy máu chỉ tốn đúng cái MP đang thiếu), lùi
+      120 px ra khỏi tâm đám quái (1 lần/1,5 s, không lùi khi đang có trận giữ chuột), và `combat.engage` rời
+      trận (outcome `danger`). Không còn gì hồi máu (phép không đủ MP + không bật bình HP nào) và HP < 80 %
+      → cuộn về làng NGAY (trước khi HP < 50 %).
+      Đo: ≥ 3 box sát nhân vật xảy ra 0/412 khung ở bản ghi này nhưng 24/736 khung ở 20261126_090350_hunt (buổi
+      chạy tốt 5,25 giết/phút) → QUYẾT ĐỊNH (người dùng 26/11): luật "≥ 3 quái sát người" CHỈ chạy ở bãi
+      `HuntMap.mp_hungry` (fallen_blessed); ở 오크의 땅 và các bãi khác chỉ còn luật HP tụt ≥ 20 %/2 s, để không
+      làm giảm 5,25 giết/phút của v20.
+   • BÌNH MANA: `HuntMap.mp_hungry` (bật cho `fallen_blessed`); chọn bãi đó mà chưa bật bình MP nào trong
+      "Bình thêm 1–3" → cảnh báo cam ở thanh dưới (`warn_no_mp_potion`, ko/en/vi).
+   • Test: smoke (nguy cấp: hồi máu / lùi / về làng sớm) + `tests/test_hunt_records.py` (replay 101941).
+   • BẢN THỬ v21rc1: BUILD TRÊN MÁY GAME bằng Python 3.12 (laptop chỉ có 3.13/3.14 — xem cuối 0.39), KHÔNG tag.
+      Cần một buổi 15 phút có ghi ảnh + minimap BẬT để so: giết/phút (mốc v20 5,25), unreachable/phút
+      (mốc 1,88 ở 오크의 땅 / 6,4 ở bãi orc tím), số `wall`, `danger`, `retreat`, MP thấp nhất.
 - [x] 0.38 CHẠY 24/24 (25/11; người dùng để tool săn liên tục, 15 phút chỉ là cấu hình thu dữ liệu).
    • LỖI: "Tự dừng sau" = 75 nhưng bot dừng sau 15 phút: record.max_frames = 900 với nhịp 1 s, và hết khung ghi
       thì `_limit_reached` DỪNG CẢ LƯỢT SĂN. Nay hết khung chỉ dừng GHI (`session._recording_tick`: lưu bản ghi,

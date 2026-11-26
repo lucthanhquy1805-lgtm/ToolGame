@@ -31,6 +31,9 @@ class HuntMap:
     # its own; ``variant`` is the label shown there.
     variant_of: str = ""
     variant: str = ""
+    # PLAN 0.40: a ground where MP runs out (20261126_101941: heal spells took MP 84 -> 2 %). The UI asks for
+    # an MP potion when it is selected.
+    mp_hungry: bool = False
 
     def display_name(self, lang="en"):
         if lang == "vi":
@@ -92,6 +95,7 @@ MAPS = (
         name_ko="타락한 축복의 땅 - 오크",
         name_en="Fallen Blessed Land - corrupted orcs",
         onnx_rel=os.path.join("model", "yolox_tiny_fallen_blessed.onnx"),
+        mp_hungry=True,
         # orc_v3 (PLAN 0.37, docs/TRAINING.md 6.9): one orc model (오크의 땅 + the 4 purple seasons). At 0.3 the
         # seasons give 78-91% / P91-100%; at 오크의 땅 it was not better than orc_v2 everywhere -> separate map.
         conf=0.3,

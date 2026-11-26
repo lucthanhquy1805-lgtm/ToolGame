@@ -40,7 +40,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   melee fight of 190646 ends at the melee cap scan.melee_max_sec; 223510: no melee fight ends no_progress, candidates
   nearest first without the character's own box, every chat kill line counted once; 092741: no fight keeps a lock
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap; 20261126_001245_hunt: purple
-  orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s).
+  orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
+  minimap on in every frame): unreachable under 15% of the fights).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
 - 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
   rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).
@@ -135,6 +136,14 @@ Each iteration, while holding the mouse arbiter:
    switch only while the lock is beyond MELEE_DIST; after a cast click/hold the box centre (no nameplate drop) and
    `CAST_GRACE`; the ellipse must change after the key (`cursor_before_key`); `spell_mp` = MP `MP_SETTLE` later;
    spells stop under `HEAL_MP_RESERVE`; `UNREACH_SEC` 1.5; minimap walks held 4-8 s (`minimap_keep`), `W_BACK`.
+   PLAN 0.40: no click at all when the minimap route to the target reads "blocked" (outcome `wall`, spot
+   blacklisted); the minimap cannot see a fence under ~70 px (inside the character arrow), so a lock within
+   `NEAR_FIGHT_DIST` with the attack cursor on a live box gets `NEAR_UNREACH_SEC` 4 s (a hand kill takes 3.8 s)
+   instead of 1.5 s, and a 10 s cap that never reached melee is blacklisted too. Safety: HP -20% in 2 s or
+   >= 3 boxes within MELEE_DIST (`state["mobs_near"]`, written by `targeting._detect`; the crowd half of the rule
+   only runs on an `mp_hungry` hunt map, so 오크의 땅 keeps v20's kill rate) = danger -> heal/potion at
+   once under 90% HP, one 120 px step away from the crowd, the fight ends (`danger`); nothing left to heal with
+   (no MP, no HP potion) under 80% HP = return scroll. `HuntMap.mp_hungry` warns when no MP potion is on.
 
 ## Conventions / gotchas
 - Features only talk to their `BotContext`; never reach for globals. That is what makes

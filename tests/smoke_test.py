@@ -720,4 +720,32 @@ assert _st._idle_open is not None and not _evs
 _st.ctx.input.last_action_t=time.monotonic(); AccountSession._idle_watch(_st,(640,380),False)
 assert _evs and _evs[0][0]=='idle_gap' and _evs[0][1]['seconds']>=1.9 and _st._idle_open is None, _evs
 print('0.39: no walking back / hit back when HP falls / idle gaps OK')
+# PLAN 0.40: danger = HP burst or a crowd next to us -> heal at once, step back, town while HP is still high
+class DIn(In):
+    def __init__(s): super().__init__(); s.clicks=[]
+    def click_at(s,x,y): s.clicks.append((x,y))
+class DCtx(Ctx):
+    def __init__(s,acc,hp): super().__init__(acc,hp); s.input=DIn(); s.recorder=None
+    def char_pos(s,r): return (640,380)
+    def rect(s): return ClientRect(0,0,1280,960)
+acc_d=AccountSettings(); acc_d.hunt_map='fallen_blessed'   # the crowd rule only runs on an mp_hungry ground
+cd=DCtx(acc_d,100); hd=HealthFeature(cd)
+assert hd.tick(cd.rect())==100 and not hd.danger and not cd.input.log
+cd.hp_reader.v=75                                                  # -25 % inside DANGER_WINDOW
+assert hd.tick(cd.rect())==75 and hd.danger and cd.input.log==[('dbl','F5')], cd.input.log
+cd.state['mobs_near']=[(700,380),(690,420),(690,340)]              # the crowd alone is danger too
+cd.hp_reader.v=100; hd._hp_log=[]; hd._danger_until=0.0
+assert hd.tick(cd.rect())==100 and hd.danger and len(cd.input.clicks)==1, cd.input.clicks
+assert cd.input.clicks[0][0]<640 and cd.input.log==[('dbl','F5')], cd.input.clicks  # away, no heal at full HP
+hd.tick(cd.rect()); assert len(cd.input.clicks)==1                                  # one step per cooldown
+hd._last_retreat=0.0; cd.state['fight_until']=time.monotonic()+5
+hd.tick(cd.rect()); assert len(cd.input.clicks)==1                 # never while a fight holds the mouse
+# PLAN 0.40 (user 26/11): at 오크의 땅 the crowd alone is not danger - only the HP burst (keep v20's 5.25 kills/min)
+cd.state.pop('fight_until'); hd._last_retreat=0.0; hd._danger_until=0.0; acc_d.hunt_map='blessed_orc'
+assert hd.tick(cd.rect())==100 and not hd.danger and len(cd.input.clicks)==1, cd.input.clicks
+acc_t=AccountSettings(); acc_t.health.return_town=True; acc_t.health.use_potion=False
+ct=DCtx(acc_t,100); ct.can_cast=lambda i,r=None: False; ht=HealthFeature(ct)   # MP gone, no potion
+ht.tick(ct.rect()); ct.hp_reader.v=75
+assert ht.tick(ct.rect())==75 and ht.returned and ct.input.log==[('press','F8')], ct.input.log
+print('0.40: danger heal / step back / early town OK')
 print('ALL SMOKE TESTS PASSED')
