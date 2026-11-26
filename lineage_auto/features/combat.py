@@ -85,6 +85,12 @@ CAST_GRACE = 1.0
 MP_SETTLE = 0.8  # s after the click before the MP read that shows what the cast cost (spell_mp event)
 # PLAN 0.39: MP% the heal skill keeps; attack spells stop below it (233615 cast down to 20 %, MP fell to 2 %).
 HEAL_MP_RESERVE = 25
+# PLAN 0.41: 20261126_101941_hunt cast 0 spells in 8.6 min (798 "low_mp" skips): the slot's min_mp was 65% and MP
+# sat at 30-45% the whole hunt, so a wizard fought crowds by hand. With CROWD_SPELL_N boxes within CROWD_SPELL_PX
+# the slot's min_mp is ignored; MP must still stay at CROWD_MP_FLOOR (the heal reserve) or above.
+CROWD_SPELL_N = 2
+CROWD_SPELL_PX = 200
+CROWD_MP_FLOOR = HEAL_MP_RESERVE
 
 
 class CombatFeature(Feature):
@@ -132,11 +138,21 @@ class CombatFeature(Feature):
             return "cooldown", False
         if setting.range_px and dist is not None and dist > setting.range_px:
             return "out_of_range", False
+        crowd = False
         if setting.min_mp and mp is not None and mp < setting.min_mp:
-            return "low_mp", False
+            crowd = self._crowd() and mp >= CROWD_MP_FLOOR
+            if not crowd:
+                return "low_mp", False
         if mp is not None and mp < self._mp_reserve():
             return "heal_reserve", False
-        return "", True
+        return "crowd" if crowd else "", True
+
+    def _crowd(self):
+        """PLAN 0.41: at least CROWD_SPELL_N boxes within CROWD_SPELL_PX in the newest detection."""
+        char = self.ctx.state.get("char")
+        boxes = self.ctx.state.get("mobs_seen") or []
+        return char is not None and sum(
+            math.hypot(x - char[0], y - char[1]) <= CROWD_SPELL_PX for x, y in boxes) >= CROWD_SPELL_N
 
     def _mp_reserve(self):
         return HEAL_MP_RESERVE if self.account.health.use_skill else 0
@@ -150,6 +166,8 @@ class CombatFeature(Feature):
             reason, ok = self._slot_ready(key, dist, now, mp)
             if ok:
                 self._slot_turn += 1
+                if reason == "crowd":  # PLAN 0.41: under the slot's min_mp, allowed by the crowd rule
+                    self._skipped["crowd_cast"] = self._skipped.get("crowd_cast", 0) + 1
                 return key, mp
             if reason != "cooldown":
                 self._skipped[reason] = self._skipped.get(reason, 0) + 1

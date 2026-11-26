@@ -914,6 +914,19 @@ Kiểm tra thêm
       (`zone_name`), bản ghi mang `"zone"` = khoá catalog.
    • Để sau: khu yêu tinh (model), ảnh tên/chat của 5 loại orc tím (analyze_records đọc 0 lượt giết vì chưa có
       ảnh tên dòng chat), xuân ĐÊM.
+- [x] 0.41 v21rc3: "KHỰNG KHI ĐÔNG QUÁI" (26/11, bản ghi 20261126_101941_hunt, quay bằng v20rc1).
+      Đo: 23 idle_gap = 115 s / 515 s, nhưng 109 s nằm TRONG trận (giữ chuột trên quái không chết); sau mỗi
+      fight_end trận kế bắt đầu sau 0,1-0,2 s → KHÔNG có chờ giữa trận, không cần ép detect. search.fps 0,03 trong
+      detect_stats = số lần detect ở chế độ search chia cho CẢ phút (bot gần như luôn ở chế độ fight), tổng vẫn ~2/s.
+      idle_gap chỉ tính click/bắt đầu giữ/phím là "hành động", nên giữ chuột đánh tay 10 s cũng là "idle".
+      Unreachable 70-92 px sau 1,8 s: bản ghi có TRƯỚC rule NEAR_UNREACH_SEC 4 s (v21rc1, b866c96 11:31; bản ghi
+      10:19). Replay bằng code hiện tại: 0 trận ≤ 100 px bị bỏ trước 4 s.
+      Phép: 0 spell, 798 low_mp: ô F2+F5 = 386 có min_mp 65 % (config máy game) mà MP chỉ 30-45 % (tối đa 51 %).
+      Sửa: ≥ CROWD_SPELL_N (2) box trong CROWD_SPELL_PX (200) của detect mới nhất → bỏ qua min_mp của ô, vẫn giữ
+      CROWD_MP_FLOOR = dự trữ hồi máu 25 % (`combat._crowd`, state mobs_seen/char ghi ở `targeting._detect`;
+      fight_end.skipped.crowd_cast đếm số phép nhờ luật này). Test `check_idle_101941` (replay với phép như máy
+      game, AIM_DELAY 1 s): idle mô phỏng 179,8 s → 150,9 s, phép 0 → 29. Phần idle còn lại: trận cap đánh tay
+      1-1 dưới min_mp (≈68 s) và cửa sổ bị cắt của replay. Gợi ý: hạ min_mp của ô 386 xuống ~30 % trên máy game.
 - [ ] 0.40 v21rc1: BÃI ORC TÍM — RÀO, AN TOÀN, BÌNH MANA (26/11, yêu cầu người dùng trên
       records_game/20261126_101941_hunt: fallen_blessed/orc_v3 @416, 8,6 phút, đêm, MINIMAP BẬT ở cả 412 khung;
       8 giết, 55/114 trận unreachable, 11 cap 10 s, 0 phép (MP tụt tới 2 % vì hồi máu), HP 90→46 % trong 2 s

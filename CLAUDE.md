@@ -41,7 +41,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   nearest first without the character's own box, every chat kill line counted once; 092741: no fight keeps a lock
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap; 20261126_001245_hunt: purple
   orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
-  minimap on in every frame): unreachable under 15% of the fights).
+  minimap on in every frame): unreachable under 15% of the fights; `check_idle_101941` (PLAN 0.41): simulated
+  idle gaps with the game PC's spell before/after the crowd rule `combat.CROWD_SPELL_N`).
   PLAN 1.2 (`check_range` on the 101941 frames): `scan.hunt_range` steps from the hunt start
   (`ctx.state["home"]`, first odometry position; 1 step = `scan.step_mm` minimap px, measured with the Hunt tab's
   "measure a step" button, else `minimap.STEP_MM` 4.5) - `targeting.out_of_range`

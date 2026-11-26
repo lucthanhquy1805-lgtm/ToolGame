@@ -34,6 +34,7 @@ os.chdir(ROOT)
 from lineage_auto.runtime.context import HotbarPages  # noqa: E402
 BEAT_COST = 0.25
 CURSOR_R = 30
+AIM_DELAY = 1.0  # s from a slot key to the aiming ellipse (game PC, PLAN 0.35: "a good second")
 CHAR = (640, 380)
 ZONE = "오염된 축복의 땅 - 오크의 땅"
 
@@ -74,6 +75,7 @@ class Replay:
         from lineage_auto.features import combat as cb
         from lineage_auto.features import targeting as tg
         from lineage_auto.vision.name_reader import KillWatcher, NameReader
+        from lineage_auto.vision.nameplate import NameplateScanner
         from lineage_auto.vision.yolox_mobs import detect_centers
         from lineage_auto.winapi.window import ClientRect
 
@@ -90,7 +92,20 @@ class Replay:
         assert account.scan.conf_for(hunt_map) == 0.0, "zone conf must win over an old override"
         mouse = self.mouse = {"xy": None}
 
+        # PLAN 0.41: every click / hold / key on the fake clock (what session._idle_watch calls an action), and
+        # the aiming ellipse AIM_DELAY s after a slot key until the next click (the game PC measured ~1 s).
+        self.actions, keys = [], {"key_t": None, "click_t": -1.0}
+
+        def act(kind):
+            self.actions.append(clock.now)
+            if kind == "key":
+                keys["key_t"] = clock.now
+            elif kind == "click":
+                keys["click_t"] = clock.now
+
         def cursor_now():
+            if keys["key_t"] is not None and keys["key_t"] > keys["click_t"] and clock.now - keys["key_t"] >= AIM_DELAY:
+                return "cast"
             if mouse["xy"] is None:
                 return "ground"
             hits = detect_centers(self.frame_at(clock.now), CHAR[0], CHAR[1], radius=900, map_key=hunt_map)
@@ -100,9 +115,10 @@ class Replay:
         self.rect = ClientRect(0, 0, w, h)
         self.clicks = []
         inp = types.SimpleNamespace(
-            move=lambda x, y: mouse.update(xy=(x, y)), hold_left=lambda: None, release_left=lambda: None,
-            drag_nudge=lambda x, y, d: None, click_at=lambda x, y: self.clicks.append((x, y)),
-            press=lambda k: None)
+            move=lambda x, y: mouse.update(xy=(x, y)), hold_left=lambda: act("hold"), release_left=lambda: None,
+            drag_nudge=lambda x, y, d: None,
+            click_at=lambda x, y: (self.clicks.append((x, y)), act("click")),
+            click_right=lambda: act("click"), press=lambda k: act("key"))
         self.logs = []
         # PLAN 0.34: the real hotbar-page logic (BotContext mixin), so a replay presses pages like the bot does.
         self.ctx = _ReplayCtx(
@@ -110,9 +126,9 @@ class Replay:
             grabber=types.SimpleNamespace(grab_bgr=lambda r: self.frame_at(clock.now)),
             cursors=types.SimpleNamespace(is_attack=lambda h: h == "attack", is_corpse=lambda h: h == "corpse",
                                           classify=lambda h, m="": h, get=lambda k: "",
-                                          is_registered=lambda k: False, is_cast=lambda h: False),
+                                          is_registered=lambda k: False, is_cast=lambda h: h == "cast"),
             rect=lambda: self.rect, char_pos=lambda r: CHAR, sleep=clock.sleep, can_cast=lambda *a: True,
-            character=types.SimpleNamespace(skill_interval=1.0))
+            character=types.SimpleNamespace(skill_interval=1.0), read_mp=self.mp_at, nameplates=NameplateScanner())
         cb.time = tg.time = clock  # the features' time module -> fake clock
         # 1 saved frame/s -> ~4 beats see the same picture, which DeathWatch reads as a frozen (dead) body.
         cb.DeathWatch = lambda: types.SimpleNamespace(observe=lambda crop: None)
@@ -127,6 +143,29 @@ class Replay:
 
         self.targeting.track_current = costly_track
         self.combat = cb.CombatFeature(self.ctx, targeting=self.targeting)
+
+    def mp_at(self, _rect=None):
+        """MP% of the saved frame at the fake clock (the HUD read of that moment), None when not recorded."""
+        i = max((k for k, ft in enumerate(self.times) if ft <= self.clock.now), default=0)
+        mp = self.frames[i].get("mp")
+        return 100.0 * mp[0] / mp[1] if mp and mp[1] else None
+
+    def game_pc_spells(self):
+        """PLAN 0.41: the attack spell as the game PC had it (records_game/lineage_auto_config.json, 26/11):
+        F2+F5 = 386, min_mp 65 %, heal skill on (so the 25 % heal reserve applies)."""
+        slot = self.ctx.account.attack("F5")
+        slot.enabled, slot.skill_id, slot.page, slot.min_mp = True, "386", "F2", 65
+
+    def idle_gaps(self, windows):
+        """Simulated idle_gap seconds: inside each fight, every stretch without a click / hold / key longer than
+        session.IDLE_GAP_SEC (the session's rule: a box is always near in a fight)."""
+        from lineage_auto.runtime.session import IDLE_GAP_SEC
+
+        gaps = []
+        for a, b, _o in windows:
+            times = [a] + sorted(t for t in self.actions if a <= t <= b) + [b]
+            gaps += [t1 - t0 for t0, t1 in zip(times, times[1:]) if t1 - t0 > IDLE_GAP_SEC]
+        return gaps
 
     def frame_at(self, t):
         i = max((k for k, ft in enumerate(self.times) if ft <= t), default=0)
@@ -366,6 +405,44 @@ def check_101941(rec):
     assert len(wall) < 0.15 * len(windows), f"{len(wall)}/{len(windows)} unreachable"
 
 
+def check_idle_101941(rec):
+    """PLAN 0.41: "the bot freezes in a crowd". 23 idle_gap events (115 s of 515 s) in the game, but 109 s of them
+    were INSIDE fights (the next fight started 0.1-0.2 s after every fight_end: nothing waits between fights) -
+    the bot held the button on a monster it did not kill, and cast 0 spells: min_mp 65 % on the slot, MP 30-45 %.
+    Replayed with the game PC's spell (game_pc_spells) before (no crowd rule) and after (CROWD_SPELL_N boxes
+    within CROWD_SPELL_PX cast down to the heal reserve): simulated idle gaps must drop, spells must fire, and
+    no lock within NEAR_FIGHT_DIST may be dropped as unreachable before NEAR_UNREACH_SEC (v21rc1 rule)."""
+    from lineage_auto.features import combat as cb
+
+    results = {}
+    crowd_n = cb.CROWD_SPELL_N
+    try:
+        for label, n in (("before", 10 ** 6), ("after", crowd_n)):
+            cb.CROWD_SPELL_N = n
+            r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+            events = []
+            r.ctx.recorder = types.SimpleNamespace(
+                count=lambda k, n=1: None, event=lambda kind, **d: events.append(dict(d, kind=kind)),
+                fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+                hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
+            r.game_pc_spells()
+            windows = r.fights()
+            gaps = r.idle_gaps(windows)
+            ends = [e for e in events if e["kind"] == "fight_end"]
+            spells = sum(e.get("spells", 0) for e in ends)
+            near = [e for e in ends if e["outcome"] == "unreachable" and (e["dist"] or 0) <= cb.NEAR_FIGHT_DIST
+                    and float(e["detail"].split("for ")[1].rstrip("s")) < cb.NEAR_UNREACH_SEC]
+            results[label] = sum(gaps), spells
+            print(f"   idle {label}: {sum(gaps):.1f} s in {len(gaps)} gaps over {len(windows)} fights, "
+                  f"{spells} spells, near unreachable < {cb.NEAR_UNREACH_SEC:.0f} s: {len(near)}")
+            assert not near, near[:3]
+    finally:
+        cb.CROWD_SPELL_N = crowd_n
+    (idle_before, spells_before), (idle_after, spells_after) = results["before"], results["after"]
+    assert spells_before == 0 and spells_after >= 10, results
+    assert idle_after <= 0.9 * idle_before, results
+
+
 def check_range(rec):
     """PLAN 1.2: the hunt range in steps, on the frames of a recording whose minimap is on all the way.
 
@@ -433,6 +510,7 @@ def main():
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
                         ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
+                        ("20261126_101941_hunt", check_idle_101941),
                         ("20261126_101941_hunt", check_range)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):

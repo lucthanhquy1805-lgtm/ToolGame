@@ -33,6 +33,7 @@ records_game/*.exe
 records_game/numpy/
 records_game/_handoff/
 records_game/**/raw/
+records_game/20261126_101941_hunt/
 
 # Vendored tool clone (local only, never pushed)
 /Trail-Code/
