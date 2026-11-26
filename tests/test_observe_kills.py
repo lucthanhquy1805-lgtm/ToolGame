@@ -50,6 +50,7 @@ def replay(folder):
     from lineage_auto.config.models import AccountSettings
     from lineage_auto.runtime import session as sm
     from lineage_auto.runtime.recorder import Recorder
+    from lineage_auto.runtime.stats import Stats
     from lineage_auto.winapi import cursor as wc
 
     rows = [json.loads(line) for line in open(os.path.join(folder, "frames.jsonl"), encoding="utf-8") if line.strip()]
@@ -65,6 +66,7 @@ def replay(folder):
         running = True
         state = {}
         seen = None
+        stats = Stats()
 
         def rect(self):
             return FakeRect(*meta["window"])
