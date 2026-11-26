@@ -277,6 +277,30 @@ class TargetingFeature(Feature):
             return None
         return self.odo.world(self.minimap, self.char, local)
 
+    def range_mm(self):
+        """PLAN 1.2: the hunt range in minimap px, or None (no range chosen / no minimap).
+
+        Never smaller than melee reach, so "stay put" (1 step) still hits whatever walks into us."""
+        steps = self.scan.hunt_range
+        if not steps or self.minimap is None:
+            return None
+        return max(steps * minimap.STEP_PX, MELEE_DIST) / self.minimap.scale
+
+    def steps_from_home(self):
+        """Steps between the character and the hunt start point, or None (no minimap / nothing seen yet)."""
+        home, pos = self.ctx.state.get("home"), self.odo.pos
+        if home is None or pos is None or self.minimap is None:
+            return None
+        return math.hypot(pos[0] - home[0], pos[1] - home[1]) * self.minimap.scale / minimap.STEP_PX
+
+    def out_of_range(self, local):
+        """PLAN 1.2: point farther from the hunt start than the chosen range (False without a minimap)."""
+        limit, home = self.range_mm(), self.ctx.state.get("home")
+        if limit is None or home is None:
+            return False
+        w = self.world(local)
+        return w is not None and math.hypot(w[0] - home[0], w[1] - home[1]) > limit
+
     def block(self, local):
         """PLAN 0.27: the character could not reach this target -> skip the spot for a while."""
         w = self.world(local)
@@ -417,6 +441,11 @@ class TargetingFeature(Feature):
                 continue
             # A standing box on a lying ("die") box is the corpse being drawn, not a new monster.
             if any(math.hypot(tx - dx, ty - dy) < CORPSE_SKIP_RADIUS for dx, dy in dies):
+                continue
+            if self.out_of_range((tx, ty)):  # PLAN 1.2: outside the hunt range
+                self.last_skipped += 1
+                if rec:
+                    rec.count("out_of_range_skip")
                 continue
             if not near((tx, ty)) and (self._recent_miss((tx, ty)) or self.is_blocked((tx, ty))):
                 self.last_skipped += 1

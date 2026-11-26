@@ -366,11 +366,74 @@ def check_101941(rec):
     assert len(wall) < 0.15 * len(windows), f"{len(wall)}/{len(windows)} unreachable"
 
 
+def check_range(rec):
+    """PLAN 1.2: the hunt range in steps, on the frames of a recording whose minimap is on all the way.
+
+    Per range: every monster the scan keeps is inside the range, every walk started outside it heads home
+    (why go_home), and "stay put" (1 step) never clicks at all."""
+    import math
+
+    from lineage_auto.features import exploration as ex
+    from lineage_auto.vision import minimap
+
+    for steps in (5, 10):
+        r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+        r.ctx.account.scan.hunt_range = steps
+        tgt, events = r.targeting, []
+        expl = ex.ExplorationFeature(r.ctx, targeting=tgt)
+        r.ctx.recorder = types.SimpleNamespace(event=lambda kind, **d: events.append(d),
+                                               count=lambda *a, **k: None)
+
+        def home_steps(p):
+            """Steps between a client point and the hunt start, measured again from the odometry."""
+            w, home = tgt.world(p), r.ctx.state.get("home")
+            if w is None or home is None:
+                return None
+            return math.hypot(w[0] - home[0], w[1] - home[1]) * tgt.minimap.scale / minimap.STEP_PX
+
+        kept, skipped, far = [], 0, 0.0
+        for f in r.frames:
+            r.clock.now = f["t"]
+            tgt.see(r.frame_at(r.clock.now), CHAR)
+            tgt.last_monsters = [tuple(p) for p in f["hits"]]
+            expl.observe()
+            for p in tgt.last_monsters:
+                if tgt.out_of_range(p):
+                    skipped += 1
+                else:
+                    kept.append(home_steps(p))
+            far = max(far, tgt.steps_from_home() or 0.0)
+            if not f["hits"]:
+                expl.wander(r.rect, CHAR)
+        r.ctx.recorder = None
+        outside = [d for d in kept if d is not None and d > steps + 0.01]
+        walks_out = [e for e in events if (e.get("home_dist") or 0) > steps]
+        home_walks = sum(e["why"] == "go_home" for e in events)
+        print(f"   range {steps} steps: {len(kept)} monsters kept, {skipped} out of range; "
+              f"{far:.1f} steps from the start at most; {home_walks}/{len(events)} walks back home")
+        assert not outside, outside[:5]
+        assert all(e["why"] == "go_home" for e in walks_out), [e["why"] for e in walks_out[:5]]
+
+    # "Stay put": never walk, whatever the screen shows (60 frames are enough to see a click).
+    r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+    r.ctx.account.scan.hunt_range = 1
+    expl = ex.ExplorationFeature(r.ctx, targeting=r.targeting)
+    for f in r.frames[:60]:
+        r.clock.now = f["t"]
+        r.targeting.see(r.frame_at(r.clock.now), CHAR)
+        r.targeting.last_monsters = []
+        expl.observe()
+        expl.wander(r.rect, CHAR)
+    assert not r.clicks, r.clicks[:3]
+    print(f"   stay put: {len(r.frames[:60])} empty scans, 0 walk clicks")
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
-                        ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941)):
+                        ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
+                        ("20261126_101941_hunt", check_range)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

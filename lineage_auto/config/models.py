@@ -209,6 +209,7 @@ class HealthSettings:
 
 MAX_PROBE_POINTS = 2
 INPUT_SIZES = (320, 416, 640)
+HUNT_RANGES = (0, 1, 3, 5, 10, 15, 20, 30)  # PLAN 1.2: hunt range in steps; 0 = no limit, 1 = stay put
 
 
 @dataclass
@@ -240,6 +241,10 @@ class ScanSettings:
     input_size: int = 640
     detect_roi: bool = False
     melee_max_sec: float = 10.0
+    # PLAN 1.2: how far from the start point the bot hunts, in character steps (map tiles): 0 = no limit,
+    # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
+    # is ignored and the UI says so.
+    hunt_range: int = 0
 
     @staticmethod
     def _detect_v15(data):
@@ -276,6 +281,7 @@ class ScanSettings:
             detect_threads=min(8, max(1, int(data.get("detect_threads", 1)))),
             search_threads=min(8, max(1, int(data.get("search_threads", 2)))),
             adaptive_detect=bool(data.get("adaptive_detect", True)),
+            hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
             **cls._detect_v15(data),
         )
 

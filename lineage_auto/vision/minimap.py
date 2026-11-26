@@ -24,6 +24,11 @@ ARROW_R = 7  # minimap px around the centre hidden by the character arrow
 GOAL_SLACK = 2  # minimap px before the goal not checked: monsters stand right next to fences and trees
 ODO_W = 216  # odometry crop width (see Odometry)
 CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the character is not a point)
+# PLAN 1.2: client px of one character step (one map tile); the game draws tiles at a fixed size, so
+# minimap px per step = STEP_PX / Minimap.scale.
+# shortcut: read off the sprites, not counted in game (the client shows no coordinates); if "5 steps"
+# walks the wrong distance on the game PC, walk a known number of steps and compare with the odometry.
+STEP_PX = 48.0
 
 
 def box(w):

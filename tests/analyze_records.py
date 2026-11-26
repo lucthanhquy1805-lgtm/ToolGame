@@ -226,7 +226,8 @@ def report(arg, meta, summary, frames, hovers):
     if events:
         print(f"event frames: {dict(events)}")
     counts = summary.get("counts", {})
-    for key in ("engage", "kills", "rescan", "wander", "scans", "grid_sweeps", "chat_frames", "chat_lines", "detections"):
+    for key in ("engage", "kills", "rescan", "wander", "scans", "grid_sweeps", "chat_frames", "chat_lines",
+                "detections", "out_of_range_skip"):
         if key in counts:
             print(f"{key}: {counts[key]}")
     ends = {k[4:]: v for k, v in counts.items() if k.startswith("end_")}
@@ -311,8 +312,14 @@ def move_report(events, minutes, back_r=12.0, back_sec=60.0):
         left = [q for t0, q in placed[:i] if 8.0 <= t - t0 <= back_sec]
         far = any(math.hypot(q[0] - p[0], q[1] - p[1]) > 3 * back_r for t0, q in placed[:i] if t - t0 <= back_sec)
         back += far and any(math.hypot(q[0] - p[0], q[1] - p[1]) < back_r for q in left)
+    # PLAN 1.2: distance from the hunt start point, in steps, as every walk recorded it.
+    home = [e["home_dist"] for e in walks if e.get("home_dist") is not None]
+    if home:
+        print(f"hunt range: {max(home):.0f} steps from the start at most, {sum(home) / len(home):.1f} on average; "
+              f"{sum(1 for e in walks if e.get('why') == 'go_home')} walks back")
     idle = [e.get("seconds") or 0 for e in events if e.get("kind") == "idle_gap"]
     out = {"walks": len(walks), "dir_changes_per_min": changes / minutes, "returns_60s": back,
+           "home_steps_max": max(home) if home else None,
            "mm_px_per_min": dist / minutes if placed else None, "idle_gaps": len(idle), "idle_sec": sum(idle)}
     print(f"walking: {len(walks)} walks, {out['dir_changes_per_min']:.1f} direction changes/min, "
           f"{back} walks back to ground left < {back_sec:.0f}s ago"

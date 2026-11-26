@@ -42,6 +42,10 @@ The dev machine has no game; the bot will run on a separate game PC.
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap; 20261126_001245_hunt: purple
   orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
   minimap on in every frame): unreachable under 15% of the fights).
+  PLAN 1.2 (`check_range` on the 101941 frames): `scan.hunt_range` steps from the hunt start
+  (`ctx.state["home"]`, first odometry position; 1 step = `minimap.STEP_PX`) - `targeting.out_of_range`
+  drops far boxes, wander stays inside the circle and walks back (why `go_home`), 1 step = no walking,
+  no minimap = no range (UI warning).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
 - 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
   rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).

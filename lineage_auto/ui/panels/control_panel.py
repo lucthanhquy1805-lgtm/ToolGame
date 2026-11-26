@@ -80,7 +80,9 @@ class ControlPanel(Panel):
             self.lbl_state.config(text=self.t(key), foreground=colour)
             warnings = []
             if running and self.tab.session.ctx.state.get("minimap") is False:
-                warnings.append(self.t("warn_no_minimap"))
+                # PLAN 1.2: without the minimap there is no position, so the hunt range cannot work at all.
+                warnings.append(self.t("warn_range_minimap" if self.account.scan.hunt_range
+                                       else "warn_no_minimap"))
             # PLAN 0.40: on an MP-hungry ground the heal spell empties the MP bar (20261126_101941: 84 -> 2 %).
             if hunt_maps.get(self.account.hunt_map).mp_hungry and not any(
                     p.enabled and p.stat == "mp" for p in self.account.health.potions):

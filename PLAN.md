@@ -552,7 +552,18 @@ Giai đoạn 1 — Săn cơ bản
        CursorProfile.classify, loại "attack" giữ nhiều hình; nút 등록/phím tắt cho attack nay CỘNG thêm hình
        (không thay) → đăng ký mũi tên không xóa kiếm. Test với c0e0783028000000 + c0c0201818000000 và bản ghi
        193903: 60 khung = attack.)
-- [ ] 1.2 Phạm vi săn tại chỗ/3/5/10/15/20/30 bước bằng tọa độ "/위치", quay về điểm xuất phát
+- [x] 1.2 Phạm vi săn tại chỗ/3/5/10/15/20/30 bước (ĐO BẰNG MINIMAP, không dùng "/위치"), quay về điểm xuất phát
+      (XONG 26/11, v21rc1: `ScanSettings.hunt_range` (0 = không giới hạn, 1 = tại chỗ, 3/5/10/15/20/30) + ô
+       "Phạm vi săn (bước)" ở tab Săn. Điểm xuất phát = vị trí odometry đầu tiên sau khi bấm Bắt đầu
+       (`ctx.state["home"]`, ExplorationFeature.observe; minimap tắt rồi bật lại = epoch mới = mốc mới).
+       1 bước = `minimap.STEP_PX` 48 px client (CHƯA ĐẾM TRÊN GAME — xem ghi chú trong minimap.py).
+       Chọn mục tiêu: `TargetingFeature.out_of_range` bỏ quái ngoài phạm vi (đếm out_of_range_skip).
+       Lang thang: vòng tròn phạm vi thay MAX_RADIUS_MM khi chấm điểm hướng; ra ngoài phạm vi → đi bộ về
+       (why go_home); 1 bước = KHÔNG click đi bộ. Trận đang đánh ngoài phạm vi vẫn đánh xong.
+       Không có minimap: phạm vi bị bỏ qua + cảnh báo "Phạm vi cần minimap" (KHÔNG làm dự phòng theo thời
+       gian đi bộ — không có tín hiệu vị trí nào đáng tin). Ghi: home_dist (bước) trong mỗi event wander,
+       analyze_records in xa nhất/TB + số lần đi về. Test: `tests/test_hunt_records.py` check_range trên
+       20261126_101941_hunt với phạm vi 5 và 10.)
 - [x] 1.3 Về làng khi HP < 30–40% (cuộn F8 mặc định, cấu hình được) → DỪNG (A5)
       (XONG 23/11: HealthSettings.return_town/return_pct=35/return_key=F8, mặc định TẮT; dòng mới trong khung HP;
        HP dưới ngưỡng 2 lần đọc → thả chuột, bấm cuộn 1 lần, trạng thái "귀환 - 정지됨"; hồi máu/bình chạy trước.
@@ -1187,12 +1198,12 @@ Yêu cầu thêm 2 chế độ, khi rê lên quái thấy con trỏ kiếm:
 Sau khi thả: theo dõi đến khi quái chết (con trỏ X / box biến mất / timeout), KHÔNG nhấn lại liên tục.
 Nếu quái chưa chết mà nhân vật ngừng đánh (phát hiện qua box vẫn còn + không có chuyển động) thì làm lại 1 lần.
 
-### 1.2 Phạm vi săn và quay về điểm xuất phát
-Chế độ: tại chỗ, 3, 5, 10, 15, 20, 30 bước. Khi bấm Start lần đầu: lưu vị trí xuất phát.
-Không đi/đuổi quá bán kính đã chọn; khi vượt quá hoặc hết quái trong phạm vi → đi về điểm xuất phát.
-"Tại chỗ" = chỉ đánh quái trong tầm, không wander.
-Cách làm: lệnh chat "/위치" lấy tọa độ (xem Câu trả lời A1–A10); minimap là dự phòng. Phương án dự phòng nếu game không
-hiện tọa độ: ước lượng bằng cộng dồn các lần click đi (dead-reckoning) + đối chiếu minimap.
+### 1.2 Phạm vi săn và quay về điểm xuất phát  [XONG 26/11 — bằng minimap]
+Chế độ: tại chỗ (1), 3, 5, 10, 15, 20, 30 bước, 0 = không giới hạn. Khi bấm Start: lưu vị trí xuất phát
+(odometry minimap, KHÔNG gõ "/위치" vào chat — người dùng yêu cầu 26/11).
+Không chọn quái ngoài phạm vi, lang thang chỉ trong vòng tròn, ra ngoài thì đi bộ về; "tại chỗ" không đi.
+Trận đang đánh mà quái kéo ra ngoài: đánh xong rồi mới về. Không có minimap = không có phạm vi (cảnh báo trên UI).
+CÒN LẠI: đếm bước thật trên máy game để sửa `minimap.STEP_PX` nếu "5 bước" không đúng cỡ 5 ô.
 
 ### 1.3 Về làng khi HP thấp
 Ngưỡng cấu hình 30–40% (mặc định 35%), phím cuộn về làng cấu hình. Khi HP < ngưỡng (đọc 2 lần liên tiếp):

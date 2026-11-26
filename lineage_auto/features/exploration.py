@@ -38,7 +38,9 @@ HEAT_HALF = 60.0  # s: weight halves every ...
 VISIT_TTL = 120.0  # s a visited spot counts as explored
 VISIT_R = 6.0  # minimap px around a visited spot
 LOOK = (8, 16, 24)  # minimap px sampled along a direction for frontier
-MAX_RADIUS_MM = 120  # ~1200 client px from the start position
+MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.hunt_range when set)
+IN_PLACE_RANGE = 1  # scan.hunt_range of 1 step = never walk
+WALK_PX = 160  # client px of one walk click
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
 # PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
 # BLOCK_MOTION (mean gray difference of a 64x48 thumbnail) over the last BLOCK_SEC, and avoid a blocked
@@ -56,7 +58,7 @@ JITTER_PX = 10
 SETTLE_MAX = 0.15
 
 
-def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm):
+def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm, max_r=MAX_RADIUS_MM):
     """[(score, idx, parts)] best first. Pure so tests can drive it.
 
     pos: character world position; heat: [(x, y, t)] monsters; visited: [(x, y, t)]; inner: unit vector or None;
@@ -81,7 +83,7 @@ def score_directions(pos, now, heat, visited, inner, clear, start, walk_mm):
         frontier = fresh / len(LOOK)
         inward = (ux * inner[0] + uy * inner[1]) if inner else 0.0
         end = (pos[0] + ux * walk_mm, pos[1] + uy * walk_mm)
-        out_r = start is not None and math.hypot(end[0] - start[0], end[1] - start[1]) > MAX_RADIUS_MM
+        out_r = start is not None and math.hypot(end[0] - start[0], end[1] - start[1]) > max_r
         back = any(RETURN_MIN <= now - t <= RETURN_SEC and math.hypot(end[0] - x, end[1] - y) < 2 * VISIT_R
                    for x, y, t in visited)
         ok = clear(idx)
@@ -138,6 +140,7 @@ class ExplorationFeature(Feature):
         pos = tg.odo.pos
         if self._start is None:
             self._start = pos
+        self.ctx.state["home"] = self._start  # PLAN 1.2: the hunt range is measured from here
         self._visited = [v for v in self._visited if now - v[2] < VISIT_TTL]
         if not self._visited or math.hypot(pos[0] - self._visited[-1][0], pos[1] - self._visited[-1][1]) >= 2:
             self._visited.append((pos[0], pos[1], now))
@@ -189,7 +192,7 @@ class ExplorationFeature(Feature):
         mm = tg.minimap if tg is not None else None
         if mm is None or tg.odo.pos is None:
             return None
-        walk_px = 160
+        walk_px = WALK_PX
         walk_mm = walk_px / mm.scale
 
         def clear(idx):
@@ -202,7 +205,7 @@ class ExplorationFeature(Feature):
             return (walk_point(char[0], char[1], rect.w, rect.h, idx, walk_px), NAMES[idx], "minimap_keep",
                     f"{NAMES[idx]} kept {self._keep[1] - now:.1f}s more")
         ranked = score_directions(tg.odo.pos, now, self._heat, self._visited, mm.inner_vector(), clear,
-                                  self._start, walk_mm)
+                                  self._start, walk_mm, tg.range_mm() or MAX_RADIUS_MM)
         score, idx, parts = ranked[0]
         if not parts["clear"]:
             # Every straight walk hits something: take the minimap way toward the best-scored direction.
@@ -216,10 +219,34 @@ class ExplorationFeature(Feature):
         return (walk_point(char[0], char[1], rect.w, rect.h, idx, walk_px), NAMES[idx], "minimap",
                 f"{NAMES[idx]} score={score:.2f} {parts}")
 
+    def _home_walk(self, rect, char):
+        """PLAN 1.2: one walk back toward the hunt start, or None when the way there is not known."""
+        tg = self.targeting
+        mm, pos, start = tg.minimap, tg.odo.pos, self._start
+        if mm is None or pos is None or start is None:
+            return None
+        # The minimap is drawn in screen orientation, so a world delta is a screen direction.
+        idx = direction_index(start[0] - pos[0], start[1] - pos[1])
+        if idx is None:
+            return None
+        self._keep = None
+        return (walk_point(char[0], char[1], rect.w, rect.h, idx, WALK_PX), NAMES[idx], "go_home",
+                f"{NAMES[idx]} back to the start")
+
     def wander(self, rect, char):
         """Click a nearby walk point, then return so the loop can scan at once."""
-        smart = self._smart(rect, char)
-        if smart is not None:
+        tg = self.targeting
+        steps = self.ctx.account.scan.hunt_range
+        away = tg.steps_from_home() if tg is not None else None
+        if steps == IN_PLACE_RANGE and away is not None:
+            # PLAN 1.2 "stay put": no walk at all, the loop keeps scanning for monsters that come to us.
+            self.ctx.sleep(CLICK_SETTLE)
+            return
+        home = self._home_walk(rect, char) if steps and away is not None and away > steps else None
+        smart = None if home is not None else self._smart(rect, char)
+        if home is not None:
+            (wx, wy), name, why, reason = home
+        elif smart is not None:
             (wx, wy), name, why, reason = smart
         else:
             dir_idx, why = self._blind_dir(rect)
@@ -237,6 +264,7 @@ class ExplorationFeature(Feature):
             tg = self.targeting
             pos = tg.odo.pos if tg is not None and tg.minimap is not None else None
             rec.event("wander", to=[wx, wy], dir=name, why=why, reason=reason,
-                      pos=[round(pos[0], 1), round(pos[1], 1)] if pos is not None else None)
+                      pos=[round(pos[0], 1), round(pos[1], 1)] if pos is not None else None,
+                      home_dist=round(away, 1) if away is not None else None)  # PLAN 1.2, steps
         self.input.click_at(*rect.to_screen(wx, wy))
         self.ctx.sleep(random.uniform(CLICK_SETTLE, SETTLE_MAX))

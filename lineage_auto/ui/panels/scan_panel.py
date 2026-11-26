@@ -3,20 +3,22 @@ import tkinter as tk
 from tkinter import ttk
 
 from ... import hunt_maps
-from ...config.models import INPUT_SIZES, MAX_PROBE_POINTS
+from ...config.models import HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS
 from .base import Panel
 
-# (settings field, i18n key, from, to, step, ui scale). Timings in ms, conf in 1/100.
+# (settings field, i18n key, from, to, step, ui scale). Timings in ms, conf in 1/100;
+# a tuple instead of a step = the only allowed values.
 FIELDS = (
     ("misses_before_wander", "scan_misses", 1, 10, 1, 1),
     ("max_probe_points", "scan_points", 1, MAX_PROBE_POINTS, 1, 1),
+    ("hunt_range", "scan_range", 0, HUNT_RANGES[-1], HUNT_RANGES, 1),  # PLAN 1.2
     ("miss_ttl", "scan_miss_ttl", 0, 30, 1, 1),
     ("hover_settle", "scan_settle_ms", 0, 300, 10, 1000),
     ("hover_retry", "scan_retry_ms", 0, 300, 10, 1000),
     ("hover_reads", "scan_reads", 1, 6, 1, 1),
     ("detect_conf", "scan_conf", 0, 50, 1, 100),
     ("detect_fps", "scan_fps", 1, 15, 1, 1),  # PLAN 0.31
-    ("input_size", "scan_input", INPUT_SIZES[0], INPUT_SIZES[-1], 0, 1),  # step 0 = one of INPUT_SIZES
+    ("input_size", "scan_input", INPUT_SIZES[0], INPUT_SIZES[-1], INPUT_SIZES, 1),
     ("detect_roi", "scan_roi", 0, 1, 1, 1),
     ("detect_threads", "scan_threads", 1, 8, 1, 1),  # PLAN 0.33: onnxruntime intra_op threads
     ("search_threads", "scan_search_threads", 1, 8, 1, 1),  # PLAN 0.34
@@ -26,7 +28,7 @@ FIELDS = (
 
 
 # Shown at once; the rest (timings, threshold) sits in the collapsed "Advanced" box (UI v7).
-BASIC = ("misses_before_wander", "max_probe_points")
+BASIC = ("misses_before_wander", "max_probe_points", "hunt_range")
 
 
 class ScanPanel(Panel):
@@ -51,7 +53,8 @@ class ScanPanel(Panel):
             self.vars[name] = tk.IntVar()
             self.labels[key] = ttk.Label(parent, text="")
             self.labels[key].grid(row=row, column=0, sticky="w", padx=(0, 6))
-            span = dict(values=INPUT_SIZES) if not step else dict(from_=lo, to=hi, increment=step)
+            span = (dict(values=step) if isinstance(step, tuple)
+                    else dict(from_=lo, to=hi, increment=step))
             spin = ttk.Spinbox(parent, width=5, textvariable=self.vars[name], command=self.tab.request_save, **span)
             spin.grid(row=row, column=1, sticky="w", pady=1)
             self.spins.append(spin)
@@ -94,13 +97,13 @@ class ScanPanel(Panel):
 
     def store(self):
         scan = self.account.scan
-        for name, _key, lo, hi, _step, scale in FIELDS:
+        for name, _key, lo, hi, step, scale in FIELDS:
             try:
                 value = min(hi, max(lo, int(self.vars[name].get())))
             except (tk.TclError, ValueError):
                 continue  # half-typed box: keep the saved value
-            if name == "input_size":
-                value = min(INPUT_SIZES, key=lambda v: abs(v - value))  # typed by hand: nearest exported size
+            if isinstance(step, tuple):
+                value = min(step, key=lambda v: abs(v - value))  # typed by hand: nearest allowed value
             value = value / scale if scale != 1 else type(getattr(scan, name))(value)
             if name == "detect_conf":
                 if value == scan.conf_for(self.account.hunt_map):
