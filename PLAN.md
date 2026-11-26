@@ -1269,6 +1269,16 @@ Người dùng cần cả 4 việc: đi theo trưởng nhóm · đánh cùng m�
   c) đi theo trưởng nhóm: tìm bằng tên trên đầu (OCR như name_reader) hoặc chấm minimap, giữ 80–200 px, mất dấu >10 s → đứng yên + cảnh báo;
   d) assist: chỉ đánh quái trong bán kính R quanh trưởng nhóm, ưu tiên quái đang đánh trưởng nhóm/đồng đội, không đuổi xa;
   e) hồi máu/buff đồng đội (phím → elip → click vào đồng đội), bản thân vẫn ưu tiên khi HP mình thấp hơn;
+  e2) CÁCH LÀM ĐƠN GIẢN (người dùng 26/11): game có KHUNG PARTY — cố định vị trí khung Party trên màn hình, rồi hồi máu/buff
+      từng thành viên bằng cách nhắm (elip) vào ô tên/thanh máu của họ TRONG KHUNG PARTY, không cần tìm và click nhân vật
+      trên bản đồ. Đọc % máu từng thành viên cũng từ thanh máu trong khung này. Cần: ảnh khung Party (records_game/party_ui/),
+      vị trí khung cố định + toạ độ từng ô thành viên (cấu hình được / tự dò).
+  e3) VAI TRÒ THEO CLASS (người dùng 26/11): trong nhóm, PHÁP SƯ và ELF chủ yếu SĂN TẠI CHỖ (Phạm vi săn = 1, PLAN 1.2:
+      đứng yên, đánh/bắn phép quái tới gần, hồi máu/buff qua khung Party). Chỉ HIỆP SĨ (Kỵ sĩ) di chuyển để GOM QUÁI:
+      đi một VÒNG LỚN quanh khu vực bán kính ~30 bước (dùng điểm xuất phát + odometry minimap của 1.2), kéo quái theo
+      rồi QUAY VỀ vị trí ban đầu (chỗ pháp sư/elf đứng) để cả nhóm đánh. Chế độ mới "Gom quái (vòng tròn)" cho tab Săn:
+      bán kính (bước, mặc định 30), số điểm trên vòng, không dừng đánh giữa đường (chỉ chạm quái để kéo), về tới gốc thì
+      đánh như bình thường, hết quái quanh gốc thì đi vòng tiếp; HP thấp giữa đường → quay về gốc ngay.
   f) mời/nhận lời mời chỉ với tên trong danh sách cho phép, không nhận người lạ, không gửi chat khác;
   g) an toàn: không bao giờ click/đánh người chơi; trưởng nhóm chết/rời nhóm → dừng, về làng nếu HP thấp;
   h) events: party_state, follow_dist, assist_target, party_heal, invite.
