@@ -919,6 +919,35 @@ Kiểm tra thêm
    • BẢN THỬ dist/LineageAuto_20261126_v20rc1.zip (KHÔNG tag). Tự vệ: một lần rê chuột, chỉ đánh khi thấy con trỏ
       attack (người dùng 26/11: bãi đông người chơi). Chạy 15 phút có ghi ảnh trên máy game; đạt "≥ v17" (box/khung,
       giết/phút) + đổi hướng / quay lại giảm rõ → build v20 chính thức + tag. Ảnh 225906/233615 còn trên máy game.
+   • 8) ĐO BẢN THỬ 20rc1 TRÊN MÁY GAME (records_game/20261126_090350_hunt, 오크의 땅, orc_v1 416, 14,9 phút,
+      CÓ ẢNH 736 khung) → ĐẠT, đã build v20 + tag v20:
+      | điều kiện | v15 112040 | v17/16 145650 | v19 233615/225906 | v20rc1 090350 |
+      | giết/phút | 4,17 (62) | 2,32 (35) | 2,80 | **5,25 (78 = 53 chat + 25 xác)** |
+      | box/khung (chung / trận) | 5,28 | 2,54 / 2,81 | 2,28 | 2,42 / 2,65 |
+      | đổi hướng/phút | 11,5 | 13,1 | 10,7 | **2,6** |
+      | quay lại vùng < 60 s | - | - | - | KHÔNG ĐO ĐƯỢC (xem dưới) |
+      | idle_gap | - | - | - | 23 lần, 131 s (14,7 %) |
+      | unreachable (đánh qua rào) | 6 (0,40/ph, 2,4 s TB) | 20 (1,33/ph) | 20 | 28 (1,88/ph, 2,4 s TB, tối đa ~6 s) |
+      | lost sau phép | 0 | 0 (0 phép bắn) | 15/18 trận lost | 3/11 trận lost |
+      | MP thấp nhất | 265/317 (84 %) | 41 % | 2 % | 29 % |
+      | defend / defend_no_cursor | - | - | - | 0 / 0 (HP không bao giờ xuống dưới 71 %) |
+      · 5,25 giết/phút CAO NHẤT từ trước tới nay, trên cả dải v17 (1,56–4,98) → điều kiện "≥ v17" về giết/phút đạt.
+      · box/khung trận 2,65 THẤP hơn mốc 3,37 của v17 (322 phút trên máy game, gồm cả chỗ đông) nhưng chỉ kém 5 %
+        so với bản ghi cùng cấu hình gần nhất (145650: 2,54 chung). Mật độ quái của cảnh, không phải bot: người dùng
+        26/11 quyết định phát hành.
+      · PHÉP đã bắn thật: 98/102 lần có elip (4 lần "no_target_left"), 74/97 lần MP tụt sau phép (bản 19: mp_after
+        luôn = mp_before), chat "마법 사용: 실패" 22 (bản 17: 45). `low_mp` chặn 643 nhịp vì min_mp 90 % → nên hạ min_mp.
+      · MINIMAP TẮT TRONG GAME suốt buổi chạy (`vision/minimap.read` trên ảnh thật = None ở mọi khung đã thử,
+        frames.jsonl "minimap": false, wander why: 318 "hold" = bước tiếp cùng hướng). Vì vậy KHÔNG có `pos` →
+        "quay lại vùng < 60 s" và "px minimap/phút" chưa đo được, và 2,6 đổi hướng/phút là của đường dự phòng
+        (giữ hướng 4–8 s) chứ không phải của BFS minimap. CẦN: một buổi 15 phút nữa với minimap BẬT trong game.
+      · Vẫn mở: 66 % thời gian "đứng im" (28 đoạn > 5 s, dài nhất 42,9 s) — 12 trận chạm trần 10 s (`melee_max_sec`)
+        và 108 trận "gone" (2,6 s TB) cho thấy box mất khi đang đánh; 577 lần rê chuột đều ra con trỏ "unknown"
+        (cấu hình máy game đăng ký trùng hash attack/corpse/ground → analyze cảnh báo, cần đăng ký lại con trỏ).
+   • BẢN PHÁT HÀNH v20 (26/11): dist/LineageAuto_20261126_v20.zip = ĐÚNG binary của 20rc1 (sha256 main.exe trùng,
+      1212 file, chỉ thay HUONG_DAN.txt sang "bản 20 chính thức" + số đo) theo tiền lệ v15_release. KHÔNG build lại
+      từ code trên laptop: .venv của laptop là Python 3.14, cả dòng sản phẩm là 3.12 (xem CLAUDE.md), bản 3.14 chưa
+      từng chạy trên máy game. Muốn build lại từ code phải có Python 3.12 (`py -3.12 -m venv .venv`).
 
 ## Giai đoạn 0 — Sửa lỗi & tốc độ (làm trước tiên)
 

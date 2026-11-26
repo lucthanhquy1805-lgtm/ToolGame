@@ -1,6 +1,8 @@
 ﻿LINEAGE CLASSIC AUTO — HƯỚNG DẪN CÀI ĐẶT VÀ THU THẬP SỐ LIỆU TRÊN MÁY GAME
-Bản build: 26/11/2026 (bản 20rc1 — BẢN THỬ, chạy 15 phút có ghi ảnh rồi gửi số liệu) — bản 19 + các sửa dưới đây. Cài đè như cũ (mục 2).
-  ★★★ MỚI Ở BẢN 20rc1 (thử):
+Bản build: 26/11/2026 (bản 20 — CHÍNH THỨC) — bản 19 + các sửa dưới đây. Cài đè như cũ (mục 2).
+  Đo trên máy game 26/11 (bản thử 20rc1, 15 phút, 오크의 땅): 78 quái = 5,25 giết/phút (bản 17: 1,6–5,0;
+  bản 19: 2,8), đổi hướng 2,6/phút (bản 19: 10,7), MP thấp nhất 29 % (bản 19 tụt tới 2 %).
+  ★★★ MỚI Ở BẢN 20:
       · 오크의 땅 DÙNG LẠI MODEL orc_v1 (ngưỡng 0,2) như bản 17. Bản 19 (orc_v2, 0,3) thấy ít quái hơn hẳn ở cỡ
         đầu vào 416 mà máy bạn đang dùng (2,3 hộp/khung, bản 17 được 5,7) → đi lên xuống, bỏ qua quái, ~2,8 giết/phút.
         Chấm lại ở 416: orc_v1 ngày 72 % / đêm 67 %, orc_v2 68 % / 58 %. Nếu trước đây bạn đã chọn orc_v1 ở ô
