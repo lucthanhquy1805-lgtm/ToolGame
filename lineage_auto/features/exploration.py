@@ -27,6 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
+from .targeting import IN_PLACE_RANGE
 
 CLICK_SETTLE = 0.05
 DIRECTION_STEP = 2
@@ -39,7 +40,7 @@ VISIT_TTL = 120.0  # s a visited spot counts as explored
 VISIT_R = 6.0  # minimap px around a visited spot
 LOOK = (8, 16, 24)  # minimap px sampled along a direction for frontier
 MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.hunt_range when set)
-IN_PLACE_RANGE = 1  # scan.hunt_range of 1 step = never walk
+IN_PLACE_DRIFT = 3  # PLAN 1.2c: steps a "stay put" character may be pushed off its spot before walking back
 WALK_PX = 160  # client px of one walk click
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
 # PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
@@ -238,11 +239,13 @@ class ExplorationFeature(Feature):
         tg = self.targeting
         steps = self.ctx.account.scan.hunt_range
         away = tg.steps_from_home() if tg is not None else None
-        if steps == IN_PLACE_RANGE and away is not None:
+        if steps == IN_PLACE_RANGE and (away is None or away <= IN_PLACE_DRIFT):
             # PLAN 1.2 "stay put": no walk at all, the loop keeps scanning for monsters that come to us.
+            # PLAN 1.2c: without the minimap too (no position: standing still is the only safe choice).
             self.ctx.sleep(CLICK_SETTLE)
             return
-        home = self._home_walk(rect, char) if steps and away is not None and away > steps else None
+        limit = IN_PLACE_DRIFT if steps == IN_PLACE_RANGE else steps  # pushed off the spot: walk back
+        home = self._home_walk(rect, char) if steps and away is not None and away > limit else None
         smart = None if home is not None else self._smart(rect, char)
         if home is not None:
             (wx, wy), name, why, reason = home

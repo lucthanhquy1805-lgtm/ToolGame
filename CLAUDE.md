@@ -49,7 +49,16 @@ The dev machine has no game; the bot will run on a separate game PC.
   "measure a step" button, else `minimap.STEP_MM` 2.3; 1 walk click = 2 steps) - `targeting.out_of_range`
   drops far boxes, wander stays inside the circle and walks back (why `go_home`), 1 step = no walking,
   no minimap = no range (UI warning).
+  PLAN 1.2c "stay put" (hunt_range 1, `targeting.in_place`): reach is measured on screen from the character -
+  `IN_PLACE_SHOT_PX` 350 for a ranged class (style != MELEE: wizard, elf), MELEE_DIST for melee; a ranged class
+  fights through `combat.engage_ranged` (spells only, never a hold / plain click), waits when no spell is ready,
+  walks home only past `exploration.IN_PLACE_DRIFT` steps, stands still without the minimap
+  (`check_in_place_101941`).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
+- Potions (PLAN 1.4b): `python tests/test_potions.py` (records_game/20261127_003555_hunt). Waits up to
+  `PotionSetting.COOLDOWN_MAX` 3600 s (UI: seconds or minutes); `vision/hotbar.py` reads the open page and an
+  empty ITEM slot (dark, p99 < `EMPTY_V`); `HealthFeature._out_of_potions` stops pressing a slot that reads empty
+  twice, rechecks every `RECHECK_SEC`, event `potion_empty`, UI warning from `ctx.state["potion_empty"]`.
 - 24/7 runs (PLAN 0.38): `python tests/test_24h.py` (frame cap ends the recording, not the hunt; 15-min record
   rotation; records/ kept under `record.max_gb`; session_log rotation; HUD lost = safe stop; RSS log).
 - Map name bottom-left (PLAN 1.3b, `vision/map_name.py`, templates `data/map_names/` from `tests/build_map_names.py`):

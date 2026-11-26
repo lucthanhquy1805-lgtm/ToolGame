@@ -568,6 +568,25 @@ Giai đoạn 1 — Săn cơ bản
        gian đi bộ — không có tín hiệu vị trí nào đáng tin). Ghi: home_dist (bước) trong mỗi event wander,
        analyze_records in xa nhất/TB + số lần đi về. Test: `tests/test_hunt_records.py` check_range trên
        20261126_101941_hunt với phạm vi 5 và 10.)
+- [x] 1.2c Săn TẠI CHỖ (hunt_range = 1) theo class (XONG 27/11, v21rc5).
+      Trước: range_mm = tầm cận chiến (70 px) → Pháp sư/Tiên tại chỗ chỉ đánh quái đến sát người; bị đẩy lệch thì
+      không về; tắt minimap thì "tại chỗ" bị bỏ qua và bot đi lang thang.
+      Nay (`targeting.in_place` / `ranged`, `CombatStyle` của class: mọi class trừ MELEE là đánh xa):
+      - Chọn mục tiêu đo trên MÀN HÌNH từ nhân vật (không cần minimap): đánh xa ≤ `IN_PLACE_SHOT_PX` 350 px,
+        cận chiến ≤ `MELEE_DIST` 70 px.
+      - Đánh xa: `combat.engage_ranged` - KHÔNG giữ/click chuột trái vào quái, chỉ bắn phép (phím → chờ ellipse →
+        click); không có ellipse = click phải hủy, không click (click trơn = đánh tay = đi tới); cast_order
+        click_key đổi thành key_click. Không phép nào sẵn sàng (MP/hồi chiêu) = đứng chờ. Kết thúc: dòng chat
+        giết, box mất `BOX_GONE_SEC`, quái ra ngoài 350 px, trần `melee_max_sec`. Không đi nhặt đồ (loot
+        skipped=stay_put).
+      - Cận chiến: như cũ, chỉ con sát bên.
+      - Bị đẩy lệch > `exploration.IN_PLACE_DRIFT` 3 bước (odometry) → 1 click go_home; còn lại đứng yên.
+        Minimap tắt → đứng yên hẳn + cảnh báo `warn_in_place_minimap`.
+      - UI: "Phạm vi săn (bước; 0 = không giới hạn, 1 = tại chỗ)"; bỏ khung "Sắp có (PLAN 1.2)" ở tab Ghi.
+      Test `check_in_place_101941` (test_hunt_records): pháp sư 74 trận, 64 phép (15 vào quái > 140 px), 0 lần giữ
+      chuột / click không có ellipse; wander chỉ click go_home khi lệch > 3 bước; minimap tắt = 0 click.
+      Chưa làm: cung của Tiên (click trái vào quái trong tầm cung) - chưa có bản ghi Tiên đánh cung để kiểm tra
+      click đó không biến thành đi bộ; Tiên tại chỗ hiện chỉ dùng phép tấn công.
 - [x] 1.2b Đo bước trên máy game không lưu được (XONG 26/11, v21rc2, bản ghi 20261126_192615_observe: 2 đoạn x 5 click = 10 bước).
       Nguyên nhân THẬT: odometry mất dấu, không phải sai đơn vị (48 px client / scale 10 = 4,8 px minimap ≈ 4,5 đo
       được). Minimap TRONG SUỐT: tương quan trên ảnh xám thô chỉ đạt peak 0,02-0,2 khi đi → bỏ 8/10 bước → log
@@ -612,6 +631,25 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 23/11: HealthSettings.potions = 3 ô "bình thêm" (bật, HP/MP, ngưỡng %, phím, chờ giây), mặc định TẮT;
        bình chính cũ giữ nguyên; skill hồi/bình chính chạy trước, mỗi lượt đọc chỉ bấm 1 bình, ô trên ưu tiên;
        bình MP cần đọc được số MP trên HUD. Chưa: kiểm tra trùng phím với skill/buff, đổi trang hotbar F1/F2/F3)
+- [x] 1.4b Bình: thời gian chờ dài + tự biết hết bình (XONG 27/11, v21rc5, bản ghi 20261127_003555_hunt).
+      Đo: F1+F6 = 2 bình mana, chờ 1,5 s; MP < 50 % từ ~135 s → 2 bình uống hết trong 1,5 s (137 s), rồi bấm ô
+      TRỐNG mỗi 1,5 s suốt 12 phút. MP không có lần tăng ≥ 15 nào. 67/69 lần quay về F1 giữa trận đều sau 137 s,
+      0,5 s sau mỗi phép trên F2 → ~134/222 page_switch là do bấm ô bình trống (phép F2 ↔ bình F1).
+      Sửa 1: `PotionSetting.cooldown` tối đa 3600 s (`COOLDOWN_MAX`); tab Hồi máu: "chờ [số] [giây|phút]"
+      (lưu luôn bằng giây; ≥ 60 s hiện bằng phút). Bình mana 10 phút = "chờ 10 phút".
+      Sửa 2: `vision/hotbar.py` (ô F5-F12 ở góc dưới phải, co giãn theo chiều rộng client; tab trang sáng nhất =
+      trang đang mở). Ô vật phẩm hết = ô tối chỉ còn nhãn phím mờ: độ sáng p99 55 vs 255 khi còn (ô kỹ năng
+      tối vì hồi chiêu 60-62 → chỉ dùng cho Ô BÌNH). 716 khung 003555: 538 khung trang F1 đọc đúng 100 %.
+      `HealthFeature._out_of_potions`: khi bình đến lượt, đọc ô (≤ 1 lần/s, chỉ khi trang của ô đang mở);
+      2 lần trống liên tiếp → đánh dấu hết, KHÔNG bấm nữa; xem lại mỗi `RECHECK_SEC` 3 phút (có lại → bấm tiếp)
+      hoặc khi bấm Bắt đầu. Log WARNING, event `potion_empty` {slot, stat}, đếm `potion_empty`, UI cảnh báo
+      "Hết bình ở F1+F6" (`ctx.state["potion_empty"]`). Chưa đọc dòng chat "hết vật phẩm" (ảnh ô đã đủ).
+      Test `python tests/test_potions.py`.
+      magic_fail 40/146 (003555): ghép theo spell_mp, 37 phép thất bại ("마법 사용: 실패! 올바른 대상이 아니거나 취소함"
+      = mục tiêu không hợp lệ/hủy), 50 phép không trừ MP. Phép hỏng: khoảng cách trung vị 101 px (phép tốt 53),
+      giây thứ 1,5 của trận (tốt 2,5), 27/37 trận kết thúc < 1 s sau đó (16 `gone`) = quái đã chết/biến mất khi
+      phép tới; 14/37 con trỏ trước phím KHÔNG phải kiếm (80e0e0e060000000; phép tốt 18/109) = trỏ chưa nằm trên
+      quái. Chưa sửa (đề xuất: chỉ bắn khi con trỏ trước phím là attack, bỏ phép khi box vừa mất).
 - [ ] 1.5 Nhặt hết đồ: F4 (chính) + click (dự phòng), sau mỗi con chết (A7)
       (F4 XONG 23/11: features/loot.py + khung "줍기" (bật, phím F4, số lần bấm=2), mặc định TẮT; chỉ chạy khi trận kết thúc
        bằng giết (corpse_cursor/die_box/frozen), thả chuột, chờ 0.3s giữa mỗi lần bấm, ESC dừng được, đếm state["loot_presses"].

@@ -5,6 +5,7 @@ import time
 from .. import hunt_maps
 from ..runtime.stats import bump
 from ..skills.policy import HEAL_SKILL_ID
+from ..vision import hotbar
 from .base import Feature
 
 SKILL_COOLDOWN = 3.0
@@ -41,6 +42,12 @@ DANGER_HEAL_PCT = 90  # healing at (nearly) full HP only burns the MP this groun
 DANGER_RETURN_PCT = 80  # danger + nothing left to heal with = return scroll now, before HP < 50 %
 RETREAT_PX = 120
 RETREAT_COOLDOWN = 1.5
+# PLAN 1.4b (20261127_003555_hunt: F1+F6 held 2 mana potions, both gone at 137 s, then pressed every 1.5 s for
+# 12 minutes): an extra potion whose hotbar slot reads empty on EMPTY_READS pictures EMPTY_READ_SEC apart is
+# marked out and never pressed again until the slot shows an item (looked at every RECHECK_SEC) or the next start.
+EMPTY_READS = 2
+EMPTY_READ_SEC = 1.0
+RECHECK_SEC = 180.0
 
 
 class HealthFeature(Feature):
@@ -53,6 +60,8 @@ class HealthFeature(Feature):
         self._last_skill = 0.0
         self._last_potion = 0.0
         self._extra_used = {}
+        self._empty = {}  # PLAN 1.4b: potion slot index -> when it was last seen empty
+        self._empty_reads = {}  # slot index -> (consecutive empty reads, time of the last read)
         self._zero_reads = 0
         self.dead = False
         self._low_reads = 0
@@ -95,7 +104,7 @@ class HealthFeature(Feature):
         elif self.active and hp < self.settings.threshold_pct:
             self._recover(hp)
         if not self.just_acted:
-            self._extra_potions(hp)
+            self._extra_potions(hp, rect)
         return hp
 
     def _danger_now(self, hp):
@@ -157,15 +166,26 @@ class HealthFeature(Feature):
         if rec:
             rec.count("retreat")
 
-    def _extra_potions(self, hp):
+    def _extra_potions(self, hp, rect=None):
         """PLAN 1.4: drink the first due extra potion (slot order = priority), one per tick."""
         now = time.time()
         for i, potion in enumerate(self.settings.potions):
             if not potion.enabled:
                 continue
+            if i in self._empty:
+                if now - self._empty[i] < RECHECK_SEC:
+                    continue
+                self._empty[i] = now
+                if self._slot_empty(rect, potion) is not False:
+                    continue  # still empty, or its page is not open: look again later
+                del self._empty[i]
+                self._show_empty()
+                self.log(f"potion {potion.page}+{potion.key} is back")
             value = hp if potion.stat == "hp" else self.last_mp
             # hp 0 is death (check_death), mp None = unreadable
             if value is None or (potion.stat == "hp" and not value) or value >= potion.pct:
+                continue
+            if self._out_of_potions(i, potion, rect, now):
                 continue
             if now - self._extra_used.get(i, 0.0) < potion.cooldown:
                 continue
@@ -175,6 +195,47 @@ class HealthFeature(Feature):
             self._extra_used[i] = now
             self.just_acted = True
             return
+
+    def _slot_empty(self, rect, potion):
+        """PLAN 1.4b: True / False from the hotbar picture, None when the slot's page is not the open one."""
+        if rect is None:
+            return None
+        try:
+            frame = self.ctx.grabber.grab_bgr(rect)
+        except Exception:
+            return None
+        if frame is None or hotbar.open_page(frame) != potion.page:
+            return None
+        return hotbar.slot_empty(frame, potion.key)
+
+    def _out_of_potions(self, i, potion, rect, now):
+        """Read a due potion's slot (at most every EMPTY_READ_SEC); EMPTY_READS empty pictures = mark it out."""
+        n, last = self._empty_reads.get(i, (0, -EMPTY_READ_SEC))
+        if now - last < EMPTY_READ_SEC:
+            return False
+        empty = self._slot_empty(rect, potion)
+        if empty is None:
+            return False
+        n = n + 1 if empty else 0
+        self._empty_reads[i] = (n, now)
+        if n < EMPTY_READS:
+            return False
+        self._empty[i], self._empty_reads[i] = now, (0, now)
+        slot = f"{potion.page}+{potion.key}"
+        self.log(f"WARNING: no potion left in {slot} - not pressed again until the slot shows one "
+                 f"(checked every {RECHECK_SEC / 60:.0f} min) or the next start")
+        self._show_empty()
+        bump(self.ctx, "potion_empty")
+        rec = getattr(self.ctx, "recorder", None)
+        if rec:
+            rec.count("potion_empty")
+            rec.event("potion_empty", slot=slot, stat=potion.stat)
+        return True
+
+    def _show_empty(self):
+        """ctx.state["potion_empty"]: the slots the UI warns about."""
+        self.ctx.state["potion_empty"] = [f"{p.page}+{p.key}" for i, p in enumerate(self.settings.potions)
+                                          if i in self._empty]
 
     def _recover(self, hp):
         now = time.time()
@@ -311,6 +372,9 @@ class HealthFeature(Feature):
 
     def on_start(self):
         self.dead = False
+        # PLAN 1.4b: potions marked out are tried again (the player may have restocked).
+        self._empty, self._empty_reads = {}, {}
+        self.ctx.state["potion_empty"] = []
         self.hud_lost = False
         self.returned = False
         self._zero_reads = 0

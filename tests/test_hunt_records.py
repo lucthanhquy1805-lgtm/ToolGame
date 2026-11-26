@@ -447,7 +447,7 @@ def check_range(rec):
     """PLAN 1.2: the hunt range in steps, on the frames of a recording whose minimap is on all the way.
 
     Per range: every monster the scan keeps is inside the range, every walk started outside it heads home
-    (why go_home), and "stay put" (1 step) never clicks at all."""
+    (why go_home). "Stay put" (1 step) is check_in_place_101941."""
     import math
 
     from lineage_auto.features import exploration as ex
@@ -491,18 +491,7 @@ def check_range(rec):
         assert not outside, outside[:5]
         assert all(e["why"] == "go_home" for e in walks_out), [e["why"] for e in walks_out[:5]]
 
-    # "Stay put": never walk, whatever the screen shows (60 frames are enough to see a click).
-    r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
-    r.ctx.account.scan.hunt_range = 1
-    expl = ex.ExplorationFeature(r.ctx, targeting=r.targeting)
-    for f in r.frames[:60]:
-        r.clock.now = f["t"]
-        r.targeting.see(r.frame_at(r.clock.now), CHAR)
-        r.targeting.last_monsters = []
-        expl.observe()
-        expl.wander(r.rect, CHAR)
-    assert not r.clicks, r.clicks[:3]
-    print(f"   stay put: {len(r.frames[:60])} empty scans, 0 walk clicks")
+    # "Stay put" (1 step): check_in_place_101941 (PLAN 1.2c).
 
 
 def check_walls_225217(rec):
@@ -540,13 +529,81 @@ def check_walls_225217(rec):
     assert clear >= 0.5 * total, (clear, total)
 
 
+def check_in_place_101941(rec):
+    """PLAN 1.2c: "stay put" (hunt_range 1) with a wizard on the 101941 frames. The recorded attack hovers become
+    fights from where the character stands: no hold and no click except a spell's aimed click (the ellipse is
+    up), spells land on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee
+    class keeps only what stands next to it."""
+    import math
+
+    from lineage_auto.characters.base import CombatStyle
+    from lineage_auto.features import exploration as ex
+
+    r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+    r.ctx.account.scan.hunt_range = 1
+    r.ctx.character = types.SimpleNamespace(skill_interval=1.0, style=CombatStyle.CASTER)
+    r.game_pc_spells()
+    r.ctx.account.attack("F5").min_mp = 0  # spells whenever MP allows (the heal reserve still applies)
+    events, bad = [], []
+    r.ctx.recorder = types.SimpleNamespace(
+        count=lambda k, n=1: None, event=lambda kind, **d: events.append(dict(d, kind=kind)),
+        fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+        hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
+    inp, cursor = r.ctx.input, r.cb.CursorProbe.current_hash
+    click = inp.click_at
+
+    def checked_click(x, y):
+        if cursor() != "cast":
+            bad.append(("click without the ellipse", (x, y), round(r.clock.now, 1)))
+        click(x, y)
+
+    inp.click_at = checked_click
+    inp.hold_left = lambda: bad.append(("hold", round(r.clock.now, 1)))
+    windows = r.fights()
+    casts = [e for e in events if e["kind"] == "spell_cast" and e["ok"]]
+    far = [e for e in casts if math.hypot(e["target"][0] - CHAR[0], e["target"][1] - CHAR[1]) > 2 * r.tg.MELEE_DIST]
+    print(f"   stay put (wizard): {len(windows)} fights, {len(casts)} spells ({len(far)} beyond "
+          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks, {len(bad)} holds / clicks without the ellipse")
+    assert not bad, bad[:5]
+    assert len(far) >= 5, (len(far), len(casts))
+    # Empty screens from the start spot: the wander stands still (a fresh replay: the odometry starts at home).
+    # The saved frames move (the v20 bot walked), so the odometry sees the spot drift away like a push would:
+    # a walk click only ever goes home, and only once the character is IN_PLACE_DRIFT steps off.
+    w = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+    w.ctx.account.scan.hunt_range = 1
+    walks = []
+    w.ctx.recorder = types.SimpleNamespace(event=lambda kind, **d: walks.append(d), count=lambda *a, **k: None)
+    expl = ex.ExplorationFeature(w.ctx, targeting=w.targeting)
+    for f in w.frames[:120]:
+        w.clock.now = f["t"]
+        w.targeting.see(w.frame_at(w.clock.now), CHAR)
+        w.targeting.last_monsters = []
+        expl.observe()
+        expl.wander(w.rect, CHAR)
+    assert len(walks) == len(w.clicks), (len(walks), len(w.clicks))
+    assert all(e["why"] == "go_home" and e["home_dist"] > ex.IN_PLACE_DRIFT for e in walks), walks[:3]
+    w.targeting.minimap = None  # minimap off: no position, stand still whatever happens
+    n = len(w.clicks)
+    for _ in range(5):
+        expl.wander(w.rect, CHAR)
+    assert len(w.clicks) == n, w.clicks[n:]
+    print(f"   stay put wander: {len(walks)} walks over 120 frames, all go_home beyond {ex.IN_PLACE_DRIFT} steps; "
+          f"minimap off = 0 walks")
+    tg = r.targeting
+    far_box = (CHAR[0] + 300, CHAR[1])
+    assert not tg.out_of_range(far_box, CHAR) and tg.out_of_range((CHAR[0] + 400, CHAR[1]), CHAR)
+    r.ctx.character = types.SimpleNamespace(skill_interval=1.0, style=CombatStyle.MELEE)
+    assert tg.out_of_range(far_box, CHAR) and not tg.out_of_range((CHAR[0] + 60, CHAR[1]), CHAR)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
                         ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
                         ("20261126_101941_hunt", check_idle_101941),
-                        ("20261126_101941_hunt", check_range), ("20261126_225217_hunt", check_walls_225217)):
+                        ("20261126_101941_hunt", check_range), ("20261126_225217_hunt", check_walls_225217),
+                        ("20261126_101941_hunt", check_in_place_101941)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

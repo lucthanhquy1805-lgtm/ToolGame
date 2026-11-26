@@ -17,7 +17,7 @@ from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
-from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
+from .targeting import IN_PLACE_SHOT_PX, LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
 from .targeting import SELF_R as SELF_BOX_R
 
 DRAG_OFFSET = 15
@@ -239,6 +239,10 @@ class CombatFeature(Feature):
         screen_x = target.screen_x
         screen_y = target.screen_y + NAMEPLATE_BODY_DROP
         order = self.account.cast_order
+        # PLAN 1.2c: standing still, a click on the monster before the key would walk to it -> key first.
+        still = self._shoot_only()
+        if still and order == "click_key":
+            order = "key_click"
         reads, aim_delay = [], None
         before = CursorProbe.current_hash()
         if order == "click_key":
@@ -266,6 +270,14 @@ class CombatFeature(Feature):
             screen_x, screen_y = rect.to_screen(point[0], point[1])
             target = types.SimpleNamespace(local=(int(point[0]), int(point[1])),
                                            local_x=int(point[0]), local_y=int(point[1]))
+            if aim_delay is None and still:
+                # PLAN 1.2c: no ellipse = the spell did not arm; a click now is a walk toward the monster.
+                self.input.click_right()
+                self.log(f"skill {key}: no aiming ellipse, not clicking (stay put)")
+                self._skipped["no_ellipse"] = self._skipped.get("no_ellipse", 0) + 1
+                self._record_cast(key, setting, order, None, rect, mp_before, aim_delay, reads,
+                                  ok=False, reason="no_ellipse", before=before)
+                return anchor, False, None
             if aim_delay is None:
                 wait_for = float(getattr(self.account, "aim_wait_sec", 1.8))
                 self.log(f"skill {key}: no aiming ellipse within {wait_for:.1f}s, clicking anyway")
@@ -497,8 +509,75 @@ class CombatFeature(Feature):
         self.log(f"nearer box {point} is not attackable, staying on the lock")
         return False
 
+    def _shoot_only(self):
+        """PLAN 1.2c: "stay put" with a ranged class - spells only, never a click that walks."""
+        tg = self.targeting
+        return getattr(tg, "in_place", None) is not None and tg.in_place() and tg.ranged()
+
+    def engage_ranged(self, target, rect, char):
+        """PLAN 1.2c: shoot the lock from where we stand. No hold, no click on the monster: attack spells only
+        (the aiming ellipse is required); none ready (MP, cooldown) = wait. Ends on a kill line, the box gone,
+        the lock out of IN_PLACE_SHOT_PX or the fight cap."""
+        self.last_outcome = None
+        skills, interval = self.active_skills(), self.character.skill_interval
+        anchor = target.local
+        self._note_lock(anchor)
+        self._fight_start = started = box_t = time.time()
+        self._kill_lines(during=False)
+        self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
+        self._box_gone, self._cursor_last = 0.0, None
+        self._spells, self._skipped = 0, {}
+        last_skill = 0.0
+        self.input.release_left()
+        while self.ctx.running and time.time() - started < self.account.scan.melee_max_sec:
+            poll_escape(self.ctx)
+            if not self.ctx.running:
+                break
+            rect = self.ctx.rect()
+            char = self.ctx.char_pos(rect)
+            self.ctx.state["fight_until"] = time.monotonic() + FIGHT_HINT_SEC
+            if self.cure:
+                self.cure.tick(rect)
+            if self.health and self.health.check_death(rect):
+                return self._finish(None, "town" if getattr(self.health, "returned", False) else "char_dead")
+            if self.health is not None and getattr(self.health, "danger", False):
+                return self._finish(target, "danger", anchor)
+            time.sleep(BURST_INTERVAL)
+            self._check_mp_pending(rect)
+            updated = self.targeting.track_current(rect, anchor, char=char) if self.targeting else None
+            now = time.time()
+            if updated is not None:
+                anchor, box_t = updated.local, now
+                self._note_lock(anchor)
+            self._dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
+            self._box_gone = round(now - box_t, 1)
+            kills = self._kill_lines()
+            if kills:
+                kill_name(self.ctx, kills[-1][1] or "")
+                return self._finish(target, "chat_kill", anchor, kills[-1][1] or "", lines=len(kills))
+            if updated is None and now - box_t >= BOX_GONE_SEC:
+                gone = self._chat_readable() and self.account.loot.mode == "auto"
+                return self._finish(target, "gone" if gone else "vanished", anchor, f"box gone {now - box_t:.1f}s")
+            if self._dist > IN_PLACE_SHOT_PX:
+                return self._finish(target, "lost", anchor, f"out of reach at {self._dist:.0f}px")
+            paused = now < self.ctx.state.get("skill_pause_until", 0.0)
+            if not skills or paused or now - last_skill < interval:
+                continue
+            key, mp = self._pick_skill(skills, rect, self._dist, now)
+            if key is None:
+                continue  # nothing castable now: stand and wait
+            last_skill = now
+            if not self.ctx.can_cast(self.account.attack(key).skill_id, rect):
+                self._skipped["mp_empty"] = self._skipped.get("mp_empty", 0) + 1
+                continue
+            anchor, _fired, _hold = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
+            self._note_lock(anchor)
+        return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
+
     def engage(self, target, rect, char):
         """Attack until death/lost/stop. Always hold+drag on entry."""
+        if self._shoot_only():
+            return self.engage_ranged(target, rect, char)
         self.last_outcome = None
         watch = DeathWatch()
         skills = self.active_skills()

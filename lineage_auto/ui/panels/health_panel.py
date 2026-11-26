@@ -8,6 +8,8 @@ from ...skills import HEAL_SKILL_ID, get_catalog
 from ..skill_icons import load_photo_icon
 from .base import Panel
 
+COOLDOWN_MAX = PotionSetting.COOLDOWN_MAX
+
 
 class HealthPanel(Panel):
     def build(self):
@@ -112,9 +114,14 @@ class HealthPanel(Panel):
                          state="readonly").pack(side="left", padx=(6, 0))
             ttk.Combobox(row, textvariable=v["key"], values=list(HOTKEYS), width=5, state="readonly").pack(
                 side="left", padx=4)
-            ttk.Spinbox(row, from_=0.2, to=60, increment=0.5, textvariable=v["cooldown"], width=5,
+            # PLAN 1.4b: a mana potion is drunk every 10 min (it costs money) -> seconds or minutes, up to 1 h.
+            v["lbl_wait"] = ttk.Label(row, text=self.t("potion_wait"))
+            v["lbl_wait"].pack(side="left", padx=(4, 2))
+            ttk.Spinbox(row, from_=0.1, to=COOLDOWN_MAX, increment=0.5, textvariable=v["cooldown"], width=6,
                         command=self.tab.request_save).pack(side="left")
-            ttk.Label(row, text="s").pack(side="left", padx=(2, 0))
+            v["unit"] = ttk.Combobox(row, values=self._units(), width=6, state="readonly")
+            v["unit"].current(0)
+            v["unit"].pack(side="left", padx=(2, 0))
             self.potion_rows.append(v)
 
         self._refresh_heal_skill_badge()
@@ -154,7 +161,9 @@ class HealthPanel(Panel):
             v["pct"].set(potion.pct)
             v["key"].set(potion.key)
             v["page"].set(potion.page)
-            v["cooldown"].set(potion.cooldown)
+            minutes = potion.cooldown >= 60
+            v["cooldown"].set(round(potion.cooldown / 60, 2) if minutes else potion.cooldown)
+            v["unit"].current(1 if minutes else 0)
         self._refresh_heal_skill_badge()
 
     def store(self):
@@ -174,10 +183,22 @@ class HealthPanel(Panel):
         settings.potions = [
             PotionSetting.from_dict({
                 "enabled": v["enabled"].get(), "stat": v["stat"].get().lower(), "pct": v["pct"].get(),
-                "key": v["key"].get(), "page": v["page"].get(), "cooldown": v["cooldown"].get(),
+                "key": v["key"].get(), "page": v["page"].get(), "cooldown": self._seconds(v),
             })
             for v in self.potion_rows
         ]
+
+    def _units(self):
+        return self.t("unit_sec"), self.t("unit_min")
+
+    @staticmethod
+    def _seconds(v):
+        """The wait typed in a potion row, in seconds (the unit box says seconds or minutes)."""
+        try:
+            value = float(v["cooldown"].get())
+        except (tk.TclError, ValueError):
+            value = 1.5
+        return value * 60 if v["unit"].current() == 1 else value
 
     def apply_language(self):
         self.frame.config(text=f" {self.t('sec_hp')} ")
@@ -188,4 +209,8 @@ class HealthPanel(Panel):
         self.chk_town.config(text=self.t("return_town"))
         for i, v in enumerate(self.potion_rows, 1):
             v["chk"].config(text=self.t("extra_potion", n=i))
+            v["lbl_wait"].config(text=self.t("potion_wait"))
+            unit = v["unit"].current()
+            v["unit"].config(values=self._units())
+            v["unit"].current(max(0, unit))
         self._refresh_heal_skill_badge()

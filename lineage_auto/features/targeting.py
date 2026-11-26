@@ -14,6 +14,7 @@ from dataclasses import dataclass
 import cv2
 
 from .. import hunt_maps
+from ..characters.base import CombatStyle
 from ..vision.geometry import DEFENSE_RADIUS, play_max_radius
 from ..vision.motion_watch import roi_motion_score
 from ..vision import minimap, yolox_mobs
@@ -66,6 +67,10 @@ NEAR_RESCANS = 3
 # Another monster under this share of the lock's distance, inside MELEE_DIST, is fought first (combat switches).
 SWITCH_SHARE = 0.5
 MELEE_DIST = 70
+# PLAN 1.2c "stay put" (scan.hunt_range 1): a caster / archer (wizard, elf) shoots every monster this close on
+# screen without walking; a melee class only fights what stands next to it (MELEE_DIST).
+IN_PLACE_RANGE = 1
+IN_PLACE_SHOT_PX = 350
 # Longest wait in a fight beat for the detector thread's next result.
 DETECT_WAIT = 0.3
 CHAT_FAIL_LOG = 10.0  # s between two "chat not read" log lines
@@ -297,8 +302,23 @@ class TargetingFeature(Feature):
             return None
         return math.hypot(pos[0] - home[0], pos[1] - home[1]) / self.step_mm()
 
-    def out_of_range(self, local):
-        """PLAN 1.2: point farther from the hunt start than the chosen range (False without a minimap)."""
+    def in_place(self):
+        """PLAN 1.2c: "stay put" - never walk toward a monster."""
+        return self.scan.hunt_range == IN_PLACE_RANGE
+
+    def ranged(self):
+        """A class that hits from afar (wizard spells, elf bow) - everything but the melee classes."""
+        return self.character.style != CombatStyle.MELEE
+
+    def out_of_range(self, local, char=None):
+        """PLAN 1.2: point farther from the hunt start than the chosen range (False without a minimap).
+
+        PLAN 1.2c "stay put": measured on screen from the character (no minimap needed): IN_PLACE_SHOT_PX for a
+        ranged class, MELEE_DIST for a melee one."""
+        char = char or self.char
+        if self.in_place() and char is not None:
+            reach = IN_PLACE_SHOT_PX if self.ranged() else MELEE_DIST
+            return math.hypot(local[0] - char[0], local[1] - char[1]) > reach
         limit, home = self.range_mm(), self.ctx.state.get("home")
         if limit is None or home is None:
             return False
@@ -447,7 +467,7 @@ class TargetingFeature(Feature):
             # A standing box on a lying ("die") box is the corpse being drawn, not a new monster.
             if any(math.hypot(tx - dx, ty - dy) < CORPSE_SKIP_RADIUS for dx, dy in dies):
                 continue
-            if self.out_of_range((tx, ty)):  # PLAN 1.2: outside the hunt range
+            if self.out_of_range((tx, ty), char):  # PLAN 1.2: outside the hunt range
                 self.last_skipped += 1
                 if rec:
                     rec.count("out_of_range_skip")

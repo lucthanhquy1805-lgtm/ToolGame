@@ -144,6 +144,8 @@ EXTRA_POTION_SLOTS = 3
 class PotionSetting:
     """One extra potion: drink `key` when HP or MP is below `pct`, at most every `cooldown` s."""
 
+    COOLDOWN_MAX = 3600.0  # PLAN 1.4b: a mana potion every 10 min (600 s) costs less than one every 1.5 s
+
     enabled: bool = False
     stat: str = "hp"  # "hp" | "mp"
     key: str = "F7"
@@ -160,7 +162,7 @@ class PotionSetting:
             key=str(data.get("key", "F7")),
             page=hotbar_page(data.get("page")),
             pct=min(95, max(5, int(data.get("pct", 50)))),
-            cooldown=max(0.2, float(data.get("cooldown", 1.5))),
+            cooldown=min(cls.COOLDOWN_MAX, max(0.2, float(data.get("cooldown", 1.5)))),
         )
 
 

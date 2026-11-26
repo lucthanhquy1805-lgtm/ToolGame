@@ -81,12 +81,16 @@ class ControlPanel(Panel):
             warnings = []
             if running and self.tab.session.ctx.state.get("minimap") is False:
                 # PLAN 1.2: without the minimap there is no position, so the hunt range cannot work at all.
-                warnings.append(self.t("warn_range_minimap" if self.account.scan.hunt_range
-                                       else "warn_no_minimap"))
+                steps = self.account.scan.hunt_range
+                warnings.append(self.t("warn_in_place_minimap" if steps == 1  # PLAN 1.2c: stay put
+                                       else "warn_range_minimap" if steps else "warn_no_minimap"))
             # PLAN 0.40: on an MP-hungry ground the heal spell empties the MP bar (20261126_101941: 84 -> 2 %).
             if hunt_maps.get(self.account.hunt_map).mp_hungry and not any(
                     p.enabled and p.stat == "mp" for p in self.account.health.potions):
                 warnings.append(self.t("warn_no_mp_potion"))
+            empty = self.tab.session.ctx.state.get("potion_empty") if running else None
+            if empty:  # PLAN 1.4b
+                warnings.append(self.t("warn_potion_empty", slots=", ".join(empty)))
             # PLAN 0.34: without the aiming cursor the bot cannot tell an armed spell from a dead key press.
             if self.account.cast_order != "click_key" and any(
                     self.account.attack(k).enabled for k in self.account.attack_skills

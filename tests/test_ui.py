@@ -79,6 +79,7 @@ def main():
         tab.scan.vars["hunt_range"].set(7)  # not one of the offered ranges -> nearest
         tab.scan.store()
         assert tab.account.scan.hunt_range == 5, tab.account.scan.hunt_range
+        assert "1 = tại chỗ" in tab.scan.labels["scan_range"].cget("text")  # PLAN 1.2c
         tab.scan.load()
         assert tab.scan.lbl_step.cget("text") == f"1 bước = {minimap.STEP_MM:.1f} px trên minimap"
         tab.scan._odo = types.SimpleNamespace(pos=(13.8, 18.4))  # 23 minimap px walked
@@ -95,6 +96,22 @@ def main():
         assert tab.account.scan.step_mm == 2.3
         assert tab.scan.btn_step.cget("text") == app.translator.t("step_measure")
         tab.account.scan.step_mm = 0.0
+
+        # PLAN 1.4b: potion waits in seconds or minutes, up to an hour.
+        row = tab.health.potion_rows[1]
+        row["cooldown"].set(10)
+        row["unit"].current(1)  # minutes
+        tab.health.store()
+        assert tab.account.health.potions[1].cooldown == 600, tab.account.health.potions[1].cooldown
+        tab.account.health.potions[1].cooldown = 1.5
+        tab.health.load()
+        assert row["cooldown"].get() == 1.5 and row["unit"].get() == "giây", (row["cooldown"].get(), row["unit"].get())
+        tab.account.health.potions[1].cooldown = 3600
+        tab.health.load()
+        assert row["cooldown"].get() == 60 and row["unit"].get() == "phút"
+        tab.health.store()
+        assert tab.account.health.potions[1].cooldown == 3600
+        tab.account.health.potions[1].cooldown = 1.5
 
         # Mode -> big button text and what it starts.
         calls = []

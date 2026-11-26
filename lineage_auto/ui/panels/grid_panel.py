@@ -30,10 +30,6 @@ class GridPanel(Panel):
                                             textvariable=self.grid_radius, command=save)
         self.spin_grid_radius.pack(side="left", padx=4)
 
-        self.range_frame = ttk.LabelFrame(self.parent, text=" Range ", padding=6)
-        self.range_frame.pack(fill="x", padx=8, pady=3)
-        self.lbl_range = ttk.Label(self.range_frame, text="", foreground="gray", wraplength=380)
-        self.lbl_range.pack(anchor="w")
 
     def load(self):
         rec = self.account.record
@@ -55,8 +51,6 @@ class GridPanel(Panel):
         self.chk_grid.config(text=self.t("rec_grid"))
         self.lbl_grid_step.config(text=self.t("rec_grid_step"))
         self.lbl_grid_radius.config(text=self.t("rec_grid_radius"))
-        self.range_frame.config(text=f" {self.t('sec_range')} ")
-        self.lbl_range.config(text=self.t("range_soon"))
 
     def set_busy(self, running):
         for widget in (self.chk_grid, self.spin_grid_step, self.spin_grid_radius):

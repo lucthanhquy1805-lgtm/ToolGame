@@ -76,6 +76,9 @@ class LootFeature(Feature):
         s = self.settings
         if s.mode == "auto" or outcome not in KILL_OUTCOMES:
             return False
+        if getattr(self.targeting, "in_place", None) is not None and self.targeting.in_place():
+            self._event(skipped="stay_put")  # PLAN 1.2c: no walk to the corpse either
+            return False
         rect = self.ctx.rect()
         t0 = time.time()
         if anchor is not None:
