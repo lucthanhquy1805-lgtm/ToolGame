@@ -25,9 +25,10 @@ GOAL_SLACK = 2  # minimap px before the goal not checked: monsters stand right n
 ODO_W = 216  # odometry crop width (see Odometry)
 CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the character is not a point)
 # PLAN 1.2: minimap px (1280-wide grid, = screen px on the minimap at 1280) of one character step.
-# records_game/20261126_192615_observe: 2 walks of 5 steps, the map moved (+4,-2) px per step = 4.5 px.
+# records_game/20261126_192615_observe: 2 walks of 5 clicks, the map moved (+4,-2) px per click = 4.5 px; one click
+# walks 2 steps (game PC 26/11: 5 clicks = 10 steps measured 2.3 px/step), so a step is 2.3 px.
 # Only the fallback: the Hunt tab's "measure a step" button saves the measured value to scan.step_mm.
-STEP_MM = 4.5
+STEP_MM = 2.3
 STEP_MM_RANGE = (1.0, 20.0)  # a measurement outside this is a misread, not a step
 # Odometry features (PLAN 1.2b): the minimap is see-through, so its gray level follows the game scene under
 # it; only the small dark marks of the map (black-hat) are kept, the arrow in the middle is masked out.

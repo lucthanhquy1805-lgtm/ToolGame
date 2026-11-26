@@ -37,6 +37,7 @@ BASIC = ("misses_before_wander", "max_probe_points", "hunt_range")
 # PLAN 1.2 step calibration: the player walks this many steps between the two presses while the tool
 # follows the minimap. Auto-walking cannot do it: a walk click is given in px, which is what we measure.
 MEASURE_STEPS = 10
+CLICK_STEPS = 2  # one walk click in the game = 2 steps (game PC 26/11)
 MEASURE_TICK = 0.3  # s between minimap reads (the odometry needs a continuous track)
 MEASURE_MAX_SEC = 180.0
 
@@ -109,7 +110,7 @@ class ScanPanel(Panel):
         self._odo, self._measure, self._scale = minimap.Odometry(), threading.Event(), None
         threading.Thread(target=self._measure_loop, args=(self._measure,), daemon=True).start()
         self.btn_step.config(text=self.t("step_done"))
-        self.lbl_step.config(text=self.t("step_walk", steps=MEASURE_STEPS))
+        self.lbl_step.config(text=self.t("step_walk", clicks=MEASURE_STEPS // CLICK_STEPS))
 
     def _measure_loop(self, stop):
         """Follow the character on the minimap until the player presses Done."""

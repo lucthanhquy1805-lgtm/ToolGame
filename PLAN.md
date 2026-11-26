@@ -556,8 +556,8 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 26/11, v21rc1: `ScanSettings.hunt_range` (0 = không giới hạn, 1 = tại chỗ, 3/5/10/15/20/30) + ô
        "Phạm vi săn (bước)" ở tab Săn. Điểm xuất phát = vị trí odometry đầu tiên sau khi bấm Bắt đầu
        (`ctx.state["home"]`, ExplorationFeature.observe; minimap tắt rồi bật lại = epoch mới = mốc mới).
-       1 bước = `scan.step_mm` nếu đã đo, nếu chưa thì `minimap.STEP_MM` = 4,5 px minimap (1.2b).
-       HIỆU CHỈNH (26/11): nút "Đo bước" ở tab Săn — bật minimap, bấm Đo, tự đi thẳng 10 bước, bấm Xong;
+       1 bước = `scan.step_mm` nếu đã đo, nếu chưa thì `minimap.STEP_MM` = 2,3 px minimap (1.2b).
+       HIỆU CHỈNH (26/11): nút "Đo bước" ở tab Săn — bật minimap, bấm Đo, đi thẳng 5 click (1 click = 2 bước = 10 bước), bấm Xong;
        tool theo odometry 0,3 s/lần rồi lưu px minimap/bước vào config (`scan.step_mm`, KHÔNG cần build lại) và
        ghi log `[STEP] ... = x.x minimap px per step, saved`. Ngoài khoảng 1-20 = đo sai, không lưu.
        KHÔNG tự đi 10 bước hộ: lệnh đi là click theo px, đúng cái đang cần đo.
@@ -568,18 +568,21 @@ Giai đoạn 1 — Săn cơ bản
        gian đi bộ — không có tín hiệu vị trí nào đáng tin). Ghi: home_dist (bước) trong mỗi event wander,
        analyze_records in xa nhất/TB + số lần đi về. Test: `tests/test_hunt_records.py` check_range trên
        20261126_101941_hunt với phạm vi 5 và 10.)
-- [x] 1.2b Đo bước trên máy game không lưu được (XONG 26/11, v21rc2, bản ghi 20261126_192615_observe: 2 đoạn x 5 bước).
+- [x] 1.2b Đo bước trên máy game không lưu được (XONG 26/11, v21rc2, bản ghi 20261126_192615_observe: 2 đoạn x 5 click = 10 bước).
       Nguyên nhân THẬT: odometry mất dấu, không phải sai đơn vị (48 px client / scale 10 = 4,8 px minimap ≈ 4,5 đo
       được). Minimap TRONG SUỐT: tương quan trên ảnh xám thô chỉ đạt peak 0,02-0,2 khi đi → bỏ 8/10 bước → log
       `[STEP]` 3,3-4,0 (tổng px client/bước, cần ~45) bị loại. Sửa: `minimap.odo_marks` = black-hat 11 px > 50
       (chỉ giữ chấm/đường tối nhỏ của bản đồ, bỏ cảnh lộ dưới nền và vùng tối lớn), che mũi tên r=10 → peak
       0,65-0,92, mỗi bước (+4,-2)/(-4,-2) đúng. Peak < `Odometry.MIN_RESPONSE` (0,3) = bỏ, giữ vị trí cũ.
-      Đơn vị thống nhất: 1 bước = px minimap (`scan.step_mm`, mặc định `minimap.STEP_MM` 4,5, hợp lệ 1-20);
+      Đơn vị thống nhất: 1 bước = px minimap (`scan.step_mm`, mặc định `minimap.STEP_MM` 2,3, hợp lệ 1-20);
       `step_px` (px client) của v21rc1 không còn được đọc. range_mm / steps_from_home dùng thẳng đơn vị đó.
       Kiểm lại: go_home (hướng = hiệu toạ độ odometry) và vùng rào (`targeting.block`: toạ độ odometry,
       so khoảng cách * scale với BLOCK_RADIUS px client) đã đúng đơn vị, chỉ hưởng lợi từ odometry tốt hơn.
       Test: `python tests/test_odometry.py` (vị trí (-20,+10) rồi (0,+20) = bản đồ dịch (+20,-10) rồi (0,-20);
-      "Xong" sau 5 bước lưu 4,5; peak thấp giữ vị trí; config cũ/ngoài khoảng → mặc định).
+      "Xong" sau 5 click lưu ~2,2; peak thấp giữ vị trí; config cũ/ngoài khoảng → mặc định).
+      SỬA 26/11 (đo trên máy game): 1 click trong game = 2 bước; đo 5 click = 10 bước ra 2,3 px minimap/bước.
+      "5 bước" của 192615 thật ra là 5 click = 10 bước → mặc định cũ 4,5 bị gấp đôi; `STEP_MM` = 2,3.
+      Hướng dẫn nút Đo bước: "1 click = 2 bước, đi 5 click thẳng" (`scan_panel.CLICK_STEPS`; MEASURE_STEPS vẫn 10).
 - [x] 1.3 Về làng khi HP < 30–40% (cuộn F8 mặc định, cấu hình được) → DỪNG (A5)
       (XONG 23/11: HealthSettings.return_town/return_pct=35/return_key=F8, mặc định TẮT; dòng mới trong khung HP;
        HP dưới ngưỡng 2 lần đọc → thả chuột, bấm cuộn 1 lần, trạng thái "귀환 - 정지됨"; hồi máu/bình chạy trước.

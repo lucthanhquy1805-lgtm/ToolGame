@@ -1,9 +1,9 @@
 """Minimap odometry + step measurement on a real walk (PLAN 1.2b).
 
-records_game/20261126_192615_observe (1280x960, minimap on): standing, 5 steps up-right, standing, 5 steps up-left,
-standing. The map marks move (+4,-2) px per step, then (-4,-2): the character (odometry = minus the map shift)
+records_game/20261126_192615_observe (1280x960, minimap on): standing, 5 clicks up-right, standing, 5 clicks up-left,
+standing (1 click = 2 steps). The map marks move (+4,-2) px per click, then (-4,-2): the character (odometry = minus the map shift)
 ends walk 1 at (-20,+10) and walk 2 at (0,+20). The minimap is see-through, so the old raw-gray correlation lost
-8 of the 10 steps there.
+8 of the 10 clicks there.
 Run: python tests/test_odometry.py   (skipped when the frames are not on this machine)
 """
 import json
@@ -48,7 +48,7 @@ def test_walk(pos):
 
 
 def test_measure(pos):
-    """The Hunt tab's Done on walk 1 (5 steps) saves ~4.5 minimap px per step."""
+    """The Hunt tab's Done on walk 1 (5 clicks = 10 steps = MEASURE_STEPS) saves ~2.3 minimap px per step."""
     from lineage_auto.ui.panels import scan_panel as sp
 
     saved = []
@@ -58,14 +58,10 @@ def test_measure(pos):
         account=types.SimpleNamespace(scan=ScanSettings()), tab=types.SimpleNamespace(request_save=lambda: saved.append(1)),
         btn_step=types.SimpleNamespace(config=lambda **k: None), lbl_step=label,
         t=lambda key, **kw: f"{key} {kw}")
-    old, sp.MEASURE_STEPS = sp.MEASURE_STEPS, 5
-    try:
-        sp.ScanPanel._finish_measure(fake)
-    finally:
-        sp.MEASURE_STEPS = old
+    sp.ScanPanel._finish_measure(fake)
     step = fake.account.scan.step_mm
     print(f"   measured step {step} minimap px, saved {bool(saved)}")
-    assert 4.0 <= step <= 5.0 and saved, (step, saved)
+    assert 2.0 <= step <= 2.6 and saved, (step, saved)
     back = ScanSettings.from_dict(fake.account.scan.__dict__)
     assert back.step_mm == step, back.step_mm
 
@@ -83,7 +79,7 @@ def test_reject():
 
 def test_saved_values():
     assert ScanSettings.from_dict({"step_px": 48.0}).step_mm == 0.0  # v21rc1 client px: not read
-    assert ScanSettings.from_dict({"step_mm": 4.5}).step_mm == 4.5
+    assert ScanSettings.from_dict({"step_mm": 2.3}).step_mm == 2.3
     assert ScanSettings.from_dict({"step_mm": 33.0}).step_mm == 0.0  # outside 1-20: a misread
     assert ScanSettings.from_dict({"step_mm": 0.4}).step_mm == 0.0
 
