@@ -505,13 +505,48 @@ def check_range(rec):
     print(f"   stay put: {len(r.frames[:60])} empty scans, 0 walk clicks")
 
 
+def check_walls_225217(rec):
+    """PLAN 0.42: 14 "wall" fights of 20261126_225217_hunt (night, minimap on) were the dark outline of the
+    character arrow read as a fence. Each is routed again on its nearest frame: none may stay blocked under
+    combat.WALL_MIN_DIST, and the 160 px walk directions of the wander must mostly read clear."""
+    import bisect
+
+    import cv2
+
+    from lineage_auto.features import combat
+    from lineage_auto.features.exploration import WALK_PX, walk_point
+    from lineage_auto.vision import minimap
+
+    frames = read_jsonl(os.path.join(rec, "frames.jsonl"))
+    ts = [f["t"] for f in frames]
+    walls = [e for e in read_jsonl(os.path.join(rec, "events.jsonl"))
+             if e.get("kind") == "fight_end" and e.get("outcome") == "wall"]
+    blocked = []
+    for e in walls:
+        i = bisect.bisect_left(ts, e["t"])
+        f = frames[min([k for k in (i - 1, i) if 0 <= k < len(frames)], key=lambda k: abs(ts[k] - e["t"]))]
+        mm = minimap.read(cv2.imread(os.path.join(rec, f["file"])))
+        if mm.route(tuple(f["char"]), tuple(e["anchor"]))[0] == "blocked":
+            blocked.append(e["dist"])
+    clear = total = 0
+    for f in frames[::4]:
+        mm = minimap.read(cv2.imread(os.path.join(rec, f["file"])))
+        ch = tuple(f["char"])
+        clear += sum(mm.clear_to(ch, walk_point(ch[0], ch[1], 1280, 960, i, WALK_PX)) for i in range(8))
+        total += 8
+    print(f"   walls: {len(walls)} recorded, still blocked {blocked}; walk directions clear {clear}/{total}")
+    assert all(d >= combat.WALL_MIN_DIST for d in blocked), blocked
+    assert len(blocked) <= 2, blocked
+    assert clear >= 0.5 * total, (clear, total)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
                         ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
                         ("20261126_101941_hunt", check_idle_101941),
-                        ("20261126_101941_hunt", check_range)):
+                        ("20261126_101941_hunt", check_range), ("20261126_225217_hunt", check_walls_225217)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

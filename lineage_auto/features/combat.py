@@ -53,6 +53,9 @@ UNREACH_SEC = 1.5
 # dropped after 1.8 s, while a kill by hand takes 3.8 s on that ground (5 of its 6 kill lines arrived just AFTER
 # such a fight was left). Within NEAR_FIGHT_DIST the fight gets NEAR_UNREACH_SEC instead of UNREACH_SEC.
 NEAR_FIGHT_DIST = 100
+# PLAN 0.42: a monster this close is always tried, whatever the minimap route says (no 'wall' ending); a real
+# fence still ends it as unreachable / cap.
+WALL_MIN_DIST = 250
 NEAR_UNREACH_SEC = 4.0
 DETOUR_AFTER = 0.8  # s without progress before walking to the minimap gap once
 PROGRESS_PX = 16
@@ -514,7 +517,8 @@ class CombatFeature(Feature):
         locked_name = self.targeting.read_name(anchor) if self.targeting is not None else None
         # PLAN 0.40: the minimap says there is no way to this monster (behind a fence / hut / watchtower) ->
         # never click: blacklist the spot (60 s, minimap coordinates) and look for another target.
-        if self.targeting is not None and self.targeting.route(anchor)[0] == "blocked":
+        if (self.targeting is not None and self._dist >= WALL_MIN_DIST
+                and self.targeting.route(anchor)[0] == "blocked"):
             self.targeting.block(anchor)
             return self._finish(target, "wall", anchor, f"{self._dist:.0f}px, no way on the minimap")
         if self.health is not None and getattr(self.health, "danger", False):

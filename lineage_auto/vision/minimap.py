@@ -20,7 +20,10 @@ SCALE = 10.0  # client px per minimap px at BASE_W
 WALK_V = 120  # gray value
 WALK_S = 40  # HSV saturation
 MIN_WALK_SHARE = 0.2  # less than this light gray in the box = no minimap
-ARROW_R = 7  # minimap px around the centre hidden by the character arrow
+# Minimap px around the centre hidden by the character arrow AND its dark outline (PLAN 0.42: 7 left the outline
+# as a ring of 'obstacles': on 20261126_225217_hunt 13 of 14 'wall' fights were that ring, not a fence, and
+# only 14% of the 160 px walk directions read clear - 69% with 10).
+ARROW_R = 10
 GOAL_SLACK = 2  # minimap px before the goal not checked: monsters stand right next to fences and trees
 ODO_W = 216  # odometry crop width (see Odometry)
 CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the character is not a point)
@@ -34,7 +37,7 @@ STEP_MM_RANGE = (1.0, 20.0)  # a measurement outside this is a misread, not a st
 # it; only the small dark marks of the map (black-hat) are kept, the arrow in the middle is masked out.
 ODO_HAT = 11  # black-hat kernel, minimap px: dark marks smaller than this
 ODO_DARK = 50  # black-hat level of a map mark
-ODO_ARROW_R = 10  # ARROW_R + its outline
+ODO_ARROW_R = ARROW_R
 
 
 def box(w):

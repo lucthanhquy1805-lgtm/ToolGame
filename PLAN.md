@@ -917,6 +917,30 @@ Kiểm tra thêm
       (`zone_name`), bản ghi mang `"zone"` = khoá catalog.
    • Để sau: khu yêu tinh (model), ảnh tên/chat của 5 loại orc tím (analyze_records đọc 0 lượt giết vì chưa có
       ảnh tên dòng chat), xuân ĐÊM.
+- [x] 0.42 KILL GIẢM 78 → 43 (26/11, 20261126_225217_hunt v21rc3 đêm minimap BẬT vs 20261126_090350_hunt v20rc1
+      ngày minimap TẮT, cùng 오크의 땅, ~15 phút mỗi bản).
+      Thời gian đánh gần bằng nhau (652 s vs 687 s) nhưng ít trận hơn (173 vs 230) → mất thời gian ở ĐI LANG THANG.
+   • NGUYÊN NHÂN CHÍNH: viền tối của mũi tên nhân vật nằm NGAY NGOÀI vòng ép-đi-được `minimap.ARROW_R` = 7 →
+      thành một vòng "vật cản" quanh nhân vật. Mọi đường thẳng từ tâm cắt vòng đó ở bước 7-8 px minimap:
+      - 13/14 trận `wall` (98-166 px, kể cả con 152 px) là vòng viền đó, KHÔNG có rào (xem frame: orc đứng
+        trên cỏ trống); chỉ con 524 px còn "blocked" thật.
+      - Chỉ 14% hướng đi bộ 160 px đọc là thông (27 khung không hướng nào thông) → `_smart` bỏ hướng đang
+        giữ (`minimap_keep` chỉ giữ khi hướng còn thông) gần như mỗi nhịp, đổi W↔E mỗi 0,3-1 s, đi qua đi lại
+        (pos x 65↔81) → wander 371 → 600, engage 230 → 173.
+      - Box trên khung: "blocked" 36 → 4, "detour" 236 → 174 khi sửa.
+   • SỬA: `ARROW_R` = 10 (= `ODO_ARROW_R`, đã dùng cho odometry ở 1.2b): 69% hướng đi bộ thông, 0 khung kẹt.
+      Thêm luật người dùng yêu cầu: `combat.WALL_MIN_DIST` 250 px - quái gần hơn LUÔN thử đánh (không kết thúc
+      `wall`; rào thật vẫn kết thúc bằng unreachable/cap). Test `check_walls_225217` (test_hunt_records).
+   • Wander khi màn hình còn quái: khung gần nhất có box ở 174/600 lần wander (29%) vs 142/371 (38%) bản cũ →
+      KHÔNG tệ hơn theo tỉ lệ; số lần tăng là do đổi hướng liên tục ở trên (box của recorder ≠ box bot dùng).
+   • Đêm: recall orc_v1 @416 conf 0,2 trên nhãn đêm 133425 = 80%, 092741 = 72%; ngày 130457 = 79%,
+      111355 = 80%, 193903 = 73% → đêm KHÔNG kém. conf 0,08 chỉ +1-5 điểm, thêm 6-13% box sai → GIỮ 0,2,
+      chưa cần dữ liệu đêm. hits/frame 1,89 vs 2,39 là do đứng/đi qua lại ở một chỗ đã dọn, không phải detector.
+   • low_mp 1084 / crowd_cast 12: `fight_end.skipped` đếm MỖI NHỊP đánh (0,1-0,3 s) mà ô phép bị chặn, không
+      phải số phép bị mất (1084 / 173 trận ≈ 6 nhịp/trận). crowd_cast 12 = số phép ĐƯỢC bắn nhờ luật đông quái
+      (≥2 box trong 200 px, dưới min_mp của ô, MP ≥ 25%). MP bản này nằm 22-32% (median 24%) so với 39% bản cũ:
+      phép bắn xuống tới MP 25 (43/66 phép dưới 40%) nên phép bị giới hạn bởi tốc độ hồi MP; 66 vs 98 phép
+      đi theo số trận ít hơn. Không sửa thêm.
 - [x] 0.41 v21rc3: "KHỰNG KHI ĐÔNG QUÁI" (26/11, bản ghi 20261126_101941_hunt, quay bằng v20rc1).
       Đo: 23 idle_gap = 115 s / 515 s, nhưng 109 s nằm TRONG trận (giữ chuột trên quái không chết); sau mỗi
       fight_end trận kế bắt đầu sau 0,1-0,2 s → KHÔNG có chờ giữa trận, không cần ép detect. search.fps 0,03 trong

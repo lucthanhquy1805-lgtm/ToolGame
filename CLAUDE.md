@@ -42,7 +42,8 @@ The dev machine has no game; the bot will run on a separate game PC.
   whose box has been gone longer than `combat.BOX_GONE_SEC`, no fight reaches the cap; 20261126_001245_hunt: purple
   orcs / fences, `Replay(rec, hunt_map=, zone=)`, unreachable avg <= 3.5 s; 20261126_101941_hunt (PLAN 0.40,
   minimap on in every frame): unreachable under 15% of the fights; `check_idle_101941` (PLAN 0.41): simulated
-  idle gaps with the game PC's spell before/after the crowd rule `combat.CROWD_SPELL_N`).
+  idle gaps with the game PC's spell before/after the crowd rule `combat.CROWD_SPELL_N`; `check_walls_225217` (PLAN 0.42): the character arrow's dark outline is not a fence
+  (`minimap.ARROW_R` 10), nothing under `combat.WALL_MIN_DIST` 250 px ends as `wall`).
   PLAN 1.2 (`check_range` on the 101941 frames): `scan.hunt_range` steps from the hunt start
   (`ctx.state["home"]`, first odometry position; 1 step = `scan.step_mm` minimap px, measured with the Hunt tab's
   "measure a step" button, else `minimap.STEP_MM` 2.3; 1 walk click = 2 steps) - `targeting.out_of_range`
