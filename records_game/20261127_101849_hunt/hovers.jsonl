@@ -1,0 +1,13 @@
+{"t": 0.28, "scan": 1, "frame": "f_00001.jpg", "point": [594, 418], "kind": "ground", "src": "probe", "hash": "80e0e0e060000000"}
+{"t": 0.29, "scan": 1, "frame": "f_00001.jpg", "point": [677, 535], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 2.47, "scan": 2, "frame": null, "point": [677, 449], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 5.32, "scan": 3, "frame": null, "point": [757, 415], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 8.34, "scan": 4, "frame": null, "point": [772, 560], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 10.34, "scan": 5, "frame": null, "point": [572, 477], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 17.48, "scan": 6, "frame": null, "point": [874, 612], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 19.46, "scan": 7, "frame": null, "point": [557, 514], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 20.82, "scan": 8, "frame": null, "point": [691, 556], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 22.34, "scan": 9, "frame": null, "point": [677, 415], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 26.37, "scan": 10, "frame": "f_00023.jpg", "point": [615, 292], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}
+{"t": 27.5, "scan": 11, "frame": null, "point": [434, 415], "kind": "ground", "src": "probe", "hash": "80e0e0e060000000"}
+{"t": 27.51, "scan": 11, "frame": null, "point": [963, 431], "kind": "attack", "src": "probe", "hash": "c0c0201818000000"}

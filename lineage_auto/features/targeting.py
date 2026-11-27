@@ -50,6 +50,9 @@ MISS_RADIUS = 24
 BLOCK_TTL_WORLD = 60.0  # s, position kept in minimap odometry coordinates (PLAN 0.39: 40 -> 60)
 BLOCK_TTL_LOCAL = 8.0  # s, no minimap: client coordinates, dropped as soon as the bot walks
 BLOCK_RADIUS = 48  # client px
+# PLAN 0.43: a monster written off while it stood within NEAR_KEEP of the character is right there, so the
+# spot is only skipped for a moment (the user: near monsters must not be ignored). Far spots keep 60 s.
+BLOCK_TTL_NEAR = 1.0
 # A YOLOX "die" box this close to a detection = the corpse itself, never a target (PLAN 0.27 / 7).
 CORPSE_SKIP_RADIUS = 20
 # PLAN 0.29: a "마법 사용: 실패" chat line pauses the attack skills this long.
@@ -358,10 +361,14 @@ class TargetingFeature(Feature):
     def block(self, local):
         """PLAN 0.27: the character could not reach this target -> skip the spot for a while."""
         w = self.world(local)
+        near = (self.char is not None
+                and math.hypot(local[0] - self.char[0], local[1] - self.char[1]) <= NEAR_KEEP)
         if w is not None:
-            self._blocked.append((w[0], w[1], self.clock() + BLOCK_TTL_WORLD, self.odo.epoch))
+            ttl = BLOCK_TTL_NEAR if near else BLOCK_TTL_WORLD
+            self._blocked.append((w[0], w[1], self.clock() + ttl, self.odo.epoch))
         else:
-            self._blocked.append((local[0], local[1], self.clock() + BLOCK_TTL_LOCAL, None))
+            self._blocked.append((local[0], local[1],
+                                  self.clock() + (BLOCK_TTL_NEAR if near else BLOCK_TTL_LOCAL), None))
 
     def is_blocked(self, local):
         now = self.clock()

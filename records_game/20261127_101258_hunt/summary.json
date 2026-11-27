@@ -1,0 +1,45 @@
+{
+ "mode": "hunt",
+ "duration_sec": 96.1,
+ "frames_saved": 87,
+ "counts": {
+  "detections": 191,
+  "chat_frames": 191,
+  "scans": 411,
+  "wander": 354,
+  "hover_attack": 4,
+  "engage": 4,
+  "page_switch": 4,
+  "spell_cast": 8,
+  "spell_F5": 8,
+  "end_gone": 4,
+  "magic_fail": 1,
+  "out_of_range_skip": 22,
+  "hover_corpse": 1,
+  "rescan": 53,
+  "hover_cast": 52,
+  "hover_ground": 2
+ },
+ "hover_confirm_rate": 0.068,
+ "fights": {
+  "gone": {
+   "n": 4,
+   "avg_s": 6.2
+  }
+ },
+ "fight_endings": {
+  "gone": {
+   "n": 4,
+   "avg_s": 6.2
+  }
+ },
+ "chat_kill_lines": 0,
+ "kills_chat": 0,
+ "kills_corpse_only": 0,
+ "kills_total": 0,
+ "detections_per_min": 119.3,
+ "avg_ms": {
+  "detect_ms": 90.3,
+  "probe_ms": 4.7
+ }
+}

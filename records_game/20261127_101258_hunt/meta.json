@@ -1,0 +1,49 @@
+{
+ "mode": "hunt",
+ "started": "20261127_101258",
+ "account": "Account 1",
+ "class": "wizard",
+ "hunt_map": "blessed_orc",
+ "model": "blessed_orc",
+ "real_map": "오염된 축복의 땅 - 오크의 땅",
+ "zone": "blessed_orc",
+ "channels": "bgr",
+ "conf": 0.2,
+ "scan": {
+  "misses_before_wander": 2,
+  "max_probe_points": 2,
+  "hover_settle": 0.01,
+  "hover_retry": 0.02,
+  "hover_reads": 2,
+  "miss_ttl": 4.0,
+  "detect_conf": 0.0,
+  "conf_map": "blessed_orc",
+  "detect_fps": 2,
+  "detect_threads": 1,
+  "search_threads": 2,
+  "adaptive_detect": true,
+  "input_size": 416,
+  "detect_roi": false,
+  "melee_max_sec": 10.0,
+  "hunt_range": 1,
+  "step_mm": 0.0
+ },
+ "record": {
+  "while_hunting": true,
+  "interval_sec": 1.0,
+  "max_frames": 0,
+  "real_map": "오염된 축복의 땅 - 오크의 땅",
+  "no_model": false,
+  "grid_scan": false,
+  "grid_step": 40,
+  "grid_radius": 200,
+  "auto_stop_min": 15,
+  "stop_key": "Pause",
+  "max_gb": 5.0
+ },
+ "window": [
+  1280,
+  960
+ ],
+ "cursor_classifier": 2
+}

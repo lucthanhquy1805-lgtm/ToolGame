@@ -740,6 +740,13 @@ assert tfk._update_tracks([(104,102)])==[(104,102),(300,300)]
 assert tfk._update_tracks([(104,102)])==[(104,102)]               # 3 scans in a row missing -> dropped
 assert tfk._update_tracks([(104,102),(300,300)])==[(104,102),(300,300)]  # back = a new monster
 tfk.reset_misses(); assert tfk._tracks==[] and tfk.tracked==[]    # wandering shifts the view
+# PLAN 0.43: a spot written off while the monster stood next to us is skipped 1 s, not 8/60 s
+tfk.char=(640,380); tfk.clock=lambda: 0.0
+tfk.block((660,380)); assert tfk.is_blocked((660,380))
+tfk.clock=lambda: 1.1; assert not tfk.is_blocked((660,380))
+tfk.clock=lambda: 0.0; tfk.block((940,380))
+tfk.clock=lambda: 2.0; assert tfk.is_blocked((940,380))          # far: BLOCK_TTL_LOCAL unchanged
+tfk.clock=lambda: 9.0; assert not tfk.is_blocked((940,380))
 print('0.43: monster tracks survive 3 missed scans OK')
 
 # PLAN 0.39: walks avoid ground left 8-90 s ago; HP falling + a box next to us = hit back; idle gaps are measured

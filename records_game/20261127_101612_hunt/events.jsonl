@@ -1,0 +1,6 @@
+{"t": 0.01, "kind": "memory", "scan": 0, "frame": null, "rss_mb": 269.0, "rises": 0}
+{"t": 0.44, "kind": "spell_mp", "scan": 1, "frame": "f_00001.jpg", "key": "F5", "mp_before": 62, "mp_after": 62, "after_s": 5.5}
+{"t": 1.01, "kind": "page_switch", "scan": 1, "frame": "f_00001.jpg", "from_page": "F1", "to_page": "F2"}
+{"t": 1.33, "kind": "spell_cast", "scan": 1, "frame": "f_00002.jpg", "ok": true, "reason": null, "key": "F5", "page": "F2", "skill_id": "386", "order": "key_click", "target": [554, 351], "mp_before": 62, "aim_delay_s": 0.0, "cursor_before_key": "c0c0201818000000", "cursor_after_key": [{"at": 0.0, "hash": "fc92fe3800000000", "md5": "a876aa6bd415f6e4573ee473cdaaf698", "kind": "cast"}], "fight_sec": 1.1}
+{"t": 2.3, "kind": "spell_mp", "scan": 1, "frame": "f_00002.jpg", "key": "F5", "mp_before": 62, "mp_after": 61, "after_s": 1.0}
+{"t": 2.73, "kind": "fight_end", "scan": 1, "frame": "f_00003.jpg", "outcome": "stopped", "detail": "", "seconds": 2.5, "anchor": null, "dist": 103, "melee": false, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 1, "skipped": {}}

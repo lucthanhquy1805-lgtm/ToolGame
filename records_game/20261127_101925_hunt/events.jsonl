@@ -1,0 +1,2 @@
+{"t": 0.01, "kind": "memory", "scan": 0, "frame": null, "rss_mb": 270.1, "rises": 0}
+{"t": 1.01, "kind": "fight_end", "scan": 1, "frame": "f_00001.jpg", "outcome": "stopped", "detail": "", "seconds": 0.7, "anchor": null, "dist": 172, "melee": false, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
