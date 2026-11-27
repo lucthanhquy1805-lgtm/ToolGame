@@ -107,6 +107,10 @@ class HealthFeature(Feature):
             self._extra_potions(hp, rect)
         return hp
 
+    def hp_falling(self):
+        """PLAN 0.43: HP lower now than at some point in the last DANGER_WINDOW s = something is hitting us."""
+        return bool(self._hp_log) and self._hp_log[-1][1] < max(e[1] for e in self._hp_log)
+
     def _danger_now(self, hp):
         """PLAN 0.40: HP falling fast or a crowd next to the character (sticky for DANGER_HOLD s)."""
         now = time.time()

@@ -281,9 +281,9 @@ class SkillSetupModal:
             )
             return
 
-        conflict_keys = self._conflict_fkeys(attack_draft, buff_draft, utility_draft)
-        if conflict_keys:
-            self._clear_row_hotkeys(conflict_keys)
+        conflict_slots = self._conflict_slots(attack_draft, buff_draft, utility_draft)
+        if conflict_slots:
+            self._clear_row_hotkeys(conflict_slots)
             messagebox.showwarning(
                 self.tab.t("warn_title"),
                 self.tab.t("warn_duplicate_fkey"),
@@ -293,7 +293,7 @@ class SkillSetupModal:
 
         reserved = self._hp_reserved_keys()
         hp_overlap = {
-            setting.f_key
+            (setting.page, setting.f_key)
             for draft in (attack_draft, buff_draft, utility_draft)
             for setting in draft.values()
             if setting.enabled and (setting.page, setting.f_key) in reserved
@@ -311,6 +311,17 @@ class SkillSetupModal:
         attack_map = {key: AttackSkillSetting() for key in HOTKEYS}
         buff_map = {key: BuffSkillSetting() for key in HOTKEYS}
         utility_map = {key: AttackSkillSetting() for key in HOTKEYS}
+        # PLAN 0.45: Apply rebuilds the maps from the rows, so a slot holding a skill this modal does NOT show
+        # (another class's list, a catalog entry that moved) would be wiped without anybody seeing it. Keep those
+        # as they are; a row the user did edit overwrites them below.
+        for role, getter, target in (("attack", self.account.attack, attack_map),
+                                     ("buff", self.account.buff, buff_map),
+                                     ("utility", self.account.utility, utility_map)):
+            shown = {str(row["skill"]["id"]) for row in self._rows[role]}
+            for key in HOTKEYS:
+                current = getter(key)
+                if current.enabled and current.skill_id and current.skill_id not in shown:
+                    target[key] = current
         for setting in attack_draft.values():
             if setting.enabled and setting.f_key in HOTKEYS:
                 attack_map[setting.f_key] = AttackSkillSetting(
@@ -349,8 +360,8 @@ class SkillSetupModal:
             refresh()
         self._destroy()
 
-    def _conflict_fkeys(self, attack_draft, buff_draft, utility_draft):
-        """F-keys that appear more than once across enabled drafts."""
+    def _conflict_slots(self, attack_draft, buff_draft, utility_draft):
+        """Hotbar SLOTS (page, key) that appear more than once across enabled drafts."""
         validation = validate_skill_draft(attack_draft, buff_draft, utility_draft)
         if validation is None:
             return set()
@@ -364,7 +375,9 @@ class SkillSetupModal:
                     # PLAN 0.34: F5 on page F1 and F5 on page F2 are two different slots.
                     slot = (setting.page, key)
                     counts[slot] = counts.get(slot, 0) + 1
-        return {key for (page, key), count in counts.items() if count > 1}
+        # PLAN 0.45: the slot, not the bare key. Returning "F5" cleared the spell on page F2 as well, which is
+        # how 27/11 lost the attack spell on the game PC while the buffs on page F1 survived.
+        return {slot for slot, count in counts.items() if count > 1}
 
     def _hp_reserved_keys(self):
         """Hotbar slots the HP panel owns, as (page, key) - PLAN 0.34."""
@@ -376,37 +389,33 @@ class SkillSetupModal:
             slots.add((health.potion_page, health.potion_key))
         return slots
 
-    def _clear_row_hotkeys(self, fkeys):
-        """Reset modal comboboxes that still show a conflicting F-key."""
+    def _clear_row_hotkeys(self, slots):
+        """Reset modal comboboxes that still show a conflicting hotbar slot (page, key)."""
         for role in ("attack", "buff", "utility"):
             for row in self._rows[role]:
                 if not row.get("assignable"):
                     continue
-                if row["f_key"].get() in fkeys:
+                if (hotbar_page(row["f_page"].get()), row["f_key"].get()) in slots:
                     row["f_key"].set("")
                     row["enabled"].set(False)
 
     @staticmethod
-    def _disable_draft_hotkeys(drafts, fkeys):
+    def _disable_draft_hotkeys(drafts, slots):
         for draft in drafts:
             for setting in draft.values():
-                if getattr(setting, "f_key", "") in fkeys:
+                if (getattr(setting, "page", HOTBAR_PAGES[0]), getattr(setting, "f_key", "")) in slots:
                     setting.enabled = False
                     setting.f_key = ""
 
-    @staticmethod
-    def _keys_of(slots):
-        return {key for _page, key in slots}
-
-    def _hp_overlap_messages(self, overlap_keys):
+    def _hp_overlap_messages(self, overlap_slots):
         health = self.account.health
         messages = []
         checks = (
-            (health.use_skill, health.skill_key, "use_heal_skill"),
-            (health.use_potion, health.potion_key, "use_potion"),
+            (health.use_skill, health.skill_page, health.skill_key, "use_heal_skill"),
+            (health.use_potion, health.potion_page, health.potion_key, "use_potion"),
         )
-        for active, key, kind_key in checks:
-            if active and key in overlap_keys:
+        for active, page, key, kind_key in checks:
+            if active and (page, key) in overlap_slots:
                 messages.append(
                     self.tab.t(
                         "warn_hp_key_overlap",
@@ -424,7 +433,7 @@ class SkillSetupModal:
             for getter in (self.account.attack, self.account.buff, self.account.utility)
             if getter(key).enabled
         }
-        return self._hp_overlap_messages(self._keys_of(reserved & enabled_slots))
+        return self._hp_overlap_messages(reserved & enabled_slots)
 
     def _cancel(self):
         self._destroy()

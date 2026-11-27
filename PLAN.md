@@ -637,6 +637,10 @@ Giai đoạn 1 — Săn cơ bản
       khung đầy mỗi 1 s trong trận, < 100 px không blacklist dài) — xem mục 0.43 (27/11)
 - [x] C (1.8) Thời gian buff nhập theo GIÂY, bước 10 s (XONG 27/11; config vẫn lưu phút nên bản cũ tự đúng:
       11,5 -> 690 s; tests/test_buff_duration.py)
+- [x] 0.44 Lượt "tại chỗ" v21rc5 hỏng: không bắn phép (ô phép không bật mà bot im lặng) + đi qua đi lại
+      (nhiễu odometry) — XONG 27/11, xem mục 0.44; phần tính vị trí đúng vẫn ở 1.7
+- [x] 0.45 NGHIÊM TRỌNG: "Áp dụng" trong Cài đặt skill xoá phép tấn công ở trang F2 khi có buff trùng PHÍM
+      (không trùng ô) — dựng lại được và đã sửa 27/11, xem mục 0.45; đây cũng là gốc của 0.44 mục 1
 - [ ] 3.0b Chế độ "kéo quái" cho hiệp sĩ (ghi 27/11, làm sau 1.7)
 - [x] 1.4b Bình: thời gian chờ dài + tự biết hết bình (XONG 27/11, v21rc5, bản ghi 20261127_003555_hunt).
       Đo: F1+F6 = 2 bình mana, chờ 1,5 s; MP < 50 % từ ~135 s → 2 bình uống hết trong 1,5 s (137 s), rồi bấm ô
@@ -1702,7 +1706,30 @@ B2 — SỬA (theo kết quả B1):
 - quái < 100 px không vào blacklist dài: `targeting.block` dùng TTL 1 s cho điểm trong `NEAR_KEEP`.
   RỦI RO: điều này nới lỏng phần "wall/unreachable" của 0.40/0.42 → có thể quay lại cảnh đứng kẹt trước hàng
   rào; bản ghi `20261126_225217_hunt` (bản ghi về tường) KHÔNG có trên laptop này nên không kiểm được tại chỗ.
-B3 — đo lại hai chỉ số trên cùng hai bản ghi, ghi số trước/sau vào PLAN.
+- [XONG 27/11] quái < 100 px không vào blacklist dài: `targeting.BLOCK_TTL_NEAR` 1 s (xa vẫn 60 s / 8 s).
+  `check_walls_225217` (bản ghi đã kéo về 27/11) vẫn PASS: 14 trận wall, còn 1 blocked ở 524 px >=
+  `WALL_MIN_DIST`, hướng đi bộ clear 1019/1464 (70%); replay không đổi (092741 kill 8, 101941 kill 2,
+  unreachable 9%). NHƯNG xem B3: thay đổi này ĐO ĐƯỢC LÀ KHÔNG ĂN GÌ - không có box gần nào từng bị bỏ
+  vì blacklist trong các bản ghi này. Giữ vì vô hại và đúng ý khách, không tính là đã sửa lỗi.
+
+B3 — SỐ ĐO (`tests/test_near_miss.py`, quái < 150 px, 27/11):
+| bản ghi | A không vào danh sách mục tiêu | lý do | B gần hơn mục tiêu >= 2 lần, không trỏ tới trong 2 s | C đổi mục tiêu khi còn box gần |
+|---|---|---|---|---|
+| 090350 | 135/585 (23%) | 135/135 = `scan.max_probe_points` cắt | 6/12 | 9/10 |
+| 225217 | 24/329 (7%) | 24/24 = `max_probe_points` cắt | 5/9 | 7/8 |
+| 101941 | 0/10 | - | 2/2 | 0/0 |
+TRƯỚC (01689f3) và SAU giống hệt nhau trên cả ba chỉ số -> hai sửa đổi vòng đầu (khung đầy theo thời gian,
+giữ vết quái) KHÔNG cải thiện ba chỉ số này; chúng chỉ hiện ở bảng kill/gone của replay.
+KẾT LUẬN QUAN TRỌNG (khác giả thuyết ban đầu):
+1. Đường CHỌN MỤC TIÊU không bỏ quái gần vì miss_ttl / blacklist / corpse / ngoài tầm: 0 trường hợp.
+   Toàn bộ A là `max_probe_points` = 5 cắt phần CUỐI của một đám quái, mà danh sách xếp gần-trước, nên
+   những con bị cắt vẫn xa hơn 5 con được chọn -> KHÔNG phải lỗi.
+2. Chỗ còn lại là trong TRẬN: `targeting.closer_than` chỉ đổi mục tiêu khi con gần hơn nằm trong
+   `MELEE_DIST` 70 px (và mục tiêu hiện tại ngoài 70 px). Một con ở ~100 px trong khi bot đang đánh con ở
+   300-400 px thì bot giữ nguyên -> đúng cảnh khách báo "bot đánh con khác". 11/21 lần (090350 + 225217).
+   CHỜ NGƯỜI DÙNG QUYẾT: nới ngưỡng đổi mục tiêu lên `NEAR_KEEP` 100 px (hoặc bỏ hẳn, chỉ còn
+   `SWITCH_SHARE`) thì ngược với yêu cầu "khoá mục tiêu tới khi chết/mất" - hai việc này chống nhau.
+   Mẫu nhỏ (12 và 9 khung đủ điều kiện), nên nếu nới thì phải đo lại kill trên replay.
 
 ### C (1.8) THỜI GIAN BUFF NHẬP THEO GIÂY  [XONG 27/11]
 Ô thời gian buff trong "Cài đặt skill → Buff" nhập theo GIÂY, nhãn "giây" (`unit_sec`, ko/en/vi đã có),
@@ -1715,6 +1742,56 @@ giao diện). Hai hàm đổi đơn vị duy nhất: `ui/skill_summary.buff_seco
 `ui/panels/skills_panel.BuffSkillsPanel` (bảng cũ, KHÔNG được dùng trong UI thật) vẫn để phút - không sửa.
 Test: `python tests/test_buff_duration.py` (config cũ ra đúng giây; lưu-rồi-load mọi bước 10 s không đổi;
 giá trị ngoài khoảng bị kẹp; dòng tóm tắt in giây).
+
+### 0.44 LƯỢT "TẠI CHỖ" v21rc5 TRÊN MÁY GAME HỎNG  [SỬA 27/11]
+Bản ghi: `records_game/20261127_101929_hunt` (pháp sư, hunt_range 1, minimap bật, 6 phút, MP 61-87%),
+101258 (minimap tắt, 96 s), 101711/101807 (ngắn, CÓ bắn phép).
+
+1. KHÔNG BẮN PHÉP (ưu tiên cao nhất, đã sửa). 101929: 68 trận, `spell_cast` 0, `page_switch` 0, kill 0, mọi
+   `fight_end` có `spells: 0` và `skipped: {}`. Nguyên nhân: `engage_ranged` khi `active_skills()` rỗng (hoặc
+   mọi ô đang trong cooldown) chỉ `continue` cho hết 10 s cap - KHÔNG log, KHÔNG ghi gì. Không liên quan MP:
+   replay chính bản ghi đó với phép của máy game (F2+F5 386) cho **55 spell_cast / 41 trận (46 lên ellipse)**,
+   nên code bắn phép vẫn đúng; lượt thật đơn giản là KHÔNG CÓ ô phép nào đang bật (các lượt 101258-101807
+   trước đó có `page_switch` + `spell_cast`, từ 101849 thì cả hai = 0).
+   Sửa: `combat._no_spell` - cảnh báo WARNING một lần/phiên, `skipped {"no_skill": 1}`, FALLBACK đánh tay
+   (`engage(..., force_melee=True)`) khi quái trong `MELEE_DIST`, còn lại kết thúc ngay với outcome mới
+   `no_spell` thay vì nhắm im 10 s; `_pick_skill` nay ghi cả lý do `cooldown` và nhánh `paused` ghi `paused`
+   (không còn đường nào im lặng); cảnh báo trên UI `warn_in_place_no_skill` (ko/en/vi) khi săn tại chỗ mà
+   không có ô phép nào bật.
+2. ĐI QUA ĐI LẠI (đã sửa phần cấp cứu, phần gốc thuộc 1.7). 113 `go_home` luân phiên N/S trong khi
+   `home_dist` đọc 3,3-7 bước và pos nhảy 10 px = nhiễu odometry, ngưỡng cũ `IN_PLACE_DRIFT` 3 bước quá chặt.
+   Sửa: `exploration.GO_HOME_START` 4 bước (= 2 click) mới bắt đầu về, `GO_HOME_STOP` 1 bước mới dừng
+   (hysteresis), KHÔNG về khi còn quái trong tầm (`_monster_in_reach`), và "tại chỗ" không bao giờ lang thang
+   mù khi không biết đường về. Cách tính vị trí đúng (cộng dồn dịch chuyển màn hình) vẫn làm ở 1.7.
+3. out_of_range_skip 346 KHÔNG phải lỗi: 269/743 box của bản ghi nằm ngoài 350 px (`IN_PLACE_SHOT_PX`), và
+   test mới kiểm trực tiếp 300 px được giữ / 400 px bị bỏ, cả khi minimap bật và tắt - vòng tròn hunt_range
+   không thu nhỏ tầm bắn.
+4. `scan.step_mm = 0.0` trong meta: bản cài KHÔNG ghi đè config (`deploy/1_CAI_DAT.bat` robocopy `/XF
+   lineage_auto_config.json`), và các giá trị tự đặt khác vẫn còn (max_probe_points 2, conf_map blessed_orc),
+   nên config không bị thay - phép đo bước chưa từng được lưu (nút "Đo bước" bỏ qua kết quả ngoài 1-20 px
+   hoặc khi không có minimap). 1.7 không cần nó nữa (đo bằng px màn hình).
+Test: `python tests/test_in_place_101929.py` (tầm bắn; 0 go_home trên nhiễu đã ghi + hysteresis + quái trước;
+không có phép -> `no_spell` + 0 cap im lặng + 1 WARNING; có phép -> 55 lần bắn).
+
+### 0.45 MẤT CẤU HÌNH PHÉP TẤN CÔNG KHI BẤM "ÁP DỤNG" (LỖI NGHIÊM TRỌNG)  [SỬA 27/11]
+Khách báo (máy game, v21rc5): cả tab "Đánh" trong Cài đặt skill bị reset - Tia Năng Lượng (386) về
+F1 / trống / không tích / MP 0 - còn buff, bình thêm, về làng nguyên vẹn.
+NGUYÊN NHÂN (đã dựng lại được 100% trên laptop, `tests/test_skill_setup_modal.py` FAIL ở bản 01689f3 với đúng
+giá trị khách thấy `(False, '', 'F1', 0, 0, 0.0)`): các bước kiểm trùng phím trong `ui/skill_setup_modal.py`
+PHÁT HIỆN theo đúng ô (page, key) nhưng TRẢ VỀ phím trần ("F5"), rồi `_clear_row_hotkeys` /
+`_disable_draft_hotkeys` / `_hp_overlap_messages` lại so sánh bằng phím trần → xoá MỌI dòng dùng F5 ở MỌI
+trang. Chỉ cần 1 buff ở F1+F5 (đúng ô phím hồi máu của tab Máu chiếm) là lần "Áp dụng" sau xoá luôn phép
+tấn công ở F2+F5. Buff ở các phím khác không bị gì → khớp đúng hiện tượng khách thấy.
+SỬA: mọi chỗ mang (page, key) suốt đường đi (`_conflict_slots`, `_clear_row_hotkeys`, `_disable_draft_hotkeys`,
+`_hp_overlap_messages`, bỏ `_keys_of`). THÊM LỚP CHẶN: "Áp dụng" dựng lại toàn bộ map từ các dòng đang hiện,
+nên nay những ô đang gán một skill mà modal KHÔNG hiện (danh sách của class khác, catalog đổi) được GIỮ
+NGUYÊN thay vì bị xoá âm thầm.
+`cast_order`: không có đường code nào ghi `click_key` - chỉ có combobox (người dùng chọn) và luật thất bại
+chat (0.35) chỉ đặt `hover_key_click`. Test mới khoá `cast_order` qua đổi ngôn ngữ ko/en/vi + mở/Áp dụng/Huỷ.
+Test: `python tests/test_skill_setup_modal.py` (đổi ngôn ngữ + lưu; mở rồi Huỷ; mở rồi Áp dụng với buff ở ô
+phím hồi máu -> phép ở trang F2 còn nguyên; trùng ô thật vẫn cảnh báo và chỉ xoá đúng dòng đó).
+GHI CHÚ: lỗi này giải thích luôn 0.44 mục 1 - lượt 101929 không có ô phép nào bật vì nó vừa bị xoá lúc
+~10:18:4x khi khách mở Cài đặt skill và bấm Áp dụng.
 
 ### 3.0b Chế độ "KÉO QUÁI" cho hiệp sĩ (ghi 27/11/2026 — CHƯA LÀM)
 Hiệp sĩ đi tới quái, đánh 1–2 phát cho quái bám theo, rồi về gốc (trong tầm pháp sư/tiên) để nhóm bắn.

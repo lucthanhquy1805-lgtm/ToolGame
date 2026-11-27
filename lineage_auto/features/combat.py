@@ -120,6 +120,7 @@ class CombatFeature(Feature):
         self._slot_turn = 0
         self._spells = 0  # spells cast in the fight under way
         self._skipped = {}  # why a slot was skipped, for the recording
+        self._no_skill_said = False  # PLAN 0.44: the "no attack skill" warning is logged once
         self._mp_pending = None  # (time, key, mp_before) of the last cast, read again after MP_SETTLE
 
     def active_skills(self):
@@ -172,8 +173,7 @@ class CombatFeature(Feature):
                 if reason == "crowd":  # PLAN 0.41: under the slot's min_mp, allowed by the crowd rule
                     self._skipped["crowd_cast"] = self._skipped.get("crowd_cast", 0) + 1
                 return key, mp
-            if reason != "cooldown":
-                self._skipped[reason] = self._skipped.get(reason, 0) + 1
+            self._skipped[reason] = self._skipped.get(reason, 0) + 1
         return None, mp
 
     def _wait_aim_cursor(self, before=None):
@@ -415,7 +415,8 @@ class CombatFeature(Feature):
                       "gone": "target gone, no kill line", "unreachable": "target unreachable, blacklisted",
                       "no_progress": "no progress, blacklisted", "switch": "closer monster, switching",
                       "wall": "no way on the minimap, blacklisted",
-                      "danger": "danger, leaving the fight"}
+                      "danger": "danger, leaving the fight",
+                      "no_spell": "no attack skill enabled, nothing to shoot with"}
                      .get(outcome, outcome) + note)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -521,6 +522,11 @@ class CombatFeature(Feature):
         self.last_outcome = None
         skills, interval = self.active_skills(), self.character.skill_interval
         anchor = target.local
+        if not skills:
+            # PLAN 0.44: no enabled attack skill = a caster standing still can do NOTHING to this monster.
+            # v21rc5 aimed in silence for the whole cap (20261127_101929_hunt: 68 fights, 0 spells, no record of
+            # why). Say it once, hit by hand what is already next to us, and leave the rest alone.
+            return self._no_spell(target, rect, char, anchor)
         self._note_lock(anchor)
         self._fight_start = started = box_t = time.time()
         self._kill_lines(during=False)
@@ -561,7 +567,9 @@ class CombatFeature(Feature):
             if self._dist > IN_PLACE_SHOT_PX:
                 return self._finish(target, "lost", anchor, f"out of reach at {self._dist:.0f}px")
             paused = now < self.ctx.state.get("skill_pause_until", 0.0)
-            if not skills or paused or now - last_skill < interval:
+            if paused:
+                self._skipped["paused"] = self._skipped.get("paused", 0) + 1
+            if paused or now - last_skill < interval:
                 continue
             key, mp = self._pick_skill(skills, rect, self._dist, now)
             if key is None:
@@ -574,9 +582,25 @@ class CombatFeature(Feature):
             self._note_lock(anchor)
         return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
 
-    def engage(self, target, rect, char):
+    def _no_spell(self, target, rect, char, anchor):
+        """PLAN 0.44: "stay put" without a usable attack spell. Warn once, fight by hand what stands next to us
+        (a caster still swings), otherwise end the fight at once instead of aiming at nothing for 10 s."""
+        self.ctx.state["no_attack_skill"] = True
+        if not self._no_skill_said:
+            self._no_skill_said = True
+            self.log("WARNING: stay-put hunting but no attack skill is enabled - assign one in the skill setup "
+                     "(only monsters next to the character can be fought by hand)")
+        self._dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
+        self._skipped = {"no_skill": 1}
+        if self._dist <= MELEE_DIST:
+            return self.engage(target, rect, char, force_melee=True)
+        self._melee, self._box_gone, self._spells = False, 0.0, 0
+        self._fight_start = time.time()
+        return self._finish(target, "no_spell", anchor, f"{self._dist:.0f}px, no attack skill enabled")
+
+    def engage(self, target, rect, char, force_melee=False):
         """Attack until death/lost/stop. Always hold+drag on entry."""
-        if self._shoot_only():
+        if self._shoot_only() and not force_melee:
             return self.engage_ranged(target, rect, char)
         self.last_outcome = None
         watch = DeathWatch()
@@ -702,7 +726,9 @@ class CombatFeature(Feature):
                 elif dist <= MELEE_DIST and now - sword_t >= NO_SWORD_SEC:
                     return self._finish(target, "lost", anchor, f"no attack cursor for {now - sword_t:.1f}s")
                 # PLAN 0.39 / 6: leave a living lock only for a monster hitting us while the lock is not next to us
-                closer = (self.targeting.closer_than(anchor, char)
+                # PLAN 0.43: being hit switches to anything within NEAR_KEEP, not only to a much nearer box.
+                hurt = self.health is not None and getattr(self.health, "hp_falling", bool)()
+                closer = (self.targeting.closer_than(anchor, char, hurt=hurt)
                           if self.targeting is not None and dist > MELEE_DIST else None)
                 if closer is not None and self._confirm_switch(rect, closer):
                     # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.

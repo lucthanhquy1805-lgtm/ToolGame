@@ -1,0 +1,68 @@
+{
+ "mode": "hunt",
+ "duration_sec": 370.6,
+ "frames_saved": 317,
+ "counts": {
+  "detections": 740,
+  "chat_frames": 735,
+  "scans": 432,
+  "out_of_range_skip": 346,
+  "hover_attack": 68,
+  "engage": 68,
+  "end_gone": 53,
+  "hover_ground": 16,
+  "end_cap": 13,
+  "rescan": 105,
+  "wander": 259,
+  "end_lost": 1,
+  "idle_gap": 2,
+  "end_stopped": 1
+ },
+ "hover_confirm_rate": 0.81,
+ "fights": {
+  "gone": {
+   "n": 53,
+   "avg_s": 2.8
+  },
+  "cap": {
+   "n": 13,
+   "avg_s": 10.2
+  },
+  "lost": {
+   "n": 1,
+   "avg_s": 4.3
+  },
+  "other": {
+   "n": 1,
+   "avg_s": 0.6
+  }
+ },
+ "fight_endings": {
+  "gone": {
+   "n": 53,
+   "avg_s": 2.8
+  },
+  "cap": {
+   "n": 13,
+   "avg_s": 10.2
+  },
+  "lost": {
+   "n": 1,
+   "avg_s": 4.3
+  },
+  "stopped": {
+   "n": 1,
+   "avg_s": 0.6
+  }
+ },
+ "chat_kill_lines": 0,
+ "kills_chat": 0,
+ "kills_corpse_only": 0,
+ "kills_total": 0,
+ "detections_per_min": 119.8,
+ "avg_ms": {
+  "detect_ms": 92.5,
+  "probe_ms": 3.5,
+  "idle_gap_sec": 126.2
+ }
+}

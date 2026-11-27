@@ -360,7 +360,7 @@ class FakeTg:
         s.probe_ok=True; s.probed=[]; s.last_monsters=[]
     def pop_kills(s):  # PLAN 0.27: a kill line shows on the kill_at-th call (s.lines lines: a splash kill)
         s.pops+=1; return [(time.time(),'오염된 오크 전사')]*s.lines if s.pops==s.kill_at else []
-    def closer_than(s,anchor,char): return s.closer
+    def closer_than(s,anchor,char,hurt=False): return s.closer
     def probe(s,points,rect):  # PLAN 0.32: the switch candidate is hover-confirmed; s.probe_ok says what it saw
         s.probed=list(points); return Target(*points[0],*points[0]) if s.probe_ok else None
     def route(s,xy): return None,None
@@ -592,7 +592,8 @@ sc.state['mp']=80; assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0]=='F5'
 f5.cooldown=5.0; cf._slot_used['F5']=now
 assert cf._pick_skill(['F5'],sc.rect(),20.0,now+1)[0] is None
 assert cf._pick_skill(['F5'],sc.rect(),20.0,now+6)[0]=='F5'
-assert cf._skipped=={'out_of_range':1,'low_mp':1}, cf._skipped
+# PLAN 0.44: the cooldown skip is counted too, so a record can never be silent about a missing spell
+assert cf._skipped=={'out_of_range':1,'low_mp':1,'cooldown':1}, cf._skipped
 f5.cooldown=0.0; f5.min_mp=0; cf._slot_used={}; cf._skipped={}; sc.state['mp']=cb.HEAL_MP_RESERVE-1
 assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0] is None and cf._skipped=={'heal_reserve':1}  # heal keeps MP
 sc.account.health.use_skill=False; assert cf._pick_skill(['F5'],sc.rect(),20.0,now)[0]=='F5'
@@ -747,6 +748,12 @@ tfk.clock=lambda: 1.1; assert not tfk.is_blocked((660,380))
 tfk.clock=lambda: 0.0; tfk.block((940,380))
 tfk.clock=lambda: 2.0; assert tfk.is_blocked((940,380))          # far: BLOCK_TTL_LOCAL unchanged
 tfk.clock=lambda: 9.0; assert not tfk.is_blocked((940,380))
+# PLAN 0.43: switch to a monster within NEAR_KEEP (was MELEE_DIST 70), and to anything that close while hit
+tfk.last_monsters=[(730,380)]
+assert tfk.closer_than((1040,380),(640,380))==(730,380)              # 90 px vs a lock 400 px away
+assert tfk.closer_than((790,380),(640,380)) is None                  # not much closer than the lock
+assert tfk.closer_than((790,380),(640,380),hurt=True)==(730,380)     # HP falling: fight what is next to us
+assert tfk.closer_than((1040,380),(400,380)) is None                 # 240 px away: too far to switch
 print('0.43: monster tracks survive 3 missed scans OK')
 
 # PLAN 0.39: walks avoid ground left 8-90 s ago; HP falling + a box next to us = hit back; idle gaps are measured

@@ -552,13 +552,17 @@ class TargetingFeature(Feature):
         screen_x, screen_y = rect.to_screen(tx, ty)
         return Target(tx, ty, screen_x, screen_y)
 
-    def closer_than(self, anchor, char):
-        """PLAN 0.31: a monster of the last detection next to the character (inside MELEE_DIST) and under
-        SWITCH_SHARE of the lock's distance -> its point, else None. The lock's own box does not count."""
+    def closer_than(self, anchor, char, hurt=False):
+        """PLAN 0.31 / 0.43: a monster of the last detection within NEAR_KEEP of the character and under
+        SWITCH_SHARE of the lock's distance -> its point, else None. The lock's own box does not count.
+
+        PLAN 0.43: the reach was MELEE_DIST (70 px), so a monster at ~100 px was ignored while the bot walked to
+        one 300 px away - 11 of 21 such frames in 090350 + 225217 (tests/test_near_miss.py). ``hurt`` (HP falling:
+        something is hitting us) fights anything that close, whatever the lock's distance."""
         lock_d = math.hypot(anchor[0] - char[0], anchor[1] - char[1])
         for x, y in self.last_monsters:  # nearest first
             d = math.hypot(x - char[0], y - char[1])
-            if d > MELEE_DIST or d >= SWITCH_SHARE * lock_d:
+            if d > NEAR_KEEP or (not hurt and d >= SWITCH_SHARE * lock_d):
                 return None
             if self._recent_miss((x, y)):
                 continue  # PLAN 0.32: hovering it already said "no monster" (own sprite / pet): no switch

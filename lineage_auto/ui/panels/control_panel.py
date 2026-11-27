@@ -91,6 +91,12 @@ class ControlPanel(Panel):
             empty = self.tab.session.ctx.state.get("potion_empty") if running else None
             if empty:  # PLAN 1.4b
                 warnings.append(self.t("warn_potion_empty", slots=", ".join(empty)))
+            # PLAN 0.44: a caster standing still with no attack spell cannot do anything (20261127_101929:
+            # 68 fights, 0 spells). Warn before the hunt, not only in the log.
+            if self.account.scan.hunt_range == 1 and not any(
+                    self.account.attack(k).enabled and self.account.attack(k).skill_id
+                    for k in self.account.attack_skills):
+                warnings.append(self.t("warn_in_place_no_skill"))
             # PLAN 0.34: without the aiming cursor the bot cannot tell an armed spell from a dead key press.
             if self.account.cast_order != "click_key" and any(
                     self.account.attack(k).enabled for k in self.account.attack_skills

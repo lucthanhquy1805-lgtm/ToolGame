@@ -27,7 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
-from .targeting import IN_PLACE_RANGE
+from .targeting import IN_PLACE_RANGE, IN_PLACE_SHOT_PX, MELEE_DIST
 
 CLICK_SETTLE = 0.05
 DIRECTION_STEP = 2
@@ -41,6 +41,11 @@ VISIT_R = 6.0  # minimap px around a visited spot
 LOOK = (8, 16, 24)  # minimap px sampled along a direction for frontier
 MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.hunt_range when set)
 IN_PLACE_DRIFT = 3  # PLAN 1.2c: steps a "stay put" character may be pushed off its spot before walking back
+# PLAN 0.44: 20261127_101929_hunt walked "home" 113 times, alternating N and S, while the odometry reading of
+# the distance to the start wandered between 3.3 and 7 steps - that was noise, not the character moving. So a
+# dead zone of 2 walk clicks before the first step home, and then keep going until nearly home (hysteresis).
+GO_HOME_START = 4  # steps (2 walk clicks)
+GO_HOME_STOP = 1
 WALK_PX = 160  # client px of one walk click
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
 # PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
@@ -118,6 +123,7 @@ class ExplorationFeature(Feature):
         self._start = None
         self._epoch = None
         self._keep = None  # (direction index, until) of the minimap walk being held (PLAN 0.39)
+        self._homing = False  # PLAN 0.44: walking back to the start, until nearly there
 
     def on_stop(self):
         self.on_start()
@@ -220,6 +226,14 @@ class ExplorationFeature(Feature):
         return (walk_point(char[0], char[1], rect.w, rect.h, idx, walk_px), NAMES[idx], "minimap",
                 f"{NAMES[idx]} score={score:.2f} {parts}")
 
+    def _monster_in_reach(self):
+        """PLAN 0.44: a monster of the last detection close enough to shoot / hit from where we stand."""
+        tg = self.targeting
+        if tg is None or tg.char is None:
+            return False
+        reach = IN_PLACE_SHOT_PX if tg.ranged() else MELEE_DIST
+        return any(math.hypot(x - tg.char[0], y - tg.char[1]) <= reach for x, y in (tg.last_monsters or ()))
+
     def _home_walk(self, rect, char):
         """PLAN 1.2: one walk back toward the hunt start, or None when the way there is not known."""
         tg = self.targeting
@@ -239,13 +253,25 @@ class ExplorationFeature(Feature):
         tg = self.targeting
         steps = self.ctx.account.scan.hunt_range
         away = tg.steps_from_home() if tg is not None else None
-        if steps == IN_PLACE_RANGE and (away is None or away <= IN_PLACE_DRIFT):
+        if steps == IN_PLACE_RANGE:
             # PLAN 1.2 "stay put": no walk at all, the loop keeps scanning for monsters that come to us.
             # PLAN 1.2c: without the minimap too (no position: standing still is the only safe choice).
-            self.ctx.sleep(CLICK_SETTLE)
-            return
-        limit = IN_PLACE_DRIFT if steps == IN_PLACE_RANGE else steps  # pushed off the spot: walk back
-        home = self._home_walk(rect, char) if steps and away is not None and away > limit else None
+            # PLAN 0.44: and never a step home while a monster stands in reach - shoot it first.
+            if away is None or self._monster_in_reach():
+                self._homing = False
+            elif self._homing:
+                self._homing = away > GO_HOME_STOP
+            else:
+                self._homing = away > GO_HOME_START
+            if not self._homing:
+                self.ctx.sleep(CLICK_SETTLE)
+                return
+            home = self._home_walk(rect, char)
+            if home is None:
+                self.ctx.sleep(CLICK_SETTLE)  # "stay put" never wanders blindly, not even to get home
+                return
+        else:
+            home = self._home_walk(rect, char) if steps and away is not None and away > steps else None
         smart = None if home is not None else self._smart(rect, char)
         if home is not None:
             (wx, wy), name, why, reason = home
