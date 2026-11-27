@@ -122,8 +122,14 @@ class HealthFeature(Feature):
             if drop >= DANGER_DROP_PCT or mobs >= DANGER_MOBS:
                 if now >= self._danger_until:
                     self.log(f"danger: {hp}% hp (-{drop}% in {DANGER_WINDOW:.0f}s), {mobs} monsters next to us")
+                    # PLAN 0.47: one event per episode (191624 wrote 11 "danger" fight endings for one burst)
+                    rec = getattr(self.ctx, "recorder", None)
+                    if rec is not None:
+                        rec.event("danger", hp=hp, drop=drop, mobs=mobs)
                 self._danger_until = now + DANGER_HOLD
         self.danger = now < self._danger_until
+        # PLAN 0.47: the detector runs its near crop at once while we are being hit
+        self.ctx.state["hp_falling"] = self.danger or self.hp_falling()
         return self.danger
 
     def _emergency(self, rect, hp):

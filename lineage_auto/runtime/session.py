@@ -594,6 +594,11 @@ class AccountSession:
                             break
 
                         self.buff.tick(rect)
+                        if getattr(self.health, "danger", False):
+                            # PLAN 0.47: health heals / steps back while the flag holds (DANGER_HOLD); a fight
+                            # opened now would end 0.1 s later as "danger" again (191624: 11 for one burst).
+                            self.ctx.sleep(IDLE_PAUSE)
+                            continue
                         falling = self._hp_falling()
                         target = self.targeting.rehover_last(rect)
                         if target is None:

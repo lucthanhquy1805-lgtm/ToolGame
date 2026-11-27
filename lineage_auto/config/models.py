@@ -209,8 +209,11 @@ class HealthSettings:
         )
 
 
-MAX_PROBE_POINTS = 2
+MAX_PROBE_POINTS = 6  # PLAN 0.47: was 2 since v14 and silently cut a typed 5 back to 2
 INPUT_SIZES = (320, 416, 640)
+# PLAN 1.9: steps. A bow reaches ~80 % of the screen (10-25 steps, user 27/11); 25 steps cover 98 % of the play
+# area (vision/drift: |dx|/40 + |dy|/20 from the character at 1280x960, minimap / HUD / icon column left out).
+ATTACK_RANGE_MAX = 25
 HUNT_RANGES = (0, 1, 3, 5, 10, 15, 20, 30)  # PLAN 1.2: hunt range in steps; 0 = no limit, 1 = stay put
 
 
@@ -225,7 +228,7 @@ class ScanSettings:
     """Target scan tuning (PLAN 0.1). Timings in seconds."""
 
     misses_before_wander: int = 2
-    max_probe_points: int = 2  # PLAN 0.31: hover-confirm only the 1-2 nearest boxes (MAX_PROBE_POINTS)
+    max_probe_points: int = 2  # PLAN 0.31: hover-confirm only the nearest boxes (up to MAX_PROBE_POINTS)
     hover_settle: float = 0.04
     hover_retry: float = 0.04
     hover_reads: int = 4
@@ -263,6 +266,12 @@ class ScanSettings:
     # PLAN 1.2: minimap px of one step, measured with the Hunt tab button; 0 = minimap.STEP_MM.
     # (v21rc1 saved client px under "step_px": that key is no longer read.)
     step_mm: float = 0.0
+    # PLAN 1.9: hand attack first for every class. attack_range = steps (game cells) the character hits from
+    # without walking (0 = the class default: ATTACK_RANGE_DEFAULT), set by the Hunt tab's "measure attack
+    # range" button. Spells only with MP >= spell_min_mp_pct, in danger / a crowd, or on a monster outside
+    # the hand reach (combat._spell_why).
+    attack_range: int = 0
+    spell_min_mp_pct: int = 70
 
     @staticmethod
     def _detect_v15(data):
@@ -303,6 +312,8 @@ class ScanSettings:
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
             pull_mode=bool(data.get("pull_mode", True)),
             step_mm=_step_mm(data.get("step_mm", 0.0)),
+            attack_range=min(ATTACK_RANGE_MAX, max(0, int(data.get("attack_range", 0)))),
+            spell_min_mp_pct=min(100, max(0, int(data.get("spell_min_mp_pct", 70)))),
             **cls._detect_v15(data),
         )
 

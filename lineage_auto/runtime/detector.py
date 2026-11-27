@@ -28,6 +28,15 @@ FPS_FLOOR = {"search": 2, "fight": 1}
 # PLAN 0.43: a fight must still see the WHOLE screen at least this often, whatever the rate has fallen to
 # (seq % 2 gave ~1/s at 2/s, but nothing at all once the CPU guard dropped a fight to 1/s).
 FULL_EVERY = 1.0
+# PLAN 0.47: the near crop cost 78-87 ms on the game PC (not the 20 ms of the laptop) and ran on EVERY detect:
+# search 87 -> 195 ms, fight 98 -> 183 ms, process CPU 50 -> 67 % (20261127_191624_hunt). It now runs only in a
+# fight, at most once per NEAR_EVERY_SEC (~+20 ms on average at 2/s), and at once - searching included - while
+# health says HP is falling (ctx.state["hp_falling"]): that is when a monster next to us has no box.
+NEAR_EVERY_SEC = 2.0
+
+
+def _bucket():
+    return {"n": 0, "ms": 0.0, "boxes": 0, "near_n": 0, "near_ms": 0.0, "near_boxes": 0}
 
 
 @dataclass(frozen=True)
@@ -87,6 +96,7 @@ class DetectorThread:
         self._errors_t = 0.0
         self._stepped = False  # the automatic step down is tried once, at the first log line
         self._full_t = 0.0  # when the last WHOLE-screen detect ran (PLAN 0.43)
+        self._near_t = float("-inf")  # when the near crop last ran (PLAN 0.47)
 
     def describe(self):
         fight = f" fight {self.fight_size}+roi, full frame every {FULL_EVERY:.0f}s" if self.adaptive else ""
@@ -112,6 +122,16 @@ class DetectorThread:
             return self.fight_size, True, self.threads["fight"], "fight"
         self._full_t = now
         return self.size, self.roi, self.threads["fight"], "fight"
+
+    def near_due(self, mode, now=None):
+        """PLAN 0.47: run the near crop on this detect? In a fight every NEAR_EVERY_SEC; HP falling = now."""
+        if not self.near:
+            return False
+        now = time.monotonic() if now is None else now
+        if self.ctx.state.get("hp_falling") or (mode == "fight" and now - self._near_t >= NEAR_EVERY_SEC):
+            self._near_t = now
+            return True
+        return False
 
     def period(self, mode):
         return 1.0 / self.fps[mode]
@@ -159,7 +179,7 @@ class DetectorThread:
     def _run(self):
         ctx = self.ctx
         seq = 0
-        stats = {mode: {"n": 0, "ms": 0.0, "boxes": 0, "near_ms": 0.0, "near_boxes": 0} for mode in FPS_FLOOR}
+        stats = {mode: _bucket() for mode in FPS_FLOOR}
         log_t = time.monotonic() - LOG_EVERY + FIRST_LOG  # first line soon after the start, then every minute
         cpu_t = time.process_time()  # whole-process CPU seconds: no psutil needed for the bot's CPU %
         try:
@@ -178,7 +198,7 @@ class DetectorThread:
                     # PLAN 0.46 B2.1: second pass on the native-resolution crop around the character, on the
                     # SAME frame (no extra grab). Its ms are counted into this mode so the CPU guard sees them.
                     near, near_ms = (), 0.0
-                    if self.near:
+                    if self.near_due(mode):
                         t1 = time.perf_counter()
                         near = tuple(yolox_mobs.detect_near(frame, char[0], char[1], conf=self.near_conf,
                                                             map_key=self.map_key, threads=threads))
@@ -199,12 +219,14 @@ class DetectorThread:
                     rec.count("detections")
                     rec.timing("detect_ms", ms)
                 bucket = stats[mode]
-                # PLAN 0.46 B2.1: the near crop's ms go into this mode's total, so the CPU guard
-                # (_slow_down / CPU_SHARE) sees the real cost and can still drop the rate.
-                bucket["n"], bucket["ms"], bucket["boxes"] = bucket["n"] + 1, bucket["ms"] + ms + near_ms, \
+                # PLAN 0.47: "ms" is the full detect alone again; the near crop is counted apart (runs, ms,
+                # boxes) and both go into the CPU guard (_slow_down / CPU_SHARE).
+                bucket["n"], bucket["ms"], bucket["boxes"] = bucket["n"] + 1, bucket["ms"] + ms, \
                     bucket["boxes"] + len(hits)
-                bucket["near_ms"] += near_ms
-                bucket["near_boxes"] += len(near)
+                if near_ms:
+                    bucket["near_n"] += 1
+                    bucket["near_ms"] += near_ms
+                    bucket["near_boxes"] += len(near)
                 now = time.monotonic()
                 if now - log_t >= LOG_EVERY:
                     # PLAN 0.33/0.34: one line a minute per mode (searching vs fighting) with the rate really
@@ -220,18 +242,22 @@ class DetectorThread:
                             continue
                         avg_ms, real_fps = b["ms"] / b["n"], b["n"] / window
                         per_frame = b["boxes"] / b["n"]
-                        duty = self._slow_down(name, avg_ms, real_fps)
-                        near_avg = b["near_ms"] / b["n"]
-                        near_per_frame = b["near_boxes"] / b["n"]
-                        near_part = f" (+near {near_avg:.0f} ms {near_per_frame:.2f} boxes)" if self.near else ""
+                        # the guard sees full + near per detect: what this mode really costs a core
+                        duty = self._slow_down(name, (b["ms"] + b["near_ms"]) / b["n"], real_fps)
+                        near_avg = b["near_ms"] / b["near_n"] if b["near_n"] else 0.0
+                        near_per_frame = b["near_boxes"] / b["near_n"] if b["near_n"] else 0.0
+                        near_part = (f" (+near {b['near_n']}x {near_avg:.0f} ms {near_per_frame:.2f} boxes)"
+                                     if self.near else "")
                         parts.append(f"{name} {avg_ms:.0f} ms {real_fps:.1f}/s {duty * 100:.0f}%core "
                                      f"{per_frame:.2f} boxes{near_part}")
                         data[name] = {"ms": round(avg_ms), "fps": round(real_fps, 2), "duty": round(duty, 2),
                                       "boxes_per_frame": round(per_frame, 2), "threads": self.threads[name],
                                       "max_fps": self.fps[name],
-                                      # PLAN 0.46: measured on the game PC after the build
-                                      "near_ms": round(near_avg, 1),
-                                      "near_boxes_per_frame": round(near_per_frame, 2)}
+                                      # PLAN 0.47: near_ms / boxes per crop that RAN, near_runs how many;
+                                      # ms_total = (full + near) averaged over every detect of this mode
+                                      "near_runs": b["near_n"], "near_ms": round(near_avg, 1),
+                                      "near_boxes_per_frame": round(near_per_frame, 2),
+                                      "ms_total": round((b["ms"] + b["near_ms"]) / b["n"])}
                     ctx.log(f"[detect] {self.describe()}: " + " | ".join(parts) + f" | process cpu {cpu_pct:.0f}%")
                     if stats["search"]["n"]:
                         self._step_down(stats["search"]["ms"] / stats["search"]["n"])
@@ -239,8 +265,7 @@ class DetectorThread:
                         rec.event("detect_stats", cpu_pct=round(cpu_pct), size=self.size,
                                   fight_size=self.fight_size,
                                   near_size=yolox_mobs.NEAR_SIZE if self.near else 0, **data)
-                    stats = {mode_: {"n": 0, "ms": 0.0, "boxes": 0, "near_ms": 0.0, "near_boxes": 0}
-                             for mode_ in FPS_FLOOR}
+                    stats = {mode_: _bucket() for mode_ in FPS_FLOOR}
                     log_t, cpu_t = now, cpu_now
                 rest = self.period(mode) - (time.perf_counter() - start)
                 if rest > 0:

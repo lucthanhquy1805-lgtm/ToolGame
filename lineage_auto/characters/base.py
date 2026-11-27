@@ -78,6 +78,8 @@ class CharacterClass:
     # Upper bound of attack beats before the lock is dropped.
     max_attack_bursts: int = V1_MAX_ATTACK_BURSTS
     skills: tuple = field(default_factory=tuple)
+    # PLAN 1.9: steps this class hits from by hand without walking (scan.attack_range 0 = this). 1 = next to it.
+    attack_range: int = 1
 
     # Fields that change what the bot does (as opposed to how it is labelled).
     BEHAVIOUR_FIELDS = ("attack_cursor_label", "skill_interval", "max_attack_bursts", "skills")

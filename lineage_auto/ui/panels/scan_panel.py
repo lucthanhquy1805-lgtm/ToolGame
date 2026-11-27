@@ -6,7 +6,8 @@ import tkinter as tk
 from tkinter import ttk
 
 from ... import hunt_maps
-from ...config.models import HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS
+from ...config.models import ATTACK_RANGE_MAX, HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS
+from ...features import range_probe
 from ...vision import minimap
 from .base import Panel
 
@@ -17,6 +18,8 @@ FIELDS = (
     ("max_probe_points", "scan_points", 1, MAX_PROBE_POINTS, 1, 1),
     ("hunt_range", "scan_range", 0, HUNT_RANGES[-1], HUNT_RANGES, 1),  # PLAN 1.2
     ("pull_mode", "scan_pull", 0, 1, 1, 1),  # PLAN 1.7
+    ("attack_range", "scan_attack_range", 1, ATTACK_RANGE_MAX, 1, 1),  # PLAN 1.9: 0 saved = the class default
+    ("spell_min_mp_pct", "scan_spell_mp", 0, 100, 5, 1),  # PLAN 1.9
     ("miss_ttl", "scan_miss_ttl", 0, 30, 1, 1),
     ("hover_settle", "scan_settle_ms", 0, 300, 10, 1000),
     ("hover_retry", "scan_retry_ms", 0, 300, 10, 1000),
@@ -34,7 +37,8 @@ FIELDS = (
 
 
 # Shown at once; the rest (timings, threshold) sits in the collapsed "Advanced" box (UI v7).
-BASIC = ("misses_before_wander", "max_probe_points", "hunt_range", "pull_mode")
+BASIC = ("misses_before_wander", "max_probe_points", "hunt_range", "pull_mode", "attack_range",
+         "spell_min_mp_pct")
 
 # PLAN 1.2 step calibration: the player walks this many steps between the two presses while the tool
 # follows the minimap. Auto-walking cannot do it: a walk click is given in px, which is what we measure.
@@ -61,6 +65,14 @@ class ScanPanel(Panel):
         self.btn_step.pack(side="left")
         self.lbl_step = ttk.Label(step, text="")
         self.lbl_step.pack(side="left", padx=6)
+        # PLAN 1.9: measure the hand attack reach on live monsters
+        self._range_stop = None
+        reach = ttk.Frame(self.frame)
+        reach.pack(fill="x", pady=(2, 0))
+        self.btn_range = ttk.Button(reach, text="", command=self.toggle_range)
+        self.btn_range.pack(side="left")
+        self.lbl_range = ttk.Label(reach, text="")
+        self.lbl_range.pack(side="left", padx=6)
         self.btn_adv = ttk.Button(self.frame, text="", command=self.toggle_advanced)
         self.btn_adv.pack(anchor="w", pady=(4, 0))
         self.advanced = ttk.Frame(self.frame)
@@ -154,6 +166,40 @@ class ScanPanel(Panel):
         print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps = {px:.1f} minimap px per step, "
               f"saved to the config")
 
+    def toggle_range(self):
+        """PLAN 1.9: start the attack range measurement (features/range_probe), or cancel it."""
+        if self._range_stop is not None:
+            self._range_stop.set()
+            return
+        if self.tab.session.running or not self.tab.session.window.attached:
+            self.lbl_range.config(text=self.t("warn_window"))
+            return
+        self._range_stop = threading.Event()
+        self.lbl_range.config(text=self.t("range_measuring"))
+        threading.Thread(target=self._range_run, args=(self._range_stop,), daemon=True).start()
+
+    def _range_run(self, stop):
+        ctx = self.tab.session.ctx
+        try:
+            ctx.window.activate()
+            steps, why, rows = range_probe.measure(ctx, stop)
+        except Exception as exc:
+            steps, why, rows = None, f"error {exc}", []
+        finally:
+            ctx.input.release_all()
+        print(f"[RANGE] result {steps} ({why}) {rows}")
+        self.frame.after(0, self._range_done, steps, why)
+
+    def _range_done(self, steps, why):
+        self._range_stop = None
+        if steps is None:
+            self.lbl_range.config(text=self.t("range_fail", why=why))
+            return
+        self.account.scan.attack_range = steps
+        self.vars["attack_range"].set(steps)
+        self.tab.request_save()
+        self.lbl_range.config(text=self.t("range_value", steps=steps))
+
     def toggle_advanced(self):
         self._adv_open = not self._adv_open
         if self._adv_open:
@@ -166,6 +212,8 @@ class ScanPanel(Panel):
         scan = self.account.scan
         for name, _key, _lo, _hi, _step, scale in FIELDS:
             value = scan.conf_for(self.account.hunt_map) if name == "detect_conf" else getattr(scan, name)
+            if name == "attack_range":
+                value = value or self.account.character.attack_range  # PLAN 1.9: what the bot will use
             self.vars[name].set(int(round(value * scale)))
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
             self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
@@ -185,6 +233,8 @@ class ScanPanel(Panel):
                 if value == scan.conf_for(self.account.hunt_map):
                     continue  # untouched: keep following the zone's threshold
                 scan.conf_map = self.account.hunt_map  # PLAN 0.27: typed for this hunting ground only
+            if name == "attack_range" and not scan.attack_range and value == self.account.character.attack_range:
+                continue  # PLAN 1.9: untouched class default stays 0, so a class change still follows it
             setattr(scan, name, value)
 
     def apply_language(self):
@@ -197,11 +247,13 @@ class ScanPanel(Panel):
             self.lbl_step.config(
                 text=self.t("step_value", px=f"{self.account.scan.step_mm or minimap.STEP_MM:.1f}"))
         self.btn_adv.config(text=("▾ " if self._adv_open else "▸ ") + self.t("scan_advanced"))
+        self.btn_range.config(text=self.t("range_measure"))
 
     def set_busy(self, running):
         for spin in self.spins:
             spin.config(state="disabled" if running else "normal")
         self.btn_step.config(state="disabled" if running else "normal")
+        self.btn_range.config(state="disabled" if running else "normal")
         if running:
             self.combo_model.config(state="disabled")
         else:

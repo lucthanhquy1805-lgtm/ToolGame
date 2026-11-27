@@ -1,0 +1,722 @@
+{
+ "_doc": "auto labels from cursor checks; finish the todo frames with tests/label_tool.py",
+ "images": {
+  "f_00001.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00002.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00003.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00004.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00005.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00006.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00007.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00008.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00009.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00010.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00011.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00012.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00013.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00014.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00015.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00016.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00017.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00018.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00019.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00020.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00021.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00022.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00023.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00024.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00025.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00026.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00027.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00028.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00029.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00030.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00031.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00032.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00033.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00034.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00035.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00036.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00037.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00038.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00039.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00040.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00041.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00042.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00043.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00044.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [
+    [
+     602,
+     499
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00045.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [
+    [
+     609,
+     345
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00046.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [
+    [
+     582,
+     302
+    ]
+   ],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00047.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00048.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00049.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00050.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00051.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00052.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00053.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00054.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00055.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00056.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00057.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00058.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00059.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00060.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00061.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00062.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00063.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00064.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00065.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00066.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00067.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00068.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00069.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00070.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00071.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00072.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00073.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00074.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00075.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00076.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00077.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  },
+  "f_00078.jpg": {
+   "night": false,
+   "map": "blessed_orc",
+   "monster": [],
+   "monster_names": [],
+   "boxes": [],
+   "ignore": [],
+   "todo": true
+  }
+ }
+}

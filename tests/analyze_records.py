@@ -370,6 +370,14 @@ def time_report(summary, events):
                 print(f"  {mode:6s} {m('ms'):.0f} ms, {m('fps'):.1f}/s, {m('duty'):.0%} of a core, "
                       f"{m('boxes_per_frame'):.2f} boxes/frame "
                       f"({rows[-1].get('threads')} threads, cap {rows[-1].get('max_fps')}/s)")
+                if any("near_ms" in r for r in rows):
+                    # PLAN 0.46/0.47: v21rc6 put full+near into "ms" (no near_runs key); later builds keep ms = full
+                    rc6 = not any("near_runs" in r for r in rows)
+                    full = m("ms") - m("near_ms") if rc6 else m("ms")
+                    total = m("ms") if rc6 else m("ms_total")
+                    runs = "every detect" if rc6 else f"{m('near_runs'):.0f} runs/min"
+                    print(f"         near crop {m('near_ms'):.0f} ms, {m('near_boxes_per_frame'):.2f} boxes ({runs}); "
+                          f"full {full:.0f} ms, full+near {total:.0f} ms per detect")
         else:  # v16 before the split
             print(f"detector load ({len(load)} min): cpu {avg('cpu_pct'):.0f}% of a core, {avg('fps'):.1f}/s real, "
                   f"{avg('ms'):.0f} ms, {avg('boxes_per_frame'):.2f} boxes/frame, duty {avg('duty'):.0%} "
@@ -379,6 +387,11 @@ def time_report(summary, events):
     fired = [e for e in spells if e.get("ok", True)]
     missed = Counter(e.get("reason") for e in spells if not e.get("ok", True))  # PLAN 0.34
     minutes = max(1e-9, (summary.get("duration_sec") or 0) / 60.0)
+    hands = [e for e in events if e.get("kind") == "melee_attack"]  # PLAN 1.9: hand attack first
+    if hands or any(e.get("why") for e in fired):
+        why = Counter(e.get("why") for e in fired if e.get("why"))
+        walks = sum(e.get("kind") == "range_walk" for e in events)
+        print(f"hand attacks {len(hands)} : spells {len(fired)} (why {dict(why)}), range_walk {walks}")
     if spells:
         used = Counter(f"{e.get('page', 'F1')}+{e.get('key')}" for e in fired)
         # PLAN 0.39: spell_mp (read MP_SETTLE after the click); v19 read mp_after at once and it never moved

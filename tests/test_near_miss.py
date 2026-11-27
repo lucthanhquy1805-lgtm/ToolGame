@@ -18,6 +18,7 @@ Usage: python tests/test_near_miss.py [<record name or dir> ...]   (default: the
 """
 import os
 import sys
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +26,7 @@ import math  # noqa: E402
 from collections import Counter  # noqa: E402
 
 import cv2  # noqa: E402
-from test_hunt_records import CHAR, ROOT, Replay, read_jsonl  # noqa: E402
+from test_hunt_records import CHAR, ROOT, Replay, pin_fast_cores, read_jsonl  # noqa: E402
 
 NEAR_PX = 150  # "a monster at close range" in the report
 MATCH_PX = 48  # the same monster in two lists (targeting.TRACK_MATCH_PX)
@@ -136,6 +137,8 @@ def measure(rec):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    mask = pin_fast_cores()
+    print(f"cpu affinity: {'fast cores ' + hex(mask) if mask else 'unchanged'}", flush=True)
     names = sys.argv[1:] or list(RECORDS)
     for name in names:
         rec = name if os.path.isdir(name) else os.path.join(ROOT, "records_game", name)
@@ -143,7 +146,10 @@ def main():
         if not first or not os.path.exists(os.path.join(rec, first[0]["file"])):
             print(f"skipped: {rec} has no frames on this machine")
             continue
+        t0 = time.perf_counter()
+        print(f"-- {os.path.basename(rec)} ...", flush=True)  # progress: the test is alive
         measure(rec)
+        print(f"-- {os.path.basename(rec)} done in {time.perf_counter() - t0:.0f} s", flush=True)
     print("near miss measurement done")
 
 

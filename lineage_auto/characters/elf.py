@@ -17,4 +17,5 @@ ELF = CharacterClass(
     name_en="Elf",
     name_vi="Yêu Tinh",
     style=CombatStyle.HYBRID,
+    attack_range=15,  # PLAN 1.9: bow, ~80 % of the screen (10-25 steps)
 )

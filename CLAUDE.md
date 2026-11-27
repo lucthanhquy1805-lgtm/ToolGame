@@ -34,6 +34,9 @@ The dev machine has no game; the bot will run on a separate game PC.
 - UI: `python tests/test_ui.py`; preview pictures of every tab: `python tests/ui_screenshots.py` → docs/ui_v7/.
 - Monster catalogs / name reading / labels / export (PLAN 0.14-0.16): `python tests/test_monsters.py`.
   New zone or monster: `docs/ADD_NEW_MAP.md` (catalog `lineage_auto/data/monsters/<key>.json` + name pictures).
+- Long tests: run `tests/test_hunt_records.py` and `tests/test_near_miss.py` as two parallel processes with `python -u`;
+  both print `-- <record> ... done in N s` and pin themselves to the P-cores (`pin_fast_cores`, Windows hybrid CPUs:
+  a background process on the E-cores ran 2.6x slower, 27/11).
 - Real hunt replays (PLAN 0.27/0.28/0.31/0.32): `python tests/test_hunt_records.py` (engage/targeting/exploration on
   the saved frames of records_game/20261124_183803_hunt + 190646 + 223510 + 20261125_092741_hunt with a fake clock;
   a recording whose frames are not on this machine is skipped. Minimap reader on 183803 frames 511-654; the 54 s
@@ -67,7 +70,7 @@ The dev machine has no game; the bot will run on a separate game PC.
   `hotkeys.RemoteInputWatch` / ESC stop). Injected input while hunting with Interception = stop.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. The minimap is see-through: odometry
   correlates only the dark map marks (`minimap.odo_marks`, black-hat), `python tests/test_odometry.py` (PLAN 1.2b,
-  records_game/20261126_192615_observe: 2 walks of 5 clicks = 10 steps). Fight endings + unreachable: `features/combat.py`.
+  records_game/20261126_192615_observe: 2 walks of 5 clicks = 10 clicks = 20 steps). Fight endings + unreachable: `features/combat.py`.
 - Detect modes (PLAN 0.33): `python tests/eval_detect_modes.py [<record dir> ...]` — boxes/frame of the full 640
   frame against the adaptive mix, on the saved frames of real hunts. Run it before changing a detector default.
 - Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi] [--config X]` (recall / false
@@ -90,6 +93,14 @@ The dev machine has no game; the bot will run on a separate game PC.
   (2/s) and uses `scan.search_threads` (2, the full 640 frame needs them), a fight may fall to 1/s on
   `scan.detect_threads` (1). `yolox_mobs` caches sessions by (path, threads) because the count is baked in at
   build time. The log line and `detect_stats` carry one block per mode.
+  PLAN 0.47: the near crop (0.46, +80 ms on the game PC) runs only in a fight, at most every `NEAR_EVERY_SEC` 2 s,
+  and at once while `state["hp_falling"]` (survival). `ms` = full detect, `near_runs`/`near_ms`/`ms_total` apart.
+- Hand attack first (PLAN 1.9, `python tests/test_attack_range.py`): `scan.attack_range` steps (0 = class
+  `attack_range`: elf 15, others 1; UI 1-25; 1 = MELEE_DIST, more = isometric steps `vision/drift.screen_steps`, one step =
+  (20, 10) px at 1280), `scan.spell_min_mp_pct` 70. `combat._spell_why`: spells only for danger / a crowd / out of
+  hand reach / MP >= the threshold. A standing class (engage_ranged) holds on a monster in hand reach; the picture
+  drifting > 1 step (`vision/drift`) = it walked -> `range_walk`. Hunt tab "measure attack range" =
+  `features/range_probe.py`. Danger (0.47): no target is taken while the flag holds, one `danger` event per burst.
 - Attack spells (PLAN 1.6 / 0.33 / 0.34): every catalog skill with `role: "attack"` is auto-castable
   (`skills/policy.attack_skill_ids`); each slot carries `min_mp` / `range_px` / `cooldown`
   (`config.AttackSkillSetting`). The client arms a targeted spell when the cursor turns into an aiming ellipse,

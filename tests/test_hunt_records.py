@@ -22,6 +22,7 @@ Usage: python tests/test_hunt_records.py   (a recording that is not on this mach
 import json
 import os
 import sys
+import time
 import types
 from collections import Counter, defaultdict
 
@@ -53,6 +54,41 @@ class Clock:
 
     def sleep(self, dt):
         self.now += max(0.0, dt)
+
+
+def pin_fast_cores():
+    """Keep this test process on the fastest cores of a hybrid CPU (P-cores), or do nothing.
+
+    The PC's i5-14400F moved a background test onto its E-cores after 2-3 s: one 640 detect went 48 -> 125 ms
+    (1 thread 140 -> 370 ms) and test_hunt_records from ~10 to 50+ minutes (27/11). Windows only; any failure
+    leaves the affinity alone."""
+    try:
+        import ctypes
+        import struct
+
+        k = ctypes.windll.kernel32
+        n = ctypes.c_ulong(0)
+        k.GetSystemCpuSetInformation(None, 0, ctypes.byref(n), None, 0)
+        buf = ctypes.create_string_buffer(n.value)
+        if not k.GetSystemCpuSetInformation(buf, n, ctypes.byref(n), None, 0):
+            return None
+        raw, off, cpus = buf.raw, 0, []
+        while off < len(raw):
+            size, kind = struct.unpack_from("<II", raw, off)
+            if kind == 0 and struct.unpack_from("<H", raw, off + 12)[0] == 0:  # CpuSetInformation, group 0
+                lp, eff = raw[off + 14], raw[off + 18]  # LogicalProcessorIndex, EfficiencyClass
+                cpus.append((lp, eff))
+            off += size or len(raw)
+        best = max((e for _lp, e in cpus), default=0)
+        if not cpus or all(e == best for _lp, e in cpus):
+            return None  # not a hybrid CPU
+        mask = sum(1 << lp for lp, e in cpus if e == best)
+        k.GetCurrentProcess.restype = ctypes.c_void_p
+        if k.SetProcessAffinityMask(ctypes.c_void_p(k.GetCurrentProcess()), ctypes.c_size_t(mask)):
+            return mask
+    except Exception:
+        pass
+    return None
 
 
 def read_jsonl(path):
@@ -536,9 +572,10 @@ def check_walls_225217(rec):
 
 def check_in_place_101941(rec):
     """PLAN 1.7: a wizard with a hunt range stands on the spot (1.2c tied this to hunt_range == 1). The recorded attack hovers become
-    fights from where the character stands: no hold and no click except a spell's aimed click (the ellipse is
-    up), spells land on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee
-    class keeps only what stands next to it."""
+    fights from where the character stands: no click except a spell's aimed click (the ellipse is up), spells land
+    on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee class keeps only
+    what stands next to it. PLAN 1.9: a hold (hand attack) only on a monster inside the hand reach (MELEE_DIST for
+    a wizard: attack_range 1)."""
     import math
 
     from lineage_auto.characters.base import CombatStyle
@@ -564,13 +601,22 @@ def check_in_place_101941(rec):
             bad.append(("click without the ellipse", (x, y), round(r.clock.now, 1)))
         click(x, y)
 
+    holds = []
+
+    def checked_hold():
+        xy = r.mouse["xy"]
+        holds.append(xy)
+        if xy is None or math.hypot(xy[0] - CHAR[0], xy[1] - CHAR[1]) > r.tg.MELEE_DIST:
+            bad.append(("hold out of the hand reach", xy, round(r.clock.now, 1)))
+
     inp.click_at = checked_click
-    inp.hold_left = lambda: bad.append(("hold", round(r.clock.now, 1)))
+    inp.hold_left = checked_hold
     windows = r.fights()
     casts = [e for e in events if e["kind"] == "spell_cast" and e["ok"]]
     far = [e for e in casts if math.hypot(e["target"][0] - CHAR[0], e["target"][1] - CHAR[1]) > 2 * r.tg.MELEE_DIST]
     print(f"   stay put (wizard): {len(windows)} fights, {len(casts)} spells ({len(far)} beyond "
-          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks, {len(bad)} holds / clicks without the ellipse")
+          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks, {len(holds)} hand attacks (holds) in reach, "
+          f"{len(bad)} holds out of reach / clicks without the ellipse")
     assert not bad, bad[:5]
     assert len(far) >= 5, (len(far), len(casts))
     # Empty screens from the start spot: the wander stands still (a fresh replay: the odometry starts at home).
@@ -613,6 +659,8 @@ def check_in_place_101941(rec):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    mask = pin_fast_cores()
+    print(f"cpu affinity: {'fast cores ' + hex(mask) if mask else 'unchanged'}", flush=True)
     for name, check in (("20261124_183803_hunt", check_183803), ("20261124_190646_hunt", check_190646),
                         ("20261124_223510_hunt", check_223510), ("20261125_092741_hunt", check_092741),
                         ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
@@ -627,7 +675,10 @@ def main():
         if not first or not os.path.exists(os.path.join(rec, first[0]["file"])):
             print(f"skipped: {rec} has no frames on this machine")
             continue
+        t0 = time.perf_counter()
+        print(f"-- {check.__name__} ({name}) ...", flush=True)  # progress: the test is alive
         check(rec)
+        print(f"-- {check.__name__} done in {time.perf_counter() - t0:.0f} s", flush=True)
     print("hunt records replay OK")
 
 

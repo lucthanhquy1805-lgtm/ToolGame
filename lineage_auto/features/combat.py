@@ -12,6 +12,7 @@ import types
 
 from ..runtime.stats import bump, kill_name
 from ..skills.policy import is_auto_enabled
+from ..vision.drift import drift_steps
 from ..vision.geometry import blocking_figure, detour_point, park_point
 from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
@@ -107,6 +108,10 @@ HEAL_MP_RESERVE = 25
 CROWD_SPELL_N = 2
 CROWD_SPELL_PX = 200
 CROWD_MP_FLOOR = HEAL_MP_RESERVE
+# PLAN 1.9: a hand attack from where we stand checks the picture this often; moved more than RANGE_WALK_STEPS
+# (game steps, vision/drift) = the character walked to the monster -> out of the hand reach, stop (range_walk).
+DRIFT_CHECK_SEC = 0.8
+RANGE_WALK_STEPS = 1.0
 
 
 class CombatFeature(Feature):
@@ -135,6 +140,7 @@ class CombatFeature(Feature):
         self._skipped = {}  # why a slot was skipped, for the recording
         self._no_skill_said = False  # PLAN 0.44: the "no attack skill" warning is logged once
         self._mp_pending = None  # (time, key, mp_before) of the last cast, read again after MP_SETTLE
+        self._cast_why = None  # PLAN 1.9: why the spell of this beat was allowed (spell_cast "why")
 
     def active_skills(self):
         keys = []
@@ -174,14 +180,36 @@ class CombatFeature(Feature):
     def _mp_reserve(self):
         return HEAL_MP_RESERVE if self.account.health.use_skill else 0
 
-    def _pick_skill(self, skills, rect, dist, now):
-        """The next attack slot to fire -> (key or None, mp%). Rotates so several slots share the beats."""
-        need = self._mp_reserve() or any(self.account.attack(k).min_mp for k in skills)
+    def _spell_why(self, mp, in_reach):
+        """PLAN 1.9: the hand attack comes first, MP is short. A spell only when one of these holds -> its name,
+        else None: danger / a crowd next to us (DANGER_MOBS boxes within MELEE_DIST, every map), the monster out
+        of the hand reach (``in_reach`` False; None = the caller does not know -> allowed, the pre-1.9 rule), or MP
+        at least scan.spell_min_mp_pct (an unreadable MP does not block)."""
+        if self.health is not None and getattr(self.health, "danger", False):
+            return "danger"
+        if len(self.ctx.state.get("mobs_near") or ()) >= DANGER_MOBS:
+            return "crowd"
+        if not in_reach:
+            return "out_of_reach"
+        if mp is None:
+            return "mp_unread"
+        return "mp_high" if mp >= self.account.scan.spell_min_mp_pct else None
+
+    def _pick_skill(self, skills, rect, dist, now, in_reach=None):
+        """The next attack slot to fire -> (key or None, mp%). Rotates so several slots share the beats.
+        PLAN 1.9: a slot that is ready still waits while the hand attack is enough (``_spell_why``)."""
+        need = (self._mp_reserve() or any(self.account.attack(k).min_mp for k in skills)
+                or (in_reach and self.account.scan.spell_min_mp_pct))
         mp = self.ctx.read_mp(rect) if need else None
         turn = self._slot_turn % len(skills)
         for key in skills[turn:] + skills[:turn]:
             reason, ok = self._slot_ready(key, dist, now, mp)
             if ok:
+                why = self._spell_why(mp, in_reach)
+                if why is None:
+                    self._skipped["hand_first"] = self._skipped.get("hand_first", 0) + 1
+                    return None, mp
+                self._cast_why = why
                 self._slot_turn += 1
                 if reason == "crowd":  # PLAN 0.41: under the slot's min_mp, allowed by the crowd rule
                     self._skipped["crowd_cast"] = self._skipped.get("crowd_cast", 0) + 1
@@ -323,7 +351,8 @@ class CombatFeature(Feature):
         rec.event("spell_cast", ok=ok, reason=reason, key=key, page=setting.page, skill_id=setting.skill_id,
                   order=order, target=list(target.local) if target is not None else None,
                   mp_before=mp_before, aim_delay_s=aim_delay, cursor_before_key=before,
-                  cursor_after_key=reads, fight_sec=round(time.time() - self._fight_start, 1))
+                  cursor_after_key=reads, fight_sec=round(time.time() - self._fight_start, 1),
+                  why=self._cast_why)  # PLAN 1.9: mp_high / danger / crowd / out_of_reach / mp_unread
 
     def _check_mp_pending(self, rect):
         """PLAN 0.39: MP_SETTLE after a cast, read MP once more: what the spell really cost."""
@@ -432,7 +461,8 @@ class CombatFeature(Feature):
                       "no_spell": "no attack skill enabled, nothing to shoot with",
                       "ring_gone": "cursor ring target gone (no sword any more)",
                       "pulled": "pulled, walking back to the start",
-                      "pull_danger": "danger while pulling, walking back to the start"}
+                      "pull_danger": "danger while pulling, walking back to the start",
+                      "range_walk": "hand attack walked, out of the attack range"}
                      .get(outcome, outcome) + note)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -531,14 +561,27 @@ class CombatFeature(Feature):
         tg = self.targeting
         return getattr(tg, "in_place", None) is not None and tg.in_place() and tg.ranged()
 
+    def _grab(self, rect):
+        """A frame for the drift check, None when this context cannot grab (test doubles)."""
+        try:
+            return self.ctx.grabber.grab_bgr(rect)
+        except Exception:
+            return None
+
     def engage_ranged(self, target, rect, char, ring=False):
-        """PLAN 1.2c: shoot the lock from where we stand. No hold, no click on the monster: attack spells only
-        (the aiming ellipse is required); none ready (MP, cooldown) = wait. Ends on a kill line, the box gone,
-        the lock out of the hunt range (PLAN 1.7) or the fight cap."""
+        """PLAN 1.2c / 1.9: fight the lock from where we stand.
+
+        PLAN 1.9: a lock inside the hand reach (targeting.in_hand_reach: scan.attack_range steps) is attacked by
+        hand - hold + drag on it, like melee, the bow included - and spells only join when ``_spell_why`` allows
+        (MP >= scan.spell_min_mp_pct, danger, a crowd). Outside the hand reach only spells reach it (the aiming
+        ellipse is required); none ready = wait, never a click. A hand attack that makes the PICTURE move more
+        than RANGE_WALK_STEPS (the character walked: the monster was out of reach after all) is stopped at once,
+        the spot blacklisted, event ``range_walk``. Ends on a kill line, the box gone, the lock out of reach
+        (PLAN 1.7) or the fight cap."""
         self.last_outcome = None
         skills, interval = self.active_skills(), self.character.skill_interval
         anchor = target.local
-        if not skills:
+        if not skills and not self.targeting.in_hand_reach(anchor, char, rect):
             # PLAN 0.44: no enabled attack skill = a caster standing still can do NOTHING to this monster.
             # v21rc5 aimed in silence for the whole cap (20261127_101929_hunt: 68 fights, 0 spells, no record of
             # why). Say it once, hit by hand what is already next to us, and leave the rest alone.
@@ -551,6 +594,8 @@ class CombatFeature(Feature):
         self._spells, self._skipped = 0, {}
         last_skill = 0.0
         ring_t, ring_strikes = started, 0
+        hold = None  # PLAN 1.9: (time, frame) of the hand attack under way / of the last drift check
+        hand_said = False
         self.input.release_left()
         while self.ctx.running and time.time() - started < self.account.scan.melee_max_sec:
             poll_escape(self.ctx)
@@ -593,19 +638,50 @@ class CombatFeature(Feature):
             # PLAN 1.7: the lock left the hunt range (measured from the start) or is simply too far to aim at.
             if self.targeting.out_of_range(anchor, char):
                 return self._finish(target, "lost", anchor, f"out of range at {self._dist:.0f}px")
+            in_reach = self.targeting.in_hand_reach(anchor, char, rect)
+            if in_reach:
+                # PLAN 1.9: hand attack from where we stand
+                sx, sy = rect.to_screen(*anchor)
+                if hold is None:
+                    if not hand_said:
+                        hand_said = True
+                        self._event("melee_attack", dist=round(self._dist), target=list(anchor),
+                                    steps=self.targeting.attack_steps())
+                    self._hold_and_drag(sx, sy)
+                    hold = (now, self._grab(rect))
+                    self._melee = True
+                else:
+                    self.input.move(sx, sy)  # follow the box with the button held
+                    if now - hold[0] >= DRIFT_CHECK_SEC:
+                        frame = self._grab(rect)
+                        walked = drift_steps(hold[1], frame) if hold[1] is not None else None
+                        if walked is not None and walked > RANGE_WALK_STEPS:
+                            self.input.release_left()
+                            self.targeting.block(anchor)
+                            self._event("range_walk", dist=round(self._dist), drift_steps=round(walked, 1),
+                                        attack_range=self.targeting.attack_steps())
+                            return self._finish(target, "range_walk", anchor,
+                                                f"{walked:.1f} steps walked at {self._dist:.0f}px")
+                        hold = (now, frame)
+                if self.ctx.cursors.is_corpse(CursorProbe.current_hash()):
+                    return self._finish(target, "corpse_cursor", anchor)
+            elif hold is not None:
+                self.input.release_left()  # it walked out of the hand reach: never follow it
+                hold = None
             paused = now < self.ctx.state.get("skill_pause_until", 0.0)
             if paused:
                 self._skipped["paused"] = self._skipped.get("paused", 0) + 1
-            if paused or now - last_skill < interval:
+            if not skills or paused or now - last_skill < interval:
                 continue
-            key, mp = self._pick_skill(skills, rect, self._dist, now)
+            key, mp = self._pick_skill(skills, rect, self._dist, now, in_reach=in_reach)
             if key is None:
-                continue  # nothing castable now: stand and wait
+                continue  # nothing castable now (or the hand is enough): stand and wait / keep hitting
             last_skill = now
             if not self.ctx.can_cast(self.account.attack(key).skill_id, rect):
                 self._skipped["mp_empty"] = self._skipped.get("mp_empty", 0) + 1
                 continue
             anchor, _fired, _hold = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
+            hold = None  # the cast released the button; the next beat holds again when still in reach
             self._note_lock(anchor)
         return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
 
@@ -683,7 +759,10 @@ class CombatFeature(Feature):
         ``ring`` (PLAN 0.46 B2.3): the target came from the cursor ring, not from a box - the box rules are
         replaced by the cursor rule (see RING_CHECK_SEC)."""
         if self._shoot_only() and not force_melee:
-            return self.engage_ranged(target, rect, char, ring=ring)
+            try:
+                return self.engage_ranged(target, rect, char, ring=ring)
+            finally:
+                self.input.release_left()  # PLAN 1.9: it may hold the button for a hand attack
         self.last_outcome = None
         watch = DeathWatch()
         skills = self.active_skills()
@@ -791,6 +870,9 @@ class CombatFeature(Feature):
                 # PLAN 0.32: melee only while the box is in the newest detection; a stale anchor (own sprite, a pet)
                 # used to hold the fight for the whole melee cap.
                 melee = sword and dist <= MELEE_DIST and live
+                if melee and not melee_seen:  # PLAN 1.9: hand attacks against spells, per fight
+                    self._event("melee_attack", dist=round(dist), target=list(anchor),
+                                steps=getattr(self.targeting, "attack_steps", lambda: 1)())
                 melee_seen = melee_seen or melee
                 self._dist, self._melee = dist, melee
 
@@ -894,7 +976,9 @@ class CombatFeature(Feature):
                 now = time.time()
                 paused = now < self.ctx.state.get("skill_pause_until", 0.0)  # PLAN 0.29: "마법 사용: 실패"
                 if skills and not paused and now - last_skill >= interval:
-                    key, mp = self._pick_skill(skills, rect, self._dist, now)
+                    reach = (self.targeting.in_hand_reach(anchor, char, rect)
+                             if getattr(self.targeting, "in_hand_reach", None) is not None else None)
+                    key, mp = self._pick_skill(skills, rect, self._dist, now, in_reach=reach)
                     if key is not None:
                         last_skill = now
                         if self.ctx.can_cast(self.account.attack(key).skill_id, rect):

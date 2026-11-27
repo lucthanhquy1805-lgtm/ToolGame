@@ -310,7 +310,8 @@ def test_detect_stats_carries_crop_ms():
     src = open(os.path.join(ROOT, "lineage_auto", "runtime", "detector.py"), encoding="utf-8").read()
     check('"near_ms"' in src and "near_size=" in src,
           "detect_stats carries the near crop's real ms (measured on the game PC after the build)")
-    check('bucket["ms"] + ms + near_ms' in src, "the CPU guard counts the near crop's ms")
+    # PLAN 0.47: "ms" is the full detect again, the near crop is counted apart and still fed to the guard
+    check('self._slow_down(name, (b["ms"] + b["near_ms"]) / b["n"]' in src, "the CPU guard counts the near crop's ms")
 
 
 # ---------------------------------------------------------------- compare_models verdict

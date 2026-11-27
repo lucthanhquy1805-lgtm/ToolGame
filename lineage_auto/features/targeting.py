@@ -15,6 +15,7 @@ import cv2
 
 from .. import hunt_maps
 from ..characters.base import HOTKEYS, CombatStyle
+from ..vision.drift import screen_steps
 from ..vision.geometry import DEFENSE_RADIUS, play_max_radius
 from ..vision.motion_watch import roi_motion_score
 from ..vision import minimap, yolox_mobs
@@ -380,6 +381,25 @@ class TargetingFeature(Feature):
         """A class that hits from afar (wizard spells, elf bow) - everything but the melee classes."""
         return self.character.style != CombatStyle.MELEE
 
+    def attack_steps(self):
+        """PLAN 1.9: steps the character hits from by hand without walking (scan.attack_range, else the class)."""
+        return self.scan.attack_range or getattr(self.character, "attack_range", 1) or 1
+
+    def in_hand_reach(self, local, char=None, rect=None):
+        """PLAN 1.9: a hand attack (click / hold) on this point hits from where we stand.
+
+        One step = the melee rule (MELEE_DIST: an adjacent monster's box sits up to ~1.5 cells away on screen);
+        more = the bow, counted in game cells on the isometric screen (vision/drift.screen_steps) + half a cell
+        for where the box centre sits on the monster."""
+        char = char or self.char
+        if char is None:
+            return False
+        steps = self.attack_steps()
+        if steps <= 1:
+            return math.hypot(local[0] - char[0], local[1] - char[1]) <= MELEE_DIST
+        rect = rect or self.ctx.rect()
+        return screen_steps(local[0] - char[0], local[1] - char[1], rect.w) <= steps + 0.5
+
     def out_of_range(self, local, char=None):
         """Point the bot must not take as a target (False when nothing limits it).
 
@@ -391,7 +411,9 @@ class TargetingFeature(Feature):
         """
         char = char or self.char
         if self.in_place():
-            return char is not None and math.hypot(local[0] - char[0], local[1] - char[1]) > self.shot_reach()
+            # PLAN 1.9: in reach of the spells OR of the hand attack (a bow reaches farther than a spell's 350 px)
+            return (char is not None and math.hypot(local[0] - char[0], local[1] - char[1]) > self.shot_reach()
+                    and not self.in_hand_reach(local, char))
         steps = self.scan.hunt_range
         if not steps:
             return False

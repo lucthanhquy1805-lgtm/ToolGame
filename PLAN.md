@@ -1387,6 +1387,53 @@ Người dùng cần cả 4 việc: đi theo trưởng nhóm · đánh cùng m�
 - Thứ tự trước đó: v18 (orc_v2 + nhận elip nhiều biến thể) → duyệt nhãn orc tím + train orc_v3 (8 bản ghi records_game/spring_summer_autumn) → dữ liệu nhóm → 3.0.
 
 
+#### 3.0 CHỐT MÔ HÌNH NHÓM CỐ ĐỊNH (khách chốt 27/11 — thay e3 ở trên; 3.0-L/3.0-P KẾ HOẠCH, CHƯA CODE)
+Mỗi máy 1 bot, mỗi class một vai, ĐIỂM GỐC CHUNG = chỗ cả nhóm đứng (điểm bắt đầu săn, `ctx.state["home"]`).
+
+| Class | Vị trí | Việc chính | Việc phụ |
+|---|---|---|---|
+| Tiên (Elf) | đứng yên ở gốc | đánh thường bằng cung, quái trong `attack_range` (mặc định 9 ô) | phép theo luật 1.9 (MP >= `spell_min_mp_pct`, danger/vây, ngoài tầm cung) |
+| Hiệp sĩ | ở gốc | BẢO VỆ: chỉ đánh quái trong `guard_steps` (4) bước quanh gốc, không đuổi xa | khu vực sạch `lure_idle_sec` thì ĐI DỤ (3.0-L) |
+| Pháp sư | đứng yên ở gốc | HỒI MÁU NHÓM qua khung Party (3.0-P) | tự vệ: đánh thường/phép theo 1.9 khi không ai cần hồi |
+
+**THỨ TỰ LÀM** (mỗi bước test + build thử riêng):
+0. Sửa 0.47 của bản ghi 191624: crop gần (CPU), MAX_PROBE_POINTS, danger đếm lặp, analyze_records in near_ms.
+1. 1.9 đánh thường là chính (attack_range, spell_min_mp_pct, "Đo tầm đánh", range_walk, melee_attack) — CODE XONG 27/11.
+   Vai Tiên = 1.9 + hunt_range > 0 (đứng gốc), không cần code riêng.
+2. 3.0-L hiệp sĩ đi dụ 30 bước.
+3. 3.0-P pháp sư hồi máu nhóm — CHỈ KHI có ảnh khung Party trong records_game/party_ui/.
+
+**3.0-L HIỆP SĨ ĐI DỤ QUÁI** (dựng trên pull_mode của 1.7: PULL_HITS 2, đi về, chờ PULL_FOLLOW_SEC):
+- Cấu hình (tab Săn, chỉ hiện khi class = Knight): `lure` bật/tắt (mặc định TẮT), `guard_steps` (mặc định 4),
+  `lure_idle_sec` (mặc định 8, cho phép 5–10+), `lure_steps` (mặc định 30).
+- Ở GỐC (bảo vệ tiên/pháp sư, người dùng 27/11): hiệp sĩ chỉ nhận quái trong `guard_steps` bước quanh gốc (đo từ gốc như
+  out_of_range của 1.7, không phải từ nhân vật) và không đuổi quá đó. `lure_steps` 30 CHỈ áp dụng trong chuyến dụ.
+- Kích hoạt chuyến dụ: đang ở gốc (steps_from_home <= GO_HOME_STOP), KHÔNG có box nào trong tầm phát hiện suốt
+  `lure_idle_sec`, HP >= 70%, không danger. Chuyến kế chỉ đi khi khu vực lại sạch đủ `lure_idle_sec` sau khi về.
+- Đi: hướng = 8 hướng xoay vòng (N, NE, E, ... mỗi chuyến +1; hướng bị rào trên minimap thì bỏ qua sang hướng kế); mỗi click
+  đi WALK_PX theo hướng đó. ĐẾM BƯỚC = CỘNG DỒN CLICK (1 click = 2 bước, như ctx.note_walk của 1.7); ĐƯỜNG VỀ = đi
+  NGƯỢC LẠI đúng các click đó (lưu danh sách click của chuyến). Minimap chỉ đối chiếu (log lệch), không dùng để lái:
+  30 bước có thể vượt vùng minimap nhìn thấy.
+- MỖI CHUYẾN CHỈ DỤ CON ĐẦU TIÊN GẶP: box hover xác nhận bằng con trỏ attack -> event `lure_found {steps, dir, dist}` ->
+  engage ở chế độ pull (đánh PULL_HITS 1–2 phát, KHÔNG đánh tới chết) -> về NGAY theo các click ngược ->
+  `lure_return {why: "found"}`. Không nhận con thứ hai trên đường về.
+- Đủ `lure_steps` mà không gặp -> `lure_return {why: "max_steps"}`, về gốc, hướng kế tiếp ở chuyến sau.
+- Huỷ giữa đường: HP < 70% / danger -> `lure_return {why}` về ngay.
+- Event `lure_start {dir, idle_s, home_dist}`.
+- XUNG ĐỘT phải xử lý: `targeting.out_of_range` bỏ box ngoài hunt_range -> ở gốc dùng guard_steps, trong chuyến dụ dùng
+  lure_steps; `exploration.wander` với hunt_range > 0 chỉ biết đi về -> thêm nhánh lure, không đổi hành vi khi lure tắt.
+- Test: đơn vị (hẹn giờ idle, xoay 8 hướng, bỏ hướng bị rào, đủ 30 bước thì về, HP thấp thì huỷ); replay bản ghi có minimap
+  (101941) với lure bật: không chuyến nào vượt lure_steps + 3, mọi chuyến kết thúc bằng lure_return.
+
+**3.0-P PHÁP SƯ HỒI MÁU NHÓM** (chờ ảnh; giữ thiết kế e2):
+- Đọc khung Party: vị trí khung + ô từng thành viên (cấu hình được / tự dò từ ảnh), % máu từ thanh máu trong ô (như stat_bar).
+- Luật: thành viên có HP < `party_heal_pct` (mặc định 60) -> chọn người MÁU THẤP NHẤT -> bấm ô phép hồi máu (page, key) ->
+  chờ con trỏ elip (CAST_CURSOR_WAIT, như phép tấn công) -> click tên/ô của người đó trong khung Party. Bản thân HP thấp hơn
+  -> tự hồi trước (HealthFeature giữ ưu tiên). Không elip = không click.
+- Event `party_state {members: [hp%]}` (mỗi phút), `party_heal {member, hp, ok}`.
+- Cần trong records_game/party_ui/: khung Party 2–3 người đầy máu + có người mất máu; có thì đo toạ độ, viết test ảnh trước.
+
+
 ### 3.1 Giao diện nhiều tài khoản
 Bật `MULTI_ACCOUNT_UI` (ui/main_window.py) — phần lõi đã hỗ trợ (SessionManager, InputArbiter).
 Kiểm tra: lưu/đọc nhiều account, mỗi tab chọn cửa sổ riêng, nút Dừng tất cả.
@@ -2135,6 +2182,11 @@ so **kill/giờ**, **lag của client** (cảm nhận của người dùng + `de
 Chọn mặc định theo class: nếu 640 cho kill cao hơn mà không lag thì lớp bắn xa nên mặc định 640 (cận chiến
 vẫn 416 vì nó chỉ cần quái trong ~70 px). Nhớ: 640 nặng ~2,4 lần 416 (27 ms -> 65-70 ms đo trên laptop), và
 guard `CPU_SHARE` 30% có thể tự hạ fps - đọc `detect_stats.duty` để biết nó có hạ hay không.
+**Bổ sung 27/11 (1.9, tiên bắn cung 10–25 bước):** tiên giờ đánh thường bằng cung tới `attack_range` 15 bước (mặc
+định), tức phần lớn quái nó đánh nằm ở **> 200 px** (191624: quái 300–550 px = 13–23 bước). Tiên vì vậy phụ thuộc
+hẳn vào recall > 200 px: 416 thấy 69–75%, 640 thấy ~86%. ĐỀ XUẤT: mặc định `scan.input_size` 640 cho ELF nếu CPU
+máy game cho phép. Quyết định nằm trong chính phép thử A/B ở trên, chạy bằng nhân vật tiên: lượt 416 và lượt 640,
+cùng `attack_range`, so kill/giờ + `ms_total` + cpu_pct. Chưa đổi mặc định trong code.
 RỦI RO: PLAN 0.32/0.39 đã chốt "full frame 640" rồi lại bị máy game đổi về 416 bằng tay; đừng đổi mặc định
 trong code trước khi có số của hai lượt này.
 
@@ -2171,3 +2223,135 @@ trong code trước khi có số của hai lượt này.
    phải xuất zip TRƯỚC khi hạn mức xoá (nút ở tab Dữ liệu).
 7. **Box ước lượng 57x95 là ước lượng**: không được train trực tiếp từ nó mà chưa duyệt tay, nếu không model
    sẽ học lệch cỡ box. `todo: true` và `compare_models.py` trên bộ test cố định là hai cái chốt.
+
+### 0.47 v21rc6 TRÊN MÁY GAME (20261127_191624_hunt, wizard, 오크의 땅, hunt_range 10, pull_mode) — NGUYÊN NHÂN  [SỬA 27/11]
+Số liệu 95 s: 30 spell_cast (ok), 0 kill, 25 fight_end = 11 danger + 7 cap + 6 gone + 1 stopped.
+
+**A. near_ms "None"**: KHÔNG phải không ghi. detect_stats ghi near_ms / near_boxes_per_frame BÊN TRONG khối
+`search` / `fight` (search 87 ms 4,4 box, fight 78 ms 3,4 box), ở cấp ngoài cùng thì không có. `tests/analyze_records.py`
+không in hai trường này -> trông như None. Sửa: analyze_records in near_ms / near_boxes / "full ms = ms - near_ms".
+
+**B. Lượt full "chậm gấp đôi"**: `ms` trong detect_stats = full + near (detector.py:204 cộng near_ms vào để guard
+CPU thấy). Trừ near ra: search 195-87 = 108 (rc5 101929: 76-112, TB 87), fight 183-78 = 105 (rc5: 97-98). Tức lượt
+full KHÔNG chậm lên; toàn bộ phần thêm là crop gần.
+- Crop chạy MỌI lượt, cả search lẫn fight (`self.near` bật khi near_conf > 0, không giới hạn tần suất). Commit 0.46
+  ước +20 ms (đo trên laptop); trên máy game là +78-87 ms/lượt.
+- Guard CPU_SHARE CÓ chạy: fight duty 0,35 > 0,30 -> fight 2/s -> 1/s (max_fps 1 ở log phút 2). Search giữ sàn 2/s.
+  Guard chỉ hạ fps; không tắt hay giãn crop.
+- Thread: search 2, fight 1; crop dùng cùng số thread của lượt đó. CPU tiến trình 50% (rc5) -> 67% (rc6).
+- Mục tiêu <= rc5 + 20%: search <= 104 ms, fight <= 118 ms (đo ms full+near trung bình/lượt).
+  "1 lần/s" KHÔNG đủ: fight 2/s -> 98 + 78/2 = 137 ms (+40%).
+  ĐÃ LÀM (người dùng chốt): crop gần CHỈ trong trận, tối đa 1 lần / 2 s (`detector.NEAR_EVERY_SEC` 2,0) -> fight
+  ~98 + 20 = 118 ms; search không crop (87 ms); NGOẠI LỆ: HP đang tụt (`state["hp_falling"]` = danger hoặc
+  hp_falling, do survival ghi) -> crop ngay lượt kế, cả khi search. detect_stats: `ms` = full, `near_runs` /
+  `near_ms` (mỗi lần crop chạy) / `ms_total` (full+near trung bình mỗi lượt); guard tính full + near.
+  analyze_records in "near crop ... full ... full+near" (hiểu cả số kiểu rc6). CẦN ĐO trên máy game:
+  search <= 104, fight <= 118 ms (ms_total).
+
+**C. max_probe_points nhập 5 vẫn là 2** (SỬA: MAX_PROBE_POINTS = 6): `config/models.py:212 MAX_PROBE_POINTS = 2` (từ v14, PLAN 0.31) chặn ở
+  3 chỗ: spinbox `to=` (ttk vẫn cho gõ 5), `ScanPanel.store` kẹp về [1, 2], và lúc đọc config cũng kẹp. Lưu thì CÓ lưu
+  nhưng lưu số 2. Ghi chú trong commit 0.46 "nâng 2 -> 5 không cần code" là SAI. Sửa: MAX_PROBE_POINTS = 6.
+
+**D. 30 phép, 0 kill, 11 danger**:
+- Phép TRÚNG: hiệu ứng xanh trên orc (f_00012), MP giảm 1%/phát (spell_mp), thanh máu orc tụt từng ít. Một lần
+  "마법 사용: 실패" lúc t=4 (spell_fail_chat).
+- Kill line đọc được: chat chạy bình thường (f_00048 có "회복의 기운이 느껴집니다"), chỉ là không orc nào chết.
+- NGUYÊN NHÂN 0 kill: hunt_range 10 + wizard -> `targeting.in_place()` = True (PLAN 1.7) -> `engage_ranged`: CHỈ
+  bắn phép, không bao giờ đánh thường. Energy Bolt mỗi ~3 s (skipped cooldown 5-8/trận) không giết nổi orc trong
+  cap 10 s; orc đứng cách 37-97 px (melee: false ở MỌI trận) mà bot không đánh. -> Phần 1.9 dưới đây.
+- 11 danger = MỘT lần nguy hiểm thật: HP 194 -> 178 -> 149 -> 111 (57%) trong ~5 s, vài orc đánh cùng lúc
+  (f_00043/46). Cờ danger giữ DANGER_HOLD 3 s nên mỗi lần acquire trong 3 s đó kết thúc ngay sau 0,1 s
+  (combat.py:567), vậy là 1 lần bị đếm thành 11. Ở 57% bot hồi (F1, f_00046 -> 140/194 ở f_00048) và lùi một
+  bước, đúng luật 0.40. Ngưỡng không quá nhạy. ĐÃ SỬA: session._run không chọn mục tiêu khi cờ còn giữ (health vẫn
+  hồi/lùi), survival ghi MỘT event `danger {hp, drop, mobs}` mỗi đợt.
+
+### 1.9 ĐÁNH THƯỜNG LÀ CHÍNH, PHÉP LÀ PHỤ (mọi class; khách yêu cầu 27/11 vì MP có hạn)  [CODE XONG 27/11, CHỜ MÁY GAME]
+ĐÃ LÀM (khác kế hoạch dưới đây ở mấy điểm, ghi rõ):
+- Bước trên màn hình: `vision/drift.py`. Đo trên 192615 (10 click = 20 bước): mỗi bước theo trục đi = (20, 10) px ở
+  1280 -> số bước giữa hai điểm = |dx|/40 + |dy|/20 (ô isometric, ô chéo tính 1 bước). Độ trôi = phaseCorrelate trên
+  vùng chơi thu nửa (~3 ms): 192615 cộng ra 20,1 bước, frame đứng < 0,1. Không thêm `screen_step_px` vào config
+  (ctx.step_px 23 px đã có và khớp 22,4 đo được).
+- `scan.attack_range` (0 = theo class: `CharacterClass.attack_range`, wizard/knight/prince 1, elf 9),
+  `scan.spell_min_mp_pct` 70; tab Săn khối cơ bản + nút "Đo tầm đánh" (`features/range_probe.py`, huỷ bằng bấm lại).
+  Tầm 1 = luật MELEE_DIST 70 px cũ; > 1 = số bước isometric + 0,5.
+- "Có đánh" khi đo = điều kiện yếu (không trôi + con trỏ kiếm + box còn sau 1,5 s); thanh máu quái CHƯA đọc.
+- Luật phép `combat._spell_why`: danger | crowd (>= 3 trong MELEE_DIST, mọi bãi) | out_of_reach | mp_high (MP >=
+  70) | mp_unread (MP không đọc được thì không chặn); không thoả -> skipped `hand_first`. Áp cho engage (lớp đi) lẫn
+  engage_ranged (đứng gốc). Ô phép vẫn giữ min_mp / range / cooldown / dự trữ hồi máu.
+- engage_ranged (wizard/elf có hunt_range): quái trong tầm tay -> hold+drag tại chỗ, theo box; mỗi 0,8 s so độ trôi,
+  > 1 bước -> nhả, blacklist, event `range_walk`, outcome `range_walk`. Ngoài tầm tay: chỉ phép, không click.
+  out_of_range cho lớp đứng gốc = ngoài tầm phép VÀ ngoài tầm tay.
+- Event `melee_attack {dist, target, steps}` mỗi trận một lần (kết quả nằm ở fight_end), `spell_cast.why`.
+- Test: tests/test_attack_range.py. test_hunt_records.check_in_place_101941 đổi theo 1.9: trước "không bao giờ giữ
+  chuột", giờ "chỉ giữ chuột trên quái trong tầm tay" (101941: 29 lần đánh tay, tất cả <= MELEE_DIST; 0 click không elip).
+- TEST CHẬM (27/11): test_hunt_records 50+ phút trên PC là do Windows dồn tiến trình test chạy nền sang 4 NHÂN E của
+  i5-14400F sau 2–3 s (một detect 640: 48 -> 125 ms; 1 luồng 140 -> 370 ms), không phải do code 1.9 (A/B code cũ chậm
+  y hệt). `test_hunt_records.pin_fast_cores()` (GetSystemCpuSetInformation, chỉ khi CPU lai) khoá test vào nhân P:
+  183803 519 -> 192 s, cả bài ~24 phút khi chạy song song với test_near_miss (~15 phút). Hai bài dài in "-- <bản ghi>
+  ... / done in N s" để biết còn sống. GỢI Ý cho bot trên máy game: nếu CPU máy game cũng là loại lai, luồng detect có
+  thể bị đẩy sang nhân E như vậy (fight 98 ms) - nên kiểm tra trước khi tối ưu thêm.
+- analyze_records in "hand attacks N : spells M (why ...), range_walk K".
+- BỔ SUNG (khách 27/11): tiên cầm cung bắn ~80% màn hình = 10–25 bước. `scan.attack_range` UI 1–25 ("Tầm đánh (bước)");
+  config lưu 0 khi người dùng để nguyên mặc định class (knight 1, wizard 1, ELF 15), ô hiển thị giá trị bot dùng; nút
+  "Đo tầm đánh" điền vào ô. Bước -> px: ô isometric đo trên 192615 (một bước theo trục đi = (20,10) px, 10 click =
+  20,1 bước đo được). 25 bước so với vùng chơi (không minimap / HUD / cột icon, nhân vật ở (640,380) trên 1280x960):
+  10 bước phủ 30%, 15 bước 62%, 25 bước 98%; góc xa nhất 29,6 bước. Quái thật 300–550 px của 191624: tầm 15 với
+  tới 27/61, tầm 25 với tới 59/61 (2 con sát góc màn hình, 26,3–26,6 bước). Ngoài tầm: không click (lớp đứng gốc).
+  Test: test_attack_range.test_elf_far_boxes (tầm 15 và 25: trong tầm = giữ chuột tại chỗ, không click; ngoài tầm
+  = không click gì).
+- RỦI RO còn để nguyên (có từ 0.44): lớp đứng gốc KHÔNG có phép thì quái < 350 px nhưng ngoài tầm tay vẫn là ứng viên,
+  mỗi nhịp kết thúc `no_spell` ngay (không click, chỉ tốn nhịp + log).
+- CHƯA LÀM: cảnh báo "attack_range quá lớn" sau 2 range_walk liên tiếp.
+Thay luật 1.7 "caster/cung có hunt_range thì chỉ bắn phép".
+
+**Cấu hình mới** (`ScanSettings`, config v-next, đọc config cũ bằng mặc định):
+- `attack_range` (ô = bước, int >= 1). Mặc định theo class: cận chiến (Prince/Knight/Wizard cầm gậy) 1, Elf cung 9.
+  Đổi ra px trên màn hình bằng `screen_step_px` (xem phần đo). Hiện ở tab Săn, khối cơ bản, cạnh hunt_range.
+- `spell_min_mp_pct` (mặc định 70): ngưỡng MP để phép được dùng tự do.
+
+**Nút "Đo tầm đánh"** (tab Săn, cạnh "Đo bước"; chỉ khi chưa săn và đã gắn cửa sổ; ESC dừng):
+1. Detect một lần, sắp các box theo khoảng cách tăng dần, bỏ box trong SELF_R.
+2. Với từng box (gần -> xa, tối đa 8 con, mỗi con một lần): hover, có con trỏ "attack" thì click 1 lần, rồi theo dõi
+   1,5 s:
+   - màn hình trôi = độ lệch pha (cv2.phaseCorrelate trên vùng chơi đã thu nhỏ, bỏ HUD) > `DRIFT_PX`: nhân vật ĐI ->
+     box này ngoài tầm. Bấm ESC/một click tại chỗ nhân vật để đứng lại, rồi DỪNG đo ở đây.
+   - không trôi + có hành động đánh (thanh máu dưới tên con đó tụt, HOẶC chat có dòng sát thương/kill) -> trong tầm,
+     ghi khoảng cách (px).
+3. Kết quả = khoảng cách xa nhất "không trôi + có đánh". Đổi px -> ô bằng `screen_step_px`, ghi
+   `scan.attack_range` và `scan.attack_range_px`, rồi lưu config. Không đo được (không có quái, hoặc con gần nhất đã
+   trôi) thì giữ giá trị cũ và báo lý do.
+- `screen_step_px`: mặc định đo trên bản ghi 20261126_192615_observe (2 lần đi 5 click = 10 bước, có cả frame lẫn
+  minimap) -> hằng số. Nút "Đo bước" hiện có thì ghi thêm số px màn hình của 10 bước đó.
+- CẦN XÁC MINH trước khi code: thanh máu dưới tên quái có đọc được ổn không (vision/nameplates đọc tên, chưa đọc
+  thanh); nếu không thì "có đánh" = không trôi + con trỏ vẫn là attack + box còn đó sau 1,5 s.
+
+**Luật đánh** (combat.engage, thay `_shoot_only`; dùng cho mọi class):
+1. Quái trong `attack_range_px` -> ĐÁNH THƯỜNG TẠI CHỖ (click/hold như engage cận chiến, không đi).
+2. Phép chỉ dùng khi MỘT trong các điều kiện sau đúng:
+   a. MP >= `spell_min_mp_pct`;
+   b. danger, hoặc >= DANGER_MOBS (3) quái trong MELEE_DIST (không phụ thuộc mp_hungry);
+   c. quái ngoài attack_range nhưng trong tầm phép (`range_px` của ô, hoặc shot_reach) -> bắn thay vì đi tới.
+   Vẫn giữ các luật cũ: min_mp/cooldown/range_px của từng ô, ellipse bắt buộc, HEAL_MP_RESERVE.
+3. Quái ngoài cả hai tầm:
+   - hunt_range N > 0 thì đứng chờ ở gốc, KHÔNG click (go_home nếu lệch quá IN_PLACE_DRIFT như cũ);
+   - hunt_range 0 (không giới hạn) thì đi tới như trước.
+4. **Bảo vệ "click mà đi"**: sau mỗi click đánh, so độ trôi màn hình (cùng hàm của nút đo) trong 0,8 s; trôi >
+   1 bước (`screen_step_px`) thì ngừng click con đó (ngoài tầm thật), blacklist điểm 10 s, ghi event
+   `range_walk {dist, drift_px, attack_range}`. Hai lần range_walk liên tiếp ở khoảng cách < attack_range_px thì log
+   cảnh báo "attack_range quá lớn, đo lại".
+5. **Event để so tỉ lệ**: `melee_attack {dist, target, outcome}` mỗi lần click/hold đánh thường (1 event/lần bắt đầu
+   đánh một con, không phải mỗi click); `spell_cast` giữ nguyên + thêm `why` = mp_high | danger | crowd |
+   out_of_melee. analyze_records in tỉ lệ melee_attack : spell_cast và kill theo từng nguồn.
+
+**Test** (trước khi build):
+- Bản ghi 191624: replay wizard hunt_range 10, attack_range 1: orc trong MELEE_DIST -> engage cận chiến (không phải
+  engage_ranged); MP 82% >= 70 -> có phép; MP < 70 và không danger -> 0 phép với quái kề bên.
+- Đơn vị: chọn luật (bảng điều kiện a/b/c/3), range_walk khi drift giả > 1 bước, cấu hình cũ đọc ra mặc định theo
+  class, UI có 2 trường mới + nút đo (test_ui).
+- Drift: phaseCorrelate trên 2 frame liên tiếp của 192615_observe (đang đi) > DRIFT_PX, và của 191624 (đứng
+  đánh) < DRIFT_PX.
+
+**Rủi ro**:
+- Wizard đánh thường rất yếu. Kill/phút có thể giảm so với chỉ bắn phép khi MP còn cao; điều kiện (a) bù lại.
+- Cung (Elf) attack_range 9 thì click quái xa: nếu đo sai, nhân vật sẽ đi; luật 4 chặn sau 0,8 s.
+- Phép ở (c) vẫn có thể kéo quái từ xa về khi MP thấp -> chỉ dùng (c) khi MP >= ô min_mp như cũ.
