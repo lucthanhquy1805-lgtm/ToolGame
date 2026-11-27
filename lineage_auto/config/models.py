@@ -215,6 +215,7 @@ INPUT_SIZES = (320, 416, 640)
 # area (vision/drift: |dx|/40 + |dy|/20 from the character at 1280x960, minimap / HUD / icon column left out).
 ATTACK_RANGE_MAX = 25
 HUNT_RANGES = (0, 1, 3, 5, 10, 15, 20, 30)  # PLAN 1.2: hunt range in steps; 0 = no limit, 1 = stay put
+PROVIDERS = ("auto", "cpu", "gpu")  # PLAN 0.48: ScanSettings.detect_provider
 
 
 def _step_mm(value):
@@ -255,6 +256,8 @@ class ScanSettings:
     adaptive_detect: bool = True
     input_size: int = 640
     detect_roi: bool = False
+    # PLAN 0.48: onnxruntime provider - "auto" (DirectML when it loads, else CPU) / "cpu" / "gpu" (DirectML only)
+    detect_provider: str = "auto"
     melee_max_sec: float = 10.0
     # PLAN 1.2: how far from the start point the bot hunts, in character steps (map tiles): 0 = no limit,
     # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
@@ -314,6 +317,7 @@ class ScanSettings:
             step_mm=_step_mm(data.get("step_mm", 0.0)),
             attack_range=min(ATTACK_RANGE_MAX, max(0, int(data.get("attack_range", 0)))),
             spell_min_mp_pct=min(100, max(0, int(data.get("spell_min_mp_pct", 70)))),
+            detect_provider=(data.get("detect_provider") if data.get("detect_provider") in PROVIDERS else "auto"),
             **cls._detect_v15(data),
         )
 

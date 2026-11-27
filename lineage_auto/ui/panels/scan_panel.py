@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from ... import hunt_maps
-from ...config.models import ATTACK_RANGE_MAX, HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS
+from ...config.models import ATTACK_RANGE_MAX, HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS, PROVIDERS
 from ...features import range_probe
 from ...vision import minimap
 from .base import Panel
@@ -98,6 +98,13 @@ class ScanPanel(Panel):
         self.combo_model = ttk.Combobox(self.advanced, textvariable=self.model, state="readonly", width=8)
         self.combo_model.grid(row=rows["adv"], column=1, sticky="w", pady=1)
         self.combo_model.bind("<<ComboboxSelected>>", self._on_model)
+        # PLAN 0.48: where YOLOX runs (auto = DirectML when it loads, else CPU)
+        self.labels["scan_provider"] = ttk.Label(self.advanced, text="")
+        self.labels["scan_provider"].grid(row=rows["adv"] + 1, column=0, sticky="w", padx=(0, 6))
+        self.combo_provider = ttk.Combobox(self.advanced, state="readonly", width=12)
+        self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
+        self.combo_provider.grid(row=rows["adv"] + 1, column=1, sticky="w", pady=1)
+        self.combo_provider.bind("<<ComboboxSelected>>", lambda _e: self.tab.request_save())
 
     def load_model(self):
         options = hunt_maps.variants(self.account.hunt_map)
@@ -218,6 +225,7 @@ class ScanPanel(Panel):
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
             self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
         self.load_model()
+        self.combo_provider.current(PROVIDERS.index(scan.detect_provider))
 
     def store(self):
         scan = self.account.scan
@@ -236,12 +244,19 @@ class ScanPanel(Panel):
             if name == "attack_range" and not scan.attack_range and value == self.account.character.attack_range:
                 continue  # PLAN 1.9: untouched class default stays 0, so a class change still follows it
             setattr(scan, name, value)
+        if self.combo_provider.current() >= 0:
+            scan.detect_provider = PROVIDERS[self.combo_provider.current()]
 
     def apply_language(self):
         self.frame.config(text=f" {self.t('sec_scan')} ")
         for _name, key, *_ in FIELDS:
             self.labels[key].config(text=self.t(key))
         self.labels["scan_model"].config(text=self.t("scan_model"))
+        self.labels["scan_provider"].config(text=self.t("scan_provider"))
+        index = self.combo_provider.current()
+        self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
+        if index >= 0:
+            self.combo_provider.current(index)
         self.btn_step.config(text=self.t("step_done" if self._measure is not None else "step_measure"))
         if self._measure is None:
             self.lbl_step.config(
@@ -254,6 +269,7 @@ class ScanPanel(Panel):
             spin.config(state="disabled" if running else "normal")
         self.btn_step.config(state="disabled" if running else "normal")
         self.btn_range.config(state="disabled" if running else "normal")
+        self.combo_provider.config(state="disabled" if running else "readonly")
         if running:
             self.combo_model.config(state="disabled")
         else:

@@ -2355,3 +2355,46 @@ Thay luật 1.7 "caster/cung có hunt_range thì chỉ bắn phép".
 - Wizard đánh thường rất yếu. Kill/phút có thể giảm so với chỉ bắn phép khi MP còn cao; điều kiện (a) bù lại.
 - Cung (Elf) attack_range 9 thì click quái xa: nếu đo sai, nhân vật sẽ đi; luật 4 chặn sau 0,8 s.
 - Phép ở (c) vẫn có thể kéo quái từ xa về khi MP thấp -> chỉ dùng (c) khi MP >= ô min_mp như cũ.
+
+### 0.48a LỚP ĐỨNG GỐC KHÔNG CÓ PHÉP NHẬN QUÁI NGOÀI TẦM TAY  [SỬA 27/11, v21rc7]
+Từ 0.44: `in_place()` (hunt_range > 0 + caster/elf) nhưng không ô phép nào bật -> `out_of_range` vẫn dùng
+`shot_reach` 350 px -> chọn quái 300 px -> `engage_ranged` kết thúc `no_spell` ngay -> lặp lại mỗi nhịp.
+Sửa: `targeting.has_spell()` (cùng điều kiện `combat.active_skills`: bật + skill_id + policy); không phép thì
+`out_of_range` = ngoài `in_hand_reach`, và `exploration._monster_in_reach` cũng vậy (quái 300 px không giữ chân
+caster ở chỗ cũ nữa). Test: `test_attack_range.test_no_spell_reach`, `test_hunt_records.check_in_place_101941`.
+
+### 0.48 DETECT TRÊN GPU BẰNG DIRECTML (không CUDA)  [CODE + ĐO PC NHÀ 27/11, v21rc8 — CHỜ SỐ MÁY GAME]
+Máy game: i5-4440 (4 nhân/4 luồng, Haswell, không có nhân P/E) ~56% khi game + bot; GTX 1050 Ti 4 GB (DX12), game ~38%.
+v3.0.0 chỉ dùng CPU, docstring gốc ghi "driver mismatch made GPU boxes unstable" -> phải so box với CPU.
+- Cấu hình `scan.detect_provider`: "auto" (mặc định) / "cpu" / "gpu"; tab Săn > Nâng cao "Thiết bị nhận diện".
+  `yolox_mobs.PROVIDER` đặt trước lần nạp đầu (giống THREADS); cache session theo (path, threads, provider).
+- "auto": nạp DML; lỗi (không có DML trong wheel, không có adapter DX12, EP không active) -> CPU, ghi
+  `yolox_mobs.FALLBACKS`. Nạp được thì ĐUA: 1 lượt khởi động + best of 2 trên blob xám, DML vs CPU; chỉ giữ DML
+  khi nhanh hơn (máy không GPU vẫn có adapter phần mềm WARP; 1050 Ti chia với game có thể thua CPU).
+  `PROBES` = (DML ms, CPU ms) từng model -> log lúc start + meta.json `provider_probe`.
+  "gpu": DML hoặc báo lỗi (không âm thầm về CPU), không đua. "cpu": không thử DML.
+- Ghi số: meta.json `provider` (thiết bị thật) + `provider_probe`; detect_stats `provider` + `ms` như cũ; dòng
+  `[detect]` mỗi phút có tên provider.
+- Khi chạy thật trên DML (`DetectorThread.gpu`): crop gần chạy MỌI lượt trong trận (bỏ giới hạn 2 s của 0.47,
+  search vẫn không crop trừ HP tụt) và ELF search ở 640 (`GPU_ELF_SIZE`) dù config lưu 416 (scan.input_size giữ
+  nguyên; về CPU thì lại 416).
+- Gói: requirements `onnxruntime-directml==1.24.4` (một wheel gồm CPU + DML). PyInstaller kèm
+  `_internal/onnxruntime/capi/DirectML.dll` (hook có sẵn, không đổi main.spec).
+
+ĐO trên PC nhà (RTX 5060 Ti, i5-14400F; `yolox_mobs.detect` của bot, median ms/lượt gồm tiền xử lý,
+40 khung 101941 fallen_blessed + 12 khung 191624 blessed_orc):
+
+| chế độ | CPU 1 luồng | CPU 2 luồng | DML |
+|---|---|---|---|
+| 640 toàn khung | 140 | 79-81 | 6,2-6,4 |
+| 416 toàn khung | 60 | 36 | 3,6-3,9 |
+| 416 + ROI | 60-61 | 35-36 | 3,6-3,9 |
+| crop gần 320 | 36-39 | 22-23 | 3,1 |
+
+Box: 0 thiếu / 0 thừa so với CPU ở cả 4 chế độ, cả 2 bản ghi; điểm thô lệch tối đa 2,4e-6 (`tests/test_provider.py`
+kiểm lại mỗi lần chạy khi wheel có DML). Exe đóng băng (PyInstaller, cùng wheel): DML chạy, ép lỗi DML -> CPU.
+CHƯA BIẾT: số trên 1050 Ti khi game đang chạy (PC nhà nhanh hơn ~6 lần về FP32). Lần chạy rc8 đầu tiên trên máy
+game cho luôn số: dòng log `[detect] <model>: DirectML x ms, CPU y ms` + meta `provider_probe` + detect_stats.
+NGHIỆM THU trên máy game: provider = Dml, ms_total search/fight thấp hơn rc7, process cpu% giảm rõ, game không giật
+hơn (GPU game 38% + bot); nếu game giật -> chọn "CPU" trong tab Nâng cao (không cần build mới).
+Test: `python tests/test_provider.py` (fallback/gpu/cpu, config, box DML == CPU), `test_attack_range.test_near_due`.

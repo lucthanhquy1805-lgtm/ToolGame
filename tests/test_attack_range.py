@@ -371,12 +371,15 @@ def test_range_probe():
 
 def test_near_due():
     d = object.__new__(det.DetectorThread)
-    d.near, d._near_t, d.ctx = True, float("-inf"), types.SimpleNamespace(state={})
+    d.near, d._near_t, d.ctx, d.gpu = True, float("-inf"), types.SimpleNamespace(state={}), False
     check(not d.near_due("search", 100.0), "searching: no near crop")
     check(d.near_due("fight", 100.0) and not d.near_due("fight", 101.0) and d.near_due("fight", 102.1),
           f"fight: at most once per {det.NEAR_EVERY_SEC:.0f} s")
     d.ctx.state["hp_falling"] = True
     check(d.near_due("search", 102.2) and d.near_due("search", 102.3), "HP falling: at once, searching too")
+    d.ctx.state["hp_falling"], d.gpu = False, True
+    check(d.near_due("fight", 103.0) and d.near_due("fight", 103.4) and not d.near_due("search", 103.5),
+          "DirectML (PLAN 0.48): every fight detect, still not while searching")
     d.near = False
     check(not d.near_due("fight", 200.0), "near_conf 0: never")
 

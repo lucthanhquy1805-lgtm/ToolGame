@@ -165,6 +165,7 @@ class AccountSession:
         try:
             # PLAN 0.33: onnxruntime threads before the FIRST session is built; a cached session keeps its own.
             yolox_mobs.THREADS = self.account.scan.detect_threads
+            yolox_mobs.PROVIDER = self.account.scan.detect_provider  # PLAN 0.48
             yolox_sess = ensure_session(self.account.hunt_map, self.account.scan.input_size)
         except FileNotFoundError as exc:
             self.ctx.log(str(exc))
@@ -221,6 +222,10 @@ class AccountSession:
         self._thread.start()
         self._set_state(SessionState.RUNNING)
         self.yolox_device = session_device(yolox_sess)
+        if yolox_mobs.FALLBACKS:  # PLAN 0.48: "auto" and DirectML failed to load or lost the speed race
+            self.ctx.log(f"DirectML not used, detecting on the CPU: {yolox_mobs.FALLBACKS[-1][1]}")
+        for path, (gpu_ms, cpu_ms) in yolox_mobs.PROBES.items():
+            self.ctx.log(f"[detect] {os.path.basename(path)}: DirectML {gpu_ms} ms, CPU {cpu_ms} ms")
         hunt = hunt_maps.get(self.account.hunt_map)
         self.ctx.log(f"started as {self.ctx.character.name_en} / {hunt.name_en} [{self.yolox_device}]")
         return True
@@ -235,6 +240,7 @@ class AccountSession:
         try:
             if not self.account.record.no_model:
                 yolox_mobs.THREADS = self.account.scan.detect_threads
+                yolox_mobs.PROVIDER = self.account.scan.detect_provider  # PLAN 0.48
                 ensure_session(self.account.hunt_map)
             self.ctx.recorder = Recorder(self.account, "observe", rect=self.ctx.rect())
         except Exception as exc:

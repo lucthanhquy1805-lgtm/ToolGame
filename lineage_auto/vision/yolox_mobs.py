@@ -6,6 +6,7 @@ the character first. Combat lock / sword confirm stay unchanged.
 
 import math
 import os
+import time
 
 import cv2
 import numpy as np
@@ -134,12 +135,59 @@ def ort_threads():
     return max(2, min(4, (os.cpu_count() or 4) // 2))
 
 
+# PLAN 0.48: "auto" = DirectML when it loads, else CPU; "cpu"; "gpu" = DirectML or an error. Set by the session
+# from scan.detect_provider like THREADS. (v3.0.0 was CPU only: "driver mismatch made GPU boxes unstable" - on
+# the records the DML scores equal the CPU ones, tests/test_provider.py checks it on every run.)
+PROVIDER = "cpu"
+_DML_PROVIDER = "DmlExecutionProvider"
+FALLBACKS = []  # (path, error) of every DirectML load that fell back to the CPU, for the log
+LAST_DEVICE = None  # provider of the newest session built (meta.json)
+PROBES = {}  # model path -> (DirectML ms, CPU ms) of the "auto" race at load
+
+
+def _race_ms(sess, runs=2):
+    """Best ms of ``runs`` after one warm-up run (DirectML compiles on the first) on a grey blob."""
+    shape = [d if isinstance(d, int) else INPUT_SIZE for d in sess.get_inputs()[0].shape]
+    feed = {sess.get_inputs()[0].name: np.full(shape, PAD_VALUE, np.float32)}
+    sess.run(None, feed)
+    best = float("inf")
+    for _ in range(runs):
+        t = time.perf_counter()
+        sess.run(None, feed)
+        best = min(best, (time.perf_counter() - t) * 1000)
+    return best
+
+
 def _create_onnx_session(path, threads=None):
-    """CPU only. No CUDA / DirectML — driver mismatch made GPU boxes unstable."""
     import onnxruntime as ort
 
     opts = ort.SessionOptions()
     opts.intra_op_num_threads = int(threads) if threads else ort_threads()
+    if PROVIDER in ("auto", "gpu"):
+        try:
+            if _DML_PROVIDER not in ort.get_available_providers():
+                raise RuntimeError("onnxruntime without DirectML")
+            dml = ort.SessionOptions()
+            dml.intra_op_num_threads = opts.intra_op_num_threads
+            dml.enable_mem_pattern = False  # the DirectML EP requires both of these
+            dml.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+            sess = ort.InferenceSession(path, dml, providers=[_DML_PROVIDER, _CPU_PROVIDER])
+            if session_device(sess) != _DML_PROVIDER:
+                raise RuntimeError(f"DirectML not active ({session_device(sess)})")
+            if PROVIDER == "gpu":
+                return sess
+            # "auto": a PC without a GPU still has the WARP software adapter, and a small GPU shared with the game
+            # can lose to the CPU - keep DirectML only when it is really faster here.
+            cpu = ort.InferenceSession(path, opts, providers=[_CPU_PROVIDER])
+            PROBES[path] = gpu_ms, cpu_ms = round(_race_ms(sess), 1), round(_race_ms(cpu), 1)
+            if gpu_ms < cpu_ms:
+                return sess
+            FALLBACKS.append((path, f"DirectML {gpu_ms} ms >= CPU {cpu_ms} ms"))
+            return cpu
+        except Exception as exc:
+            if PROVIDER == "gpu":
+                raise RuntimeError(f"GPU (DirectML) unavailable: {exc}") from exc
+            FALLBACKS.append((path, str(exc)))
     return ort.InferenceSession(path, opts, providers=[_CPU_PROVIDER])
 
 
@@ -157,14 +205,16 @@ def ensure_session(map_key, size=INPUT_SIZE, threads=None):
 
     PLAN 0.34: ``threads`` is baked into a session when it is built, so the cache is keyed by it too - the
     detector wants more threads for the full frame it searches with than for the crop it fights with."""
+    global LAST_DEVICE
     key = hunt_maps.get(map_key).key
     path = model_path(key, size) or model_path(key)
     if path is None:
         raise FileNotFoundError(f"YOLOX model not found: {hunt_maps.onnx_path(key)}")
-    cache_key = (path, int(threads) if threads else 0)
+    cache_key = (path, int(threads) if threads else 0, PROVIDER)
     sess = _SESSIONS.get(cache_key)
     if sess is None:
         sess = _SESSIONS[cache_key] = _create_onnx_session(path, threads)
+        LAST_DEVICE = session_device(sess)
     return sess
 
 

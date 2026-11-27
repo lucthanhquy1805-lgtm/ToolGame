@@ -33,6 +33,9 @@ FULL_EVERY = 1.0
 # fight, at most once per NEAR_EVERY_SEC (~+20 ms on average at 2/s), and at once - searching included - while
 # health says HP is falling (ctx.state["hp_falling"]): that is when a monster next to us has no box.
 NEAR_EVERY_SEC = 2.0
+# PLAN 0.48: on DirectML a detect costs a few ms of GPU (PC nhà: 640 6 ms, crop 320 3 ms against 80 / 22 ms on
+# 2 CPU threads), so the crop runs on every fight detect and the elf searches at 640 (recall > 200 px, 1.9).
+GPU_ELF_SIZE = 640
 
 
 def _bucket():
@@ -63,11 +66,16 @@ class DetectorThread:
         self.near_conf = scan.near_conf
         self.roi = scan.detect_roi
         yolox_mobs.THREADS = scan.detect_threads  # before the first session: opts.intra_op_num_threads
+        yolox_mobs.PROVIDER = scan.detect_provider  # PLAN 0.48
         # PLAN 0.34: searching runs the full 640 frame, which one core cannot do twice a second, so it gets
         # its own thread count; a fight runs the cheap crop and keeps one thread next to the game.
         self.threads = {"search": max(1, scan.search_threads), "fight": max(1, scan.detect_threads)}
         self.fps = {mode: max(FPS_FLOOR[mode], scan.detect_fps) for mode in FPS_FLOOR}
         sess = yolox_mobs.ensure_session(self.map_key, scan.input_size, self.threads["search"])
+        self.device = yolox_mobs.session_device(sess)
+        self.gpu = self.device == "DmlExecutionProvider"
+        if self.gpu and ctx.account.character_class == "elf" and scan.input_size < GPU_ELF_SIZE:
+            sess = yolox_mobs.ensure_session(self.map_key, GPU_ELF_SIZE, self.threads["search"])
         self.size = yolox_mobs.session_size(sess)  # 640 when this map has no export at input_size
         # PLAN 0.33: while a fight runs only boxes next to the character matter, so EVERY OTHER detect crops the
         # play area and uses the next smaller export when the map has one (~35 ms instead of ~180 ms); the full
@@ -102,7 +110,7 @@ class DetectorThread:
         fight = f" fight {self.fight_size}+roi, full frame every {FULL_EVERY:.0f}s" if self.adaptive else ""
         fight += (f" near crop {yolox_mobs.NEAR_CROP}@{yolox_mobs.NEAR_SIZE} conf {self.near_conf}"
                   if self.near else "")
-        return (f"size {self.size} roi {'on' if self.roi else 'off'} "
+        return (f"{self.device} size {self.size} roi {'on' if self.roi else 'off'} "
                 f"threads {self.threads['search']}/{self.threads['fight']} search/fight "
                 f"max {self.fps['search']}/{self.fps['fight']}/s{fight}")
 
@@ -128,7 +136,8 @@ class DetectorThread:
         if not self.near:
             return False
         now = time.monotonic() if now is None else now
-        if self.ctx.state.get("hp_falling") or (mode == "fight" and now - self._near_t >= NEAR_EVERY_SEC):
+        every = 0.0 if self.gpu else NEAR_EVERY_SEC
+        if self.ctx.state.get("hp_falling") or (mode == "fight" and now - self._near_t >= every):
             self._near_t = now
             return True
         return False
@@ -262,7 +271,7 @@ class DetectorThread:
                     if stats["search"]["n"]:
                         self._step_down(stats["search"]["ms"] / stats["search"]["n"])
                     if rec is not None:
-                        rec.event("detect_stats", cpu_pct=round(cpu_pct), size=self.size,
+                        rec.event("detect_stats", cpu_pct=round(cpu_pct), size=self.size, provider=self.device,
                                   fight_size=self.fight_size,
                                   near_size=yolox_mobs.NEAR_SIZE if self.near else 0, **data)
                     stats = {mode_: _bucket() for mode_ in FPS_FLOOR}

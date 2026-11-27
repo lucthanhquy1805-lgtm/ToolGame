@@ -24,6 +24,7 @@ from dataclasses import asdict
 import cv2
 
 from .. import app_paths, hunt_maps, monsters
+from ..vision import yolox_mobs
 from ..vision.name_reader import NIGHT_BRIGHTNESS
 from ..winapi.cursor import CursorProbe, image_print, save_png
 
@@ -133,6 +134,8 @@ class Recorder:
             "record": asdict(account.record),
             "window": [rect.w, rect.h] if rect is not None else None,
             "cursor_classifier": CURSOR_CLASSIFIER,
+            "provider": yolox_mobs.LAST_DEVICE,  # PLAN 0.48: where the model really runs (scan has the choice)
+            "provider_probe": {os.path.basename(p): ms for p, ms in yolox_mobs.PROBES.items()},  # (DML, CPU) ms
         })
 
     @property

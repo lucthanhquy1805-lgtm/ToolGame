@@ -71,6 +71,9 @@ The dev machine has no game; the bot will run on a separate game PC.
   Minimap (top-left, walkable grid / BFS / odometry): `vision/minimap.py`. The minimap is see-through: odometry
   correlates only the dark map marks (`minimap.odo_marks`, black-hat), `python tests/test_odometry.py` (PLAN 1.2b,
   records_game/20261126_192615_observe: 2 walks of 5 clicks = 10 clicks = 20 steps). Fight endings + unreachable: `features/combat.py`.
+- GPU (PLAN 0.48): `scan.detect_provider` auto/cpu/gpu -> `yolox_mobs.PROVIDER`; wheel `onnxruntime-directml`. "auto" keeps
+  DirectML only if it loads AND wins a speed race against the CPU at load (`PROBES`, log + meta `provider_probe`), else
+  CPU (`FALLBACKS`). On DML the fight near crop runs every detect and an elf searches at 640. `python tests/test_provider.py`.
 - Detect modes (PLAN 0.33): `python tests/eval_detect_modes.py [<record dir> ...]` — boxes/frame of the full 640
   frame against the adaptive mix, on the saved frames of real hunts. Run it before changing a detector default.
 - Detection benchmark: `python tests/eval_detection.py [-v] [--conf X] [--size 416] [--roi] [--config X]` (recall / false
