@@ -631,7 +631,7 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 23/11: HealthSettings.potions = 3 ô "bình thêm" (bật, HP/MP, ngưỡng %, phím, chờ giây), mặc định TẮT;
        bình chính cũ giữ nguyên; skill hồi/bình chính chạy trước, mỗi lượt đọc chỉ bấm 1 bình, ô trên ưu tiên;
        bình MP cần đọc được số MP trên HUD. Chưa: kiểm tra trùng phím với skill/buff, đổi trang hotbar F1/F2/F3)
-- [ ] 1.7 PHẠM VI SĂN N BƯỚC — LÀM LẠI, thay 1.2/1.2c (gốc + N bước, không wander, đánh xong về gốc;
+- [x] 1.7 PHẠM VI SĂN N BƯỚC (code xong 27/11, chờ đo máy game) — LÀM LẠI, thay 1.2/1.2c (gốc + N bước, không wander, đánh xong về gốc;
       pháp sư/tiên đứng im theo CLASS; vị trí = cộng dồn dịch chuyển, minimap chỉ đối chiếu) — xem mục 1.7 (27/11)
 - [ ] 0.43 Quái ở GẦN bị sót / không nhận lại / đổi mục tiêu sai: đo trước-sau rồi sửa (giữ vết quái qua khung,
       khung đầy mỗi 1 s trong trận, < 100 px không blacklist dài) — xem mục 0.43 (27/11)
@@ -1618,7 +1618,19 @@ Driver Interception KHÔNG cần cài trên máy dev.
 ---------------------------------------------------------------------------------------------------
 ## Bổ sung 27/11/2026 — hai việc lớn (CHƯA CODE, chờ người dùng xác nhận)
 
-### 1.7 PHẠM VI SĂN N BƯỚC — LÀM LẠI (thay thế 1.2 và 1.2c)
+### 1.7 PHẠM VI SĂN N BƯỚC — LÀM LẠI (thay thế 1.2 và 1.2c)  [CODE XONG 27/11, CHỜ ĐO TRÊN MÁY GAME]
+ĐÃ LÀM: `runtime/context.WalkOffset` (mixin, test dùng đúng code thật) giữ `state["offset"]` = px client từ
+gốc tới nhân vật; `note_walk` cộng mỗi click đi bộ (<= `CLICK_STEPS` 2 bước), `note_arrival` dùng khi trận vào
+cận chiến (nhân vật đã đi tới chỗ quái). `vision/minimap.step_px` = 1 bước = `step_mm` x 10 px/px minimap
+(23 px ở 1280). `targeting.from_home` / `steps_from_home` / `out_of_range` đo TỪ GỐC bằng offset (không cần
+minimap); `home_drift` so với odometry chỉ để ghi log. `in_place()` = `hunt_range > 0 and ranged()` (theo
+CLASS). N > 0 thì `exploration.wander` chỉ đi về gốc, không bao giờ lang thang (và không lang thang mù khi
+không biết đường). `combat.engage_ranged` kết thúc trận khi mục tiêu ra ngoài phạm vi (thay vì hằng 350 px).
+`scan.pull_mode` + ô "Kéo quái (1 = bật)" cạnh "Phạm vi săn"; `combat.pulling/_pull_danger/_start_follow_watch`
++ `session._walk_home/_pull_follow`. Test: `tests/test_in_place_101929.py` (tầm từ gốc, vùng chết, 1 click =
+2 bước, sổ sách kéo quái) và `check_range` + `check_in_place_101941` trong `tests/test_hunt_records.py`.
+CHƯA ĐO ĐƯỢC Ở LAPTOP: quái có bám theo không, kill rate của chế độ kéo -> cần bản ghi mới trên máy game.
+
 LÝ DO LÀM LẠI: bản 1.2/1.2c hiểu sai ý khách. Đã làm: "phạm vi" = vòng tròn trên minimap, bot vẫn lang thang
 trong vòng tròn, và "tại chỗ" bị gán cho riêng mức N=1 (`hunt_range == IN_PLACE_RANGE`), tầm bắn là một hằng số
 350 px không liên quan tới N. Ý khách: GỐC + N bước, không lang thang, đánh xong VỀ GỐC, và "đứng im" là tính
@@ -1634,11 +1646,34 @@ Quy tắc mới (N = `scan.hunt_range`):
   thì mới tách thành hai hệ số.
   Kiểm lại bằng `records_game/20261126_192615_observe`: 2 lượt x 5 click = **10 click = 20 BƯỚC**
   (sửa 27/11 theo người dùng; mục 1.2b cũ ghi "10 bước" là sai) → px/bước = tổng dịch chuyển / 20.
-- Pháp sư/Tiên (`character.style != MELEE`): ĐỨNG IM ở gốc ở mọi N > 0. Chỉ nhắm quái cách GỐC ≤ N bước, chỉ
+- Pháp sư/Tiên (`character.style != MELEE`) — SỬA 27/11 (1.7b), lý do: N bước CHỈ dành cho DI CHUYỂN, không
+  phải tầm đánh. Khi săn nhóm, nếu bắt pháp sư/tiên chờ quái vào trong N bước quanh gốc thì hiệp sĩ kéo quái
+  về sẽ đứng một mình, nhóm vỡ. Nay: ĐỨNG IM ở gốc (bị đẩy lệch thì về theo vùng chết/hysteresis), tầm nhắm =
+  TẦM THẬT tính từ NHÂN VẬT (`targeting.shot_reach()`: "tầm px" lớn nhất của các ô phép đang bật, không đặt thì
+  `IN_PLACE_SHOT_PX` 350 px), KHÔNG lọc theo N bước nữa. Quái vào tầm là bắn, ưu tiên con gần nhất (danh sách
+  đã xếp gần-trước) và con đang đánh mình (`closer_than(hurt=True)`, 0.43). N bước chỉ còn (1) giới hạn hiệp sĩ
+  đi kéo, (2) vùng chết + đường về gốc.
+  CHƯA LÀM: ưu tiên riêng cho "con đang lại gần gốc/nhóm" - cần lưu lịch sử chuyển động từng box, chưa thấy
+  bằng chứng là cần (xếp gần-trước đã đủ trên các bản ghi).
+- (bản cũ 1.7, đã bỏ) Pháp sư/Tiên: chỉ nhắm quái cách GỐC ≤ N bước, chỉ
   bắn phép (`combat.engage_ranged`, đã có), không bao giờ click/giữ chuột để đi. Không có quái trong tầm thì
   đứng chờ. Bị đẩy lệch > `IN_PLACE_DRIFT` (3 bước) thì click về gốc.
-- Cận chiến: quái cách gốc ≤ N bước thì đi tới đánh bình thường. Đánh xong (chết / mất / mọi lý do kết thúc)
-  LUÔN đi ngược đúng quãng đã đi về gốc trước khi chọn con tiếp theo, kể cả khi còn quái khác ở gần.
+- Cận chiến (VIẾT LẠI 27/11 theo yêu cầu mới: hiệp sĩ đi tới để KÉO quái, không cần đánh chết tại chỗ).
+  Tuỳ chọn mới `AccountSettings.pull_mode`, MẶC ĐỊNH BẬT khi N > 0 (có ô bật/tắt trên tab Săn, ko/en/vi).
+  * BẬT ("Kéo quái"): quái cách gốc ≤ N bước thì đi thẳng tới, đánh 1-2 phát (chỉ tính là đã đánh khi có
+    con trỏ KIẾM trên quái VÀ lệnh đánh đã bấm - `PULL_HITS` 2), rồi đi ngược đúng quãng đã đi về gốc.
+    Về tới gốc thì đánh những con đã theo về, ĐỨNG TẠI CHỖ (không đuổi ra ngoài N bước).
+    Quái không theo về: sau `PULL_FOLLOW_SEC` ~5 s không có box nào trong `PULL_HOME_PX` 100 px quanh gốc
+    thì đi kéo lại con đó, tối đa `PULL_RETRIES` 2 lần rồi blacklist nó.
+    Đang kéo mà HP tụt nhanh (`HealthFeature.hp_falling`) hoặc >= 3 quái vây (`state["mobs_near"]`,
+    ngưỡng `DANGER_MOBS`) -> về gốc NGAY, bỏ lượt kéo đó.
+  * TẮT: đi tới đánh chết rồi mới về gốc (hành vi đã mô tả trước đó).
+  * Mỗi lượt kéo ghi event: `pull_start` (anchor, bước từ gốc), `pull_hit` (lần đánh thứ mấy, con trỏ),
+    `pull_return` (lý do: đủ phát / nguy hiểm / mất quái), `pull_follow_ok` / `pull_follow_fail`
+    (số quái quanh gốc sau `PULL_FOLLOW_SEC`, lần kéo lại thứ mấy) -> đo được trên máy game.
+  * KHÔNG MÔ PHỎNG ĐƯỢC BẰNG REPLAY: quái có bám theo nhân vật hay không. Replay chỉ kiểm được phần
+    "đi tới - đánh đủ phát - quay về đúng quãng - đứng tại chỗ ở gốc" trên các khung đã ghi; phần
+    `pull_follow_ok/fail` và kill rate thật sự PHẢI ĐO TRÊN MÁY GAME (bản ghi mới, chế độ 2).
 - Theo dõi vị trí = CỘNG DỒN DỊCH CHUYỂN trên màn hình (camera luôn giữ nhân vật ở giữa):
   `ctx.state["offset"]` (px client, so với gốc) được cộng tại CHỖ RA LỆNH ĐI:
   * click đi bộ (exploration, về gốc, `survival` bước lùi): += vector đơn vị tới điểm click × min(46 px,
@@ -1790,12 +1825,15 @@ NGUYÊN thay vì bị xoá âm thầm.
 chat (0.35) chỉ đặt `hover_key_click`. Test mới khoá `cast_order` qua đổi ngôn ngữ ko/en/vi + mở/Áp dụng/Huỷ.
 Test: `python tests/test_skill_setup_modal.py` (đổi ngôn ngữ + lưu; mở rồi Huỷ; mở rồi Áp dụng với buff ở ô
 phím hồi máu -> phép ở trang F2 còn nguyên; trùng ô thật vẫn cảnh báo và chỉ xoá đúng dòng đó).
+0.45b (27/11, theo yêu cầu khách): trùng ĐÚNG MỘT Ô giờ chỉ CẢNH BÁO (nêu tên ô, ví dụ "F2+F5") và CHẶN
+"Áp dụng", không xoá dòng nào - người dùng tự sửa. Xung đột với phím của tab Máu cũng vậy. Bỏ hẳn
+`_clear_row_hotkeys` / `_disable_draft_hotkeys`.
 GHI CHÚ: lỗi này giải thích luôn 0.44 mục 1 - lượt 101929 không có ô phép nào bật vì nó vừa bị xoá lúc
 ~10:18:4x khi khách mở Cài đặt skill và bấm Áp dụng.
 
-### 3.0b Chế độ "KÉO QUÁI" cho hiệp sĩ (ghi 27/11/2026 — CHƯA LÀM)
-Hiệp sĩ đi tới quái, đánh 1–2 phát cho quái bám theo, rồi về gốc (trong tầm pháp sư/tiên) để nhóm bắn.
-Thuộc nhóm việc 3.x (nhiều nhân vật), làm sau 1.7.
+### 3.0b Chế độ "KÉO QUÁI" cho hiệp sĩ — ĐÃ CHUYỂN VÀO 1.7 (27/11)
+Khách yêu cầu làm ngay cho một nhân vật, nên phần "đi kéo rồi về gốc" nằm trong 1.7 (`pull_mode`).
+Còn lại ở 3.x: kéo về cho NHÓM (hiệp sĩ kéo, pháp sư/tiên ở gốc bắn) - cần nhiều nhân vật, chưa làm.
 
 GHI CHÚ MÁY: laptop này là Python 3.14, chỉ chạy test, KHÔNG build bản phát hành (bản phát hành phải dựng
 trên máy có 3.12).

@@ -4,6 +4,7 @@ Features receive a context instead of reaching for globals, which is what makes
 running several accounts at once possible.
 """
 
+import math
 import os
 import threading
 import time
@@ -11,6 +12,7 @@ import time
 from .. import app_paths
 from ..config.models import HOTBAR_PAGES, hotbar_page
 from ..control.controller import InputController
+from ..vision import minimap
 from ..vision.geometry import char_anchor
 from ..vision.hud_numbers import HudNumberReader, percent
 from ..vision.nameplate import NameplateScanner
@@ -23,6 +25,8 @@ from .stats import Stats
 
 # PLAN 0.34: the client needs a moment to redraw the hotbar after a page key (F1/F2/F3).
 PAGE_SETTLE = 0.1
+# PLAN 1.7: one walk click moves two game cells (measured on the game PC).
+CLICK_STEPS = 2
 
 
 class HotbarPages:
@@ -57,7 +61,43 @@ class HotbarPages:
         (self.input.double_press if double else self.input.press)(key)
 
 
-class BotContext(HotbarPages):
+class WalkOffset:
+    """PLAN 1.7: where the hunt start is, in client pixels, without needing the minimap.
+
+    The camera keeps the character in the middle of the screen, so the only thing that moves is the world: a
+    walk click shifts it by up to CLICK_STEPS steps, and walking all the way to a monster shifts it by exactly
+    the monster's screen offset. Kept as a mixin so the offline tests drive the real arithmetic.
+    """
+
+    def step_px(self, rect=None):
+        """PLAN 1.7: client px of one character step, measured value (scan.step_mm) or the default."""
+        rect = rect or self.rect()
+        return minimap.step_px(rect.w, self.account.scan.step_mm)
+
+    def offset(self):
+        """Client px from the hunt start to the character (the camera centres the character, so the start
+        itself is at char - offset on screen). (0, 0) before the hunt begins."""
+        return self.state.get("offset") or (0.0, 0.0)
+
+    def note_walk(self, char, point, rect=None):
+        """PLAN 1.7: a walk click moves the character up to CLICK_STEPS steps toward ``point``; add that to
+        the offset so the way back to the hunt start is known without the minimap."""
+        dx, dy = point[0] - char[0], point[1] - char[1]
+        dist = math.hypot(dx, dy)
+        if dist < 1:
+            return
+        moved = min(CLICK_STEPS * self.step_px(rect), dist)
+        ox, oy = self.offset()
+        self.state["offset"] = (ox + moved * dx / dist, oy + moved * dy / dist)
+
+    def note_arrival(self, char, point):
+        """PLAN 1.7: the character walked all the way to ``point`` (a fight reached melee), so the world
+        moved by exactly that much - no guessing per beat."""
+        ox, oy = self.offset()
+        self.state["offset"] = (ox + point[0] - char[0], oy + point[1] - char[1])
+
+
+class BotContext(HotbarPages, WalkOffset):
     def __init__(self, account, backend, grabber, arbiter, window=None):
         self.account = account
         self.window = window or GameWindow()

@@ -16,6 +16,7 @@ FIELDS = (
     ("misses_before_wander", "scan_misses", 1, 10, 1, 1),
     ("max_probe_points", "scan_points", 1, MAX_PROBE_POINTS, 1, 1),
     ("hunt_range", "scan_range", 0, HUNT_RANGES[-1], HUNT_RANGES, 1),  # PLAN 1.2
+    ("pull_mode", "scan_pull", 0, 1, 1, 1),  # PLAN 1.7
     ("miss_ttl", "scan_miss_ttl", 0, 30, 1, 1),
     ("hover_settle", "scan_settle_ms", 0, 300, 10, 1000),
     ("hover_retry", "scan_retry_ms", 0, 300, 10, 1000),
@@ -32,7 +33,7 @@ FIELDS = (
 
 
 # Shown at once; the rest (timings, threshold) sits in the collapsed "Advanced" box (UI v7).
-BASIC = ("misses_before_wander", "max_probe_points", "hunt_range")
+BASIC = ("misses_before_wander", "max_probe_points", "hunt_range", "pull_mode")
 
 # PLAN 1.2 step calibration: the player walks this many steps between the two presses while the tool
 # follows the minimap. Auto-walking cannot do it: a walk click is given in px, which is what we measure.

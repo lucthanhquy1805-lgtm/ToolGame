@@ -32,6 +32,16 @@ CLEARANCE = 1  # obstacles grown by this many minimap px for paths (the characte
 # walks 2 steps (game PC 26/11: 5 clicks = 10 steps measured 2.3 px/step), so a step is 2.3 px.
 # Only the fallback: the Hunt tab's "measure a step" button saves the measured value to scan.step_mm.
 STEP_MM = 2.3
+
+
+def step_px(client_w, step_mm=None):
+    """PLAN 1.7: client px of ONE character step (one game cell).
+
+    The minimap is drawn in screen orientation at ~SCALE client px per minimap px, and that factor is near
+    enough the same along x and y (8.5-12.5 measured), so one scalar is enough: 2.3 x 10 = 23 px at 1280.
+    One walk click moves two steps (records_game/20261126_192615_observe: 10 clicks = 20 steps).
+    """
+    return (step_mm or STEP_MM) * SCALE * client_w / BASE_W
 STEP_MM_RANGE = (1.0, 20.0)  # a measurement outside this is a misread, not a step
 # Odometry features (PLAN 1.2b): the minimap is see-through, so its gray level follows the game scene under
 # it; only the small dark marks of the map (black-hat) are kept, the arrow in the middle is masked out.

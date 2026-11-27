@@ -253,6 +253,9 @@ class ScanSettings:
     # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
     # is ignored and the UI says so.
     hunt_range: int = 0
+    # PLAN 1.7: with a hunt range, a melee class walks out, hits the monster once or twice so it follows,
+    # and walks back to the start instead of killing it out in the field.
+    pull_mode: bool = True
     # PLAN 1.2: minimap px of one step, measured with the Hunt tab button; 0 = minimap.STEP_MM.
     # (v21rc1 saved client px under "step_px": that key is no longer read.)
     step_mm: float = 0.0
@@ -293,6 +296,7 @@ class ScanSettings:
             search_threads=min(8, max(1, int(data.get("search_threads", 2)))),
             adaptive_detect=bool(data.get("adaptive_detect", True)),
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
+            pull_mode=bool(data.get("pull_mode", True)),
             step_mm=_step_mm(data.get("step_mm", 0.0)),
             **cls._detect_v15(data),
         )

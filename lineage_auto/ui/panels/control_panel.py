@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from ... import hunt_maps
+from ...characters.base import CombatStyle
 from ...runtime.session import SessionState
 from .base import Panel
 
@@ -80,10 +81,9 @@ class ControlPanel(Panel):
             self.lbl_state.config(text=self.t(key), foreground=colour)
             warnings = []
             if running and self.tab.session.ctx.state.get("minimap") is False:
-                # PLAN 1.2: without the minimap there is no position, so the hunt range cannot work at all.
-                steps = self.account.scan.hunt_range
-                warnings.append(self.t("warn_in_place_minimap" if steps == 1  # PLAN 1.2c: stay put
-                                       else "warn_range_minimap" if steps else "warn_no_minimap"))
+                # PLAN 1.7: the hunt range no longer needs the minimap (the walk offset carries the position),
+                # but walls / routing still do.
+                warnings.append(self.t("warn_no_minimap"))
             # PLAN 0.40: on an MP-hungry ground the heal spell empties the MP bar (20261126_101941: 84 -> 2 %).
             if hunt_maps.get(self.account.hunt_map).mp_hungry and not any(
                     p.enabled and p.stat == "mp" for p in self.account.health.potions):
@@ -93,7 +93,7 @@ class ControlPanel(Panel):
                 warnings.append(self.t("warn_potion_empty", slots=", ".join(empty)))
             # PLAN 0.44: a caster standing still with no attack spell cannot do anything (20261127_101929:
             # 68 fights, 0 spells). Warn before the hunt, not only in the log.
-            if self.account.scan.hunt_range == 1 and not any(
+            if self.account.scan.hunt_range and self.account.character.style != CombatStyle.MELEE and not any(
                     self.account.attack(k).enabled and self.account.attack(k).skill_id
                     for k in self.account.attack_skills):
                 warnings.append(self.t("warn_in_place_no_skill"))

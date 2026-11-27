@@ -31,7 +31,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 os.chdir(ROOT)
 
-from lineage_auto.runtime.context import HotbarPages  # noqa: E402
+from lineage_auto.runtime.context import HotbarPages, WalkOffset  # noqa: E402
 BEAT_COST = 0.25
 CURSOR_R = 30
 AIM_DELAY = 1.0  # s from a slot key to the aiming ellipse (game PC, PLAN 0.35: "a good second")
@@ -61,7 +61,7 @@ def read_jsonl(path):
     return [json.loads(line) for line in open(path, encoding="utf-8") if line.strip()]
 
 
-class _ReplayCtx(HotbarPages, types.SimpleNamespace):
+class _ReplayCtx(HotbarPages, WalkOffset, types.SimpleNamespace):
     pass
 
 
@@ -444,54 +444,53 @@ def check_idle_101941(rec):
 
 
 def check_range(rec):
-    """PLAN 1.2: the hunt range in steps, on the frames of a recording whose minimap is on all the way.
+    """PLAN 1.7: the hunt range is N steps from the HUNT START, measured through the accumulated walk offset.
 
-    Per range: every monster the scan keeps is inside the range, every walk started outside it heads home
-    (why go_home). "Stay put" (1 step) is check_in_place_101941."""
-    import math
-
+    Per range: every monster the scan keeps is inside the range and some are skipped; a character pushed off
+    the spot walks home one click (= 2 steps) at a time and nothing but go_home is ever clicked.
+    """
+    from lineage_auto.characters import get as get_class
     from lineage_auto.features import exploration as ex
-    from lineage_auto.vision import minimap
 
     for steps in (5, 10):
         r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
+        r.ctx.character = get_class("knight")  # a melee class walks; the caster case is check_in_place_101941
         r.ctx.account.scan.hunt_range = steps
+        r.ctx.state["offset"] = (0.0, 0.0)
         tgt, events = r.targeting, []
         expl = ex.ExplorationFeature(r.ctx, targeting=tgt)
         r.ctx.recorder = types.SimpleNamespace(event=lambda kind, **d: events.append(d),
                                                count=lambda *a, **k: None)
-
-        def home_steps(p):
-            """Steps between a client point and the hunt start, measured again from the odometry."""
-            w, home = tgt.world(p), r.ctx.state.get("home")
-            if w is None or home is None:
-                return None
-            return math.hypot(w[0] - home[0], w[1] - home[1]) / minimap.STEP_MM
-
-        kept, skipped, far = [], 0, 0.0
+        step = r.ctx.step_px(r.rect)
+        kept, skipped = [], 0
         for f in r.frames:
             r.clock.now = f["t"]
             tgt.see(r.frame_at(r.clock.now), CHAR)
             tgt.last_monsters = [tuple(p) for p in f["hits"]]
             expl.observe()
             for p in tgt.last_monsters:
-                if tgt.out_of_range(p):
+                if tgt.out_of_range(p, CHAR):
                     skipped += 1
                 else:
-                    kept.append(home_steps(p))
-            far = max(far, tgt.steps_from_home() or 0.0)
-            if not f["hits"]:
-                expl.wander(r.rect, CHAR)
-        r.ctx.recorder = None
-        outside = [d for d in kept if d is not None and d > steps + 0.01]
-        walks_out = [e for e in events if (e.get("home_dist") or 0) > steps]
-        home_walks = sum(e["why"] == "go_home" for e in events)
-        print(f"   range {steps} steps: {len(kept)} monsters kept, {skipped} out of range; "
-              f"{far:.1f} steps from the start at most; {home_walks}/{len(events)} walks back home")
+                    kept.append(tgt.from_home(p, CHAR) / step)
+        outside = [d for d in kept if d > steps + 0.01]
+        print(f"   range {steps} steps ({steps * step:.0f} px): {len(kept)} monsters kept, {skipped} out of "
+              f"range")
         assert not outside, outside[:5]
-        assert all(e["why"] == "go_home" for e in walks_out), [e["why"] for e in walks_out[:5]]
+        assert kept and skipped, (len(kept), skipped)
 
-    # "Stay put" (1 step): check_in_place_101941 (PLAN 1.2c).
+        # Pushed 6 steps off the spot: walk home, one click = 2 steps, nothing else is ever clicked.
+        r.ctx.state["offset"] = (6.0 * step, 0.0)
+        tgt.last_monsters = []
+        for _ in range(6):
+            expl.wander(r.rect, CHAR)
+        left = tgt.steps_from_home()
+        print(f"   pushed 6 steps off: {len(events)} walks, {left:.1f} steps left, "
+              f"{sum(e['why'] == 'go_home' for e in events)} of them go_home")
+        assert events and all(e["why"] == "go_home" for e in events), [e["why"] for e in events[:3]]
+        assert left <= ex.GO_HOME_STOP, left
+        assert len(events) <= 4, len(events)  # 6 steps home = 3 clicks, not one per beat
+        r.ctx.recorder = None
 
 
 def check_walls_225217(rec):
@@ -530,7 +529,7 @@ def check_walls_225217(rec):
 
 
 def check_in_place_101941(rec):
-    """PLAN 1.2c: "stay put" (hunt_range 1) with a wizard on the 101941 frames. The recorded attack hovers become
+    """PLAN 1.7: a wizard with a hunt range stands on the spot (1.2c tied this to hunt_range == 1). The recorded attack hovers become
     fights from where the character stands: no hold and no click except a spell's aimed click (the ellipse is
     up), spells land on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee
     class keeps only what stands next to it."""
@@ -540,7 +539,9 @@ def check_in_place_101941(rec):
     from lineage_auto.features import exploration as ex
 
     r = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
-    r.ctx.account.scan.hunt_range = 1
+    # 15 steps = ~345 px, about as far as a spell is ever aimed (targeting.IN_PLACE_SHOT_PX).
+    r.ctx.account.scan.hunt_range = 15
+    r.ctx.state["offset"] = (0.0, 0.0)
     r.ctx.character = types.SimpleNamespace(skill_interval=1.0, style=CombatStyle.CASTER)
     r.game_pc_spells()
     r.ctx.account.attack("F5").min_mp = 0  # spells whenever MP allows (the heal reserve still applies)
@@ -570,7 +571,10 @@ def check_in_place_101941(rec):
     # The saved frames move (the v20 bot walked), so the odometry sees the spot drift away like a push would:
     # a walk click only ever goes home, and only once the character is IN_PLACE_DRIFT steps off.
     w = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
-    w.ctx.account.scan.hunt_range = 1
+    w.ctx.account.scan.hunt_range = 15
+    w.ctx.character = r.ctx.character
+    # PLAN 1.7: the offset only moves when the bot clicks, so being "pushed" is simulated here.
+    w.ctx.state["offset"] = (6.0 * w.ctx.step_px(w.rect), 0.0)
     walks = []
     w.ctx.recorder = types.SimpleNamespace(event=lambda kind, **d: walks.append(d), count=lambda *a, **k: None)
     expl = ex.ExplorationFeature(w.ctx, targeting=w.targeting)
@@ -581,19 +585,24 @@ def check_in_place_101941(rec):
         expl.observe()
         expl.wander(w.rect, CHAR)
     assert len(walks) == len(w.clicks), (len(walks), len(w.clicks))
-    assert all(e["why"] == "go_home" and e["home_dist"] > ex.IN_PLACE_DRIFT for e in walks), walks[:3]
-    w.targeting.minimap = None  # minimap off: no position, stand still whatever happens
+    assert all(e["why"] == "go_home" for e in walks), walks[:3]
+    assert len(walks) <= 4, len(walks)  # 6 steps home = 3 clicks, then it stands still again
     n = len(w.clicks)
+    w.targeting.last_monsters = [(CHAR[0] + 150, CHAR[1])]  # something in reach: shoot it, never walk
+    w.ctx.state["offset"] = (9.0 * w.ctx.step_px(w.rect), 0.0)
     for _ in range(5):
         expl.wander(w.rect, CHAR)
     assert len(w.clicks) == n, w.clicks[n:]
-    print(f"   stay put wander: {len(walks)} walks over 120 frames, all go_home beyond {ex.IN_PLACE_DRIFT} steps; "
-          f"minimap off = 0 walks")
+    print(f"   stay put wander: {len(walks)} walks home over 120 frames (dead zone {ex.GO_HOME_START} steps); "
+          f"a monster in reach = 0 walks")
     tg = r.targeting
     far_box = (CHAR[0] + 300, CHAR[1])
     assert not tg.out_of_range(far_box, CHAR) and tg.out_of_range((CHAR[0] + 400, CHAR[1]), CHAR)
+    # PLAN 1.7b: the caster shoots to its own reach (the range in steps only limits walking); a melee class
+    # with the same range is limited to N steps from the start instead.
+    assert tg.shot_reach() == r.tg.IN_PLACE_SHOT_PX
     r.ctx.character = types.SimpleNamespace(skill_interval=1.0, style=CombatStyle.MELEE)
-    assert tg.out_of_range(far_box, CHAR) and not tg.out_of_range((CHAR[0] + 60, CHAR[1]), CHAR)
+    assert not tg.out_of_range(far_box, CHAR) and tg.out_of_range((CHAR[0] + 400, CHAR[1]), CHAR)
 
 
 def main():

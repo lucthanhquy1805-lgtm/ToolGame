@@ -17,7 +17,8 @@ from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
-from .targeting import IN_PLACE_SHOT_PX, LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
+from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
+from .survival import DANGER_MOBS
 from .targeting import SELF_R as SELF_BOX_R
 
 DRAG_OFFSET = 15
@@ -57,6 +58,13 @@ NEAR_FIGHT_DIST = 100
 # fence still ends it as unreachable / cap.
 WALL_MIN_DIST = 250
 NEAR_UNREACH_SEC = 4.0
+# PLAN 1.7 "pull": hits that make a monster follow (counted only with the attack cursor on it and the attack
+# command sent), how close to the start a monster counts as "it followed", how long to wait for that, and how
+# many trips to the same monster before giving up on it.
+PULL_HITS = 2
+PULL_HOME_PX = 100
+PULL_FOLLOW_SEC = 5.0
+PULL_RETRIES = 2
 DETOUR_AFTER = 0.8  # s without progress before walking to the minimap gap once
 PROGRESS_PX = 16
 MAX_DETOURS = 2
@@ -416,7 +424,9 @@ class CombatFeature(Feature):
                       "no_progress": "no progress, blacklisted", "switch": "closer monster, switching",
                       "wall": "no way on the minimap, blacklisted",
                       "danger": "danger, leaving the fight",
-                      "no_spell": "no attack skill enabled, nothing to shoot with"}
+                      "no_spell": "no attack skill enabled, nothing to shoot with",
+                      "pulled": "pulled, walking back to the start",
+                      "pull_danger": "danger while pulling, walking back to the start"}
                      .get(outcome, outcome) + note)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -518,7 +528,7 @@ class CombatFeature(Feature):
     def engage_ranged(self, target, rect, char):
         """PLAN 1.2c: shoot the lock from where we stand. No hold, no click on the monster: attack spells only
         (the aiming ellipse is required); none ready (MP, cooldown) = wait. Ends on a kill line, the box gone,
-        the lock out of IN_PLACE_SHOT_PX or the fight cap."""
+        the lock out of the hunt range (PLAN 1.7) or the fight cap."""
         self.last_outcome = None
         skills, interval = self.active_skills(), self.character.skill_interval
         anchor = target.local
@@ -564,8 +574,9 @@ class CombatFeature(Feature):
             if updated is None and now - box_t >= BOX_GONE_SEC:
                 gone = self._chat_readable() and self.account.loot.mode == "auto"
                 return self._finish(target, "gone" if gone else "vanished", anchor, f"box gone {now - box_t:.1f}s")
-            if self._dist > IN_PLACE_SHOT_PX:
-                return self._finish(target, "lost", anchor, f"out of reach at {self._dist:.0f}px")
+            # PLAN 1.7: the lock left the hunt range (measured from the start) or is simply too far to aim at.
+            if self.targeting.out_of_range(anchor, char):
+                return self._finish(target, "lost", anchor, f"out of range at {self._dist:.0f}px")
             paused = now < self.ctx.state.get("skill_pause_until", 0.0)
             if paused:
                 self._skipped["paused"] = self._skipped.get("paused", 0) + 1
@@ -598,6 +609,58 @@ class CombatFeature(Feature):
         self._fight_start = time.time()
         return self._finish(target, "no_spell", anchor, f"{self._dist:.0f}px, no attack skill enabled")
 
+    def _event(self, kind, **data):
+        rec = getattr(self.ctx, "recorder", None)
+        if rec:
+            rec.event(kind, **data)
+            rec.count(kind)
+
+    def _start_follow_watch(self, anchor, char):
+        """PLAN 1.7: after a pull we walk home and wait PULL_FOLLOW_SEC for the monster to arrive. Remember the
+        spot (in offset coordinates, so it survives the walk) and how many trips it has already cost."""
+        ox, oy = self.ctx.offset()
+        spot = (anchor[0] - char[0] + ox, anchor[1] - char[1] + oy)
+        state = self.ctx.state
+        old = state.get("pull") or {}
+        tries = old.get("tries", 0) + 1 if self._same_spot(old.get("spot"), spot) else 1
+        state["pull"] = {"spot": spot, "tries": tries, "until": None}
+        state["go_home"] = True
+
+    @staticmethod
+    def _same_spot(old, new, radius=PULL_HOME_PX):
+        return bool(old) and math.hypot(old[0] - new[0], old[1] - new[1]) <= radius
+
+    def pulling(self, anchor, char):
+        """PLAN 1.7: this fight is a PULL trip - walk out, hit it so it follows, come back.
+
+        Off without a hunt range, for a ranged class, or when the monster is already next to the start (then it
+        followed us home and is simply killed).
+        """
+        tg = self.targeting
+        scan = self.account.scan
+        if not (scan.pull_mode and scan.hunt_range and tg is not None):
+            return False
+        if getattr(tg, "ranged", None) is not None and tg.ranged():
+            return False
+        away = tg.from_home(anchor, char)
+        if away is None:
+            return False
+        if away <= PULL_HOME_PX:
+            # It is at the start point: it followed us home (or was always here) - kill it where we stand.
+            pull = self.ctx.state.get("pull")
+            if pull:
+                self._event("pull_follow_ok", tries=pull.get("tries", 1), dist=round(away))
+                self.ctx.state["pull"] = None
+            return False
+        return True
+
+    def _pull_danger(self):
+        """HP falling or a crowd around us: a pull trip is abandoned at once (PLAN 1.7)."""
+        if self.health is not None and getattr(self.health, "hp_falling", bool)():
+            return "hp falling"
+        near = len(self.ctx.state.get("mobs_near") or ())
+        return f"{near} monsters next to us" if near >= DANGER_MOBS else ""
+
     def engage(self, target, rect, char, force_melee=False):
         """Attack until death/lost/stop. Always hold+drag on entry."""
         if self._shoot_only() and not force_melee:
@@ -615,6 +678,11 @@ class CombatFeature(Feature):
         self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
         self._box_gone, self._cursor_last = 0.0, None
         melee_seen = False
+        # PLAN 1.7: a pull trip hits the monster PULL_HITS times and goes home; it is not fought to death.
+        pull, pull_hits = self.pulling(anchor, char), 0
+        if pull:
+            self._event("pull_start", anchor=list(anchor), dist=round(self._dist),
+                        steps=round((self.targeting.from_home(anchor, char) or 0) / self.targeting.step_px(), 1))
         melee_max = self.account.scan.melee_max_sec
         # PLAN 0.29 / 1: the chat kill line names the monster; compare with the one we lock (when readable).
         locked_name = self.targeting.read_name(anchor) if self.targeting is not None else None
@@ -738,6 +806,19 @@ class CombatFeature(Feature):
                     return target
                 if closer is not None:
                     self._hold_and_drag(screen_x, screen_y)  # the hover said no monster there: stay on the lock
+                if pull:
+                    reason = self._pull_danger()
+                    if reason:
+                        self._event("pull_return", why="danger", detail=reason, hits=pull_hits)
+                        self.ctx.state["go_home"] = True
+                        return self._finish(target, "pull_danger", anchor, reason)
+                    if melee:
+                        pull_hits += 1
+                        self._event("pull_hit", n=pull_hits, cursor=self._cursor_last, dist=round(dist))
+                        if pull_hits >= PULL_HITS:
+                            self._event("pull_return", why="hits", detail="", hits=pull_hits)
+                            self._start_follow_watch(anchor, char)
+                            return self._finish(target, "pulled", anchor, f"{pull_hits} hits")
                 if melee:
                     fight_progress_t = progress_t = now  # hitting it: never no_progress / side step / unreachable
                 if live:

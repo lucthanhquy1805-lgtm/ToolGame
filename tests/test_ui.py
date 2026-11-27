@@ -79,7 +79,12 @@ def main():
         tab.scan.vars["hunt_range"].set(7)  # not one of the offered ranges -> nearest
         tab.scan.store()
         assert tab.account.scan.hunt_range == 5, tab.account.scan.hunt_range
-        assert "1 = tại chỗ" in tab.scan.labels["scan_range"].cget("text")  # PLAN 1.2c
+        assert "điểm gốc" in tab.scan.labels["scan_range"].cget("text")  # PLAN 1.7: range from the start
+        # PLAN 1.7: "pull" sits next to the range and is on by default
+        assert tab.account.scan.pull_mode and tab.scan.vars["pull_mode"].get() == 1
+        tab.scan.vars["pull_mode"].set(0); tab.scan.store()
+        assert not tab.account.scan.pull_mode
+        tab.scan.vars["pull_mode"].set(1); tab.scan.store()
         tab.scan.load()
         assert tab.scan.lbl_step.cget("text") == f"1 bước = {minimap.STEP_MM:.1f} px trên minimap"
         tab.scan._odo = types.SimpleNamespace(pos=(13.8, 18.4))  # 23 minimap px walked

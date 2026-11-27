@@ -27,7 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
-from .targeting import IN_PLACE_RANGE, IN_PLACE_SHOT_PX, MELEE_DIST
+from .targeting import MELEE_DIST
 
 CLICK_SETTLE = 0.05
 DIRECTION_STEP = 2
@@ -40,7 +40,6 @@ VISIT_TTL = 120.0  # s a visited spot counts as explored
 VISIT_R = 6.0  # minimap px around a visited spot
 LOOK = (8, 16, 24)  # minimap px sampled along a direction for frontier
 MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.hunt_range when set)
-IN_PLACE_DRIFT = 3  # PLAN 1.2c: steps a "stay put" character may be pushed off its spot before walking back
 # PLAN 0.44: 20261127_101929_hunt walked "home" 113 times, alternating N and S, while the odometry reading of
 # the distance to the start wandered between 3.3 and 7 steps - that was noise, not the character moving. So a
 # dead zone of 2 walk clicks before the first step home, and then keep going until nearly home (hysteresis).
@@ -231,17 +230,16 @@ class ExplorationFeature(Feature):
         tg = self.targeting
         if tg is None or tg.char is None:
             return False
-        reach = IN_PLACE_SHOT_PX if tg.ranged() else MELEE_DIST
+        reach = tg.shot_reach() if tg.ranged() else MELEE_DIST
         return any(math.hypot(x - tg.char[0], y - tg.char[1]) <= reach for x, y in (tg.last_monsters or ()))
 
     def _home_walk(self, rect, char):
-        """PLAN 1.2: one walk back toward the hunt start, or None when the way there is not known."""
-        tg = self.targeting
-        mm, pos, start = tg.minimap, tg.odo.pos, self._start
-        if mm is None or pos is None or start is None:
-            return None
-        # The minimap is drawn in screen orientation, so a world delta is a screen direction.
-        idx = direction_index(start[0] - pos[0], start[1] - pos[1])
+        """PLAN 1.7: one walk click back toward the hunt start, using the accumulated offset (no minimap).
+
+        The start is at ``char - offset`` on screen, so walking home means walking along -offset.
+        """
+        ox, oy = self.ctx.offset()
+        idx = direction_index(-ox, -oy)
         if idx is None:
             return None
         self._keep = None
@@ -253,11 +251,15 @@ class ExplorationFeature(Feature):
         tg = self.targeting
         steps = self.ctx.account.scan.hunt_range
         away = tg.steps_from_home() if tg is not None else None
-        if steps == IN_PLACE_RANGE:
-            # PLAN 1.2 "stay put": no walk at all, the loop keeps scanning for monsters that come to us.
-            # PLAN 1.2c: without the minimap too (no position: standing still is the only safe choice).
-            # PLAN 0.44: and never a step home while a monster stands in reach - shoot it first.
-            if away is None or self._monster_in_reach():
+        if steps:
+            # PLAN 1.7: a hunt with a range never wanders - it only walks back to the start. A stand-still
+            # class simply keeps scanning for monsters that come to it.
+            # PLAN 0.44: never a step home while a monster stands in reach - fight it first; and the walk
+            # home only starts past GO_HOME_START steps (odometry / click noise alone read 3-7 steps).
+            # A monster in reach comes first - but a melee class walking back from a pull must keep going,
+            # or the monster it just pulled would hold it in the field forever (PLAN 1.7).
+            if away is None or (self.targeting is not None and self.targeting.ranged()
+                                and self._monster_in_reach()):
                 self._homing = False
             elif self._homing:
                 self._homing = away > GO_HOME_STOP
@@ -271,7 +273,7 @@ class ExplorationFeature(Feature):
                 self.ctx.sleep(CLICK_SETTLE)  # "stay put" never wanders blindly, not even to get home
                 return
         else:
-            home = self._home_walk(rect, char) if steps and away is not None and away > steps else None
+            home = None  # no range = the old free hunt: wander
         smart = None if home is not None else self._smart(rect, char)
         if home is not None:
             (wx, wy), name, why, reason = home
@@ -296,4 +298,5 @@ class ExplorationFeature(Feature):
                       pos=[round(pos[0], 1), round(pos[1], 1)] if pos is not None else None,
                       home_dist=round(away, 1) if away is not None else None)  # PLAN 1.2, steps
         self.input.click_at(*rect.to_screen(wx, wy))
+        self.ctx.note_walk(char, (wx, wy), rect)  # PLAN 1.7: remember the way back to the start
         self.ctx.sleep(random.uniform(CLICK_SETTLE, SETTLE_MAX))

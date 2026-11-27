@@ -14,7 +14,7 @@ from dataclasses import dataclass
 import cv2
 
 from .. import hunt_maps
-from ..characters.base import CombatStyle
+from ..characters.base import HOTKEYS, CombatStyle
 from ..vision.geometry import DEFENSE_RADIUS, play_max_radius
 from ..vision.motion_watch import roi_motion_score
 from ..vision import minimap, yolox_mobs
@@ -70,9 +70,8 @@ NEAR_RESCANS = 3
 # Another monster under this share of the lock's distance, inside MELEE_DIST, is fought first (combat switches).
 SWITCH_SHARE = 0.5
 MELEE_DIST = 70
-# PLAN 1.2c "stay put" (scan.hunt_range 1): a caster / archer (wizard, elf) shoots every monster this close on
-# screen without walking; a melee class only fights what stands next to it (MELEE_DIST).
-IN_PLACE_RANGE = 1
+# PLAN 1.7: a caster / archer (wizard, elf) with a hunt range shoots from the start point and never walks to a
+# monster; this is the farthest a spell is ever aimed on screen, whatever the range in steps says.
 IN_PLACE_SHOT_PX = 350
 # PLAN 0.43: a monster is remembered for TRACK_MISSES scans in a row without it, so one frame the detector
 # misses does not lose the lock (recall is ~80%). Matching is nearest box within TRACK_MATCH_PX.
@@ -319,6 +318,22 @@ class TargetingFeature(Feature):
         """Minimap px of one character step: measured on the game PC (scan.step_mm) or the default."""
         return self.scan.step_mm or minimap.STEP_MM
 
+    def step_px(self, rect=None):
+        """PLAN 1.7: client px of one character step (one game cell)."""
+        return self.ctx.step_px(rect)
+
+    def from_home(self, local, char=None):
+        """PLAN 1.7: client px between the hunt start and a point on screen.
+
+        The camera keeps the character in the middle, so the start sits at ``char - offset``: a point's
+        distance from the start is |(local - char) + offset|. Works with the minimap off.
+        """
+        char = char or self.char
+        if char is None:
+            return None
+        ox, oy = self.ctx.offset()
+        return math.hypot(local[0] - char[0] + ox, local[1] - char[1] + oy)
+
     def range_mm(self):
         """PLAN 1.2: the hunt range in minimap px, or None (no range chosen / no minimap).
 
@@ -329,34 +344,58 @@ class TargetingFeature(Feature):
         return max(steps * self.step_mm(), MELEE_DIST / self.minimap.scale)
 
     def steps_from_home(self):
-        """Steps between the character and the hunt start point, or None (no minimap / nothing seen yet)."""
+        """PLAN 1.7: steps between the character and the hunt start, from the accumulated walk offset.
+
+        The minimap odometry is only a cross-check now (logged by ``home_drift``), because on 27/11 its noise
+        alone read 3.3-7 steps off and sent the bot walking back and forth.
+        """
+        ox, oy = self.ctx.offset()
+        return math.hypot(ox, oy) / self.step_px()
+
+    def home_drift(self):
+        """Steps between what the offset says and what the minimap odometry says, or None."""
         home, pos = self.ctx.state.get("home"), self.odo.pos
         if home is None or pos is None or self.minimap is None:
             return None
-        return math.hypot(pos[0] - home[0], pos[1] - home[1]) / self.step_mm()
+        odo = math.hypot(pos[0] - home[0], pos[1] - home[1]) / self.step_mm()
+        return odo - self.steps_from_home()
 
     def in_place(self):
-        """PLAN 1.2c: "stay put" - never walk toward a monster."""
-        return self.scan.hunt_range == IN_PLACE_RANGE
+        """PLAN 1.7: a caster / archer with a hunt range never walks to a monster - it shoots from the start
+        point. (1.2c tied this to hunt_range == 1, which was a misreading of the request.)"""
+        return self.scan.hunt_range > 0 and self.ranged()
+
+    def shot_reach(self):
+        """PLAN 1.7b: how far this character really aims - the largest "range px" of its enabled attack slots,
+        or IN_PLACE_SHOT_PX when none is set. The hunt range in steps does NOT shorten it."""
+        account = self.ctx.account
+        account.ensure_skill_maps()
+        ranges = [account.attack(key).range_px for key in HOTKEYS
+                  if account.attack(key).enabled and account.attack(key).skill_id
+                  and account.attack(key).range_px]
+        return max(ranges) if ranges else IN_PLACE_SHOT_PX
 
     def ranged(self):
         """A class that hits from afar (wizard spells, elf bow) - everything but the melee classes."""
         return self.character.style != CombatStyle.MELEE
 
     def out_of_range(self, local, char=None):
-        """PLAN 1.2: point farther from the hunt start than the chosen range (False without a minimap).
+        """Point the bot must not take as a target (False when nothing limits it).
 
-        PLAN 1.2c "stay put": measured on screen from the character (no minimap needed): IN_PLACE_SHOT_PX for a
-        ranged class, MELEE_DIST for a melee one."""
+        PLAN 1.7b: the hunt range in steps is about WALKING, so it only limits a class that walks to its
+        target. A caster / archer stands on the spot and shoots everything inside its real reach
+        (``shot_reach``, measured from the CHARACTER): on a group hunt, waiting for a monster to come within N
+        steps of the start would leave the puller out there alone. For a melee class the limit is N steps from
+        the HUNT START, measured through the accumulated walk offset, so it needs no minimap.
+        """
         char = char or self.char
-        if self.in_place() and char is not None:
-            reach = IN_PLACE_SHOT_PX if self.ranged() else MELEE_DIST
-            return math.hypot(local[0] - char[0], local[1] - char[1]) > reach
-        limit, home = self.range_mm(), self.ctx.state.get("home")
-        if limit is None or home is None:
+        if self.in_place():
+            return char is not None and math.hypot(local[0] - char[0], local[1] - char[1]) > self.shot_reach()
+        steps = self.scan.hunt_range
+        if not steps:
             return False
-        w = self.world(local)
-        return w is not None and math.hypot(w[0] - home[0], w[1] - home[1]) > limit
+        away = self.from_home(local, char)
+        return away is not None and away > steps * self.step_px()
 
     def block(self, local):
         """PLAN 0.27: the character could not reach this target -> skip the spot for a while."""

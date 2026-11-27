@@ -31,7 +31,7 @@ print('imported',len(mods),'modules OK')
 
 from lineage_auto.config import ConfigStore, AppSettings
 from lineage_auto.config.models import AccountSettings
-from lineage_auto.runtime.context import HotbarPages
+from lineage_auto.runtime.context import HotbarPages, WalkOffset
 d=tempfile.mkdtemp()
 # legacy v1 config migration
 json.dump({'hp_threshold_pct':40,'skill_hp_enabled':True,'hp_skill_key':'F5','pot_hp_enabled':False,'hp_pot_key':'F7',
@@ -96,7 +96,7 @@ class In:
 class HR:
     def __init__(s,v): s.v=v; s.last_fill_is_green=False
     def read_percent(s,g,r): return s.v
-class Ctx(HotbarPages):
+class Ctx(HotbarPages, WalkOffset):
     def __init__(s,acc,hp):
         s.account=acc; s.input=In(); s.hp_reader=HR(hp); s.grabber=None; s.state={}; s.running=True
     def read_mp(s,r): return None
@@ -192,7 +192,7 @@ class Win:
 class Arb:
     @contextlib.contextmanager
     def hold(s,i,timeout=0): yield True
-class TCtx(HotbarPages):
+class TCtx(HotbarPages, WalkOffset):
     def __init__(s):
         s.account=AccountSettings(); s.running=True; s.input=Mv(); s.cursors=Cur(); s.window=Win(); s.arbiter=Arb()
         s.recorder=None; s.state={}; s.stats=Stats()        # PLAN 4.1: BotContext carries one

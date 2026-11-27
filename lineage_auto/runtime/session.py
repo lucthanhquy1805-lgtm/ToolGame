@@ -7,6 +7,7 @@ import traceback
 
 from .. import hunt_maps, monsters
 from ..logging_setup import rss_mb
+from ..features import combat, exploration
 from ..features.buff import BuffFeature
 from ..features.combat import CombatFeature
 from ..features.cure_poison import CurePoisonFeature
@@ -35,6 +36,8 @@ IDLE_PAUSE = 0.05
 # left open and only go home - the page with heal / potions / return scroll - once nothing has been engaged
 # for this long. Heal, potion, buff and cure still switch to their own page whenever they fire.
 HOME_IDLE_SEC = 3.0
+# PLAN 1.7: longest walk back to the hunt start after a fight (a fence may be in the way).
+GO_HOME_MAX_SEC = 20.0
 # The tool window taking focus stops the bot (PLAN 0.7) once the game had this long to come forward.
 FOCUS_GRACE = 2.0
 # Observe mode reads the player's cursor this often, so corpse / HP 0 frames are caught between regular frames.
@@ -171,6 +174,10 @@ class AccountSession:
         time.sleep(0.2)
         # PLAN 0.34: which hotbar page the player left open is unknown, so press the home page once and
         # remember it; every slot press from here on switches page only when it has to.
+        # PLAN 1.7: the hunt starts HERE - the range, the walk back and the pull all measure from this point.
+        self.ctx.state["offset"] = (0.0, 0.0)
+        for key in ("pull", "go_home", "home"):
+            self.ctx.state.pop(key, None)
         self.ctx.state["hotbar_page"] = None
         self.ctx.goto_page(self.account.home_page or "F1")
         for feature in self._features():
@@ -430,6 +437,48 @@ class AccountSession:
         rec.real_map = new.zone_name
         return new
 
+    def _walk_home(self, rect):
+        """PLAN 1.7: walk back the way we came, one click at a time, after a fight out in the field.
+
+        With a hunt range ExplorationFeature.wander only ever walks home, so this just repeats it until the
+        offset says we are there (or GO_HOME_MAX_SEC passes - a fence may be in the way).
+        """
+        if not self.ctx.state.pop("go_home", False):
+            return
+        deadline = time.monotonic() + GO_HOME_MAX_SEC
+        while self.ctx.running and time.monotonic() < deadline:
+            poll_escape(self.ctx)
+            away = self.targeting.steps_from_home()
+            if away is None or away <= exploration.GO_HOME_STOP:
+                break
+            self.exploration.wander(rect, self.ctx.char_pos(rect))
+        pull = self.ctx.state.get("pull")
+        if pull and pull.get("until") is None:
+            pull["until"] = time.monotonic() + combat.PULL_FOLLOW_SEC
+        self.ctx.log(f"back at the start ({self.targeting.steps_from_home():.1f} steps off"
+                     + (f", drift vs minimap {self.targeting.home_drift():.1f})"
+                        if self.targeting.home_drift() is not None else ")"))
+
+    def _pull_follow(self, char):
+        """PLAN 1.7: nothing to fight at the start point - did the monster we pulled ever arrive?"""
+        pull = self.ctx.state.get("pull")
+        if not pull or pull.get("until") is None or time.monotonic() < pull["until"]:
+            return
+        rec = self.ctx.recorder
+        tries = pull.get("tries", 1)
+        if rec:
+            rec.event("pull_follow_fail", tries=tries)
+            rec.count("pull_follow_fail")
+        if tries >= combat.PULL_RETRIES:
+            ox, oy = self.ctx.offset()
+            spot = pull.get("spot") or (0.0, 0.0)
+            self.targeting.block((char[0] + spot[0] - ox, char[1] + spot[1] - oy))
+            self.ctx.log(f"pulled monster never followed after {tries} trips - spot blacklisted")
+            self.ctx.state["pull"] = None
+        else:
+            self.ctx.log(f"pulled monster never followed (trip {tries}) - going out again")
+            pull["until"] = None
+
     def _hp_falling(self):
         """PLAN 0.39: HUD HP lower than a read up to HP_DROP_SEC ago."""
         hp, now = self.ctx.state.get("hp_abs"), time.monotonic()
@@ -548,6 +597,7 @@ class AccountSession:
                             self.exploration.remember_hunt(char, target.local)
                             self.combat.engage(target, rect, char)
                             self.loot.after_fight(self.combat.last_outcome, self.combat.last_anchor)
+                            self._walk_home(rect)  # PLAN 1.7: a fight in the field ends at the start point
                         elif self.targeting.should_rescan():
                             # Detected but not confirmed: rescan a few times
                             # (scan.misses_before_wander), then walk away.
@@ -558,6 +608,7 @@ class AccountSession:
                                 self.grid.sweep(rect, char)  # no-op unless recording with grid_scan on
                             if rec:
                                 rec.count("wander")
+                            self._pull_follow(char)  # PLAN 1.7
                             self.targeting.reset_misses()
                             if time.monotonic() - last_target > HOME_IDLE_SEC:
                                 self.ctx.goto_page(self.account.home_page)
