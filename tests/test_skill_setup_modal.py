@@ -85,37 +85,43 @@ def main():
         app.request_save()
         assert spell(tab.account) == SPELL, spell(tab.account)
 
-        # 3. Open and APPLY with a buff on the heal's slot (F1+F5): the buff loses the slot, the spell on page
-        # F2 keeps it. This is the game PC's bug: "F5" cleared both pages.
+        # 3. Open and APPLY with a buff on the heal's slot (F1+F5): the clash is reported and NOTHING is
+        # changed - the user decides which one to move. v21rc5 dropped the spell on page F2 here.
         modal = SkillSetupModal(tab.frame, tab)
         modal.show()
         root.update()
+        before = len(warnings)
         modal._apply()
         root.update()
         app.request_save()
+        assert len(warnings) > before and "F5" in warnings[-1], warnings[-1:]
         assert spell(tab.account) == SPELL, ("the spell on page F2 must survive", spell(tab.account), warnings)
         assert tab.account.cast_order == "hover_key_click", tab.account.cast_order
-        assert tab.account.buff("F10").enabled and tab.account.buff("F11").enabled, "other buffs must stay"
-        print(f"   open + Apply with a buff on the heal slot: spell kept, {len(warnings)} warning(s) shown")
+        assert all(tab.account.buff(k).enabled for k in ("F5", "F10", "F11")), "no buff may be dropped either"
+        row = {str(r["skill"]["id"]): r for r in modal._rows["attack"] if r.get("assignable")}["386"]
+        assert row["f_key"].get() == "F5" and row["enabled"].get(), "no row may be cleared behind the user"
+        modal._cancel()
+        print("   Apply with a buff on the heal slot: warned, blocked, nothing changed")
 
-        # 4. A real duplicate (two enabled skills on the SAME slot) is still reported and cleared.
+        # 4. Two enabled skills on the SAME slot: warned, blocked, nothing changed (the slot is named).
         modal = SkillSetupModal(tab.frame, tab)
         modal.show()
         root.update()
         rows = {str(r["skill"]["id"]): r for r in modal._rows["buff"] if r.get("assignable")}
-        row = rows["397"]  # move this buff onto page F1 + F11, where another buff already sits
-        row["f_page"].set("F1")
-        row["f_key"].set("F11")
+        row = rows["397"]  # move this buff onto page F2 + F5, where the attack spell sits
+        row["f_page"].set("F2")
+        row["f_key"].set("F5")
         row["enabled"].set(True)
         before = len(warnings)
         modal._apply()
         root.update()
-        assert len(warnings) > before, "a duplicate slot must warn"
-        assert row["f_key"].get() == "" and not row["enabled"].get(), "the duplicate row is cleared"
-        spell_row = {str(r["skill"]["id"]): r for r in modal._rows["attack"] if r.get("assignable")}["386"]
-        assert spell_row["f_key"].get() == "F5" and spell_row["enabled"].get(), "the spell row must be untouched"
+        assert len(warnings) > before and "F2+F5" in warnings[-1], warnings[-1:]
+        assert row["f_key"].get() == "F5" and row["enabled"].get(), "the row keeps what the user typed"
+        assert spell(tab.account) == SPELL, spell(tab.account)
         modal._cancel()
-        print("   duplicate slot still warns and clears only that row")
+        app.request_save()
+        assert spell(tab.account) == SPELL and tab.account.buff("F10").enabled, spell(tab.account)
+        print("   duplicate slot: warned with the slot name, Apply blocked, nothing changed")
     finally:
         root.destroy()
     print("skill setup modal OK")

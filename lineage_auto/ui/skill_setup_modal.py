@@ -283,10 +283,11 @@ class SkillSetupModal:
 
         conflict_slots = self._conflict_slots(attack_draft, buff_draft, utility_draft)
         if conflict_slots:
-            self._clear_row_hotkeys(conflict_slots)
+            # PLAN 0.45: name the slots and let the user fix them. Clearing the rows here is what lost work:
+            # the dialog decided which assignment to throw away, and the warning named a different skill.
             messagebox.showwarning(
                 self.tab.t("warn_title"),
-                self.tab.t("warn_duplicate_fkey"),
+                f"{self.tab.t('warn_duplicate_fkey')} ({self._slot_list(conflict_slots)})",
                 parent=self.window,
             )
             return
@@ -299,14 +300,15 @@ class SkillSetupModal:
             if setting.enabled and (setting.page, setting.f_key) in reserved
         }
         if hp_overlap:
-            # The HP panel owns these keys; drop the skill slots, keep the rest.
-            self._disable_draft_hotkeys((attack_draft, buff_draft, utility_draft), hp_overlap)
-            self._clear_row_hotkeys(hp_overlap)
+            # PLAN 0.45: the HP panel owns these slots - say so and change nothing. v21rc5 dropped the skill
+            # slot itself, which is how the attack spell disappeared without the user ever deciding.
             messagebox.showwarning(
                 self.tab.t("warn_title"),
-                " ".join(self._hp_overlap_messages(hp_overlap)),
+                " ".join(self._hp_overlap_messages(hp_overlap)
+                         or [f"{self.tab.t('warn_duplicate_fkey')} ({self._slot_list(hp_overlap)})"]),
                 parent=self.window,
             )
+            return
 
         attack_map = {key: AttackSkillSetting() for key in HOTKEYS}
         buff_map = {key: BuffSkillSetting() for key in HOTKEYS}
@@ -389,23 +391,10 @@ class SkillSetupModal:
             slots.add((health.potion_page, health.potion_key))
         return slots
 
-    def _clear_row_hotkeys(self, slots):
-        """Reset modal comboboxes that still show a conflicting hotbar slot (page, key)."""
-        for role in ("attack", "buff", "utility"):
-            for row in self._rows[role]:
-                if not row.get("assignable"):
-                    continue
-                if (hotbar_page(row["f_page"].get()), row["f_key"].get()) in slots:
-                    row["f_key"].set("")
-                    row["enabled"].set(False)
-
     @staticmethod
-    def _disable_draft_hotkeys(drafts, slots):
-        for draft in drafts:
-            for setting in draft.values():
-                if (getattr(setting, "page", HOTBAR_PAGES[0]), getattr(setting, "f_key", "")) in slots:
-                    setting.enabled = False
-                    setting.f_key = ""
+    def _slot_list(slots):
+        """Slots as the user reads them on the rows: "F2+F5, F1+F7"."""
+        return ", ".join(f"{page}+{key}" for page, key in sorted(slots))
 
     def _hp_overlap_messages(self, overlap_slots):
         health = self.account.health
