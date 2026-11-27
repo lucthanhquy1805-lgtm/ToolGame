@@ -15,6 +15,7 @@ import cv2
 
 from .. import hunt_maps
 from ..characters.base import HOTKEYS, CombatStyle
+from ..skills.policy import is_auto_enabled
 from ..vision.drift import screen_steps
 from ..vision.geometry import DEFENSE_RADIUS, play_max_radius
 from ..vision.motion_watch import roi_motion_score
@@ -377,6 +378,12 @@ class TargetingFeature(Feature):
                   and account.attack(key).range_px]
         return max(ranges) if ranges else IN_PLACE_SHOT_PX
 
+    def has_spell(self):
+        """An attack slot combat would cast (same test as CombatFeature.active_skills)."""
+        account = self.ctx.account
+        return any(s.enabled and s.skill_id and is_auto_enabled(s.skill_id)
+                   for s in map(account.attack, account.attack_skills))
+
     def ranged(self):
         """A class that hits from afar (wizard spells, elf bow) - everything but the melee classes."""
         return self.character.style != CombatStyle.MELEE
@@ -411,6 +418,8 @@ class TargetingFeature(Feature):
         """
         char = char or self.char
         if self.in_place():
+            if not self.has_spell():  # no spell: only the hand reaches (0.44 no_spell every beat otherwise)
+                return not self.in_hand_reach(local, char)
             # PLAN 1.9: in reach of the spells OR of the hand attack (a bow reaches farther than a spell's 350 px)
             return (char is not None and math.hypot(local[0] - char[0], local[1] - char[1]) > self.shot_reach()
                     and not self.in_hand_reach(local, char))

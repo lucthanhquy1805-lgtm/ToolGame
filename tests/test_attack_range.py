@@ -227,6 +227,20 @@ def test_in_hand_reach():
     check(tg.attack_steps() == 3, "scan.attack_range overrides the class")
 
 
+def test_no_spell_reach():
+    """A standing caster with no usable attack spell only takes what its hand reaches (no_spell every beat)."""
+    class RealTg(Tg):
+        out_of_range, has_spell, shot_reach = (TargetingFeature.out_of_range, TargetingFeature.has_spell,
+                                               TargetingFeature.shot_reach)
+
+    tg = RealTg(Ctx("wizard"), (700, 400))
+    far, near = (CHAR[0] + 300, CHAR[1]), (CHAR[0] + 40, CHAR[1])
+    check(not tg.has_spell() and tg.out_of_range(far) and not tg.out_of_range(near), "no spell: 300 px skipped")
+    slot = tg.ctx.account.attack("F5")
+    slot.enabled, slot.skill_id = True, "386"
+    check(tg.has_spell() and not tg.out_of_range(far), "a spell: 300 px is shot")
+
+
 def test_spell_why():
     ctx = Ctx("wizard")
     cf = cb.CombatFeature(ctx, targeting=Tg(ctx, (700, 400)))

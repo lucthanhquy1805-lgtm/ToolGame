@@ -625,6 +625,7 @@ def check_in_place_101941(rec):
     w = Replay(rec, hunt_map="fallen_blessed", zone="타락한 축복의 땅의 봄")
     w.ctx.account.scan.hunt_range = 15
     w.ctx.character = r.ctx.character
+    w.game_pc_spells()  # the same spell slots as r: "a monster in reach" below means in reach of a spell
     # PLAN 1.7: the offset only moves when the bot clicks, so being "pushed" is simulated here.
     w.ctx.state["offset"] = (6.0 * w.ctx.step_px(w.rect), 0.0)
     walks = []
@@ -645,6 +646,12 @@ def check_in_place_101941(rec):
     for _ in range(5):
         expl.wander(w.rect, CHAR)
     assert len(w.clicks) == n, w.clicks[n:]
+    # No usable spell: a 150 px monster cannot be hit from here, so it does not keep the caster off home.
+    for key in w.ctx.account.attack_skills:
+        w.ctx.account.attack(key).enabled = False
+    assert not expl._monster_in_reach()
+    w.targeting.last_monsters = [(CHAR[0] + 40, CHAR[1])]
+    assert expl._monster_in_reach()  # next to us: the hand still reaches
     print(f"   stay put wander: {len(walks)} walks home over 120 frames (dead zone {ex.GO_HOME_START} steps); "
           f"a monster in reach = 0 walks")
     tg = r.targeting

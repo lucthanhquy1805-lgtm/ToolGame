@@ -230,6 +230,8 @@ class ExplorationFeature(Feature):
         tg = self.targeting
         if tg is None or tg.char is None:
             return False
+        if tg.ranged() and not tg.has_spell():
+            return any(tg.in_hand_reach(p) for p in (tg.last_monsters or ()))
         reach = tg.shot_reach() if tg.ranged() else MELEE_DIST
         return any(math.hypot(x - tg.char[0], y - tg.char[1]) <= reach for x, y in (tg.last_monsters or ()))
 
