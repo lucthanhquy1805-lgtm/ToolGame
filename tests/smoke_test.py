@@ -694,6 +694,7 @@ assert _CP({'corpse':'f0f0f03800000000','npc':'f0f0602000000000'}).near_duplicat
 assert _CP({'corpse':'f0f0f03800000000','npc':'f0f0f03800000003'}).near_duplicates()==[('corpse','npc',2)]
 print('attack spells: 3 orders, pages, 1.8s ellipse wait, newest box / neighbour / cancel OK')
 # PLAN 0.31: YOLOX on its own thread; targeting reads the newest result, never the character's own box
+from lineage_auto.runtime import detector as detector_mod
 from lineage_auto.runtime.detector import DetectorThread
 importlib.reload(tg)  # the scan tests above replaced tg.detect_centers / CursorProbe
 dframe=cv2.imread('records_game/20261125_092741_hunt/f_00007.jpg')   # 1280x960, the v15 night hunt
@@ -704,10 +705,15 @@ if dframe is not None:
     det=DetectorThread(dctx2)
     assert det.size==640 and not det.roi and det.fps=={'search':2,'fight':2}, det.describe()
     assert det.threads=={'search':2,'fight':1}, det.threads           # PLAN 0.34: 2 threads only while searching
-    assert det.adaptive and det.fight_size==416                       # PLAN 0.33: every 2nd fight detect is cheap
+    assert det.adaptive and det.fight_size==416                       # PLAN 0.33: the cheap fight detect
     assert det._mode(0)==(640,False,2,'search') and det._mode(1)==(640,False,2,'search')
-    dctx2.state['fight_until']=time.monotonic()+1
-    assert det._mode(0)==(640,False,1,'fight') and det._mode(1)==(416,True,1,'fight'), (det._mode(0),det._mode(1))
+    dctx2.state['fight_until']=time.monotonic()+5
+    # PLAN 0.43: a fight full-frames every FULL_EVERY s (by TIME, not every 2nd detect: at 1/s seq%2 lost it)
+    det._full_t=0.0
+    assert det._mode(0)==(640,False,1,'fight'), det._mode(0)
+    assert det._mode(1)==(416,True,1,'fight'), det._mode(1)
+    det._full_t-=detector_mod.FULL_EVERY+0.1
+    assert det._mode(2)==(640,False,1,'fight'), det._mode(2)
     dctx2.state['fight_until']=0
     det.start(); first=det.newest(0,wait=5.0); second=det.newest(first.seq,wait=5.0)
     assert first and second.seq>first.seq and first.hits, (first, second)
@@ -725,6 +731,17 @@ if dframe is not None:
     for _ in range(5): det._slow_down('fight',300,2)                  # a fight may go down to 1/s
     assert det.fps['fight']==1, det.fps
     print(f'detector thread: {det.describe()}, {first.ms:.0f} ms, hits {first.hits[:3]} OK')
+# PLAN 0.43: a monster the detector misses is remembered for TRACK_MISSES scans, then dropped (the lock
+# survives one bad frame; recall is ~80%).
+tfk=tg.TargetingFeature(TCtx())
+assert tfk._update_tracks([(100,100),(300,300)])==[(100,100),(300,300)]
+assert tfk._update_tracks([(104,102)])==[(104,102),(300,300)]     # the missed one is still there
+assert tfk._update_tracks([(104,102)])==[(104,102),(300,300)]
+assert tfk._update_tracks([(104,102)])==[(104,102)]               # 3 scans in a row missing -> dropped
+assert tfk._update_tracks([(104,102),(300,300)])==[(104,102),(300,300)]  # back = a new monster
+tfk.reset_misses(); assert tfk._tracks==[] and tfk.tracked==[]    # wandering shifts the view
+print('0.43: monster tracks survive 3 missed scans OK')
+
 # PLAN 0.39: walks avoid ground left 8-90 s ago; HP falling + a box next to us = hit back; idle gaps are measured
 from lineage_auto.features import exploration as exm
 _r={i:parts for _s,i,parts in exm.score_directions((0,0),100.0,[],[(16,0,50.0)],None,lambda i:True,None,16)}

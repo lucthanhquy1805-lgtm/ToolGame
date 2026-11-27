@@ -10,7 +10,8 @@ from ..config.models import CAST_ORDERS, HOTBAR_PAGES, AttackSkillSetting, BuffS
 from ..skills.catalog import get_catalog
 from ..skills.policy import HEAL_SKILL_ID, is_modal_assignable
 from .skill_icons import load_photo_icon
-from .skill_summary import validate_skill_draft
+from .skill_summary import (BUFF_MAX_SEC, BUFF_MIN_SEC, BUFF_STEP_SEC, buff_duration_min, buff_seconds,
+                            validate_skill_draft)
 
 
 class SkillSetupModal:
@@ -188,19 +189,19 @@ class SkillSetupModal:
             "assignable": True,
         }
         if role == "buff":
-            duration = tk.DoubleVar(
+            duration = tk.IntVar(
                 master=self.window,
-                value=current.duration_min if current is not None else default_duration,
+                value=buff_seconds(current.duration_min if current is not None else default_duration),
             )
             ttk.Spinbox(
                 row,
-                from_=0.1,
-                to=1440.0,
-                increment=0.5,
+                from_=BUFF_MIN_SEC,
+                to=BUFF_MAX_SEC,
+                increment=BUFF_STEP_SEC,
                 textvariable=duration,
                 width=7,
             ).pack(side="left", padx=(4, 1))
-            ttk.Label(row, text=self.tab.t("buff_minutes")).pack(side="left")
+            ttk.Label(row, text=self.tab.t("unit_sec")).pack(side="left")
             row_state["duration"] = duration
 
         if role == "attack":
@@ -247,7 +248,7 @@ class SkillSetupModal:
                     missing_key_name = row["skill"].get("name_vi") or skill_id
                 if role == "buff":
                     try:
-                        duration = max(0.1, float(row["duration"].get()))
+                        duration = buff_duration_min(row["duration"].get())
                     except (tk.TclError, TypeError, ValueError):
                         duration = 20.0
                     setting = BuffSkillSetting(

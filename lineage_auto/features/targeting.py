@@ -71,6 +71,12 @@ MELEE_DIST = 70
 # screen without walking; a melee class only fights what stands next to it (MELEE_DIST).
 IN_PLACE_RANGE = 1
 IN_PLACE_SHOT_PX = 350
+# PLAN 0.43: a monster is remembered for TRACK_MISSES scans in a row without it, so one frame the detector
+# misses does not lose the lock (recall is ~80%). Matching is nearest box within TRACK_MATCH_PX.
+# shortcut: a remembered point does not move with the character, which is fine for the ~1.5 s it survives;
+# only following the lock uses the remembered points, never picking a new target or counting a crowd.
+TRACK_MATCH_PX = 48
+TRACK_MISSES = 3
 # Longest wait in a fight beat for the detector thread's next result.
 DETECT_WAIT = 0.3
 CHAT_FAIL_LOG = 10.0  # s between two "chat not read" log lines
@@ -165,6 +171,9 @@ class TargetingFeature(Feature):
         self.detector = None  # runtime.detector.DetectorThread (PLAN 0.31), set by the session; None = detect inline
         self._seen_seq = 0
         self._near_hit = False
+        self._tracks = []  # PLAN 0.43: [x, y, scans missed in a row]
+        self.tracked = []  # hits + the points still remembered
+        self.lock_live = True  # the lock's last position came from a real box, not a remembered one
         self._chat_fail_t = -CHAT_FAIL_LOG
         self._chat_fail_pngs = 0
 
@@ -184,6 +193,26 @@ class TargetingFeature(Feature):
             for mx, my, _ in self._misses
         )
 
+    def _update_tracks(self, hits):
+        """PLAN 0.43: hits plus the monsters the detector just stopped seeing (dropped after TRACK_MISSES)."""
+        taken = [False] * len(hits)
+        for tr in self._tracks:
+            best, best_d = None, TRACK_MATCH_PX
+            for i, (x, y) in enumerate(hits):
+                if taken[i]:
+                    continue
+                d = math.hypot(x - tr[0], y - tr[1])
+                if d <= best_d:
+                    best, best_d = i, d
+            if best is None:
+                tr[2] += 1
+            else:
+                taken[best] = True
+                tr[0], tr[1], tr[2] = hits[best][0], hits[best][1], 0
+        self._tracks = [tr for tr in self._tracks if tr[2] < TRACK_MISSES]
+        self._tracks += [[x, y, 0] for i, (x, y) in enumerate(hits) if not taken[i]]
+        return list(hits) + [(tr[0], tr[1]) for tr in self._tracks if tr[2] > 0]
+
     def should_rescan(self):
         """Detections were seen but none confirmed, fewer than N times in a row (more while one is next to us)."""
         limit = self.scan.misses_before_wander + (NEAR_RESCANS if self._near_hit else 0)
@@ -193,6 +222,7 @@ class TargetingFeature(Feature):
         """Before wandering: the view shifts, so local miss spots are stale."""
         self.miss_streak = 0
         self._misses = []
+        self._tracks, self.tracked = [], []  # the view shifts: remembered points are stale too
         self._blocked = [b for b in self._blocked if b[3] is not None]
 
     def see(self, frame, char):
@@ -444,6 +474,7 @@ class TargetingFeature(Feature):
         self.ctx.state["mobs_near"] = [p for p in hits
                                        if math.hypot(p[0] - char[0], p[1] - char[1]) <= MELEE_DIST]
         if new:
+            self.tracked = self._update_tracks(hits)
             self.see(frame, char)
         return frame, hits, figures, dies, detect_ms
 
@@ -502,6 +533,11 @@ class TargetingFeature(Feature):
         self.last_figures = list(figures)
         self.last_dies = list(dies)
         picked = pick_chase_center(last_xy, hits, char_xy=char, chase_radius=radius)
+        # PLAN 0.43: a scan without the box keeps the lock on the remembered point (self.tracked), but
+        # ``lock_live`` says it is not a real box: only a real one counts as melee / as progress toward it.
+        self.lock_live = picked is not None
+        if picked is None and self.tracked:
+            picked = pick_chase_center(last_xy, self.tracked, char_xy=char, chase_radius=radius)
 
         if picked is None:
             return None

@@ -13,10 +13,25 @@ def _tr(translator, key, default):
     return text if text != key else default
 
 
+# A buff duration is typed in seconds (27/11, 10 s steps, label "giây"); the setting keeps minutes
+# (``BuffSkillSetting.duration_min``), so an older config needs no migration: 11.5 min reads as 690 s.
+BUFF_STEP_SEC = 10
+BUFF_MIN_SEC = 10
+BUFF_MAX_SEC = 86400
+
+
+def buff_seconds(duration_min):
+    """The stored buff duration as whole seconds (what the UI shows)."""
+    return int(round(duration_min * 60))
+
+
+def buff_duration_min(seconds):
+    """Seconds typed in the UI back to the stored minutes, clamped to the spinbox range."""
+    return max(BUFF_MIN_SEC, min(BUFF_MAX_SEC, float(seconds))) / 60.0
+
+
 def _format_duration_minutes(duration_min):
-    if duration_min == int(duration_min):
-        return f"{int(duration_min)}m"
-    return f"{duration_min:g}m"
+    return f"{buff_seconds(duration_min)}s"
 
 
 def _slot(setting, key):

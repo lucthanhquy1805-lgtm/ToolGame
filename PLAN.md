@@ -552,7 +552,7 @@ Giai đoạn 1 — Săn cơ bản
        CursorProfile.classify, loại "attack" giữ nhiều hình; nút 등록/phím tắt cho attack nay CỘNG thêm hình
        (không thay) → đăng ký mũi tên không xóa kiếm. Test với c0e0783028000000 + c0c0201818000000 và bản ghi
        193903: 60 khung = attack.)
-- [x] 1.2 Phạm vi săn tại chỗ/3/5/10/15/20/30 bước (ĐO BẰNG MINIMAP, không dùng "/위치"), quay về điểm xuất phát
+- [~] 1.2 (BỎ, làm lại ở 1.7) Phạm vi săn tại chỗ/3/5/10/15/20/30 bước (ĐO BẰNG MINIMAP, không dùng "/위치"), quay về điểm xuất phát
       (XONG 26/11, v21rc1: `ScanSettings.hunt_range` (0 = không giới hạn, 1 = tại chỗ, 3/5/10/15/20/30) + ô
        "Phạm vi săn (bước)" ở tab Săn. Điểm xuất phát = vị trí odometry đầu tiên sau khi bấm Bắt đầu
        (`ctx.state["home"]`, ExplorationFeature.observe; minimap tắt rồi bật lại = epoch mới = mốc mới).
@@ -568,7 +568,7 @@ Giai đoạn 1 — Săn cơ bản
        gian đi bộ — không có tín hiệu vị trí nào đáng tin). Ghi: home_dist (bước) trong mỗi event wander,
        analyze_records in xa nhất/TB + số lần đi về. Test: `tests/test_hunt_records.py` check_range trên
        20261126_101941_hunt với phạm vi 5 và 10.)
-- [x] 1.2c Săn TẠI CHỖ (hunt_range = 1) theo class (XONG 27/11, v21rc5).
+- [~] 1.2c (BỎ, gộp vào 1.7) Săn TẠI CHỖ (hunt_range = 1) theo class (XONG 27/11, v21rc5).
       Trước: range_mm = tầm cận chiến (70 px) → Pháp sư/Tiên tại chỗ chỉ đánh quái đến sát người; bị đẩy lệch thì
       không về; tắt minimap thì "tại chỗ" bị bỏ qua và bot đi lang thang.
       Nay (`targeting.in_place` / `ranged`, `CombatStyle` của class: mọi class trừ MELEE là đánh xa):
@@ -631,6 +631,13 @@ Giai đoạn 1 — Săn cơ bản
       (XONG 23/11: HealthSettings.potions = 3 ô "bình thêm" (bật, HP/MP, ngưỡng %, phím, chờ giây), mặc định TẮT;
        bình chính cũ giữ nguyên; skill hồi/bình chính chạy trước, mỗi lượt đọc chỉ bấm 1 bình, ô trên ưu tiên;
        bình MP cần đọc được số MP trên HUD. Chưa: kiểm tra trùng phím với skill/buff, đổi trang hotbar F1/F2/F3)
+- [ ] 1.7 PHẠM VI SĂN N BƯỚC — LÀM LẠI, thay 1.2/1.2c (gốc + N bước, không wander, đánh xong về gốc;
+      pháp sư/tiên đứng im theo CLASS; vị trí = cộng dồn dịch chuyển, minimap chỉ đối chiếu) — xem mục 1.7 (27/11)
+- [ ] 0.43 Quái ở GẦN bị sót / không nhận lại / đổi mục tiêu sai: đo trước-sau rồi sửa (giữ vết quái qua khung,
+      khung đầy mỗi 1 s trong trận, < 100 px không blacklist dài) — xem mục 0.43 (27/11)
+- [x] C (1.8) Thời gian buff nhập theo GIÂY, bước 10 s (XONG 27/11; config vẫn lưu phút nên bản cũ tự đúng:
+      11,5 -> 690 s; tests/test_buff_duration.py)
+- [ ] 3.0b Chế độ "kéo quái" cho hiệp sĩ (ghi 27/11, làm sau 1.7)
 - [x] 1.4b Bình: thời gian chờ dài + tự biết hết bình (XONG 27/11, v21rc5, bản ghi 20261127_003555_hunt).
       Đo: F1+F6 = 2 bình mana, chờ 1,5 s; MP < 50 % từ ~135 s → 2 bình uống hết trong 1,5 s (137 s), rồi bấm ô
       TRỐNG mỗi 1,5 s suốt 12 phút. MP không có lần tăng ≥ 15 nào. 67/69 lần quay về F1 giữa trận đều sau 137 s,
@@ -1292,7 +1299,7 @@ Yêu cầu thêm 2 chế độ, khi rê lên quái thấy con trỏ kiếm:
 Sau khi thả: theo dõi đến khi quái chết (con trỏ X / box biến mất / timeout), KHÔNG nhấn lại liên tục.
 Nếu quái chưa chết mà nhân vật ngừng đánh (phát hiện qua box vẫn còn + không có chuyển động) thì làm lại 1 lần.
 
-### 1.2 Phạm vi săn và quay về điểm xuất phát  [XONG 26/11 — bằng minimap]
+### 1.2 Phạm vi săn và quay về điểm xuất phát  [BỎ — LÀM LẠI Ở 1.7 (27/11), giữ lại để đối chiếu]
 Chế độ: tại chỗ (1), 3, 5, 10, 15, 20, 30 bước, 0 = không giới hạn. Khi bấm Start: lưu vị trí xuất phát
 (odometry minimap, KHÔNG gõ "/위치" vào chat — người dùng yêu cầu 26/11).
 Không chọn quái ngoài phạm vi, lang thang chỉ trong vòng tròn, ra ngoài thì đi bộ về; "tại chỗ" không đi.
@@ -1603,3 +1610,115 @@ Bản 3 (23/11/2026): dist\LineageAuto_20261123_v3.zip — thu dữ liệu (0.6b
 7. Lỗi → gửi `session_log.txt` cạnh `main.exe`.
 8. Đo nhận diện: khung "데이터 기록" (mục 0.6) → nén → gửi zip trong `records\` về máy dev.
 Driver Interception KHÔNG cần cài trên máy dev.
+
+---------------------------------------------------------------------------------------------------
+## Bổ sung 27/11/2026 — hai việc lớn (CHƯA CODE, chờ người dùng xác nhận)
+
+### 1.7 PHẠM VI SĂN N BƯỚC — LÀM LẠI (thay thế 1.2 và 1.2c)
+LÝ DO LÀM LẠI: bản 1.2/1.2c hiểu sai ý khách. Đã làm: "phạm vi" = vòng tròn trên minimap, bot vẫn lang thang
+trong vòng tròn, và "tại chỗ" bị gán cho riêng mức N=1 (`hunt_range == IN_PLACE_RANGE`), tầm bắn là một hằng số
+350 px không liên quan tới N. Ý khách: GỐC + N bước, không lang thang, đánh xong VỀ GỐC, và "đứng im" là tính
+chất của LỚP NHÂN VẬT (pháp sư/tiên), không phải của mức N.
+
+Quy tắc mới (N = `scan.hunt_range`):
+- Gốc = vị trí lúc bấm "Bắt đầu săn" (`ctx.state["home"]`, như cũ) + offset = (0,0).
+- N = 0: giữ nguyên hành vi săn tự do hiện tại (lang thang, không giới hạn). N > 0: KHÔNG wander.
+- 1 bước = 1 ô game = `scan.step_mm` px minimap (mặc định `minimap.STEP_MM` 2.3) = step_mm × `minimap.scale`
+  px màn hình ≈ 23 px ở cửa sổ 1280; 1 click = 2 bước ≈ 46 px. Minimap vẽ theo hướng màn hình và hệ số
+  ~10 px client/px minimap gần như đều theo cả x và y (ghi chú đo ở đầu `vision/minimap.py`: 8,5–12,5), nên
+  dùng MỘT hệ số vô hướng, không tách trục isometric. shortcut: nếu kiểm trên bản ghi thấy lệch x/y > 20%
+  thì mới tách thành hai hệ số.
+  Kiểm lại bằng `records_game/20261126_192615_observe`: 2 lượt x 5 click = **10 click = 20 BƯỚC**
+  (sửa 27/11 theo người dùng; mục 1.2b cũ ghi "10 bước" là sai) → px/bước = tổng dịch chuyển / 20.
+- Pháp sư/Tiên (`character.style != MELEE`): ĐỨNG IM ở gốc ở mọi N > 0. Chỉ nhắm quái cách GỐC ≤ N bước, chỉ
+  bắn phép (`combat.engage_ranged`, đã có), không bao giờ click/giữ chuột để đi. Không có quái trong tầm thì
+  đứng chờ. Bị đẩy lệch > `IN_PLACE_DRIFT` (3 bước) thì click về gốc.
+- Cận chiến: quái cách gốc ≤ N bước thì đi tới đánh bình thường. Đánh xong (chết / mất / mọi lý do kết thúc)
+  LUÔN đi ngược đúng quãng đã đi về gốc trước khi chọn con tiếp theo, kể cả khi còn quái khác ở gần.
+- Theo dõi vị trí = CỘNG DỒN DỊCH CHUYỂN trên màn hình (camera luôn giữ nhân vật ở giữa):
+  `ctx.state["offset"]` (px client, so với gốc) được cộng tại CHỖ RA LỆNH ĐI:
+  * click đi bộ (exploration, về gốc, `survival` bước lùi): += vector đơn vị tới điểm click × min(46 px,
+    khoảng cách tới điểm click);
+  * đuổi theo quái trong trận (`combat._hold_and_drag` / `_refresh_hold`): KHÔNG cộng từng nhịp (sẽ cộng quá);
+    khi trận chuyển sang cận chiến (box trong `MELEE_DIST`) thì đặt offset = offset lúc vào trận +
+    (điểm neo lúc đó − tâm nhân vật), vì nhân vật đã đi tới chỗ con quái.
+  * Minimap (odometry 2,3 px/bước) nếu đang bật: dùng để ĐỐI CHIẾU và sửa offset (odometry là chuẩn khi có);
+    tắt minimap vẫn chạy đủ, chỉ sai số lớn hơn (cảnh báo trên UI đổi lại cho đúng nghĩa mới).
+- Về gốc: lặp click theo vector −offset (mỗi click ≤ 46 px) đến khi |offset| ≤ 1 bước hoặc quá
+  `GO_HOME_MAX_SEC` (10 s) → log + chọn mục tiêu tiếp. Mỗi nhịp vẫn `poll_escape` + `ctx.running`.
+
+Sửa ở đâu (dự kiến, diff nhỏ nhất):
+- `features/targeting.py`: `in_place()` = `hunt_range > 0 and ranged()` (bỏ nghĩa riêng của N=1);
+  `out_of_range()` đo từ GỐC bằng offset (không cần minimap nữa), tầm = N × step_px; bỏ hằng
+  `IN_PLACE_SHOT_PX` khỏi việc chặn mục tiêu (tầm thật của phép vẫn do `range_px` từng ô phép quyết định —
+  UI cảnh báo nếu N × 23 px > range_px lớn nhất đang bật).
+- `features/exploration.py`: N > 0 → không wander, chỉ `go_home`; `IN_PLACE_DRIFT` áp cho lớp đứng im.
+- `features/combat.py`: cuối mỗi trận của lớp cận chiến đặt `ctx.state["go_home"] = True`.
+- `runtime/session.py`: trước khi chọn mục tiêu, nếu `go_home` thì về gốc xong mới `targeting.acquire`.
+- `runtime/context.py` (hoặc targeting): hàm cộng offset duy nhất, mọi chỗ click đi bộ gọi qua nó.
+- UI: `scan_panel` giữ nguyên ô "Phạm vi săn" (0/1/3/5/10/15/20/30), đổi chữ giải thích + cảnh báo
+  (ko/en/vi) cho đúng nghĩa mới; không thêm thông số mới.
+Test: `tests/test_hunt_range.py` — (a) step px tính từ 192615 khớp 10 bước ±10%; (b) sai số offset cộng dồn so
+với odometry trên toàn bản ghi 101941 (minimap bật mọi khung) ≤ 2 bước mỗi chu kỳ trận; (c) pháp sư ở N=10
+không phát ra click đi nào; (d) cận chiến: sau mỗi trận có một pha về gốc trước mục tiêu kế tiếp; (e) N=0 giữ
+nguyên số trận/kill như hiện tại trên các bản replay cũ (không hồi quy).
+
+### 0.43 NHẬN DIỆN QUÁI Ở GẦN (khách báo: quái gần bị sót / không nhận lại / bot đánh con khác)
+THỨ TỰ (người dùng 27/11): làm 0.43 TRƯỚC, 1.7 sau.
+ĐIỀU KIỆN BẮT ĐẦU: chưa sửa gì liên quan tới tường cho tới khi có `records_game/20261126_225217_hunt` và
+`20261127_003555_hunt` trên laptop (đang kéo từ máy game). Khi có: chạy `test_near_miss` trên CẢ 4 bản ghi
+(101941, 090350, 225217, 003555) để lấy số "trước". Sau khi sửa phải: `check_walls_225217` vẫn PASS và số
+trận/kill mô phỏng trên 003555 KHÔNG giảm.
+Phần làm được ngay (không đụng tường): khung đầy theo thời gian >= 1 s, giữ vết quái qua 3 lần quét, khoá mục tiêu.
+Phần CHỜ bản ghi: TTL blacklist 1 s cho quái < 100 px (đó là phần đụng 0.40/0.42).
+
+B1 — ĐO TRƯỚC KHI SỬA (`tests/test_near_miss.py`), trên `20261126_101941_hunt` và `20261126_090350_hunt`
+(`20261127_003555_hunt` không có trên laptop này → bỏ qua, chạy khi có):
+- mỗi khung: các box cách nhân vật < 150 px (bỏ `SELF_R` 30 và box "die");
+- chỉ số 1: tỉ lệ khung có box gần mà bot không rê/không đánh con đó trong 2 s ("quái gần bị sót");
+- chỉ số 2: số lần đổi mục tiêu khi box của mục tiêu cũ vẫn còn trong khung ("đổi mục tiêu sai");
+- tách NGUYÊN NHÂN bằng các bộ đếm đã có + thêm log: `out_of_range_skip`, `_recent_miss` (miss_ttl 4 s),
+  `is_blocked`, bị cắt bởi `scan.max_probe_points` (5), hoặc rê lên mà con trỏ không phải con trỏ tấn công.
+LƯU Ý ĐÃ CÓ SẴN (không code lại): trong trận detector đã CHẠY XEN KẼ khung đầy 640 và 416+crop ở 2 lần/s,
+tức khung đầy đã ~1 lần/s (`runtime/detector._mode`) — KHÔNG phải "chỉ ROI 320"; và quái < `NEAR_KEEP` 100 px
+đã được miễn miss/blacklist và xếp trước trong `targeting.candidates`. Nên chỉ sửa cái mà B1 chứng minh là sai.
+B2 — SỬA (theo kết quả B1):
+- [XONG 27/11] khung đầy trong trận theo THỜI GIAN (`detector.FULL_EVERY` 1 s kể từ khung đầy trước) thay cho
+  `seq % 2`, nên fps tụt xuống 1/s vẫn còn khung đầy;
+- [XONG 27/11] GIỮ VẾT QUÁI QUA KHUNG: `targeting._update_tracks` giữ [x, y, số lần quét liên tiếp không thấy],
+  xoá sau `TRACK_MISSES` 3 lần, ghép theo box gần nhất trong `TRACK_MATCH_PX` 48 px; `targeting.tracked` =
+  hits + các điểm còn nhớ. CHỈ việc ĐUỔI THEO mục tiêu (`track_current`) dùng danh sách này → một khung trượt
+  không làm mất khoá, nhưng `candidates` / `mobs_near` / `closer_than` vẫn chỉ dùng box THẬT (nếu không, điểm
+  nhớ sẽ thổi phồng "đám quái" của luật danger 0.40 và làm trận kết thúc oan). Điểm nhớ không di chuyển theo
+  nhân vật — chấp nhận được trong ~1,5 s nó tồn tại. Wander (`reset_misses`) xoá hết vết.
+- [XONG 27/11] khoá mục tiêu đến khi chết/mất thật: `BOX_GONE_SEC` nay tính trên vết đã giữ, không cần code mới.
+  QUAN TRỌNG: điểm "nhớ" KHÔNG được tính là tiến triển/cận chiến (`targeting.lock_live`, `combat.live`) - lần
+  thử đầu để nó tính đã làm một trận ở 82 px kết thúc "unreachable" sau 1,8 s và `check_idle_101941` FAIL,
+  tức là nó lấn sang luật tường 0.40/0.42 (phần đang chờ bản ghi). Vết chỉ GIỮ trận, không đổi luật bỏ trận.
+  SỐ ĐO replay (HEAD 01689f3 -> sau sửa, `tests/test_hunt_records.py`):
+  092741: 92 -> 87 trận, kill 6 -> 8, gone 50 -> 28, lost 3 -> 15, unreachable 18 -> 17, blacklist 18 -> 17,
+  dòng chat kill 21 -> 21; 101941: 78 -> 75 trận, kill 2 -> 2, gone 19 -> 13, unreachable 9% -> 9%, wall 3 -> 2,
+  phép 23 -> 23, "đứng im" 64 -> 70 phép, idle sau 161 -> 167 s (trận giữ lâu hơn một chút). Không giảm kill.
+- quái < 100 px không vào blacklist dài: `targeting.block` dùng TTL 1 s cho điểm trong `NEAR_KEEP`.
+  RỦI RO: điều này nới lỏng phần "wall/unreachable" của 0.40/0.42 → có thể quay lại cảnh đứng kẹt trước hàng
+  rào; bản ghi `20261126_225217_hunt` (bản ghi về tường) KHÔNG có trên laptop này nên không kiểm được tại chỗ.
+B3 — đo lại hai chỉ số trên cùng hai bản ghi, ghi số trước/sau vào PLAN.
+
+### C (1.8) THỜI GIAN BUFF NHẬP THEO GIÂY  [XONG 27/11]
+Ô thời gian buff trong "Cài đặt skill → Buff" nhập theo GIÂY, nhãn "giây" (`unit_sec`, ko/en/vi đã có),
+bước 10 s, khoảng 10 s - 86400 s. Config VẪN lưu phút (`BuffSkillSetting.duration_min`) nên config cũ không
+cần chuyển đổi gì và không thể lệch nhịp buff: 11,5 -> 690 s, 19,5 -> 1170 s, 30 -> 1800 s (x60, đọc ngay ở
+giao diện). Hai hàm đổi đơn vị duy nhất: `ui/skill_summary.buff_seconds` / `buff_duration_min`
+(+ `BUFF_MIN_SEC`/`BUFF_MAX_SEC`/`BUFF_STEP_SEC`); `ui/skill_setup_modal` và dòng tóm tắt dùng chúng
+(tóm tắt in "690s" thay cho "11.5m"). Ô "chờ" của bình (1.4b) GIỮ NGUYÊN hộp giây/phút: bình cần cả 1,5 s
+(bước 10 s không biểu diễn được) lẫn 10 phút; hai chỗ thống nhất ở chỗ đều hiện giây theo mặc định.
+`ui/panels/skills_panel.BuffSkillsPanel` (bảng cũ, KHÔNG được dùng trong UI thật) vẫn để phút - không sửa.
+Test: `python tests/test_buff_duration.py` (config cũ ra đúng giây; lưu-rồi-load mọi bước 10 s không đổi;
+giá trị ngoài khoảng bị kẹp; dòng tóm tắt in giây).
+
+### 3.0b Chế độ "KÉO QUÁI" cho hiệp sĩ (ghi 27/11/2026 — CHƯA LÀM)
+Hiệp sĩ đi tới quái, đánh 1–2 phát cho quái bám theo, rồi về gốc (trong tầm pháp sư/tiên) để nhóm bắn.
+Thuộc nhóm việc 3.x (nhiều nhân vật), làm sau 1.7.
+
+GHI CHÚ MÁY: laptop này là Python 3.14, chỉ chạy test, KHÔNG build bản phát hành (bản phát hành phải dựng
+trên máy có 3.12).

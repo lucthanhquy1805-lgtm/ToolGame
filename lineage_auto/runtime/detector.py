@@ -25,6 +25,9 @@ CPU_SHARE = 0.30
 # PLAN 0.34: the rate may never fall below this while the bot is LOOKING for a monster - a slow search is what
 # makes the bot stand around. A fight may go down to 1/s: it only has to follow a box next to the character.
 FPS_FLOOR = {"search": 2, "fight": 1}
+# PLAN 0.43: a fight must still see the WHOLE screen at least this often, whatever the rate has fallen to
+# (seq % 2 gave ~1/s at 2/s, but nothing at all once the CPU guard dropped a fight to 1/s).
+FULL_EVERY = 1.0
 
 
 @dataclass(frozen=True)
@@ -74,9 +77,10 @@ class DetectorThread:
         self._thread = None
         self._errors_t = 0.0
         self._stepped = False  # the automatic step down is tried once, at the first log line
+        self._full_t = 0.0  # when the last WHOLE-screen detect ran (PLAN 0.43)
 
     def describe(self):
-        fight = f" fight {self.fight_size}+roi every 2nd" if self.adaptive else ""
+        fight = f" fight {self.fight_size}+roi, full frame every {FULL_EVERY:.0f}s" if self.adaptive else ""
         return (f"size {self.size} roi {'on' if self.roi else 'off'} "
                 f"threads {self.threads['search']}/{self.threads['fight']} search/fight "
                 f"max {self.fps['search']}/{self.fps['fight']}/s{fight}")
@@ -90,9 +94,12 @@ class DetectorThread:
         Searching is always the full frame (a far monster is the whole point); every other detect of a fight is
         the cheap crop, and a fight keeps one thread so the client has the rest."""
         if not self.fighting():
+            self._full_t = time.monotonic()
             return self.size, self.roi, self.threads["search"], "search"
-        if self.adaptive and seq % 2:
+        now = time.monotonic()
+        if self.adaptive and now - self._full_t < FULL_EVERY:
             return self.fight_size, True, self.threads["fight"], "fight"
+        self._full_t = now
         return self.size, self.roi, self.threads["fight"], "fight"
 
     def period(self, mode):

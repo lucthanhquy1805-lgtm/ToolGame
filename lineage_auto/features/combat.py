@@ -672,9 +672,13 @@ class CombatFeature(Feature):
                         box_t = time.time()
 
                 dist = math.hypot(char[0] - anchor[0], char[1] - anchor[1])
+                # PLAN 0.43: a lock held on a remembered point (the detector missed it, see targeting.lock_live)
+                # keeps the fight, but only a REAL box counts as melee or as progress - a remembered point must
+                # not change when a fight is written off (that is 0.40 / 0.42 wall territory).
+                live = updated is not None and getattr(self.targeting, "lock_live", True)
                 # PLAN 0.32: melee only while the box is in the newest detection; a stale anchor (own sprite, a pet)
                 # used to hold the fight for the whole melee cap.
-                melee = sword and dist <= MELEE_DIST and updated is not None
+                melee = sword and dist <= MELEE_DIST and live
                 melee_seen = melee_seen or melee
                 self._dist, self._melee = dist, melee
 
@@ -710,7 +714,7 @@ class CombatFeature(Feature):
                     self._hold_and_drag(screen_x, screen_y)  # the hover said no monster there: stay on the lock
                 if melee:
                     fight_progress_t = progress_t = now  # hitting it: never no_progress / side step / unreachable
-                if updated is not None:
+                if live:
                     if dist < best - PROGRESS_PX:
                         fight_progress_t = now  # closer = progress
                     if dist <= MELEE_DIST or dist < best - PROGRESS_PX:
