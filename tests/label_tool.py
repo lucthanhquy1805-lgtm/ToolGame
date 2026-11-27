@@ -38,6 +38,7 @@ import argparse
 import json
 import math
 import os
+import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -407,7 +408,18 @@ def main():
     parser.add_argument("--review", action="store_true", help="frames picked by tests/prelabel.py, with suggestions")
     parser.add_argument("--corpse", action="store_true", help="reviewed frames again, to box lying orcs as corpse")
     args = parser.parse_args()
-    run(args.folder, args.labels or os.path.join(args.folder, "labels.json"), args.all, args.map, args.review,
+    folder, labels = args.folder, args.labels
+    if folder.endswith(".zip"):
+        # PLAN 0.46 / 6: open a "training data" zip straight away (the same extract analyze_records.py does).
+        # The labels are kept NEXT TO THE ZIP so a cleaned temp folder cannot lose the review work.
+        import zipfile
+        out = folder[:-4]
+        zipfile.ZipFile(folder).extractall(out)
+        labels = labels or folder + ".labels.json"
+        if not os.path.exists(labels) and os.path.exists(os.path.join(out, "labels.json")):
+            shutil.copyfile(os.path.join(out, "labels.json"), labels)
+        folder = out
+    run(folder, labels or os.path.join(folder, "labels.json"), args.all, args.map, args.review,
         args.corpse)
 
 

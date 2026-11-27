@@ -1837,3 +1837,337 @@ Còn lại ở 3.x: kéo về cho NHÓM (hiệp sĩ kéo, pháp sư/tiên ở g�
 
 GHI CHÚ MÁY: laptop này là Python 3.14, chỉ chạy test, KHÔNG build bản phát hành (bản phát hành phải dựng
 trên máy có 3.12).
+
+### 0.46 NHẬN DIỆN QUÁI GẦN GẦN NHƯ KHÔNG SÓT — KẾ HOẠCH (27/11)
+MỤC TIÊU: recall quái trong 150 px quanh nhân vật >= 97%; CPU của bot tăng <= 30% so với v21.
+THỨ TỰ: B1 (đo, có bảng số) -> B2.1 detect vùng gần -> B2.2 tracker + chuyển động -> B2.3 vòng rê;
+**mục 5 (hard cases) bật NGAY** vì nó chỉ ghi dữ liệu, không đổi hành vi. Không code B2 trước khi có bảng B1.
+
+#### Đã có sẵn — KHÔNG viết lại
+- `yolox_mobs.detect(frame, cx, cy, radius, conf=, size=, roi=)`: MỘT lần inference rồi `project(class, conf)`
+  lọc theo ngưỡng → **ngưỡng conf thứ hai cho vùng gần tốn 0 ms**; `size` chọn bản export
+  (`model/<map>_416.onnx` / `_320.onnx`, hiện chỉ blessed_orc và fallen_blessed có), `roi_box` đã biết cắt
+  quanh nhân vật, `_blank_play_hud` đã xoá HUD.
+- `vision/play_motion.motion_centroids(prev, curr, cx, cy, radius)`: **đã viết, hiện không được gọi ở đâu** —
+  đúng việc của B2.2 (vùng chuyển động gần nhân vật, nearest-first, đã bỏ HUD). Chỉ cần nối lại.
+- `targeting._update_tracks` (vết quái, `TRACK_MISSES` 3 / `TRACK_MATCH_PX` 48, chưa có dự đoán vị trí),
+  `targeting.probe` (xác nhận con trỏ kiếm, 4 lần đọc, ~0,2 s/điểm khi trượt), `grid_scan.sweep` (quét vòng
+  nhanh, 1 lần đọc/điểm ~0,05 s), `survival.hp_falling`, `session._defend`, `recorder.save_snapshot/event`,
+  `hovers.jsonl`, `labels.json` (nhãn ĐIỂM, không phải box), `tests/eval_detection.score/evaluate`,
+  `name_reader.is_night_frame`, `tests/prelabel.py` + `tests/label_tool.py`.
+
+#### B1. ĐO (`tests/eval_near_recall.py`) — có 4 phần (a)-(d), báo bảng trước khi code B2
+Chạy với `--config records_game/game_pc_config.json` (đúng input_size/detect_roi máy game).
+(a) **BẢNG SÓT THEO KHOẢNG CÁCH**: cột = `< 100`, `100-200`, `> 200` px tính từ nhân vật; dòng = tất cả /
+    **đè lên nhân vật** (nhãn <= 100 px và trong 40 px của một `figure`) / **bị che** (có nhãn khác hoặc
+    figure trong 40 px) / **ngày** / **đêm** (`labels.json["night"]`); mỗi ô: nhãn / tìm được / recall % /
+    box sai trên frame.
+    GIỚI HẠN DỮ LIỆU: nhãn tay và ẢNH chỉ cùng tồn tại ở **092741** (162/849 frame đã nhãn, 467 quái) +
+    `docs/game_reference` (10 ảnh). Các bộ ngày/đêm/bốn mùa (`*_observe_*`, 400+ frame đã nhãn, có cột
+    `night`) **không có ảnh trên laptop này**; 090350 / 101941 / 225217 có ảnh nhưng nhãn còn `todo`.
+    Nên B1 gồm: nhãn thêm 090350 + 101941 + 225217 (`prelabel.py` → `label_tool.py --review`, ưu tiên frame
+    có hover kiếm gần), và xin lại ảnh các bản ghi observe ngày/đêm từ máy game. Chưa có thì ghi "chưa đo",
+    không đoán.
+    NHÃN YẾU bổ sung (miễn phí, cho frame chưa nhãn tay): hover con trỏ KIẾM trong `hovers.jsonl` = có quái
+    tại điểm đó; dòng chat kill = có quái ở ô khoá. In thành recall "theo bằng chứng con trỏ", KHÔNG trộn với
+    recall theo nhãn tay.
+(b) **Lợi ích của conf thấp**: detect lại từng frame ở conf thường và ở 0,1, đếm box MỚI <= 150 px/frame,
+    chia "có bằng chứng" (hover kiếm <= 24 px trong 2 s) và "không có bằng chứng".
+(c) **Detect crop 400x400 ở độ phân giải gốc**: cùng frame, detect thêm trên crop `NEAR_CROP` 400 quanh nhân
+    vật ở `size` 416 (tỉ lệ 1,04 = ảnh gốc) và 320 (0,8), so recall <= 150 px TRƯỚC/SAU khi gộp với lượt full,
+    và **ms CPU thêm/lượt** (trung vị + p95, 1 luồng ONNX như máy game) → quy ra % một core ở 2 lượt/s.
+(d) **Vùng chuyển động**: `motion_centroids` trên 2 frame liên tiếp, đếm số hover con trỏ KIẾM <= 150 px nằm
+    trong một vùng chuyển động mà frame đó KHÔNG có box nào trong 48 px (= số quái mục này cứu được), và số
+    vùng chuyển động không có kiếm (= rác: cây, nước, người khác).
+CỔNG QUYẾT ĐỊNH: hướng nào trong (b)/(c)/(d) đưa recall 150 px lên gần 97% với ms thấp nhất thì làm trước;
+hướng không chứng minh được lợi ích thì BỎ (bài học 0.43 B3: giả thuyết sai thì code thêm là nợ).
+
+#### B1 — KẾT QUẢ ĐO VÒNG ĐẦU (27/11, input 640 — MỐC SAI, giữ để so sánh; xem bảng 416 bên dưới)
+Hai nguồn sự thật, vì nhãn tay gần như không phủ vùng gần:
+**(A) nhãn tay** — 092741, 162 frame, TOÀN ĐÊM, blessed_orc. **(B) hover con trỏ kiếm** — 092741 + 090350 +
+101941, 443 frame, có cả ngày và fallen_blessed (hover gán cho frame gần nhất trong 1 s).
+
+| nguồn | < 100 px | 100-200 px | > 200 px | box sai |
+|---|---|---|---|---|
+| (A) nhãn tay | 46/50 (92%) | 60/61 (98%) | 304/352 (86%) | 0,27/frame |
+| (B) hover kiếm | 203/220 (92%) | 51/62 (82%) | 144/167 (86%) | (nhãn thưa, không đo được) |
+| (B) ngày | 121/128 (95%) | 29/37 (78%) | 58/65 (89%) | |
+| (B) đêm | 82/92 (89%) | 22/25 (88%) | 86/102 (84%) | |
+
+recall trong 150 px, trước -> sau:
+
+| cách | (A) nhãn tay | (B) hover kiếm | chi phí |
+|---|---|---|---|
+| hiện tại (full 640, conf bãi) | 94% | 90% | 65-70 ms/lượt |
+| + conf 0,1 trên full frame | 96% | 92% | 0 ms, +0,01-0,03 box gần/frame |
+| + crop 400 @ **416** | 99% | 92% | +28 ms (6% một core ở 2 lượt/s), +0,17 box/frame |
+| + crop 400 @ **320** | 99% | **93%** | +21 ms (**4%** một core), +0,13 box/frame |
+| **GỘP cả ba** | **99%** | **94%** | như trên |
+| GỘP, riêng <= 100 px | 92% -> 98% | 92% -> 95% | |
+
+(d) vùng chuyển động: hover kiếm <= 150 px KHÔNG có box = 70 ca, chỉ **28 (40%)** nằm trong một vùng chuyển
+động; và **68% vùng chuyển động là rác** (1014/1493, ~3,4 vùng/frame).
+
+KIỂM TRA LẠI PHÉP ĐO (quan trọng): thu hẹp cửa sổ gán hover từ 1 s xuống **0,3 s** (để quái không kịp đi xa)
+cho ra gần như y nguyên: 91% -> gộp 94% (225 frame, 126 điểm gần). Vậy **6% sót còn lại là sót THẬT**, không
+phải lỗi gán thời gian.
+
+QUYẾT ĐỊNH (thay cho giả thuyết ban đầu):
+1. **LÀM: crop 400 ở size 320** — không phải 416. 320 cho recall bằng hoặc hơn (93% vs 92%) và rẻ hơn
+   (21 vs 28 ms). Ngân sách thực đo chỉ **4% một core**, nhỏ hơn nhiều so với ước tính 25% trong kế hoạch.
+2. **LÀM: conf 0,1 cho vùng <= 150 px** — gần như miễn phí, +2 điểm recall, 0,02-0,03 box gần thêm/frame.
+3. **BỎ: vùng chuyển động** (B2.2 phần motion) — chỉ phủ 40% ca sót và 68% là rác; với
+   `max_probe_points` nó sẽ đẩy quái thật ra khỏi danh sách. `motion_centroids` vẫn để nguyên, không gọi.
+4. **KHÔNG ĐẠT 97% bằng vision**: trần đo được là 94% (nguồn hover) / 99% (nhãn tay đêm). Phần sót còn lại
+   tập trung ở vùng **<= 100 px, quái đè lên nhân vật** (220/251 điểm gần nằm trong 100 px). Hai thứ đóng
+   được 6% đó: **vòng rê con trỏ (B2.3)** và **train lại từ hard case (mục 5/6)**. Vì vậy thứ tự làm giữ
+   nguyên nhưng kỳ vọng đổi: B2.1 đưa 90% -> 94%, B2.3 + model mới mới tới 97%.
+5. Tracker dự đoán (B2.2 phần tracker): dữ liệu này KHÔNG đo được (nó không sinh box mới, chỉ giữ lock) ->
+   làm sau B2.3, chỉ nếu replay cho thấy còn mất lock.
+GHI CHÚ ĐO: ms đo trên laptop (Python 3.14, CPU khác máy game) - chỉ tin TỈ LỆ so với lượt full (crop 320 =
+~1/3 một lượt full); phải đo lại trên máy game trước khi đặt mặc định. Bảng (A) toàn đêm nên dòng "ngày" của
+nhãn tay trống; dòng ngày/đêm của (B) là số dùng được. Bộ observe bốn mùa vẫn chưa có ảnh trên laptop.
+
+#### B1 — KẾT QUẢ ĐO Ở ĐÚNG MỐC MÁY GAME: input **416** (27/11)
+CẤU HÌNH THẬT lấy từ `meta.json` của các bản ghi mới nhất, KHÔNG dùng `records_game/game_pc_config.json`
+(file đó 23-24/11, đã cũ và không có `input_size`): 20261127_101929_hunt và 20261126_225217_hunt + 101258 đều
+ghi **`input_size` 416, `detect_roi` false, `max_probe_points` 2, conf 0,2, `detect_fps` 2,
+`detect_threads` 1 / `search_threads` 2**. Mọi số dưới đây đo ở 416.
+HAI LỖI PHÉP ĐO ĐÃ SỬA TRƯỚC KHI CHỐT:
+1. vòng đo đầu chạy ở 640 (mốc sai) - ở 640 recall gần là 90-91%, ở 416 chỉ còn **85-86%**: chính cỡ input
+   của máy game là một phần của vấn đề "quái gần bị sót";
+2. `detect()` xoá HUD **theo tỉ lệ ảnh truyền vào**, nên truyền crop 400x400 vào nó sẽ xoá mất giữa vùng chơi.
+   Bản sửa (`yolox_mobs.detect_near`) xoá HUD trên FULL frame rồi mới cắt; số của crop vì vậy tốt hơn vòng đo
+   đầu nhiều.
+Nguồn: (A) nhãn tay 092741 (162 frame, toàn đêm); (B) hover con trỏ kiếm trên **5 bản ghi** 092741 + 090350 +
+101941 + 225217 + 101929 (**672 frame**, có ngày/đêm, blessed_orc + fallen_blessed).
+
+| nguồn | < 100 px | 100-200 px | > 200 px | box sai |
+|---|---|---|---|---|
+| (A) nhãn tay | 40/50 (80%) | 56/61 (92%) | 244/352 (69%) | 0,15/frame |
+| (B) hover kiếm | 261/305 (86%) | 90/109 (83%) | 207/277 (75%) | (nhãn thưa) |
+| (B) ngày | 133/144 (**92%**) | 36/46 (78%) | 82/97 (85%) | |
+| (B) đêm | 128/161 (**80%**) | 54/63 (86%) | 125/180 (69%) | |
+
+recall trong 150 px:
+
+| cách | (A) nhãn tay | (B) hover kiếm | chi phí |
+|---|---|---|---|
+| hiện tại (full 416) | 84% | 85% | 27-28 ms/lượt |
+| + conf 0,1 full frame | 87% | 88% | 0 ms, +0,02-0,05 box/frame |
+| + crop 400 @416 | 93% | 94% | +31 ms (6% một core ở 2 lượt/s) |
+| + crop 400 @**320** | **99%** | **94%** | **+20 ms (4% một core)**, +0,19-0,28 box/frame |
+| **GỘP cả ba** | **100%** | **95%** | như trên |
+| GỘP, riêng <= 100 px | 80% -> **100%** | 86% -> **96%** | |
+
+(e) **CẮT Ở `max_probe_points`**: trong 307 quái gần CÓ box, chỉ **7 (2%)** bị cắt khỏi danh sách rê ở mức 2
+điểm, và ở mức 5 điểm là **0** -> nâng 2 lên 5 cứu được **7 ca** (nhãn tay: 0/71 bị cắt). Vậy việc cắt
+KHÔNG phải nguyên nhân chính, nhưng nâng lên 5 là gần như miễn phí (mỗi điểm rê ~0,2 s) và nên làm trên máy
+game. Lưu ý: thứ tự ở đây tính gần-trước, chưa tính kiểu sắp xếp "cùng phía hàng rào" của minimap (chỉ ảnh
+hưởng box ngoài `NEAR_KEEP`).
+(d) vùng chuyển động: 144 ca hover kiếm <= 150 px không có box, chỉ **62 (43%)** nằm trong vùng chuyển động;
+**69% vùng chuyển động là rác** (1527/2207) -> GIỮ QUYẾT ĐỊNH BỎ.
+
+KẾT LUẬN SAU KHI ĐO ĐÚNG MỐC:
+1. **crop 400 @320 là thắng lớn, không phải nhỏ**: +9 điểm recall gần (85% -> 94%) và vùng <= 100 px
+   86% -> 96% (nhãn tay 80% -> 100%), chỉ +20 ms (~70% chi phí một lượt full 416, = 4% một core ở 2 lượt/s).
+   320 TỐT HƠN 416 ở cả hai nguồn và rẻ hơn -> `NEAR_SIZE` 320.
+2. conf 0,1 giữ (+3 điểm, gần như miễn phí).
+3. Mục tiêu 97% vẫn chưa đạt theo nguồn hover (95%), nhưng vùng <= 100 px đã 96% và nhãn tay 100%.
+   Phần còn lại là ban ĐÊM (<=100 px chỉ 80% trước khi sửa) -> vòng rê con trỏ (B2.3) + train lại từ
+   hard case vẫn cần, và `tests/eval_near_recall.py` là thước đo để nghiệm thu.
+4. Máy game nên đổi `max_probe_points` 2 -> 5 (cứu 7/307 ca, không đổi code).
+
+#### B2.1 DETECT VÙNG GẦN Ở ĐỘ PHÂN GIẢI GỐC
+Mỗi lượt quét, sau lượt full, thêm MỘT lượt detect trên crop 400x400 quanh nhân vật (dùng `roi_box` với
+nửa-cạnh cố định, kẹp vào vùng chơi), `conf = scan.near_conf` 0,1, `size` theo kết quả B1(c). Gộp box với
+lượt full (dedupe `MOTION_DEDUPE` 18 px) và **gắn cờ nguồn**:
+- box chỉ do lượt gần + conf thấp sinh ra CHỈ được làm ứng viên rê (vẫn phải con trỏ kiếm mới đánh), KHÔNG vào
+  `mobs_near` / `mobs_seen` / `closer_than` / `_update_tracks` — nếu không sẽ thổi phồng "đám quái" của luật
+  danger 0.40 và luật tường/unreachable 0.40-0.42 (cái bẫy đã mắc ở 0.43);
+- **thứ tự khi cắt theo `scan.max_probe_points`: box conf thường TRƯỚC, box `near_conf` sau** (trong mỗi nhóm
+  vẫn gần-trước). Máy game đang đặt `max_probe_points` = 2, nên thứ tự này là bắt buộc, không phải tuỳ chọn.
+Làm trong `runtime/detector._run` (một lượt `detect` nữa trong cùng vòng, CÙNG frame — không grab thêm), kết
+quả đi theo `Detection.near`. Guard CPU hiện có (`detector.CPU_SHARE` 30%, `_slow_down`) phải tính cả ms của
+lượt gần, nếu không nó sẽ tự hạ fps lượt full và ăn mất kill (vết xe 0.33/0.34).
+Các bậc lùi nếu vượt ngân sách (thử theo thứ tự): (a) 400@416 mỗi lượt; (b) 400@320; (c) chỉ khi ĐANG ĐÁNH /
+HP tụt / đứng > 2 s không mục tiêu; (d) xen kẽ mỗi lượt thứ hai. Bản đồ không có export 416/320
+(dragon_valley, fallen_spirit, toi, game): crop 400 bị phóng lên 640 = vô ích → tắt B2.1 cho các bản đồ đó
+tới khi `train/export_onnx.py --size 416` chạy cho chúng.
+
+#### B2.2 TRACKER CÓ DỰ ĐOÁN + VÙNG CHUYỂN ĐỘNG
+- `_update_tracks` giữ `[x, y, vx, vy, misses]`: vị trí dự đoán = vị trí cuối + vận tốc (trung bình 2 lần khớp
+  gần nhất) x thời gian trôi; vẫn khớp box gần nhất trong `TRACK_MATCH_PX`, vẫn xoá sau `TRACK_MISSES`. Dùng
+  cho `track_current`; `lock_live` vẫn chỉ True khi có box THẬT — điểm dự đoán không bao giờ là
+  "tiến triển"/"cận chiến" (learning 27/11: cho nó tính đã làm một trận ở 82 px chết oan). Cộng dồn dịch
+  chuyển màn hình của 1.7 (`ctx.offset()`) để điểm nhớ đi theo nhân vật khi nhân vật bước.
+- Nối lại `motion_centroids(prev, curr, char, radius=150)` trong `targeting.candidates`: vùng chuyển động
+  trong 150 px mà không có box nào trong 48 px → thêm vào danh sách rê thử, đứng SAU box conf thường và box
+  near_conf (thứ tự cuối cùng theo tỉ lệ "ra kiếm" đo ở B1(b)/(d)). Chỉ dùng 2 frame đã có trong detector.
+
+#### B2.3 VÒNG RÊ CON TRỎ (`features/ring_probe.py`, ~40 dòng)
+8 hướng x 2 bán kính (45, 90 px) = 16 điểm trong vùng chơi; quét như `grid_scan.sweep` (1 lần đọc con trỏ/
+điểm, ~0,8 s cả vòng — `probe` 4 lần đọc sẽ là ~3 s, quá chậm khi đang bị đánh), dừng ở điểm đầu ra con trỏ
+kiếm rồi **xác nhận lại bằng `targeting.probe([p])`** mới đánh. Nhả chuột trái trước, `poll_escape` trong
+vòng. `RING_COOLDOWN` 2 s dùng chung cho mọi nguồn kích hoạt.
+Kích hoạt: (a) HP tụt (`hp_falling`, luật danger hiện có) mà không có box <= 100 px — đặt trong
+`session._defend`, nơi hiện trả None khi không có box <= `DEFEND_PX` 70; (b) không có mục tiêu >
+`RING_IDLE_SEC` 5 s (kể cả chế độ đứng gốc `targeting.in_place()`), đặt trước nhánh `grid.sweep` / `wander`.
+Gặp quái: lớp cận chiến → `combat.engage(target, rect, char, force_melee=True)`; pháp sư/tiên →
+`engage_ranged` (bắn phép vào đúng điểm đó). KHÔNG nhét điểm rê vào `targeting.tracked`.
+**Trận sinh từ vòng rê KHÔNG tắt theo `BOX_GONE_SEC`** (quái này vốn không có box — tắt theo box là tự thua):
+nó sống bằng CON TRỎ. Mỗi `RING_HOLD_CHECK` 0,5 s đọc lại con trỏ tại điểm khoá (`rehover_last`, đã có); còn
+kiếm thì giữ trận, **hết kiếm 2 lần LIÊN TIẾP** hoặc chạm `scan.melee_max_sec` thì kết thúc (outcome mới
+`ring_gone` / `cap`). Cờ `ring_fight` trên `CombatFeature` bỏ qua đúng hai luật box (`BOX_GONE_SEC`,
+`NO_SWORD_SEC`), các luật khác (danger, chết, kill line, ESC) giữ nguyên. Lưu ý rủi ro đã biết: con trỏ cũ
+không chứng minh có quái (learning 25/11), nên hai lần đọc liên tiếp + cap là điều kiện tắt duy nhất, và
+mọi trận kiểu này đều sinh hard case để kiểm lại bằng mắt.
+Nếu B2.1 đạt 97% thì B2.3 gần như không bao giờ chạy — đó là dấu hiệu TỐT, không phải lỗi.
+
+#### 5. HARD CASES — BẬT NGAY, ĐỘC LẬP VỚI TUỲ CHỌN GHI HÌNH (chỉ ghi dữ liệu)
+Bằng chứng có quái mà model không có box trong 48 px — con trỏ KIẾM (mọi nguồn: `probe`, `_defend`, vòng rê,
+`rehover_last`) hoặc một dòng chat kill ở ô khoá — thì lưu một hard case.
+- **Một thư mục duy nhất `records/hard_cases/`**, KHÔNG nằm trong `records/<stamp>/`: nó phải chạy cả khi
+  người dùng tắt ghi hình, và một chỗ duy nhất thì chỉ có một hạn mức, một nút xuất, một file nhãn.
+  `runtime/hard_cases.py` (~60 dòng, `HardCases.save(frame, point, kind, src, map_key, night)`), tạo trong
+  `session.start` **không phụ thuộc `record.enabled`**, dùng `records_root()` đã có. Ảnh ghi bằng
+  `cv2.imwrite` JPEG (dùng lại `save_snapshot` với `root=records_root()`), tên `hc_<stamp>_<n>.jpg`.
+- **Hạn mức: 500 ảnh HOẶC 200 MB, cũ nhất xoá trước** (`HARD_CASE_MAX_N` 500, `HARD_CASE_MAX_MB` 200), kiểm
+  sau mỗi lần lưu bằng `os.scandir` + `st_mtime`; xoá ảnh thì xoá luôn dòng nhãn của nó. KHÔNG tính vào
+  `record.max_gb` (độc lập với ghi hình), nhưng nêu trong UI cho người dùng biết nó chiếm tối đa 200 MB.
+  Chống trùng: bỏ qua nếu đã lưu một hard case trong `HARD_CASE_GAP` 2 s ở cùng điểm (<= 48 px).
+- **Nhãn YOLO kèm theo, box ước lượng cỡ orc quanh điểm con trỏ**: một `.txt` cùng tên ảnh, định dạng YOLO
+  (`0 xc/w yc/h bw/w bh/h`), box `HC_BOX` **57x95 px** (trung vị 3100 box nhãn tay của các bản ghi hiện có;
+  giữ là hằng số một chỗ, ghi rõ "ước lượng, phải duyệt tay"), kẹp vào biên ảnh. Kèm `hard_cases.jsonl`
+  (`t`, `point`, `kind`, `src`, `dist`, `map`, `night`, `file`) và `labels.json` đúng định dạng của
+  `tests/label_tool.py` (`{"images": {"hc_….jpg": {"night":…, "map":…, "monster": [[x, y]],
+  "boxes": [box ước lượng], "ignore": [], "todo": true}}}` — `todo: true` vì box chưa ai duyệt).
+  Hai file nhãn vì hai người dùng khác nhau: `.txt` cho `train/`, `labels.json` cho công cụ duyệt.
+- Event + `rec.count` `hard_case` khi đang ghi hình (để `analyze_records.py` in ra), nhưng việc LƯU không
+  phụ thuộc vào recorder.
+
+#### 6. ĐƯỜNG DỮ LIỆU: XUẤT → DUYỆT → TRAIN → SO SÁNH
+a) **Tab Dữ liệu, nút "Xuất dữ liệu học"** (`ui/panels/record_panel.py`, cạnh nút zip hiện có — dùng lại
+   `_zip_latest` làm mẫu, cùng kiểu chạy nền + `set_busy`): zip toàn bộ `records/hard_cases/` thành
+   `records/hard_cases_<stamp>.zip` kèm `stats.json` + một `README.txt` một dòng. Thống kê in trên UI và nằm
+   trong zip: **số ảnh, theo bãi (`map`), ngày/đêm**, khoảng thời gian, số ảnh đã duyệt / còn `todo`.
+   Chuỗi i18n mới ở `ui/i18n.py` cho cả ko/en/vi.
+b) **Công cụ duyệt mở thẳng zip**: `tests/label_tool.py <file.zip>` — giải nén vào thư mục tạm rồi chạy
+   `run()` như thường (dùng lại đúng 3 dòng `zipfile.ZipFile(arg).extractall(out)` của
+   `tests/analyze_records.py:77`), và lưu `labels.json` trở lại CẠNH zip (`<zip>.labels.json`) để không mất
+   khi thư mục tạm bị xoá. Box ước lượng đã có trong `labels.json` nên nó **hiện sẵn để chỉnh** — không cần
+   code vẽ mới, `label_tool` đã biết vẽ/sửa/xoá box; chỉ thêm phím "chấp nhận box này" nếu B1 cho thấy phải
+   duyệt hàng trăm ảnh (chưa làm nếu `--review` đủ dùng).
+c) **Train + SO SÁNH TRÊN BỘ TEST CỐ ĐỊNH**: `train/compare_models.py <model_cũ> <model_mới>` —
+   bộ test cố định = `tests/data/monster_labels.json` + `docs/game_reference` + các frame đã nhãn tay của
+   092741 (và các bản ghi nhãn thêm ở B1), **không bao giờ gồm ảnh hard_cases đã dùng để train**.
+   In bảng: recall toàn màn, **recall <= 150 px**, precision (box sai/frame), ms/lượt, ở đúng input máy game
+   (`--config`). **Chỉ in "ĐỀ XUẤT THAY" khi recall gần TĂNG và precision KHÔNG giảm** (và ms không tăng quá
+   20%); mọi trường hợp khác in "GIỮ model cũ" kèm lý do. Dùng lại `tests/eval_detection.evaluate` +
+   `tests/eval_near_recall.py` (gọi hàm, không copy) — đây là luật PLAN 0.39 viết thành script, nên không ai
+   bless model bằng cảm giác nữa.
+d) **Tab Thống kê: `hard_case/giờ`** — `Stats.bump(ctx, "hard_case")` ở chỗ lưu, rồi một dòng trong
+   `Statistics` panel: `hard_case` và `hard_case/giờ` = đếm / `Stats.runtime_sec()` (panel đã có cách tính
+   theo giờ cho các bộ đếm khác). Con số này là thước đo chính của 0.46: nó phải GIẢM sau B2.1/B2.2.
+
+#### B2 — ĐÃ CODE (27/11), chưa build
+**B2.1 crop vùng gần** [XONG]: `yolox_mobs.detect_near()` + `near_crop_box()` (crop `NEAR_CROP` 400 quanh
+nhân vật, `NEAR_SIZE` 320, bán kính `NEAR_R` 150). **XOÁ HUD TRÊN FULL FRAME RỒI MỚI CẮT** — `_blank_play_hud`
+làm việc theo TỈ LỆ ảnh nó nhận, nên cắt trước rồi xoá sau sẽ xoá mất giữa vùng chơi (đây chính là lỗi đã làm
+sai vòng đo đầu, xem B1); `detect(..., blank=False)` là tham số mới cho đúng việc đó. Bản đồ không có export
+320 thì lượt gần TẮT (nếu không `ensure_session` sẽ lùi về 640 = tốn cả một lượt detect mà không lợi gì).
+Chạy trong `detector._run` trên CÙNG frame (không grab thêm), đi theo `Detection.near`; ms của nó **cộng vào
+ngân sách của mode** nên guard `CPU_SHARE` thấy đúng chi phí, và log riêng `near_ms` / `near_boxes_per_frame`
++ `near_size` trong `detect_stats` (để đo thật trên máy game sau khi build).
+`targeting._detect` nhận `found.near` -> `self.last_near`; `candidates()` nối chúng vào SAU box thật
+(`(unique + extras)[:max_probe_points]`), và `last_monsters` được gán TRƯỚC khi nối, nên `closer_than`,
+`mobs_near`, `mobs_seen`, `_update_tracks` chỉ thấy box thật (luật danger 0.40 và luật tường 0.40/0.42 không
+bị box conf thấp làm nhiễu). Cấu hình `scan.near_conf` 0,1 (0 = tắt) + một ô trong tab Quét (`scan_near_conf`).
+**B2.3 vòng rê** [XONG]: `features/ring_probe.py` (`ring_points` 8 hướng x 45/90 px = 16 điểm; quét 1 lần đọc
+con trỏ/điểm rồi xác nhận lại điểm đầu bằng `targeting.probe`; `COOLDOWN` 2 s; nhả chuột trái trước;
+`poll_escape` trong vòng). Kích hoạt: `session._defend` khi HP tụt mà không có box <= `RING_DEFEND_PX` 100,
+và `RING_IDLE_SEC` 5 s không có mục tiêu (kể cả đứng gốc). Trận sinh từ vòng rê: `combat.engage(..., ring=True)`
+/ `engage_ranged(..., ring=True)` **không tắt theo `BOX_GONE_SEC` / `NO_SWORD_SEC`**; cứ `RING_CHECK_SEC` 0,5 s
+đọc lại con trỏ (lớp cận chiến đọc con trỏ đang giữ chuột, lớp bắn xa `rehover_last`), hết kiếm
+`RING_CHECK_STRIKES` 2 lần liên tiếp hoặc chạm cap thì kết thúc, outcome mới `ring_gone`.
+**Mục 5 hard cases** [XONG]: `runtime/hard_cases.py` (`HardCases`, `stats()`, `export_zip()`) ghi vào
+`records/hard_cases/`, tạo trong `BotContext.__init__` nên **độc lập hoàn toàn với tuỳ chọn ghi hình**.
+`ctx.hard_case(rect, point, kind, src)` bỏ qua điểm nào có box thật trong 48 px (`mobs_seen`), chống trùng
+2 s / 48 px, không bao giờ raise vào vòng săn. Mỗi ca: `.jpg` + `.txt` YOLO (box ước lượng `HC_BOX` 57x95,
+kẹp biên) + `hard_cases.jsonl` + `labels.json` (`todo: true`) cho `tests/label_tool.py`. Hạn mức
+`MAX_N` 500 / `MAX_MB` 200, cũ nhất xoá trước, xoá ảnh thì xoá cả `.txt` và dòng nhãn. Gọi từ 3 chỗ:
+`targeting.probe` (ra kiếm), `combat` (dòng chat kill khi không có box sống), `ring_probe` (vòng rê tìm được).
+**Mục 6 đường dữ liệu** [XONG]: nút "Xuất dữ liệu học" trong tab Dữ liệu (`record_panel._export_hard` →
+`hard_cases.export_zip`, kèm `stats.json` và dòng tóm tắt số ảnh / MB / theo bãi / ngày-đêm / chưa duyệt;
+chuỗi `hard_export`, `hard_none`, `hard_stats` đủ ko/en/vi). `tests/label_tool.py <file.zip>` mở thẳng zip
+(giải nén như `analyze_records.py`) và lưu nhãn **cạnh zip** (`<zip>.labels.json`) để thư mục tạm bị xoá không
+mất công duyệt; box ước lượng đã nằm trong `labels.json` nên hiện sẵn để chỉnh. `train/compare_models.py`
+so model cũ/mới trên bộ test cố định (`monster_labels.json` + `docs/game_reference` + frame nhãn tay của
+092741) và chỉ in "ĐỀ XUẤT THAY" khi recall gần TĂNG, box sai KHÔNG tăng và ms không tăng quá
+`MS_TOLERANCE` 1,2 lần. Tab Thống kê: `hard_case` (kèm `/h`), `ring_probe`, `ring_hit` trong `stats.KEYS`.
+**B2.2** [BỎ phần chuyển động như B1 đã kết luận; phần tracker dự đoán CHƯA làm, để sau].
+VIỆC TRÊN MÁY GAME (không cần code): đổi `scan.max_probe_points` 2 -> 5 (B1(e): cứu 7/307 ca quái gần có box
+nhưng bị cắt khỏi danh sách rê).
+TEST: `python tests/test_near_blind.py` (55 kiểm tra: hình học vòng rê + cooldown + xác nhận lại + hard case
+của vòng rê; luật trận vòng rê; nhãn YOLO/labels.json/hạn mức/xoá cũ nhất/thống kê/zip; `ctx.hard_case` bỏ
+điểm model đã thấy; hình học crop + thứ tự xoá HUD; box gần không vào luật danger; `near_conf`; `detect_stats`
+có ms crop; luật "ĐỀ XUẤT THAY" của compare_models). Hồi quy đã chạy lại: `tests/smoke_test.py` PASS,
+`tests/test_in_place_101929.py` PASS (41 trận / 55 spell_cast như trước), `tests/test_ui.py` PASS.
+
+SỐ REPLAY SAU B2.1/B2.3 (27/11, `tests/test_hunt_records.py`, so với mốc 0.43 ghi ở trên):
+092741: 87 trận (87), **kill 8 (8)**, gone 27 (28), lost 14 (15), unreachable 17 (17), blacklist 17 (17),
+dòng chat kill 21 (21), cap 0, trận dài nhất 9,8 s;
+101941: 75 trận (75), **kill 2 (2)**, gone 12 (13), unreachable 9% (9%), wall 2 (2), phép 23 (23),
+"đứng im" 70 phép (70), idle sau 166,9 s (166,9). => lượt crop vùng gần + conf 0,1 KHÔNG làm giảm kill và
+không làm tăng unreachable/wall; `max_probe_points` 2 không bị box conf thấp chiếm chỗ trong các bản ghi này.
+(Replay chạy đường `targeting._detect` nội tuyến nên nó CÓ gọi `detect_near`.)
+
+#### B3 (0.46) — INPUT 416 HAY 640 CHO LỚP BẮN XA: PHẢI THỬ TRÊN MÁY GAME
+Số B1 cho thấy một việc chưa ai tính: ở input **416** recall quái **> 200 px chỉ 69-75%** (nhãn tay 69%,
+hover kiếm 75%), còn ở **640** là **~86%**. Mà **pháp sư / tiên đứng gốc bắn chủ yếu ở 200-350 px**
+(`targeting.IN_PLACE_SHOT_PX` 350), tức đúng dải mà 416 nhìn kém nhất - crop vùng gần (<= 150 px) KHÔNG cứu
+được dải này.
+VIỆC SAU KHI BUILD (trên máy game, cùng bãi, cùng giờ, mỗi lượt >= 20 phút):
+1. lượt A: `scan.input_size` 416 (hiện tại) + crop gần 320;
+2. lượt B: `scan.input_size` 640 + crop gần 320;
+so **kill/giờ**, **lag của client** (cảm nhận của người dùng + `detect_stats.cpu_pct`), `detect_ms` và
+`boxes_per_frame` của cả hai (log một dòng/phút đã có sẵn: `[detect] ... | process cpu ...`).
+Chọn mặc định theo class: nếu 640 cho kill cao hơn mà không lag thì lớp bắn xa nên mặc định 640 (cận chiến
+vẫn 416 vì nó chỉ cần quái trong ~70 px). Nhớ: 640 nặng ~2,4 lần 416 (27 ms -> 65-70 ms đo trên laptop), và
+guard `CPU_SHARE` 30% có thể tự hạ fps - đọc `detect_stats.duty` để biết nó có hạ hay không.
+RỦI RO: PLAN 0.32/0.39 đã chốt "full frame 640" rồi lại bị máy game đổi về 416 bằng tay; đừng đổi mặc định
+trong code trước khi có số của hai lượt này.
+
+#### TEST / NGHIỆM THU
+- `python tests/eval_near_recall.py` (bảng B1, trước/sau B2.1 và B2.2; cổng: 150 px >= 97%).
+- `python tests/eval_detect_modes.py` (+ chế độ `near400@416`): ms/lượt, box/frame, % một core.
+- `python tests/test_near_blind.py`: vòng rê bị chặn đúng 2 s, không chạy khi đang có mục tiêu, mỗi
+  "ra kiếm mà không có box" sinh 1 hard case đúng định dạng nhãn; trận vòng rê sống qua `BOX_GONE_SEC` và
+  tắt sau 2 lần đọc con trỏ không kiếm; tracker dự đoán không được tính là tiến triển.
+- `python tests/test_hard_cases.py` (mục 5/6): lưu khi recorder = None (ghi hình tắt); hạn mức 500 ảnh /
+  200 MB xoá cũ nhất trước và xoá cả dòng nhãn; `.txt` YOLO đúng toạ độ chuẩn hoá với box 57x95 kẹp biên;
+  chống trùng 2 s; `labels.json` mở được bằng `label_tool` (gọi `load_labels`); zip xuất ra có `stats.json`
+  đúng số ảnh/bãi/ngày-đêm; `label_tool.py <zip>` mở được và lưu nhãn cạnh zip;
+  `train/compare_models.py` chỉ in "ĐỀ XUẤT THAY" ở đúng điều kiện (test với số giả: recall gần tăng +
+  precision giảm -> GIỮ).
+- Chạy lại `tests/test_hunt_records.py`, `tests/test_in_place_101929.py`, `tests/eval_detection.py`:
+  kill / gone / unreachable không xấu đi, `mobs_near` không tăng (luật danger), CPU <= +30%.
+- CHƯA BUILD (bản phát hành phải dựng trên máy 3.12).
+
+#### RỦI RO PHẢI BIẾT
+1. **`scan.max_probe_points` = 2 trên máy game**: B2.1/B2.2 sinh thêm ứng viên; với hạn mức 2, một box conf
+   thấp / điểm chuyển động sai chiếm chỗ quái thật → thứ tự conf-thường-trước là bắt buộc, và nên nâng hạn
+   mức riêng cho vùng <= 150 px (rê gần rất rẻ: ~0,2 s).
+2. **Ngân sách CPU**: B2.1 một mình ước ~25% một core ở 2 lượt/s (416); ms của nó phải vào guard `CPU_SHARE`,
+   nếu không guard sẽ hạ fps lượt full và làm giảm kill (vết xe 0.33/0.34).
+3. **Conf 0,1 sinh box sai**: chi phí một lần rê (~0,2 s) mỗi box; tuyệt đối không cho vào luật danger/tường.
+4. **Nhãn ngày/đêm chưa đo được trên laptop này** (xem B1(a)) — đừng kết luận "đêm sót nhiều hơn" trước khi có
+   ảnh các bản ghi observe.
+5. **Trận vòng rê sống bằng con trỏ**: nếu quái thật đã chết mà con trỏ còn kiếm (xác/người khác), trận có thể
+   kéo tới 1 s nữa; chấp nhận, nhưng đừng nới điều kiện tắt quá 2 lần đọc.
+6. **Hard case ăn đĩa và CPU nhỏ nhưng không bằng 0**: mỗi lần lưu là 1 JPEG ~150 KB + 2 lần ghi file; hạn
+   mức 500 ảnh/200 MB là tối đa ~75 MB-200 MB. Nếu model sót nhiều, hard case sẽ đầy trong một buổi -> cũ nhất
+   bị xoá, tức bộ dữ liệu luôn là "những ca mới nhất" chứ không phải mẫu đại diện. Chấp nhận, nhưng khi train
+   phải xuất zip TRƯỚC khi hạn mức xoá (nút ở tab Dữ liệu).
+7. **Box ước lượng 57x95 là ước lượng**: không được train trực tiếp từ nó mà chưa duyệt tay, nếu không model
+   sẽ học lệch cỡ box. `todo: true` và `compare_models.py` trên bộ test cố định là hai cái chốt.

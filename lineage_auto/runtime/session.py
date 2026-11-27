@@ -13,6 +13,7 @@ from ..features.combat import CombatFeature
 from ..features.cure_poison import CurePoisonFeature
 from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
+from ..features.ring_probe import RingProbeFeature
 from ..features.loot import LootFeature
 from ..features.survival import HealthFeature
 from ..features.targeting import TargetingFeature
@@ -56,6 +57,10 @@ MEM_GROW_MB = 5.0  # smaller rises are noise
 # (event idle_gap). Falling HP + a box within DEFEND_PX and no confirmed target = hit back at once.
 IDLE_GAP_SEC = 1.5
 IDLE_NEAR_PX = 150
+# PLAN 0.46 B2.3: no target for this long (standing around, "stay put" included) = sweep one cursor ring.
+RING_IDLE_SEC = 5.0
+# PLAN 0.46 B2.3: HP falling and no box within this -> the ring, not _defend (which needs a box).
+RING_DEFEND_PX = 100
 HP_DROP_SEC = 2.0  # HP lower than a read this recent = being hit
 DEFEND_PX = 70
 
@@ -90,6 +95,9 @@ class AccountSession:
         self.exploration = ExplorationFeature(self.ctx, health=self.health, targeting=self.targeting)
         self.loot = LootFeature(self.ctx, targeting=self.targeting)
         self.grid = GridScanFeature(self.ctx)
+        # PLAN 0.46 B2.3: the cursor ring - the only sensor that sees a monster the model has no box for.
+        self.ring = RingProbeFeature(self.ctx)
+        self.ring.targeting = self.targeting
         self.on_state_change = on_state_change
         self.state = SessionState.STOPPED
         self.yolox_device = None
@@ -498,7 +506,13 @@ class AccountSession:
         """PLAN 0.39 / 6: being hit and nothing confirmed -> hover the nearest box next to us; only an attack cursor
         there is fought (crowded grounds: another player must never be hit). One hover, ~20 ms."""
         dist, point = self._nearest_box(char)
-        if not falling or dist is None or dist > DEFEND_PX:
+        if not falling:
+            return None
+        if dist is None or dist > RING_DEFEND_PX:
+            # PLAN 0.46 B2.3: being hit by something the detector cannot see - ask the cursor.
+            ring = getattr(self, "ring", None)  # test doubles call _defend on a bare namespace
+            return ring.sweep(rect, char, "hp_falling") if ring is not None else None
+        if dist > DEFEND_PX:
             return None
         target = self.targeting.probe([(int(point[0]), int(point[1]))], rect)
         rec = self.ctx.recorder
@@ -587,6 +601,12 @@ class AccountSession:
                             self.exploration.observe()
                         if target is None:
                             target = self._defend(rect, char, falling)
+                            ring_hit = target is not None  # PLAN 0.46: a ring target has no box to follow
+                        else:
+                            ring_hit = False
+                        if target is None and time.monotonic() - last_target > RING_IDLE_SEC:
+                            target = self.ring.sweep(rect, char, "idle")
+                            ring_hit = target is not None
                         self._idle_watch(char, falling)
 
                         rec = self.ctx.recorder
@@ -595,7 +615,7 @@ class AccountSession:
                             if rec:
                                 rec.count("engage")
                             self.exploration.remember_hunt(char, target.local)
-                            self.combat.engage(target, rect, char)
+                            self.combat.engage(target, rect, char, ring=ring_hit)
                             self.loot.after_fight(self.combat.last_outcome, self.combat.last_anchor)
                             self._walk_home(rect)  # PLAN 1.7: a fight in the field ends at the start point
                         elif self.targeting.should_rescan():

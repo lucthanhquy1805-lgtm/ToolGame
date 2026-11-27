@@ -32,6 +32,12 @@ DIE_CLASS = 2
 INPUT_SIZE = 640
 EXPORT_SIZES = (320, 416, 640)  # model/<name>_<size>.onnx (train/export_onnx.py --size), 640 = <name>.onnx
 PAD_VALUE = 114
+# PLAN 0.46 B2.1: a second detect on a crop around the character, at (nearly) native resolution - the full
+# frame scales 1280 -> 416, so a monster standing next to the character loses most of its pixels. Measured
+# (tests/eval_near_recall.py): recall within NEAR_R of the character 90% -> 93-94%.
+NEAR_CROP = 400
+NEAR_SIZE = 320  # 320 scored the same as 416 on the records and costs a third less
+NEAR_R = 150
 
 _LAST_FIGURES = []
 # Corpse ("die") centers from the last detect call (PLAN 0.4).
@@ -212,7 +218,7 @@ def roi_box(gw, gh, cx, cy):
 
 
 def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=INPUT_SIZE,
-           roi=False, threads=None):
+           roi=False, threads=None, blank=True):
     """(monsters, figures, dies) centers nearest (cx, cy) inside radius, in frame coordinates.
 
     ``size`` picks the ONNX export (falls back to 640); ``roi`` crops the play area around the character first.
@@ -225,7 +231,7 @@ def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=
         size = session_size(sess)
         name = sess.get_inputs()[0].name
         infer = lambda b: sess.run(None, {name: b})[0]  # noqa: E731
-    img = _blank_play_hud(frame_bgr)
+    img = _blank_play_hud(frame_bgr) if blank else frame_bgr
     ox = oy = 0
     if roi:
         ox, oy, x1, y1 = roi_box(img.shape[1], img.shape[0], cx, cy)
@@ -244,6 +250,32 @@ def detect(frame_bgr, cx, cy, radius, infer=None, map_key=None, conf=None, size=
     conf = conf or hunt.conf
     return (project(MONSTER_CLASS, conf), project(figure_id) if figure_id is not None else [],
             project(die_id, conf) if die_id is not None else [])
+
+
+def near_crop_box(gw, gh, cx, cy, crop=NEAR_CROP):
+    """(x0, y0, side) of the native-resolution crop around the character, clamped into the frame."""
+    side = min(crop, gw, gh)
+    return (max(0, min(int(cx) - side // 2, gw - side)),
+            max(0, min(int(cy) - side // 2, gh - side)), side)
+
+
+def detect_near(frame_bgr, cx, cy, conf=None, map_key=None, size=NEAR_SIZE, threads=None, radius=NEAR_R):
+    """Monster centers from the native-resolution crop around the character, in FRAME coordinates.
+
+    [] when this map has no export at ``size`` (the 640 fallback would make the crop cost a full detect for
+    nothing). The HUD is blanked on the whole frame BEFORE cropping: _blank_play_hud works in fractions of
+    the image it gets, so blanking the crop itself would wipe out the middle of the play area."""
+    if frame_bgr is None or frame_bgr.size == 0 or model_path(map_key, size) is None:
+        return []
+    img = _blank_play_hud(frame_bgr)
+    gh, gw = img.shape[:2]
+    x0, y0, side = near_crop_box(gw, gh, cx, cy)
+    sub = img[y0:y0 + side, x0:x0 + side]
+    if sub.size == 0:
+        return []
+    points, _figures, _dies = detect(sub, cx - x0, cy - y0, radius, map_key=map_key, conf=conf, size=size,
+                                     threads=threads, blank=False)
+    return [(x + x0, y + y0) for x, y in points]
 
 
 def detect_centers(frame_bgr, cx, cy, radius, max_n=None, infer=None, map_key=None, conf=None,

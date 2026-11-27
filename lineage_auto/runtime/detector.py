@@ -40,6 +40,9 @@ class Detection:
     figures: list
     dies: list
     ms: float
+    # PLAN 0.46 B2.1: centers from the native-resolution crop around the character, low confidence. Hover
+    # candidates only: they never count as a crowd (danger) or as progress in a fight.
+    near: tuple = ()
 
 
 class DetectorThread:
@@ -48,6 +51,7 @@ class DetectorThread:
         scan = ctx.account.scan
         self.map_key = ctx.account.hunt_map
         self.conf = scan.conf_for(self.map_key)
+        self.near_conf = scan.near_conf
         self.roi = scan.detect_roi
         yolox_mobs.THREADS = scan.detect_threads  # before the first session: opts.intra_op_num_threads
         # PLAN 0.34: searching runs the full 640 frame, which one core cannot do twice a second, so it gets
@@ -70,6 +74,11 @@ class DetectorThread:
                 self.fight_size = max(smaller)
                 yolox_mobs.ensure_session(self.map_key, self.fight_size, self.threads["fight"])
         yolox_mobs.ensure_session(self.map_key, self.size, self.threads["fight"])  # full frame inside a fight
+        # PLAN 0.46 B2.1: the near crop runs at NEAR_SIZE; a map without that export would silently fall back
+        # to 640 and cost a whole detect for nothing, so the pass stays off there.
+        self.near = bool(self.near_conf) and yolox_mobs.model_path(self.map_key, yolox_mobs.NEAR_SIZE) is not None
+        if self.near:
+            yolox_mobs.ensure_session(self.map_key, yolox_mobs.NEAR_SIZE, self.threads["fight"])
         self.adaptive = bool(scan.adaptive_detect) and self.fight_size != self.size
         self.latest = None
         self._cond = threading.Condition()
@@ -81,6 +90,8 @@ class DetectorThread:
 
     def describe(self):
         fight = f" fight {self.fight_size}+roi, full frame every {FULL_EVERY:.0f}s" if self.adaptive else ""
+        fight += (f" near crop {yolox_mobs.NEAR_CROP}@{yolox_mobs.NEAR_SIZE} conf {self.near_conf}"
+                  if self.near else "")
         return (f"size {self.size} roi {'on' if self.roi else 'off'} "
                 f"threads {self.threads['search']}/{self.threads['fight']} search/fight "
                 f"max {self.fps['search']}/{self.fps['fight']}/s{fight}")
@@ -148,7 +159,7 @@ class DetectorThread:
     def _run(self):
         ctx = self.ctx
         seq = 0
-        stats = {mode: {"n": 0, "ms": 0.0, "boxes": 0} for mode in FPS_FLOOR}
+        stats = {mode: {"n": 0, "ms": 0.0, "boxes": 0, "near_ms": 0.0, "near_boxes": 0} for mode in FPS_FLOOR}
         log_t = time.monotonic() - LOG_EVERY + FIRST_LOG  # first line soon after the start, then every minute
         cpu_t = time.process_time()  # whole-process CPU seconds: no psutil needed for the bot's CPU %
         try:
@@ -164,6 +175,14 @@ class DetectorThread:
                         frame, char[0], char[1], play_max_radius(rect.w, rect.h, char[0], char[1]),
                         map_key=self.map_key, conf=self.conf, size=size, roi=roi, threads=threads)
                     ms = 1000 * (time.perf_counter() - t0)
+                    # PLAN 0.46 B2.1: second pass on the native-resolution crop around the character, on the
+                    # SAME frame (no extra grab). Its ms are counted into this mode so the CPU guard sees them.
+                    near, near_ms = (), 0.0
+                    if self.near:
+                        t1 = time.perf_counter()
+                        near = tuple(yolox_mobs.detect_near(frame, char[0], char[1], conf=self.near_conf,
+                                                            map_key=self.map_key, threads=threads))
+                        near_ms = 1000 * (time.perf_counter() - t1)
                 except Exception as exc:
                     if time.monotonic() - self._errors_t > 10:
                         self._errors_t = time.monotonic()
@@ -172,15 +191,20 @@ class DetectorThread:
                     continue
                 seq += 1
                 with self._cond:
-                    self.latest = Detection(seq, time.time(), frame, tuple(char), hits, figures, dies, ms)
+                    self.latest = Detection(seq, time.time(), frame, tuple(char), hits, figures, dies,
+                                            ms + near_ms, near)
                     self._cond.notify_all()
                 rec = ctx.recorder
                 if rec is not None:
                     rec.count("detections")
                     rec.timing("detect_ms", ms)
                 bucket = stats[mode]
-                bucket["n"], bucket["ms"], bucket["boxes"] = bucket["n"] + 1, bucket["ms"] + ms, \
+                # PLAN 0.46 B2.1: the near crop's ms go into this mode's total, so the CPU guard
+                # (_slow_down / CPU_SHARE) sees the real cost and can still drop the rate.
+                bucket["n"], bucket["ms"], bucket["boxes"] = bucket["n"] + 1, bucket["ms"] + ms + near_ms, \
                     bucket["boxes"] + len(hits)
+                bucket["near_ms"] += near_ms
+                bucket["near_boxes"] += len(near)
                 now = time.monotonic()
                 if now - log_t >= LOG_EVERY:
                     # PLAN 0.33/0.34: one line a minute per mode (searching vs fighting) with the rate really
@@ -197,18 +221,26 @@ class DetectorThread:
                         avg_ms, real_fps = b["ms"] / b["n"], b["n"] / window
                         per_frame = b["boxes"] / b["n"]
                         duty = self._slow_down(name, avg_ms, real_fps)
+                        near_avg = b["near_ms"] / b["n"]
+                        near_per_frame = b["near_boxes"] / b["n"]
+                        near_part = f" (+near {near_avg:.0f} ms {near_per_frame:.2f} boxes)" if self.near else ""
                         parts.append(f"{name} {avg_ms:.0f} ms {real_fps:.1f}/s {duty * 100:.0f}%core "
-                                     f"{per_frame:.2f} boxes")
+                                     f"{per_frame:.2f} boxes{near_part}")
                         data[name] = {"ms": round(avg_ms), "fps": round(real_fps, 2), "duty": round(duty, 2),
                                       "boxes_per_frame": round(per_frame, 2), "threads": self.threads[name],
-                                      "max_fps": self.fps[name]}
+                                      "max_fps": self.fps[name],
+                                      # PLAN 0.46: measured on the game PC after the build
+                                      "near_ms": round(near_avg, 1),
+                                      "near_boxes_per_frame": round(near_per_frame, 2)}
                     ctx.log(f"[detect] {self.describe()}: " + " | ".join(parts) + f" | process cpu {cpu_pct:.0f}%")
                     if stats["search"]["n"]:
                         self._step_down(stats["search"]["ms"] / stats["search"]["n"])
                     if rec is not None:
                         rec.event("detect_stats", cpu_pct=round(cpu_pct), size=self.size,
-                                  fight_size=self.fight_size, **data)
-                    stats = {mode_: {"n": 0, "ms": 0.0, "boxes": 0} for mode_ in FPS_FLOOR}
+                                  fight_size=self.fight_size,
+                                  near_size=yolox_mobs.NEAR_SIZE if self.near else 0, **data)
+                    stats = {mode_: {"n": 0, "ms": 0.0, "boxes": 0, "near_ms": 0.0, "near_boxes": 0}
+                             for mode_ in FPS_FLOOR}
                     log_t, cpu_t = now, cpu_now
                 rest = self.period(mode) - (time.perf_counter() - start)
                 if rest > 0:

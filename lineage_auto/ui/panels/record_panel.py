@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 
 from ...config.models import STOP_KEYS
-from ...runtime import recorder
+from ...runtime import hard_cases, recorder
 from ...runtime.session import SessionState
 from .base import Panel
 
@@ -75,6 +75,10 @@ class RecordPanel(Panel):
         self.btn_observe.pack(side="left")
         self.btn_zip = ttk.Button(bottom, text="", command=self._zip_latest)
         self.btn_zip.pack(side="left", padx=6)
+        # PLAN 0.46 / 6: the hard cases are the training set for the next model, exported on their own
+        # (they are collected whether or not the user records).
+        self.btn_hard = ttk.Button(bottom, text="", command=self._export_hard)
+        self.btn_hard.pack(side="left", padx=6)
         self.lbl_info = ttk.Label(self.files_frame, text="", foreground="gray", wraplength=380)
         self.lbl_info.pack(anchor="w", pady=(4, 0))
         self.lbl_last = ttk.Label(self.files_frame, text="", foreground="gray", wraplength=380, justify="left")
@@ -133,6 +137,26 @@ class RecordPanel(Panel):
         except (AttributeError, OSError):
             pass
 
+    def _export_hard(self):
+        """PLAN 0.46 / 6: zip records/hard_cases/ plus its stats (pictures, by hunting ground, day/night)."""
+        try:
+            archive, info = hard_cases.export_zip()
+        except OSError as exc:
+            messagebox.showwarning(self.t("warn_title"), str(exc))
+            return
+        if archive is None:
+            messagebox.showinfo(self.t("warn_title"), self.t("hard_none"))
+            return
+        maps = ", ".join(f"{k} {v}" for k, v in sorted(info["by_map"].items())) or "-"
+        summary = self.t("hard_stats", n=info["n"], mb=info["mb"], maps=maps,
+                         day=info["day"], night=info["night"], todo=info["todo"])
+        self.lbl_info.config(text=f"{os.path.basename(archive)} - {summary}")
+        messagebox.showinfo(self.t("warn_title"), self.t("rec_zipped", path=archive) + "\n" + summary)
+        try:
+            os.startfile(os.path.dirname(archive))
+        except (AttributeError, OSError):
+            pass
+
     def apply_language(self):
         self.frame.config(text=f" {self.t('sec_record')} ")
         self.stop_frame.config(text=f" {self.t('sec_stop')} ")
@@ -142,6 +166,7 @@ class RecordPanel(Panel):
         self.lbl_max.config(text=self.t("rec_max_frames"))
         self.lbl_max_gb.config(text=self.t("rec_max_gb"))
         self.btn_zip.config(text=self.t("rec_zip"))
+        self.btn_hard.config(text=self.t("hard_export"))
         self.chk_no_model.config(text=self.t("rec_no_model"))
         self.lbl_auto_stop.config(text=self.t("rec_auto_stop"))
         self.lbl_stop_key.config(text=self.t("rec_stop_key"))

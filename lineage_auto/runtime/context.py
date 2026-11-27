@@ -20,7 +20,8 @@ from ..vision.stat_bar import BarColor, StatBarReader
 from ..winapi.window import GameWindow
 from .cursor_collection import CursorCollection
 from .cursor_profile import CursorProfile
-from .stats import Stats
+from .hard_cases import DEDUPE_PX, HardCases
+from .stats import Stats, bump
 
 
 # PLAN 0.34: the client needs a moment to redraw the hotbar after a page key (F1/F2/F3).
@@ -126,6 +127,29 @@ class BotContext(HotbarPages, WalkOffset):
         self.recorder = None
         # PLAN 4.1: hunt statistics (Statistics tab + records/stats_<date>.json).
         self.stats = Stats()
+        # PLAN 0.46 / 5: frames where a monster was proven without a box. Independent of the recording
+        # setting - this is the training set for the next model.
+        self.hard_cases = HardCases()
+
+    def hard_case(self, rect, point, kind="cursor", src=""):
+        """PLAN 0.46 / 5: save this frame if the detector really has no box at ``point``. Never raises."""
+        point = (int(point[0]), int(point[1]))
+        boxes = self.state.get("mobs_seen") or ()
+        if any(math.hypot(b[0] - point[0], b[1] - point[1]) <= DEDUPE_PX for b in boxes):
+            return None  # the model did see it: not a hard case
+        try:
+            path = self.hard_cases.save(self.grabber.grab_bgr(rect), point, kind=kind, src=src,
+                                        map_key=self.account.hunt_map)
+        except Exception as exc:  # a full disk must never stop a hunt
+            self.log(f"hard case not saved: {exc}")
+            return None
+        if path:
+            bump(self, "hard_case")
+            rec = self.recorder
+            if rec:
+                rec.count("hard_case")
+                rec.event("hard_case", point=list(point), kind=kind, src=src)
+        return path
 
     @property
     def character(self):

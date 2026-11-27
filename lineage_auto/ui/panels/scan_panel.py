@@ -22,6 +22,7 @@ FIELDS = (
     ("hover_retry", "scan_retry_ms", 0, 300, 10, 1000),
     ("hover_reads", "scan_reads", 1, 6, 1, 1),
     ("detect_conf", "scan_conf", 0, 50, 1, 100),
+    ("near_conf", "scan_near_conf", 0, 50, 1, 100),  # PLAN 0.46 B2.1: 0 = the near crop pass is off
     ("detect_fps", "scan_fps", 1, 15, 1, 1),  # PLAN 0.31
     ("input_size", "scan_input", INPUT_SIZES[0], INPUT_SIZES[-1], INPUT_SIZES, 1),
     ("detect_roi", "scan_roi", 0, 1, 1, 1),

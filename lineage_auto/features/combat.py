@@ -54,6 +54,11 @@ UNREACH_SEC = 1.5
 # dropped after 1.8 s, while a kill by hand takes 3.8 s on that ground (5 of its 6 kill lines arrived just AFTER
 # such a fight was left). Within NEAR_FIGHT_DIST the fight gets NEAR_UNREACH_SEC instead of UNREACH_SEC.
 NEAR_FIGHT_DIST = 100
+# PLAN 0.46 B2.3: a fight the cursor ring found has NO detection box by definition, so the box rules
+# (BOX_GONE_SEC, NO_SWORD_SEC) would end it at once. It lives on the cursor instead: the cursor under the
+# held mouse is read every RING_CHECK_SEC and the fight ends after RING_CHECK_STRIKES reads without a sword.
+RING_CHECK_SEC = 0.5
+RING_CHECK_STRIKES = 2
 # PLAN 0.42: a monster this close is always tried, whatever the minimap route says (no 'wall' ending); a real
 # fence still ends it as unreachable / cap.
 WALL_MIN_DIST = 250
@@ -425,6 +430,7 @@ class CombatFeature(Feature):
                       "wall": "no way on the minimap, blacklisted",
                       "danger": "danger, leaving the fight",
                       "no_spell": "no attack skill enabled, nothing to shoot with",
+                      "ring_gone": "cursor ring target gone (no sword any more)",
                       "pulled": "pulled, walking back to the start",
                       "pull_danger": "danger while pulling, walking back to the start"}
                      .get(outcome, outcome) + note)
@@ -525,7 +531,7 @@ class CombatFeature(Feature):
         tg = self.targeting
         return getattr(tg, "in_place", None) is not None and tg.in_place() and tg.ranged()
 
-    def engage_ranged(self, target, rect, char):
+    def engage_ranged(self, target, rect, char, ring=False):
         """PLAN 1.2c: shoot the lock from where we stand. No hold, no click on the monster: attack spells only
         (the aiming ellipse is required); none ready (MP, cooldown) = wait. Ends on a kill line, the box gone,
         the lock out of the hunt range (PLAN 1.7) or the fight cap."""
@@ -544,6 +550,7 @@ class CombatFeature(Feature):
         self._box_gone, self._cursor_last = 0.0, None
         self._spells, self._skipped = 0, {}
         last_skill = 0.0
+        ring_t, ring_strikes = started, 0
         self.input.release_left()
         while self.ctx.running and time.time() - started < self.account.scan.melee_max_sec:
             poll_escape(self.ctx)
@@ -571,7 +578,16 @@ class CombatFeature(Feature):
             if kills:
                 kill_name(self.ctx, kills[-1][1] or "")
                 return self._finish(target, "chat_kill", anchor, kills[-1][1] or "", lines=len(kills))
-            if updated is None and now - box_t >= BOX_GONE_SEC:
+            if ring:
+                # PLAN 0.46 B2.3: no box to lose - the cursor at the spot decides. A ranged class does not hold
+                # the mouse there, so the spot is re-hovered (one hover, ~20 ms) every RING_CHECK_SEC.
+                if now - ring_t >= RING_CHECK_SEC:
+                    ring_t = now
+                    ring_strikes = 0 if self.targeting.rehover_last(rect) is not None else ring_strikes + 1
+                    if ring_strikes >= RING_CHECK_STRIKES:
+                        return self._finish(target, "ring_gone", anchor,
+                                            f"{ring_strikes} cursor reads without a sword")
+            elif updated is None and now - box_t >= BOX_GONE_SEC:
                 gone = self._chat_readable() and self.account.loot.mode == "auto"
                 return self._finish(target, "gone" if gone else "vanished", anchor, f"box gone {now - box_t:.1f}s")
             # PLAN 1.7: the lock left the hunt range (measured from the start) or is simply too far to aim at.
@@ -661,10 +677,13 @@ class CombatFeature(Feature):
         near = len(self.ctx.state.get("mobs_near") or ())
         return f"{near} monsters next to us" if near >= DANGER_MOBS else ""
 
-    def engage(self, target, rect, char, force_melee=False):
-        """Attack until death/lost/stop. Always hold+drag on entry."""
+    def engage(self, target, rect, char, force_melee=False, ring=False):
+        """Attack until death/lost/stop. Always hold+drag on entry.
+
+        ``ring`` (PLAN 0.46 B2.3): the target came from the cursor ring, not from a box - the box rules are
+        replaced by the cursor rule (see RING_CHECK_SEC)."""
         if self._shoot_only() and not force_melee:
-            return self.engage_ranged(target, rect, char)
+            return self.engage_ranged(target, rect, char, ring=ring)
         self.last_outcome = None
         watch = DeathWatch()
         skills = self.active_skills()
@@ -706,6 +725,7 @@ class CombatFeature(Feature):
         detours = 0
         started = fight_progress_t = box_t = sword_t = self._fight_start
         sidestepped = False
+        ring_t, ring_strikes = self._fight_start, 0
         try:
             while self.ctx.running and bursts < MAX_COMBAT_BURSTS:
                 if time.time() - started >= (melee_max if melee_seen else MAX_FIGHT_SEC):
@@ -780,6 +800,9 @@ class CombatFeature(Feature):
                     match = "" if not locked_name else (" = locked" if killed == locked_name else
                                                          f" != locked {locked_name}")
                     kill_name(self.ctx, killed)  # PLAN 4.1: kills per monster
+                    hard = getattr(self.ctx, "hard_case", None)
+                    if not live and hard is not None:  # PLAN 0.46 / 5: killed what the detector had no box for
+                        hard(rect, anchor, kind="chat_kill", src="chat")
                     return self._finish(target, "chat_kill", anchor, killed + match, lines=len(kills))
 
                 # Body stopped moving under the lock and the sword is gone: dead.
@@ -791,8 +814,14 @@ class CombatFeature(Feature):
                 self._box_gone = round(now - box_t, 1)
                 if sword:
                     sword_t = now
-                elif dist <= MELEE_DIST and now - sword_t >= NO_SWORD_SEC:
+                elif dist <= MELEE_DIST and now - sword_t >= NO_SWORD_SEC and not ring:
                     return self._finish(target, "lost", anchor, f"no attack cursor for {now - sword_t:.1f}s")
+                if ring and now - ring_t >= RING_CHECK_SEC:
+                    ring_t = now
+                    ring_strikes = 0 if sword else ring_strikes + 1
+                    if ring_strikes >= RING_CHECK_STRIKES:
+                        return self._finish(target, "ring_gone", anchor,
+                                            f"{ring_strikes} cursor reads without a sword")
                 # PLAN 0.39 / 6: leave a living lock only for a monster hitting us while the lock is not next to us
                 # PLAN 0.43: being hit switches to anything within NEAR_KEEP, not only to a much nearer box.
                 hurt = self.health is not None and getattr(self.health, "hp_falling", bool)()
@@ -852,7 +881,7 @@ class CombatFeature(Feature):
                 if updated is None:
                     if self._die_near(anchor):
                         return self._finish(target, "die_box", anchor)
-                    if now - box_t >= BOX_GONE_SEC:
+                    if now - box_t >= BOX_GONE_SEC and not ring:
                         # PLAN 0.32: no box for a second ends the fight even with the sword up (a stale attack
                         # cursor kept 16 fights of 092741 standing for 25 s). Auto-to-bag server with a readable
                         # chat: every kill writes a kill line, none came -> it walked off. Drop servers write no

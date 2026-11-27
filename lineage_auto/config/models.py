@@ -231,6 +231,10 @@ class ScanSettings:
     hover_reads: int = 4
     miss_ttl: float = 4.0
     detect_conf: float = 0.0  # 0 = the hunt map's YOLOX threshold
+    # PLAN 0.46 B2.1: confidence for the extra detect on the native-resolution crop around the character
+    # (yolox_mobs.detect_near). 0 = that pass is off. Measured: 0.1 takes recall within 150 px from 90% to
+    # 93-94% for 0.13 extra boxes per frame, and those boxes are hover candidates only - never a "crowd".
+    near_conf: float = 0.1
     # PLAN 0.27: the hunt map detect_conf was typed for. A value from another map (or from a config
     # older than v12, e.g. 0.5 typed for Dragon Valley) is ignored: the zone's model uses its own conf.
     conf_map: str = ""
@@ -289,6 +293,7 @@ class ScanSettings:
             hover_reads=max(1, int(data.get("hover_reads", 4))),
             miss_ttl=max(0.0, float(data.get("miss_ttl", 4.0))),
             detect_conf=min(1.0, max(0.0, float(data.get("detect_conf", 0.0)))),
+            near_conf=min(1.0, max(0.0, float(data.get("near_conf", 0.1)))),
             conf_map=str(data.get("conf_map", "")),
             # PLAN 0.33: 5 was the v15 default that pinned two cores -> read back as "not chosen".
             detect_fps=min(15, max(1, 2 if int(data.get("detect_fps", 2)) == 5 else int(data.get("detect_fps", 2)))),

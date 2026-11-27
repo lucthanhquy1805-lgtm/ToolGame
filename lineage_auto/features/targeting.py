@@ -154,6 +154,7 @@ class TargetingFeature(Feature):
         self.clock = clock
         self.last_scan_points = 0
         self.last_monsters = []
+        self.last_near = []  # PLAN 0.46 B2.1: extra candidates from the native-resolution near crop
         self.last_figures = []
         self.last_dies = []
         self._corpse = None
@@ -505,6 +506,7 @@ class TargetingFeature(Feature):
             self._seen_seq = found.seq
             frame, figures, dies, detect_ms = found.frame, found.figures, found.dies, None
             hits = [p for p in found.hits if math.hypot(p[0] - char[0], p[1] - char[1]) <= radius]
+            near = list(getattr(found, "near", ()) or ())
         else:
             new = True
             frame = self.ctx.grabber.grab_bgr(rect)
@@ -513,8 +515,16 @@ class TargetingFeature(Feature):
             hits = detect_centers(frame, char[0], char[1], radius=radius, map_key=map_key,
                                   conf=self.scan.conf_for(map_key))
             figures, dies = list(yolox_mobs._LAST_FIGURES), list(yolox_mobs._LAST_DIES)
+            near = yolox_mobs.detect_near(frame, char[0], char[1], conf=self.scan.near_conf,
+                                          map_key=map_key) if self.scan.near_conf else []
             detect_ms = 1000 * (time.perf_counter() - t0)
         hits = [p for p in hits if math.hypot(p[0] - char[0], p[1] - char[1]) > SELF_R]
+        # PLAN 0.46 B2.1: low-confidence boxes from the near crop are EXTRA HOVER CANDIDATES only. They stay
+        # out of mobs_near / mobs_seen / tracks / closer_than: the danger crowd rule and the wall rules must
+        # never fire on them (same separation as the remembered tracks of 0.43).
+        self.last_near = [p for p in near
+                          if math.hypot(p[0] - char[0], p[1] - char[1]) > SELF_R
+                          and not any(math.hypot(p[0] - h[0], p[1] - h[1]) < MOTION_DEDUPE for h in hits)]
         # PLAN 0.40: what HealthFeature uses to see a crowd around the character (and where to step back to).
         self.ctx.state["mobs_seen"], self.ctx.state["char"] = hits, tuple(char)  # PLAN 0.41: combat._crowd
         self.ctx.state["mobs_near"] = [p for p in hits
@@ -560,11 +570,19 @@ class TargetingFeature(Feature):
             # Straight-line test only: a BFS per box would cost up to ~30 ms each.
             # PLAN 0.31: never ahead of a monster next to the character.
             unique.sort(key=lambda p: not near(p) and not self.minimap.clear_to(char, p))  # stable: nearest first
-        self.last_monsters = list(unique)
+        self.last_monsters = list(unique)  # real boxes only: closer_than / the crowd rules read this
         self.last_figures = list(figures)
         self.last_dies = list(dies)
-        self.last_scan_points = len(unique)
-        return unique[:self.scan.max_probe_points], max_r
+        # PLAN 0.46 B2.1: the near crop's low-confidence boxes go AFTER the real ones, so the cut at
+        # scan.max_probe_points (2 on the game PC) can never drop a normal box for a low-confidence one.
+        extras = [p for p in self.last_near
+                  if not self._is_corpse_blob(p)
+                  and not any(math.hypot(p[0] - dx, p[1] - dy) < CORPSE_SKIP_RADIUS for dx, dy in dies)
+                  and not self.out_of_range(p, char)
+                  and not (not near(p) and (self._recent_miss(p) or self.is_blocked(p)))
+                  and not any(math.hypot(p[0] - ax, p[1] - ay) < MOTION_DEDUPE for ax, ay in unique)]
+        self.last_scan_points = len(unique) + len(extras)
+        return (unique + extras)[:self.scan.max_probe_points], max_r
 
     def track_current(self, rect, last_xy, search_radius=None, char=None):
         """Follow the locked YOLOX box. None if it is gone."""
@@ -670,6 +688,11 @@ class TargetingFeature(Feature):
             cursor = self._hash_after_hover()
             self._record_hover((local_x, local_y), cursor)
             if self.ctx.cursors.is_attack(cursor):
+                # PLAN 0.46 / 5: a monster the sword cursor proves while the detector has no box there is a
+                # training case (ctx.hard_case drops it when a real box is in range).
+                hard = getattr(self.ctx, "hard_case", None)  # test doubles have no recorder stack
+                if hard is not None:
+                    hard(rect, (local_x, local_y), kind="probe", src="probe")
                 return Target(local_x, local_y, screen_x, screen_y)
             self._note_miss((local_x, local_y))
         return None
