@@ -321,7 +321,13 @@ def check_223510(rec):
         d = [((x - CHAR[0]) ** 2 + (y - CHAR[1]) ** 2) ** 0.5 for x, y in tgt.last_monsters]
         assert all(v > tg.SELF_R for v in d), d
         near_pts = [p for p, v in zip(tgt.last_monsters, d) if v <= tg.NEAR_KEEP]
-        assert tgt.last_monsters[:len(near_pts)] == near_pts and pts == tgt.last_monsters[:2], (f["file"], pts, d)
+        assert tgt.last_monsters[:len(near_pts)] == near_pts, (f["file"], near_pts, tgt.last_monsters, d)
+        # PLAN 0.46 B2.1: real boxes first in last_monsters order, near-crop low-conf boxes only after them
+        real = tgt.last_monsters[:len(pts)]
+        info = (f["file"], "pts", pts, "real", tgt.last_monsters, "near_conf", tgt.last_near)
+        assert pts[:len(real)] == real, info
+        assert all(p in tgt.last_near for p in pts[len(real):]), info
+        assert not any(p in tgt.last_monsters for p in pts[len(real):]), info
         selfbox += any(((x - CHAR[0]) ** 2 + (y - CHAR[1]) ** 2) ** 0.5 <= tg.SELF_R for x, y in f["hits"])
         checked += 1
     print(f"   candidates on {checked} frames: nearest first, near boxes kept after a miss, "
