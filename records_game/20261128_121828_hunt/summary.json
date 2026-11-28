@@ -1,0 +1,31 @@
+{
+ "mode": "hunt",
+ "duration_sec": 261.5,
+ "frames_saved": 253,
+ "counts": {
+  "detections": 519,
+  "chat_frames": 495,
+  "scans": 1556,
+  "out_of_range_skip": 4719,
+  "rescan": 804,
+  "wander": 734,
+  "grid_cast": 1440,
+  "grid_sweeps": 18,
+  "grid_points": 1440,
+  "ring_probe": 123,
+  "hover_cast": 476
+ },
+ "hover_confirm_rate": 0.0,
+ "fights": {},
+ "fight_endings": {},
+ "chat_kill_lines": 0,
+ "kills_chat": 0,
+ "kills_corpse_only": 0,
+ "kills_total": 0,
+ "detections_per_min": 119.1,
+ "avg_ms": {
+  "detect_ms": 24.6,
+  "probe_ms": 10.2,
+  "grid_ms": 928.5
+ }
+}

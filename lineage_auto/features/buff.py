@@ -119,6 +119,7 @@ class BuffFeature(Feature):
         pressed_at = time.monotonic()
         self._last_attempt[self._slot(key)] = self.clock()
         self.log(f"{key} buff {self.account.buff(key).skill_id} (self-cast)")
+        self.cancel_aim(f"buff {skill_id}")  # PLAN 1.10
         deadline = pressed_at + self._cast_wait
         while self._still_running():
             poll_escape(self.ctx)

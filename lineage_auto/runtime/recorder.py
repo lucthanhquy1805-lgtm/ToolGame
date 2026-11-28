@@ -24,7 +24,7 @@ from dataclasses import asdict
 import cv2
 
 from .. import app_paths, hunt_maps, monsters
-from ..vision import yolox_mobs
+from ..vision import minimap, yolox_mobs
 from ..vision.name_reader import NIGHT_BRIGHTNESS
 from ..winapi.cursor import CursorProbe, image_print, save_png
 
@@ -135,6 +135,15 @@ class Recorder:
             "window": [rect.w, rect.h] if rect is not None else None,
             "cursor_classifier": CURSOR_CLASSIFIER,
             "provider": yolox_mobs.LAST_DEVICE,  # PLAN 0.48: where the model really runs (scan has the choice)
+            # PLAN 1.10: the range the bot really used, in steps AND px (scan.attack_range 0 reads as the class
+            # default, which is what 20261128_001015's "attack_range: 0" hid).
+            "attack_range": {
+                "steps": account.attack_steps(),
+                "px": (round(account.attack_steps() * minimap.step_px(rect.w, account.scan.step_mm))
+                       if rect is not None else None),
+                "from": "config" if account.scan.attack_range else f"class {account.character.key}",
+            },
+            "melee_max_sec": account.melee_cap(),  # PLAN 1.10: 0 in scan = the class default
             "provider_probe": {os.path.basename(p): ms for p, ms in yolox_mobs.PROBES.items()},  # (DML, CPU) ms
         })
 

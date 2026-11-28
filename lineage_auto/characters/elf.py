@@ -18,4 +18,5 @@ ELF = CharacterClass(
     name_vi="Yêu Tinh",
     style=CombatStyle.HYBRID,
     attack_range=15,  # PLAN 1.9: bow, ~80 % of the screen (10-25 steps)
+    melee_max_sec=25.0,  # PLAN 1.10: a bow kill took 8-9.5 s on 20261128_001015; 10 s cut 18 of 59 fights
 )

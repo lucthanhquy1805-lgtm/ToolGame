@@ -253,6 +253,7 @@ class HealthFeature(Feature):
         if self.settings.use_skill and now - self._last_skill > SKILL_COOLDOWN and can_heal:
             self.log(f"{hp}% hp -> heal skill {self.settings.skill_page}+{self.settings.skill_key}")
             self.ctx.press_slot(self.settings.skill_page, self.settings.skill_key, double=True)
+            self.cancel_aim("heal skill")  # PLAN 1.10
             bump(self.ctx, "heal_skill")
             self._last_skill = now
             self.just_acted = True

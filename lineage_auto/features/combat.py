@@ -18,7 +18,7 @@ from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
-from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST
+from .targeting import LOCK_FOLLOW_RADIUS, MELEE_DIST, MELEE_LOCK_DIST, NEAR_KEEP
 from .survival import DANGER_MOBS
 from .targeting import SELF_R as SELF_BOX_R
 
@@ -31,6 +31,12 @@ HOLD_DOWN_SETTLE = 0.04
 # PLAN 0.32: the lock must still be in the newest detection. Gone this long -> leave at once (092741: 16 fights
 # stood 25 s on a box that was no longer there while the cursor still read "attack").
 BOX_GONE_SEC = 1.0
+# PLAN 1.10: the box vanished but the monster is right next to us and the fight is clearly still on (the sword
+# cursor on the anchor, or HP falling) -> keep it this long on the cursor alone. 20261128_001015: 21 of 59
+# fights ended "gone" after 1.2-1.4 s at 45-80 px while HP fell 173 -> 159.
+NEAR_HOLD_SEC = 4.0
+# PLAN 1.10: endings that mean "we walked away from this monster" (as opposed to a kill / a deliberate switch).
+GIVE_UP_NEAR_OUTCOMES = ("gone", "vanished", "lost", "unreachable", "no_progress", "ring_gone", "wall")
 # PLAN 0.32: in melee range without an attack cursor this long -> we are not hitting anything, leave.
 NO_SWORD_SEC = 1.0
 MAX_COMBAT_BURSTS = 400  # safety net; MAX_FIGHT_SEC / scan.melee_max_sec are the real caps (PLAN 0.28 / 0.31)
@@ -286,6 +292,8 @@ class CombatFeature(Feature):
             order = "key_click"
         reads, aim_delay = [], None
         before = CursorProbe.current_hash()
+        # PLAN 1.10: our own ellipse is not the stuck one (targeting._note_cast_stuck)
+        self.ctx.state["casting_until"] = time.time() + float(getattr(self.account, "aim_wait_sec", 1.8)) + 1.0
         if order == "click_key":
             self.input.click_at(screen_x, screen_y)
             time.sleep(0.05)
@@ -414,6 +422,29 @@ class CombatFeature(Feature):
         self.input.click_at(*rect.to_screen(*waypoint))
         time.sleep(DETOUR_SETTLE)
 
+    def _home_steps(self):
+        """PLAN 1.10 B8: steps from the hunt start, or None (no targeting / no offset yet)."""
+        away = getattr(self.targeting, "steps_from_home", lambda: None)()
+        return None if away is None else round(away, 1)
+
+    def _hurt(self):
+        return self.health is not None and getattr(self.health, "hp_falling", bool)()
+
+    def _near_hold(self, rect, anchor, char, gone_for, sword=None):
+        """PLAN 1.10: True = the box is gone but this fight must go on (see NEAR_HOLD_SEC).
+
+        ``sword`` is the cursor read of this beat when the caller already has one (engage holds the mouse on
+        the lock); engage_ranged passes None and the anchor is re-hovered, like the cursor-ring branch."""
+        if gone_for >= NEAR_HOLD_SEC:
+            return False
+        if math.hypot(anchor[0] - char[0], anchor[1] - char[1]) > NEAR_KEEP:
+            return False
+        if self._hurt():
+            return True
+        if sword is not None:
+            return bool(sword)
+        return self.targeting is not None and self.targeting.rehover_last(rect) is not None
+
     def _die_near(self, anchor):
         dies = getattr(self.targeting, "last_dies", None) or []
         return any(math.hypot(x - anchor[0], y - anchor[1]) <= DIE_NEAR_RADIUS for x, y in dies)
@@ -440,6 +471,10 @@ class CombatFeature(Feature):
             self.last_anchor = anchor
             self.last_world = self.targeting.world(anchor) if self.targeting is not None else None
         self._clear_lock()
+        # PLAN 1.10: we gave up on a monster that stood next to us while something was hitting us - it is still
+        # there and the detector has no box for it (001015: the next target sat 149-296 px away). Ring first.
+        if outcome in GIVE_UP_NEAR_OUTCOMES and (self._dist or 1e9) <= NEAR_KEEP and self._hurt():
+            self.ctx.state["ring_first"] = True
         self.ctx.state["fight_until"] = 0.0  # PLAN 0.40: the fight is over now (health may step back at once)
         # PLAN 0.35: no return to the home page here - 145650 spent 101 of its 202 page switches on a return
         # that the very next fight undid. session._run goes home once the hunt runs dry (HOME_IDLE_SEC).
@@ -471,7 +506,9 @@ class CombatFeature(Feature):
                       anchor=list(anchor) if anchor is not None else None,
                       dist=round(self._dist) if self._dist is not None else None, melee=self._melee,
                       kill_source=source, box_seen_last_s=self._box_gone, cursor_last=self._cursor_last,
-                      spells=self._spells, skipped=dict(self._skipped))
+                      spells=self._spells, skipped=dict(self._skipped),
+                      # PLAN 1.10 B8: steps from the hunt start, to see whether the walk home ever happens
+                      home_steps=self._home_steps())
             rec.fight(outcome, seconds, outcome in KILL_OUTCOMES)
             if outcome in KILL_OUTCOMES:
                 # PLAN 1.6: how long a kill takes with spells against bare hands.
@@ -521,6 +558,7 @@ class CombatFeature(Feature):
         self.log(f"no progress, minimap way round via {waypoint}")
         self.input.release_left()
         self.input.click_at(*rect.to_screen(*waypoint))
+        self.ctx.note_walk(self.ctx.char_pos(rect), waypoint, rect)  # PLAN 1.10 B8: the way back to the start
         self.ctx.sleep(DETOUR_WALK)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -538,6 +576,7 @@ class CombatFeature(Feature):
         self.log(f"no progress, side step to {sides[0]}")
         self.input.release_left()
         self.input.click_at(*rect.to_screen(*sides[0]))
+        self.ctx.note_walk(char, sides[0], rect)  # PLAN 1.10 B8: the way back to the start
         self.ctx.sleep(SIDESTEP_WALK)
         rec = getattr(self.ctx, "recorder", None)
         if rec:
@@ -597,7 +636,8 @@ class CombatFeature(Feature):
         hold = None  # PLAN 1.9: (time, frame) of the hand attack under way / of the last drift check
         hand_said = False
         self.input.release_left()
-        while self.ctx.running and time.time() - started < self.account.scan.melee_max_sec:
+        melee_max = self.account.melee_cap()
+        while self.ctx.running and time.time() - started < melee_max:
             poll_escape(self.ctx)
             if not self.ctx.running:
                 break
@@ -632,7 +672,8 @@ class CombatFeature(Feature):
                     if ring_strikes >= RING_CHECK_STRIKES:
                         return self._finish(target, "ring_gone", anchor,
                                             f"{ring_strikes} cursor reads without a sword")
-            elif updated is None and now - box_t >= BOX_GONE_SEC:
+            elif (updated is None and now - box_t >= BOX_GONE_SEC
+                  and not self._near_hold(rect, anchor, char, now - box_t)):
                 gone = self._chat_readable() and self.account.loot.mode == "auto"
                 return self._finish(target, "gone" if gone else "vanished", anchor, f"box gone {now - box_t:.1f}s")
             # PLAN 1.7: the lock left the hunt range (measured from the start) or is simply too far to aim at.
@@ -776,12 +817,13 @@ class CombatFeature(Feature):
         self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
         self._box_gone, self._cursor_last = 0.0, None
         melee_seen = False
+        entry_char, entry_anchor = tuple(char), tuple(anchor)  # PLAN 1.10 B8: where the chase started
         # PLAN 1.7: a pull trip hits the monster PULL_HITS times and goes home; it is not fought to death.
         pull, pull_hits = self.pulling(anchor, char), 0
         if pull:
             self._event("pull_start", anchor=list(anchor), dist=round(self._dist),
                         steps=round((self.targeting.from_home(anchor, char) or 0) / self.targeting.step_px(), 1))
-        melee_max = self.account.scan.melee_max_sec
+        melee_max = self.account.melee_cap()
         # PLAN 0.29 / 1: the chat kill line names the monster; compare with the one we lock (when readable).
         locked_name = self.targeting.read_name(anchor) if self.targeting is not None else None
         # PLAN 0.40: the minimap says there is no way to this monster (behind a fence / hut / watchtower) ->
@@ -873,6 +915,10 @@ class CombatFeature(Feature):
                 if melee and not melee_seen:  # PLAN 1.9: hand attacks against spells, per fight
                     self._event("melee_attack", dist=round(dist), target=list(anchor),
                                 steps=getattr(self.targeting, "attack_steps", lambda: 1)())
+                    # PLAN 1.10 B8: hold+drag walked us to the monster. ctx.note_walk only ever saw the WANDER
+                    # clicks and ctx.note_arrival (written for 1.7) had no caller at all, so a melee class
+                    # accumulated no offset, read 0 steps from home and never walked back.
+                    self.ctx.note_arrival(entry_char, entry_anchor)
                 melee_seen = melee_seen or melee
                 self._dist, self._melee = dist, melee
 
@@ -909,6 +955,19 @@ class CombatFeature(Feature):
                 hurt = self.health is not None and getattr(self.health, "hp_falling", bool)()
                 closer = (self.targeting.closer_than(anchor, char, hurt=hurt)
                           if self.targeting is not None and dist > MELEE_DIST else None)
+                if closer is not None and pull and not hurt and self._confirm_switch(rect, closer):
+                    # PLAN 1.10 [a]: on a pull trip a nearer monster must not start a fight out in the field
+                    # (20261128_123218: 3 of 4 trips cut at 13.2 / 18.7 / 38.1 s). Hit it once so it follows
+                    # too, then carry on home. Only HP falling (the `hurt` branch below) fights on the spot.
+                    sx2, sy2 = rect.to_screen(*closer)
+                    self._hold_and_drag(sx2, sy2)
+                    self.ctx.sleep(BURST_INTERVAL)
+                    self.input.release_left()
+                    self._event("pull_interrupt", why="closer", dist=round(
+                        math.hypot(closer[0] - char[0], closer[1] - char[1])), lock_dist=round(dist),
+                        hits=pull_hits)
+                    self._start_follow_watch(closer, char)
+                    return self._finish(target, "pulled", closer, f"closer monster pulled too, {pull_hits} hits")
                 if closer is not None and self._confirm_switch(rect, closer):
                     # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.
                     self._finish(target, "switch", anchor, f"{closer} at "
@@ -963,7 +1022,8 @@ class CombatFeature(Feature):
                 if updated is None:
                     if self._die_near(anchor):
                         return self._finish(target, "die_box", anchor)
-                    if now - box_t >= BOX_GONE_SEC and not ring:
+                    if (now - box_t >= BOX_GONE_SEC and not ring
+                            and not self._near_hold(rect, anchor, char, now - box_t, sword=sword)):
                         # PLAN 0.32: no box for a second ends the fight even with the sword up (a stale attack
                         # cursor kept 16 fights of 092741 standing for 25 s). Auto-to-bag server with a readable
                         # chat: every kill writes a kill line, none came -> it walked off. Drop servers write no

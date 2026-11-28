@@ -2398,3 +2398,100 @@ game cho luôn số: dòng log `[detect] <model>: DirectML x ms, CPU y ms` + met
 NGHIỆM THU trên máy game: provider = Dml, ms_total search/fight thấp hơn rc7, process cpu% giảm rõ, game không giật
 hơn (GPU game 38% + bot); nếu game giật -> chọn "CPU" trong tab Nâng cao (không cần build mới).
 Test: `python tests/test_provider.py` (fallback/gpu/cpu, config, box DML == CPU), `test_attack_range.test_near_due`.
+
+## PLAN 1.10 / 0.49 — tiên (elf) 20261128_001015 + cận chiến máy G1RN30H
+
+Số liệu 001015 (595 s, elf, DML, 20 kill): 59 trận — 14 `chat_kill` (~9,4 s), **18 `cap` ở 10,3 s**,
+**21 `gone` sau 1,2–1,4 s** ở 45–80 px, 4 `range_walk`; `ring_probe` 98 lượt, **26 thấy kiếm nhưng chỉ 5
+`ring_hit`**; 22 `idle_gap` (nhiều lượt 10,5 s).
+
+ĐÃ ĐÚNG SẴN, không sửa: tầm elf **đã** là 15 bước trong chính bản ghi này
+(`melee_attack steps: 15`, `range_walk attack_range: 15`) — `scan.attack_range` 0 + `ELF.attack_range` 15
+chạy đúng từ 1.9. Các trận 40–70 px là do `candidates` xếp gần nhất trước, không phải tầm 1 bước.
+`out_of_range_skip` 834 là chính tầm 15 bước loại box xa hơn ~300 px (15 × (20,10) px/bước) — đúng thiết kế.
+Các event `pull_start` / `pull_hit` / `pull_return` / `pull_follow_ok` / `pull_follow_fail` (B7) **đã có** trong
+code từ 1.7; chờ bản ghi G1RN30H để xác nhận chúng ghi thật.
+
+1. `characters.get` nhận cả tên hiển thị ("elf" / "Elf" / "요정" / "Yêu Tinh"), không âm thầm về KNIGHT.
+2. Cap theo class: `CharacterClass.melee_max_sec` (elf 25 s, còn lại 10 s), `scan.melee_max_sec` 0 = class
+   (đúng mẫu `attack_range`), `AccountSettings.melee_cap()`. Config cũ giữ 10.0 đọc thành 0 (`_detect_v15`),
+   nên máy game lên 25 s mà không phải sửa tay. Sửa được trong tab Nâng cao.
+3. Mất box mà quái còn sát bên: `combat._near_hold` — lock ≤ `NEAR_KEEP` 100 px, box mất < `NEAR_HOLD_SEC` 4 s
+   và (HP đang tụt **hoặc** con trỏ tại anchor vẫn là kiếm) thì giữ trận. Áp cho cả `engage` (có `sword` mỗi
+   nhịp) và `engage_ranged` (đọc lại con trỏ bằng `rehover_last`, như nhánh vòng rê).
+4. Bỏ con gần mà HP tụt (`gone`/`vanished`/`lost`/`unreachable`/`ring_gone`/`no_progress` ở ≤ 100 px) →
+   `state["ring_first"]`: nhịp sau rê vòng quanh nhân vật **trước** `acquire` (`why="lost_near"`).
+5. Vòng rê: kiếm ≤ `NEAR_NOW_PX` 100 px là đánh ngay, không probe lại (probe loại 21/26 lượt và còn ghi
+   `_note_miss` lên chính ô đó). Xa hơn vẫn probe như cũ.
+6. B6 máy game: `state["detect_info"]` (provider + ms) → dòng tab Chính
+   "Nhận diện: GPU/CPU · xx ms · Tầm đánh: N bước"; CPU + input 640 = cảnh báo `wline_cpu640` (KHÔNG tự hạ
+   416: 0.32/0.39 đã đo 416 mất ~1/4 số box, hạ âm thầm thì không ai biết).
+7. B8 cộng dồn offset: `note_walk` trước giờ **chỉ** được `exploration.wander` gọi → lớp cận chiến đuổi quái
+   bằng hold+drag không cộng gì, `steps_from_home()` ≈ 0, nên không bao giờ về gốc. Nay cộng cả: cú đuổi lúc
+   vào trận (`ctx.add_offset`, đo bằng quãng đã rút ngắn khi vào tầm tay), click `_sidestep`, click `_try_detour`.
+   `home_steps` vào event `fight_end` + `wander`. `hunt_range` 0 → UI nói rõ "săn tự do, không quay về".
+   Điều kiện go_home đã kiểm: vùng chết 4 bước đúng; "không về khi còn quái trong tầm" chỉ áp cho `ranged()`
+   nên KHÔNG giữ hiệp sĩ lại.
+
+CHỜ DỮ LIỆU (chưa xác nhận được trên laptop): B6 máy G1RN30H có GPU hay không (cần meta `provider` của bản ghi
+máy đó), B7 các event pull ghi thật trong một lượt kéo thật, B8 hiệp sĩ về gốc sau khi cộng dồn đúng.
+Replay 480–550 s của 001015 cần `frames.jsonl` + ảnh f_00404–f_00468 (đang chép về).
+
+### Bổ sung 28/11 — máy G1RN30H (Quân Chủ / prince), từ lineage_auto_config.json thật
+
+8. Prince ĐÃ ĐÚNG: `style=MELEE`, `attack_range` 1 (config máy đó để 2), `pull_mode` chỉ loại `ranged()` nên
+   prince kéo quái và về gốc y như knight. Thêm test `test_pull_melee_classes` để khoá lại.
+9. "Khu chưa có model": `record.no_model` = **true** trong config máy đó. Nó được `ZonePanel._zone_selected`
+   bật lúc chọn ô vì `zone.has_model` sai (thiếu `model/yolox_tiny_blessed_orc.onnx` trong bản cài 27/11 21:39),
+   rồi NẰM LẠI trong config. Trong chế độ SĂN cờ này không tắt detect (chỉ `recorder` dùng nó, và chỉ ở
+   Quan sát), nhưng không ai nối được dòng chữ trên tab Chính với cái ô ở tab Dữ liệu. Nay: chọn ô mà ô thiếu
+   model nhưng bãi đang chọn CÓ model thì dùng model bãi đó + nói rõ (`rec_zone_fallback`), không bật
+   "không dùng model"; và tab Chính cảnh báo `wline_no_model_off` khi cờ còn bật dù bãi có model.
+   CẦN KIỂM TRÊN MÁY ĐÓ: `model/yolox_tiny_blessed_orc.onnx` có trong thư mục cài không (dòng `⚠ Thiếu file
+   model` trên tab Chính trả lời luôn).
+10. Rê chuột chậm: config đó `hover_reads` 6 / `hover_settle` 0,05 / `hover_retry` 0,04 = **250 ms** xấu nhất
+   một lần rê, so với mặc định **160 ms** (4 / 0,04 / 0,04) — tức 1,6 lần, không phải "gấp nhiều lần"
+   (mặc định không phải 2 / 0,01). `_hash_after_hover` dừng sớm khi thấy kiếm nên số thật thấp hơn.
+   Nay: cảnh báo `wline_hover_slow` khi quá `HOVER_SLOW_MS` 200 ms, và nút "Khôi phục mặc định"
+   (`ScanPanel.reset_defaults`, đặt lại mọi trường trong FIELDS + provider + conf_map) trong tab Nâng cao.
+   `melee_max_sec` 9,0 của máy đó là số tự đánh nên migration giữ nguyên (prince mặc định 10 s).
+
+### Bổ sung 2 — 20261128_121828_hunt (G1RN30H, prince, rc8, DML 22-25 ms)
+
+11. **Con trỏ kẹt ở chế độ ngắm phép** (nguyên nhân thật của "0 trận"): 1916 hover liên tiếp đều `cast`
+   hash `fc92fe3800000000`, kể cả trên đất trống -> `hover_confirm_rate` 0, không trận nào mở dù có 118 box
+   <= 230 px. Client giữ phép đã ngắm cho tới khi được click hoặc huỷ, và trong lúc đó MỌI hover đọc ra
+   ellipse nên không bao giờ xác nhận được con trỏ kiếm. (Hash `fc92` đã gặp ở 233615 lúc làm PLAN 0.39:
+   "ellipse có sẵn từ trước", lúc đó chỉ xử lý ở chỗ *nhận* ellipse, chưa bao giờ xoá trạng thái.)
+   Nay `targeting._note_cast_stuck`: `CAST_STUCK_READS` 5 lần hover liên tiếp ra `cast` mà bot không đang
+   niệm (`state["casting_until"]`, do `combat._cast_at_target` đặt) -> **click phải** để huỷ (ESC là phím
+   dừng, click trái sẽ đi), log + `cast_stuck` vào events.jsonl + đếm trong Stats.
+   **BƯỚC NÀO BẤM PHÍM NGẮM MÀ KHÔNG CLICK**: `combat._cast_at_target` luôn kết thúc bằng click hoặc click
+   phải huỷ, nên KHÔNG phải nó. Còn lại 7 chỗ bấm `press_slot` mà không hề click:
+   `buff.py:118` (buff, `double=True`), `cure_poison.py:55` (`double=True`),
+   `survival.py:203` (bình), `:255` (skill hồi máu, `double=True`), `:267` (bình máu), `:313` (cuộn về làng).
+   `double=True` bấm phím hai lần - với phép TỰ thân thì đó là cách tự niệm, nhưng nếu ô đó là phép CHỌN
+   MỤC TIÊU thì lần bấm thứ hai không huỷ ngắm: ellipse đứng lại mãi. Nghi phạm số một là ô buff hoặc ô
+   skill hồi máu của máy đó. CẦN: ảnh cấu hình skill (ô nào, phép nào) của G1RN30H - nhưng bộ phát hiện
+   trên đã tự gỡ được, không phụ thuộc vào việc tìm ra ô nào.
+12. "Quét lưới con trỏ (chỉ ở bãi an toàn)" chạy 18 lần (80 điểm, ~0,93 s/lần) ngoài bãi: "chỉ ở bãi an toàn"
+   chỉ là chữ trên hộp kiểm, code không kiểm gì. Nay `grid_scan.safe()`: không quét khi `hp_falling`, khi
+   lượt quét vừa rồi còn box (`mobs_seen`/`mobs_near`), và tối đa 1 lần mỗi `COOLDOWN` 60 s.
+
+### Bổ sung 3 — 20261128_123218_hunt (prince, rc8, 98 s, 4 kill) + ổ phép ngắm đã TÌM RA
+
+13. **Tìm ra ô gây kẹt ngắm**: trong `lineage_auto_config.json` của G1RN30H, skill DUY NHẤT được bật là
+   buff **385 "Khiên" (실드), trang F1 + ô F10, `self_cast` chưa đặt (None)** — Khiên là phép CHỌN MỤC TIÊU,
+   `buff.py` bấm `double=True` để tự niệm, lần bấm thứ hai không huỷ ngắm, nên ellipse đứng lại mãi. Khớp
+   đúng 20 lần `hover_cast` của 123218 và 1916 hover `cast` của 121828.
+   Nay `Feature.cancel_aim()` (dùng chung): ngay sau mỗi lần bấm phím tự-niệm (`buff.py`, `cure_poison.py`,
+   `survival.py` skill hồi máu) đọc con trỏ, còn `cast` thì **click phải** huỷ, log + event `aim_cancel`
+   + đếm trong Stats. `targeting._note_cast_stuck` (mục 11) vẫn là lưới an toàn cho mọi đường khác.
+14. Cap theo class cho cận chiến: knight + prince **20 s** (123218 cắt 3 trận ở 9,4 s khi quái chưa chết),
+   elf 25 s, caster 10 s. LƯU Ý máy G1RN30H đang lưu `melee_max_sec` 9,0 — số tự đánh nên migration giữ
+   nguyên; bấm **"Khôi phục mặc định"** (nút mới ở tab Nâng cao) hoặc để ô đó về 20 thì mới ăn cap theo class.
+15. Chuyến kéo bị cắt (4 `pull_start` 4,8-8,7 bước, chỉ 1 chuyến trọn: `pull_hit` x2 -> `pull_return` ->
+   `pull_follow_ok` -> kill ở gốc; 3 chuyến cắt ở 13,2 / 18,7 / 38,1 s). Chọn **[a]**: trong chuyến kéo, con
+   gần hiện ra thì **đánh 1 phát cho nó theo luôn rồi tiếp tục về gốc** (`pulled`, `_start_follow_watch` đặt
+   lên con gần đó), event `pull_interrupt {why, dist, lock_dist, hits}`. Chỉ khi **HP đang tụt** mới rơi về
+   nhánh switch cũ và đánh tại chỗ.

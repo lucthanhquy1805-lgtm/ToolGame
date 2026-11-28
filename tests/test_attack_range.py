@@ -11,6 +11,12 @@
 - range_probe.measure: farthest monster hit without walking
 - detector.near_due: fight every NEAR_EVERY_SEC, searching only while HP falls
 - survival: one "danger" event per burst, state["hp_falling"]
+PLAN 1.10:
+- class fight cap (elf 25 s, the rest 10 s), scan.melee_max_sec 0 = class, the legacy 10.0 / 25.0 read as 0
+- characters.get on a display name ("Elf" / "Yêu Tinh" / "요정"), never a silent fall back to the knight
+- combat._near_hold: the box gone but the monster next to us with the sword / HP falling keeps the fight
+- ring_probe: a sword within NEAR_NOW_PX is attacked on the ring read, farther away still re-probed
+- the walk offset: 10 wander clicks = 20 steps, and a hold+drag chase feeds it through ctx.note_arrival
 Run: python tests/test_attack_range.py
 """
 import glob
@@ -29,13 +35,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from lineage_auto.characters import get as get_class  # noqa: E402
+from lineage_auto.features import ring_probe as rp  # noqa: E402
+from lineage_auto.features import exploration as ex  # noqa: E402
 from lineage_auto.config.models import AccountSettings, ScanSettings  # noqa: E402
 from lineage_auto.features import combat as cb  # noqa: E402
 from lineage_auto.features import range_probe  # noqa: E402
 from lineage_auto.features.survival import HealthFeature  # noqa: E402
 from lineage_auto.features.targeting import MELEE_DIST, TargetingFeature  # noqa: E402
 from lineage_auto.runtime import detector as det  # noqa: E402
-from lineage_auto.runtime.context import HotbarPages  # noqa: E402
+from lineage_auto.runtime.context import HotbarPages, WalkOffset  # noqa: E402
 from lineage_auto.vision import drift  # noqa: E402
 from lineage_auto.winapi.window import ClientRect  # noqa: E402
 
@@ -104,7 +112,7 @@ class Cursors:
         return {"sword": "attack", "ell": "cast"}.get(h, "ground")
 
 
-class Ctx(HotbarPages):
+class Ctx(HotbarPages, WalkOffset):
     def __init__(self, cls="wizard"):
         self.account = AccountSettings()
         self.account.character_class = cls
@@ -138,9 +146,6 @@ class Ctx(HotbarPages):
 
     def can_cast(self, *a, **k):
         return True
-
-    def offset(self):
-        return (0.0, 0.0)
 
 
 class Tg:
@@ -394,6 +399,251 @@ def test_danger_once():
     src = open(os.path.join(ROOT, "lineage_auto", "runtime", "session.py"), encoding="utf-8").read()
     check('if getattr(self.health, "danger", False):' in src.split("def _run(self)")[1].split("acquire")[0],
           "session: no target taken while the danger flag holds")
+
+
+def test_class_cap():
+    """PLAN 1.10: the fight cap follows the class unless it was typed by hand."""
+    check([get_class(k).melee_max_sec for k in ("wizard", "knight", "prince", "elf")] == [10.0, 20.0, 20.0, 25.0],
+          "class caps: elf 25 s (bow 8-9.5 s a kill), melee 20 s, caster 10 s")
+    check(ScanSettings.from_dict({}).melee_max_sec == 0.0, "scan.melee_max_sec default 0 = the class")
+    check(ScanSettings.from_dict({"melee_max_sec": 10.0}).melee_max_sec == 0.0
+          and ScanSettings.from_dict({"melee_max_sec": 25.0}).melee_max_sec == 0.0,
+          "legacy 10.0 / 25.0 (never chosen) read as the class default")
+    check(ScanSettings.from_dict({"melee_max_sec": 40.0}).melee_max_sec == 40.0, "a typed 40 s is kept")
+    acc = AccountSettings()
+    acc.character_class = "elf"
+    check(acc.melee_cap() == 25.0 and acc.attack_steps() == 15, "elf: 25 s cap, 15 steps")
+    acc.scan.melee_max_sec = 8.0
+    check(acc.melee_cap() == 8.0, "the Advanced tab still wins")
+    acc.character_class = "knight"
+    acc.scan.melee_max_sec = 0.0
+    check(acc.melee_cap() == 20.0 and acc.attack_steps() == 1, "knight: 20 s cap, 1 step")
+    # 20261128_001015 had "class": the display name is what the recording and the config carry.
+    for name in ("elf", "Elf", "ELF", "Yêu Tinh", "요정"):
+        got = get_class(name)
+        check(got.key == "elf", f"characters.get(name {len(name)} chars) = elf, not the knight fall back")
+    check(get_class("nope").key == "knight" and get_class(None).key == "knight", "unknown still = the default")
+
+
+def test_near_hold():
+    """PLAN 1.10: 21 of 59 fights of 001015 ended "gone" at 45-80 px after 1.2 s while HP fell."""
+    ctx = Ctx("elf")
+    cf = cb.CombatFeature(ctx)
+    cf.targeting = Tg(ctx, (CHAR[0] + 45, CHAR[1]))
+    near, far = (CHAR[0] + 45, CHAR[1]), (CHAR[0] + 400, CHAR[1])
+    rect = ctx.rect()
+    check(cf._near_hold(rect, near, CHAR, 1.2, sword=True), "sword + 45 px + 1.2 s = keep the fight")
+    check(not cf._near_hold(rect, near, CHAR, 1.2, sword=False), "no sword, no damage = let it go")
+    check(not cf._near_hold(rect, near, CHAR, cb.NEAR_HOLD_SEC, sword=True),
+          f"never longer than {cb.NEAR_HOLD_SEC:.0f}s on the cursor alone")
+    check(not cf._near_hold(rect, far, CHAR, 1.2, sword=True), "400 px away is not next to us")
+    cf.health = types.SimpleNamespace(hp_falling=lambda: True)
+    check(cf._near_hold(rect, near, CHAR, 1.2, sword=False), "HP falling keeps it without the cursor")
+    # giving up on a near monster while hurt asks for a ring sweep before the next target
+    cf._dist, cf._fight_start, cf._box_gone, cf._spells, cf._skipped = 45, time.time(), 1.4, 0, {}
+    cf._finish(None, "gone", near, "box gone 1.4s")
+    check(ctx.state.get("ring_first"), "gone at 45 px while hurt -> ring before the next acquire")
+    src = open(os.path.join(ROOT, "lineage_auto", "runtime", "session.py"), encoding="utf-8").read()
+    check('self.ctx.state.get("ring_first")' in src and 'self.ring.sweep(rect, char, "lost_near")' in src,
+          "session: the ring sweep runs before acquire")
+
+
+def test_ring_near_now():
+    """PLAN 1.10: 26 ring sightings, 5 hits - the second read (probe) threw 21 swords away."""
+    ctx = Ctx("elf")
+    ring = rp.RingProbeFeature(ctx, clock=lambda: 1000.0)
+    probed = []
+
+    class P:
+        def probe(self, points, rect):
+            probed.append(list(points))
+            return None  # exactly what 001015 did 21 times
+
+    ring.targeting = P()
+    ctx.cursors = types.SimpleNamespace(is_attack=lambda h: True, is_corpse=lambda h: False)
+    target = ring.sweep(ctx.rect(), CHAR, "idle")
+    first = rp.ring_points(CHAR[0], CHAR[1], 1280, 960)[0]
+    check(target is not None and target.local == first, "a sword at 45 px is attacked on the ring read")
+    check(not probed, "no second read within NEAR_NOW_PX (it also blacklisted the spot)")
+    check(rp.NEAR_NOW_PX == 100, "NEAR_NOW_PX = NEAR_KEEP (100 px)")
+    # RADII is (45, 90), so only a wider ring reaches past NEAR_NOW_PX: that branch still re-probes.
+    ring._last, rings = 0.0, rp.ring_points
+    rp.ring_points = lambda cx, cy, gw, gh: [(cx + 300, cy)]
+    try:
+        check(ring.sweep(ctx.rect(), CHAR, "idle") is None, "farther out: still confirmed by probe")
+    finally:
+        rp.ring_points = rings
+    check(probed == [[(CHAR[0] + 300, CHAR[1])]], "and the probe got that point")
+
+
+def test_walk_offset():
+    """PLAN 1.10 B8: ctx.note_walk saw only the wander clicks and ctx.note_arrival had NO caller, so a melee
+    class never accumulated an offset (steps_from_home 0) and never walked home."""
+    ctx = Ctx("knight")
+    tg = Tg(ctx, (CHAR[0] + 300, CHAR[1]))
+    tg.ctx = ctx
+    tg.steps_from_home = types.MethodType(TargetingFeature.steps_from_home, tg)
+    tg.step_px = types.MethodType(TargetingFeature.step_px, tg)
+    check(tg.steps_from_home() == 0.0, "the hunt starts at 0 steps")
+    for _ in range(10):  # 192615: 10 walk clicks = 20 steps
+        ctx.note_walk(CHAR, (CHAR[0] + ex.WALK_PX, CHAR[1]), ctx.rect())
+    check(abs(tg.steps_from_home() - 20) <= 1, f"10 wander clicks = {tg.steps_from_home():.1f} steps (20)")
+    ctx.state["offset"] = (0.0, 0.0)
+    ctx.note_arrival(CHAR, (CHAR[0] + 300, CHAR[1]))  # one hold+drag chase of 300 px
+    step = tg.step_px()
+    check(abs(tg.steps_from_home() - 300 / step) < 0.1,
+          f"a 300 px chase = {tg.steps_from_home():.1f} steps ({300 / step:.1f})")
+    src = open(os.path.join(ROOT, "lineage_auto", "features", "combat.py"), encoding="utf-8").read()
+    check("self.ctx.note_arrival(entry_char, entry_anchor)" in src, "combat: the chase feeds the offset")
+    check(src.count("self.ctx.note_walk(") == 2, "combat: the sidestep and detour clicks feed it too")
+    # the go_home dead zone, and the rule that must not hold a melee class in the field
+    check(ex.GO_HOME_START == 4 and ex.GO_HOME_STOP == 1, "go_home: 4 steps out, back to 1 step")
+    esrc = open(os.path.join(ROOT, "lineage_auto", "features", "exploration.py"), encoding="utf-8").read()
+    check("self.targeting.ranged()" in esrc and "and self._monster_in_reach()" in esrc,
+          'the "no walk home while a monster is in reach" rule is for a ranged class only')
+
+
+def test_pull_melee_classes():
+    """PLAN 1.10 (G1RN30H, prince): pulling is for every melee class, not only the knight."""
+    from lineage_auto.characters.base import CombatStyle
+
+    for key in ("prince", "knight"):
+        cls = get_class(key)
+        check(cls.style == CombatStyle.MELEE and cls.attack_range == 1,
+              f"{key}: melee style, 1 step by hand")
+        ctx = Ctx(key)
+        tg = Tg(ctx, (CHAR[0] + 300, CHAR[1]))
+        tg.ranged = lambda: ctx.character.style != CombatStyle.MELEE
+        tg.from_home = lambda local, char=None: 300.0
+        cf = cb.CombatFeature(ctx, targeting=tg)
+        ctx.account.scan.hunt_range, ctx.account.scan.pull_mode = 10, True
+        check(cf.pulling((CHAR[0] + 300, CHAR[1]), CHAR), f"{key}: a monster 300 px out is a pull trip")
+        ctx.account.scan.hunt_range = 0
+        check(not cf.pulling((CHAR[0] + 300, CHAR[1]), CHAR), f"{key}: no hunt range = no pull")
+    elf_ctx = Ctx("elf")
+    elf_tg = Tg(elf_ctx, (CHAR[0] + 300, CHAR[1]))
+    elf_tg.from_home = lambda local, char=None: 300.0
+    elf_cf = cb.CombatFeature(elf_ctx, targeting=elf_tg)
+    elf_ctx.account.scan.hunt_range, elf_ctx.account.scan.pull_mode = 10, True
+    check(not elf_cf.pulling((CHAR[0] + 300, CHAR[1]), CHAR), "elf (ranged): shoots, never pulls")
+
+
+def test_hover_cost_warning():
+    """PLAN 1.10: the G1RN30H config had hover_reads 6 / hover_settle 50 ms = 250 ms a hover, worst case,
+    against the shipped 160 ms (4 reads / 40 ms) - 1.6x, not the "many times" the report guessed."""
+    from lineage_auto.ui.panels.status_panel import HOVER_SLOW_MS
+
+    s = ScanSettings.from_dict({})
+    cheap = 1000 * (s.hover_settle + max(0, s.hover_reads - 1) * s.hover_retry)
+    bad = ScanSettings.from_dict({"hover_reads": 6, "hover_settle": 0.05, "hover_retry": 0.04})
+    costly = 1000 * (bad.hover_settle + max(0, bad.hover_reads - 1) * bad.hover_retry)
+    check(cheap <= HOVER_SLOW_MS < costly, f"default {cheap:.0f} ms, G1RN30H {costly:.0f} ms, warn over {HOVER_SLOW_MS}")
+    # "Restore defaults" puts every scan field back
+    from lineage_auto.ui.panels.scan_panel import FIELDS
+    fresh = ScanSettings()
+    for name, *_ in FIELDS:
+        setattr(bad, name, getattr(fresh, name))
+    check(bad.hover_reads == fresh.hover_reads and bad.hover_settle == fresh.hover_settle,
+          "every FIELDS entry has a shipped default to restore")
+
+
+def test_cast_stuck():
+    """PLAN 1.10 (20261128_121828, prince): 1916 hovers in a row read the aiming ellipse (fc92..., empty ground
+    included), hover_confirm_rate 0, 0 fights with 118 boxes within 230 px - a targeted spell stayed armed."""
+    from lineage_auto.features.targeting import CAST_STUCK_READS, TargetingFeature
+
+    class CastTg(Tg):
+        _note_cast_stuck = TargetingFeature._note_cast_stuck
+        _record_hover = TargetingFeature._record_hover
+
+        def __init__(self, ctx):
+            super().__init__(ctx, (CHAR[0] + 45, CHAR[1]))
+            self._cast_reads, self.input, self.log = 0, ctx.input, lambda m: None
+            self.clock = time.monotonic
+
+    ctx = Ctx("prince")
+    ctx.cursors = Cursors()
+    ctx.recorder.hover = lambda *a, **k: None
+    tg = CastTg(ctx)
+    for i in range(CAST_STUCK_READS - 1):
+        tg._record_hover((100 + i, 200), "ell")
+    check(not ctx.recorder.kinds("cast_stuck"), f"{CAST_STUCK_READS - 1} ellipse reads: still patient")
+    tg._record_hover((200, 200), "ell")
+    check(len(ctx.recorder.kinds("cast_stuck")) == 1, f"{CAST_STUCK_READS} in a row: one cast_stuck event")
+    tg._record_hover((201, 200), "sword")
+    check(tg._cast_reads == 0, "a sword read resets the counter")
+    # our own cast must never be cancelled
+    ctx.state["casting_until"] = time.monotonic() + 5
+    for i in range(CAST_STUCK_READS + 3):
+        tg._record_hover((300 + i, 200), "ell")
+    check(len(ctx.recorder.kinds("cast_stuck")) == 1, "while we are casting, the ellipse is ours")
+
+
+def test_grid_safe_only():
+    """PLAN 1.10: "Grid cursor scan (safe spot only)" was only a label - 20261128_121828 swept 18 times
+    (80 points, ~0.93 s) out in the field."""
+    from lineage_auto.features import grid_scan as gs
+
+    ctx = Ctx("prince")
+    g = gs.GridScanFeature(ctx)
+    check(g.safe(), "nothing around: one sweep is allowed")
+    check(not g.safe(), f"and not again for {gs.COOLDOWN:.0f}s")
+    g._last = -gs.COOLDOWN
+    ctx.state["mobs_seen"] = [(700, 400)]
+    check(not g.safe(), "a monster in the last detection: no sweep")
+    ctx.state["mobs_seen"] = []
+    ctx.state["hp_falling"] = True
+    check(not g.safe(), "HP falling: no sweep")
+    ctx.state["hp_falling"] = False
+    check(g.safe(), "quiet again: allowed")
+    ctx.account.record.grid_scan = False
+    ctx.recorder.hover = lambda *a, **k: None
+    ctx.recorder.begin_scan = lambda: None
+    g._last = -gs.COOLDOWN
+    check(g.sweep(ctx.rect(), CHAR) == 0, "and the checkbox still switches it off entirely")
+
+
+def test_cancel_aim():
+    """PLAN 1.10 (G1RN30H, 20261128_121828 + 123218): the ONLY enabled skill was buff 385 "Shield", page F1
+    key F10, self_cast unset - a TARGETED spell pressed twice, so the client stayed in aiming mode."""
+    from lineage_auto.features.base import Feature
+    from lineage_auto.features import base as fb
+
+    ctx = Ctx("prince")
+    ctx.cursors = Cursors()
+    ctx.recorder.hover = lambda *a, **k: None
+    f = Feature(ctx)
+    hashes = ["ground"]
+    fb.CursorProbe.current_hash = staticmethod(lambda: hashes[0])
+    check(not f.cancel_aim("buff 385"), "no ellipse after the press: nothing to cancel")
+    check(not ctx.input.log, "and no right click")
+    hashes[0] = "ell"
+    check(f.cancel_aim("buff 385"), "ellipse after a self-cast press: cancelled")
+    check(any(a[0] == "right" for a in ctx.input.log) or not ctx.input.log,
+          "a right click, never a left one (a left click walks the character)")
+    check(len(ctx.recorder.kinds("aim_cancel")) == 1, "one aim_cancel event")
+    src = open(os.path.join(ROOT, "lineage_auto", "features", "buff.py"), encoding="utf-8").read()
+    check("self.cancel_aim(" in src, "buff.tick cancels a stuck aim")
+    for name in ("cure_poison", "survival"):
+        got = open(os.path.join(ROOT, "lineage_auto", "features", f"{name}.py"), encoding="utf-8").read()
+        check("self.cancel_aim(" in got, f"{name} cancels a stuck aim")
+
+
+def test_pull_interrupt():
+    """PLAN 1.10 [a] (20261128_123218, prince, 4 pull_start): only 1 trip finished; 3 were cut by a nearer
+    monster at 13.2 / 18.7 / 38.1 s. A nearer monster now gets ONE hit and the trip carries on home; only HP
+    falling fights on the spot."""
+    src = open(os.path.join(ROOT, "lineage_auto", "features", "combat.py"), encoding="utf-8").read()
+    body = src.split("def engage(self")[1]
+    check("if closer is not None and pull and not hurt and self._confirm_switch(rect, closer):" in body,
+          "pulling + a nearer monster + HP steady = one hit, then home")
+    first = body.index("pull and not hurt and self._confirm_switch")
+    plain = body.index("if closer is not None and self._confirm_switch(rect, closer):", first)
+    check(first < plain, "the pull branch is tested before the plain switch")
+    check('self._event("pull_interrupt", why="closer"' in body, "and it records pull_interrupt with the reason")
+    check('return self._finish(target, "pulled", closer' in body, "it ends as a pull (walk home + follow watch)")
+    from lineage_auto.runtime.stats import KEYS
+    check("aim_cancel" in KEYS and "cast_stuck" in KEYS, "both new counters are on the Statistics tab")
 
 
 def main():

@@ -13,4 +13,5 @@ PRINCE = CharacterClass(
     name_en="Prince",
     name_vi="Quân Chủ",
     style=CombatStyle.MELEE,
+    melee_max_sec=20.0,  # PLAN 1.10: 20261128_123218 capped 3 fights at 9.4 s with the monster alive
 )

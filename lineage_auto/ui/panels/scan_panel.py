@@ -32,7 +32,7 @@ FIELDS = (
     ("detect_threads", "scan_threads", 1, 8, 1, 1),  # PLAN 0.33: onnxruntime intra_op threads
     ("search_threads", "scan_search_threads", 1, 8, 1, 1),  # PLAN 0.34
     ("adaptive_detect", "scan_adaptive", 0, 1, 1, 1),
-    ("melee_max_sec", "scan_melee_max", 5, 120, 1, 1),
+    ("melee_max_sec", "scan_melee_max", 5, 120, 1, 1),  # PLAN 1.10: 0 saved = the class default
 )
 
 
@@ -105,6 +105,21 @@ class ScanPanel(Panel):
         self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
         self.combo_provider.grid(row=rows["adv"] + 1, column=1, sticky="w", pady=1)
         self.combo_provider.bind("<<ComboboxSelected>>", lambda _e: self.tab.request_save())
+        # PLAN 1.10: the G1RN30H config had hover_reads 6 / hover_settle 50 ms (250 ms a hover against the
+        # shipped 160 ms) with no way back short of editing the JSON.
+        self.btn_reset = ttk.Button(self.advanced, text="", command=self.reset_defaults)
+        self.btn_reset.grid(row=rows["adv"] + 2, column=0, columnspan=2, sticky="w", pady=(4, 0))
+
+    def reset_defaults(self):
+        """PLAN 1.10: every tuning value back to the shipped default. The hunting ground, the real zone and
+        everything outside ScanSettings are left alone."""
+        fresh = type(self.account.scan)()
+        for name, _key, _lo, _hi, _step, _scale in FIELDS:
+            setattr(self.account.scan, name, getattr(fresh, name))
+        self.account.scan.conf_map = ""
+        self.account.scan.detect_provider = fresh.detect_provider
+        self.load()
+        self.tab.request_save()
 
     def load_model(self):
         options = hunt_maps.variants(self.account.hunt_map)
@@ -221,6 +236,8 @@ class ScanPanel(Panel):
             value = scan.conf_for(self.account.hunt_map) if name == "detect_conf" else getattr(scan, name)
             if name == "attack_range":
                 value = value or self.account.character.attack_range  # PLAN 1.9: what the bot will use
+            elif name == "melee_max_sec":
+                value = value or self.account.character.melee_max_sec  # PLAN 1.10: what the bot will use
             self.vars[name].set(int(round(value * scale)))
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
             self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
@@ -243,6 +260,9 @@ class ScanPanel(Panel):
                 scan.conf_map = self.account.hunt_map  # PLAN 0.27: typed for this hunting ground only
             if name == "attack_range" and not scan.attack_range and value == self.account.character.attack_range:
                 continue  # PLAN 1.9: untouched class default stays 0, so a class change still follows it
+            if (name == "melee_max_sec" and not scan.melee_max_sec
+                    and value == self.account.character.melee_max_sec):
+                continue  # PLAN 1.10: same, for the fight cap
             setattr(scan, name, value)
         if self.combo_provider.current() >= 0:
             scan.detect_provider = PROVIDERS[self.combo_provider.current()]
@@ -253,6 +273,7 @@ class ScanPanel(Panel):
             self.labels[key].config(text=self.t(key))
         self.labels["scan_model"].config(text=self.t("scan_model"))
         self.labels["scan_provider"].config(text=self.t("scan_provider"))
+        self.btn_reset.config(text=self.t("scan_reset"))
         index = self.combo_provider.current()
         self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
         if index >= 0:

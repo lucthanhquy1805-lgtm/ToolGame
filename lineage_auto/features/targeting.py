@@ -62,6 +62,12 @@ SKILL_PAUSE_SEC = 5.0
 # PLAN 0.35: that many chat failures -> the click order is wrong for this client, so try the other one once
 # (hover_key_click puts the mouse on the body before the key, which selects the target first).
 SPELL_FAIL_STRIKES = 3
+# PLAN 1.10: the client keeps a targeted spell armed until it is clicked or cancelled, and while it is armed
+# every hover reads as the aiming ellipse, so no monster can ever be confirmed by the sword cursor.
+# 20261128_121828 (G1RN30H): 1916 hovers in a row read "cast" (hash fc92..., over empty ground too),
+# hover_confirm_rate 0, 0 fights with 118 boxes within 230 px. This many "cast" reads in a row with no cast of
+# ours running = the client is stuck: right-click to cancel (ESC is the stop key, a left click would walk).
+CAST_STUCK_READS = 5
 # PLAN 0.31: a box centred this close to the character is the character itself (223510: 22 fights "sword=no" there).
 # PLAN 0.33: 30, not 25 — 112040 switched 4 times to a box 26 px from the character (its own sprite).
 SELF_R = 30
@@ -178,6 +184,7 @@ class TargetingFeature(Feature):
         self._near_hit = False
         self._tracks = []  # PLAN 0.43: [x, y, scans missed in a row]
         self.tracked = []  # hits + the points still remembered
+        self._cast_reads = 0  # PLAN 1.10: hovers in a row that read the aiming ellipse
         self.lock_live = True  # the lock's last position came from a real box, not a remembered one
         self._chat_fail_t = -CHAT_FAIL_LOG
         self._chat_fail_pngs = 0
@@ -696,10 +703,28 @@ class TargetingFeature(Feature):
                 return cursor
         return cursor
 
-    def _record_hover(self, local_xy, cursor):
+    def _note_cast_stuck(self, kind):
+        """PLAN 1.10: see CAST_STUCK_READS. Called with the classified cursor of every probe hover."""
+        if kind != "cast" or self.clock() < self.ctx.state.get("casting_until", 0.0):
+            self._cast_reads = 0
+            return
+        self._cast_reads += 1
+        if self._cast_reads < CAST_STUCK_READS:
+            return
+        self._cast_reads = 0
+        self.input.click_right()
+        self.log(f"the aiming ellipse was on {CAST_STUCK_READS} hovers in a row with no cast of ours - "
+                 f"cancelled it with a right click (nothing can be confirmed while a spell is armed)")
         rec = self.ctx.recorder
         if rec:
-            classify = getattr(self.ctx.cursors, "classify", None)
+            rec.count("cast_stuck")
+            rec.event("cast_stuck", reads=CAST_STUCK_READS)
+
+    def _record_hover(self, local_xy, cursor):
+        classify = getattr(self.ctx.cursors, "classify", None)
+        self._note_cast_stuck((classify(cursor) if callable(classify) else None) or "unknown")
+        rec = self.ctx.recorder
+        if rec:
             rec.hover(local_xy, (classify(cursor) if callable(classify) else None) or "unknown", cursor=cursor)
             seen = getattr(self.ctx, "seen", None)
             if seen is not None and cursor and CursorProbe.last_print == cursor:

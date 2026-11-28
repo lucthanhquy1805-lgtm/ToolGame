@@ -16,7 +16,9 @@ KEYS = ("kills_chat", "kills_corpse_only", "potion_hp", "potion_mp", "heal_skill
         "spell_no_cast", "town", "death", "retreat",
         # PLAN 0.46 / 5: monsters proven by the cursor that the model had no box for. This number is the
         # measure of 0.46: it must fall as the near crop and the next model land.
-        "hard_case", "ring_probe", "ring_hit")
+        "hard_case", "ring_probe", "ring_hit",
+        # PLAN 1.10: the client left aiming (every hover then reads as the ellipse and nothing is confirmed)
+        "cast_stuck", "aim_cancel")
 
 
 class Stats:

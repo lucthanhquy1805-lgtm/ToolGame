@@ -1,0 +1,69 @@
+{
+ "mode": "hunt",
+ "started": "20261128_001015",
+ "account": "Account 1",
+ "class": "elf",
+ "hunt_map": "blessed_orc",
+ "model": "blessed_orc",
+ "real_map": "오염된 축복의 땅 - 오크의 땅",
+ "zone": "blessed_orc",
+ "channels": "bgr",
+ "conf": 0.2,
+ "scan": {
+  "misses_before_wander": 2,
+  "max_probe_points": 5,
+  "hover_settle": 0.01,
+  "hover_retry": 0.02,
+  "hover_reads": 5,
+  "miss_ttl": 4.0,
+  "detect_conf": 0.0,
+  "near_conf": 0.1,
+  "conf_map": "blessed_orc",
+  "detect_fps": 2,
+  "detect_threads": 1,
+  "search_threads": 2,
+  "adaptive_detect": true,
+  "input_size": 416,
+  "detect_roi": false,
+  "detect_provider": "auto",
+  "melee_max_sec": 10.0,
+  "hunt_range": 10,
+  "pull_mode": true,
+  "step_mm": 0.0,
+  "attack_range": 0,
+  "spell_min_mp_pct": 70
+ },
+ "record": {
+  "while_hunting": true,
+  "interval_sec": 1.0,
+  "max_frames": 0,
+  "real_map": "오염된 축복의 땅 - 오크의 땅",
+  "no_model": false,
+  "grid_scan": false,
+  "grid_step": 40,
+  "grid_radius": 200,
+  "auto_stop_min": 15,
+  "stop_key": "Pause",
+  "max_gb": 5.0
+ },
+ "window": [
+  1302,
+  977
+ ],
+ "cursor_classifier": 2,
+ "provider": "DmlExecutionProvider",
+ "provider_probe": {
+  "yolox_tiny_blessed_orc_416.onnx": [
+   22.2,
+   108.9
+  ],
+  "yolox_tiny_blessed_orc.onnx": [
+   41.5,
+   268.3
+  ],
+  "yolox_tiny_blessed_orc_320.onnx": [
+   14.3,
+   35.1
+  ]
+ }
+}

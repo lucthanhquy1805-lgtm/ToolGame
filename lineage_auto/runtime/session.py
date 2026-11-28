@@ -185,7 +185,7 @@ class AccountSession:
         # remember it; every slot press from here on switches page only when it has to.
         # PLAN 1.7: the hunt starts HERE - the range, the walk back and the pull all measure from this point.
         self.ctx.state["offset"] = (0.0, 0.0)
-        for key in ("pull", "go_home", "home"):
+        for key in ("pull", "go_home", "home", "ring_first"):
             self.ctx.state.pop(key, None)
         self.ctx.state["hotbar_page"] = None
         self.ctx.goto_page(self.account.home_page or "F1")
@@ -607,14 +607,20 @@ class AccountSession:
                             continue
                         falling = self._hp_falling()
                         target = self.targeting.rehover_last(rect)
+                        ring_hit = False
+                        if target is None and self.ctx.state.get("ring_first") and self.ring.ready():
+                            self.ctx.state.pop("ring_first", None)
+                            # PLAN 1.10: the last fight gave up on a monster next to us while HP was falling -
+                            # it is still there with no box. Ring BEFORE acquire, which would walk to a box
+                            # 149-296 px away (20261128_001015).
+                            target = self.ring.sweep(rect, char, "lost_near")
+                            ring_hit = target is not None
                         if target is None:
                             target = self.targeting.acquire(rect, char)
                             self.exploration.observe()
                         if target is None:
                             target = self._defend(rect, char, falling)
                             ring_hit = target is not None  # PLAN 0.46: a ring target has no box to follow
-                        else:
-                            ring_hit = False
                         if target is None and time.monotonic() - last_target > RING_IDLE_SEC:
                             target = self.ring.sweep(rect, char, "idle")
                             ring_hit = target is not None

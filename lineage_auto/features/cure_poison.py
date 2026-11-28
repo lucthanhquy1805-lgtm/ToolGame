@@ -55,6 +55,7 @@ class CurePoisonFeature(Feature):
         self.ctx.press_slot(self.account.utility(key).page, key, double=True)
         self.last_cast = now
         self.log(f"{key} cure poison (self-cast)")
+        self.cancel_aim("cure poison")  # PLAN 1.10
         return True
 
     def on_start(self):

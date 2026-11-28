@@ -13,4 +13,5 @@ KNIGHT = CharacterClass(
     name_en="Knight",
     name_vi="Kỵ Sĩ",
     style=CombatStyle.MELEE,
+    melee_max_sec=20.0,  # PLAN 1.10: 20261128_123218 (prince) capped 3 fights at 9.4 s with the monster alive
 )

@@ -258,7 +258,8 @@ class ScanSettings:
     detect_roi: bool = False
     # PLAN 0.48: onnxruntime provider - "auto" (DirectML when it loads, else CPU) / "cpu" / "gpu" (DirectML only)
     detect_provider: str = "auto"
-    melee_max_sec: float = 10.0
+    # PLAN 1.10: 0 = the class default (CharacterClass.melee_max_sec: elf 25 s, the rest 10 s)
+    melee_max_sec: float = 0.0
     # PLAN 1.2: how far from the start point the bot hunts, in character steps (map tiles): 0 = no limit,
     # 1 = stay put (only monsters that come to us). Needs the game minimap (odometry); without it the range
     # is ignored and the UI says so.
@@ -284,11 +285,15 @@ class ScanSettings:
         it even on the game PC. Any other value the user typed is kept."""
         size = int(data.get("input_size", 640))
         roi = bool(data.get("detect_roi", False))
-        melee = float(data.get("melee_max_sec", 10.0))
+        melee = float(data.get("melee_max_sec", 0.0))
         if size == 416 and roi:
             size, roi = 640, False
+        # PLAN 1.10: 25.0 was v14's default (reset by 0.32) and 10.0 was v15-v21rc9's - both mean "never
+        # chosen", so they read as 0 = the class default. A value typed by hand is kept.
+        if melee in (10.0, 25.0):
+            melee = 0.0
         return {"input_size": size if size in INPUT_SIZES else 640, "detect_roi": roi,
-                "melee_max_sec": min(120.0, max(5.0, 10.0 if melee == 25.0 else melee))}
+                "melee_max_sec": 0.0 if not melee else min(120.0, max(5.0, melee))}
 
     def conf_for(self, map_key):
         """Threshold to pass to detect_centers: 0 (= the map's own conf) unless set for this map."""
@@ -457,6 +462,14 @@ class AccountSettings:
     @property
     def character(self):
         return characters.get(self.character_class)
+
+    def melee_cap(self):
+        """PLAN 1.10: seconds one fight may last - scan.melee_max_sec, or the class default when it is 0."""
+        return self.scan.melee_max_sec or self.character.melee_max_sec
+
+    def attack_steps(self):
+        """PLAN 1.10: steps this character hits from by hand - scan.attack_range, or the class default."""
+        return self.scan.attack_range or self.character.attack_range or 1
 
     def ensure_skill_maps(self):
         for key in HOTKEYS:
