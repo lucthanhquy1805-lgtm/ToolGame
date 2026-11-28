@@ -65,6 +65,9 @@ The dev machine has no game; the bot will run on a separate game PC.
   > 3 s = `state["leader_lost"]` (stand), arrive 2.5 / leave 4 steps, ranged `_walk_home` <= 5 clicks, lure
   `leader_range` + a trip only once 0 boxes stood within guard_steps of the leader, 0.7 s per walk click, elf hand
   clicks only on the attack cursor (`combat.HOVER_SPOTS`), `scan.attack_range_px_learned` caps `in_hand_reach`.
+- rc11.1 hotfix: `python tests/test_rc11_1.py` — `hard_case` event key `hc_kind` (never `kind=` in `rec.event`), the
+  learned reach needs 2 range_walks 30 s apart (-15 % max, 200 px floor, +5 % back), home dead zone 2.5 / 4 steps
+  for every home_mode, a hunt refuses a client that is not 1280x960 (+-2 px).
 - Potions (PLAN 1.4b): `python tests/test_potions.py` (records_game/20261127_003555_hunt). Waits up to
   `PotionSetting.COOLDOWN_MAX` 3600 s (UI: seconds or minutes); `vision/hotbar.py` reads the open page and an
   empty ITEM slot (dark, p99 < `EMPTY_V`); `HealthFeature._out_of_potions` stops pressing a slot that reads empty

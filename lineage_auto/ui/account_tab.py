@@ -7,6 +7,7 @@ from tkinter import messagebox, ttk
 
 from .. import hunt_maps, monsters
 from ..config.models import UI_TABS
+from ..runtime.session import wrong_client_size
 from .panels import (
     ClassPanel,
     ControlPanel,
@@ -252,6 +253,10 @@ class AccountTab:
             return None
         if not self.session.ctx.cursors.ready:
             messagebox.showwarning(self.t("warn_title"), self.t("warn_cursor"))
+            return None
+        bad = wrong_client_size(self.session.ctx.rect())
+        if bad:  # rc11.1: minimap / party panel positions are measured at 1280x960
+            messagebox.showerror(self.t("warn_title"), self.t("warn_window_size", w=bad[0], h=bad[1]))
             return None
         if not hunt_maps.model_exists(self.account.hunt_map):
             hunt = hunt_maps.get(self.account.hunt_map)

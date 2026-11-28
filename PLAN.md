@@ -2598,6 +2598,25 @@ Mô hình bãi săn nhóm (khách 28/11): tiên/pháp sư luôn đứng gốc, �
 
 CHỜ MÁY GAME: chuyến gom thật (số theo đếm đúng khi quái đuổi sau lưng, thời gian 1 chuyến, có kẹt rào không).
 
+### rc11.1 HOTFIX — hard_case làm vòng săn khởi động lại, tầm bắn hạ oan, về gốc lắc, cửa sổ sai cỡ  [XONG 29/11]
+Bằng chứng: records_game/m6TSP63T/20261129_023102_hunt (elf rc11), session_log G1RN30H 29/11 02:31, mG1RN30H/r023112.
+1. `BotContext.hard_case`: `rec.event("hard_case", ..., kind=kind)` -> TypeError "multiple values for argument
+   'kind'" (từ 0.46; 325 lần trong log G1RN30H): mỗi ring_hit / hard case -> loop error -> mất con sát bên. Khoá đổi
+   thành `hc_kind`. Đã rà: không còn `event(..., kind=...)` nào khác (test quét mã nguồn).
+2. Tầm tay tự học (`combat._learn_reach`): MỘT range_walk không đủ (023102 t=24.4: 129 px, drift 4.5 -> 116 px, rồi
+   mọi con 113-126 px "out of range", 389 skip, 3 kill / 154 s) -> event `reach_hold`. Chỉ hạ khi 2 range_walk cách
+   nhau >= `LEARN_GAP_SEC` 30 s (khác trận): tới 0,9 x khoảng cách xa hơn, mỗi lần tối đa -`LEARN_DROP_MAX` 15 %, sàn
+   `REACH_FLOOR_PX` 200 px cho cung (lớp có attack_range > 1). Tăng lại +5 % mỗi chat_kill bằng tay ở xa hơn tầm hiện
+   tại (`kill_far`) và sau `REACH_QUIET_SEC` 3 phút không range_walk (`quiet`), trần = tầm của class (về 0).
+   Event `reach_learned {px, was, why, dists}`.
+3. Về gốc: `exploration.GO_HOME_STOP` 1 -> 2,5 (= `leader.ARRIVE_STEPS`), `GO_HOME_START` 4 (= `LEAVE_STEPS`), cho
+   MỌI home_mode; `session.HOME_AFTER_FIGHT` 2 -> 4 và `_walk_home` không click khi <= 4 bước (023102 t=26-36: 12
+   click W/E ở 1,0-1,1 bước vì dừng ở 1 mà mỗi click 2 bước).
+4. Cửa sổ game: `session.wrong_client_size` - client khác 1280x960 (+-2 px) -> nút Bắt đầu hiện hộp lỗi
+   `warn_window_size` (ko/en/vi), `AccountSession.start` không chạy và log WARNING; mỗi lần bắt đầu log
+   "game window WxH". (r023112 1343x1007: 0 leader_seen, drift 13-20 bước; không có ảnh để kiểm việc scale.)
+Test: `tests/test_rc11_1.py` (recorder thật, luật học tầm, chuỗi 1,0/1,1 -> 0 click, 1343x1007 bị từ chối).
+
 ### 3.0-L v2 rc11 — đọc trưởng nhóm đúng (vương miện ĐÈ lên marker), mất vương miện = đứng yên  [CODE XONG 29/11, v21rc11]
 Bằng chứng rc10 (có ảnh): m6TSP63T/r010326 (elf) + mG1RN30H/r010322 (Quân Chủ), ảnh ghép mm_elf_134.png /
 mm_grid_prince.png. Vương miện vẽ ĐÈ lên marker của trưởng nhóm; trưởng nhóm đứng cạnh thì vương miện nằm trên MŨI TÊN

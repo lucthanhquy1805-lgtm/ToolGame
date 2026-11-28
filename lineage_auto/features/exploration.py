@@ -27,7 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
-from .leader import home_leave, home_stop
+from .leader import ARRIVE_STEPS, LEAVE_STEPS
 from .targeting import MELEE_DIST
 
 CLICK_SETTLE = 0.05
@@ -44,8 +44,8 @@ MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.h
 # PLAN 0.44: 20261127_101929_hunt walked "home" 113 times, alternating N and S, while the odometry reading of
 # the distance to the start wandered between 3.3 and 7 steps - that was noise, not the character moving. So a
 # dead zone of 2 walk clicks before the first step home, and then keep going until nearly home (hysteresis).
-GO_HOME_START = 4  # steps (2 walk clicks)
-GO_HOME_STOP = 1
+GO_HOME_START = LEAVE_STEPS  # 4 steps (2 walk clicks)
+GO_HOME_STOP = ARRIVE_STEPS  # rc11.1: 2.5 - one click is 2 steps, a stop at 1 overshot back and forth
 WALK_PX = 160  # client px of one walk click
 HOME_CLICK_SEC = 0.7  # 3.0-L v2: m6TSP63T/r232626 clicked home every ~0.2 s, each counted 2 steps never walked
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
@@ -280,9 +280,9 @@ class ExplorationFeature(Feature):
                     self.targeting is not None and self.targeting.ranged() and self._monster_in_reach()):
                 self._homing = False  # rc11: the crown gone > 3 s = stand, never walk by counted clicks
             elif self._homing:
-                self._homing = away > home_stop(self.ctx, GO_HOME_STOP)
+                self._homing = away > GO_HOME_STOP
             else:
-                self._homing = away > home_leave(self.ctx, GO_HOME_START)
+                self._homing = away > GO_HOME_START
             if not self._homing:
                 self.ctx.sleep(CLICK_SETTLE)
                 return

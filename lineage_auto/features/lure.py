@@ -20,7 +20,7 @@ from ..vision import party_minimap
 from ..vision.geometry import walk_point
 from .base import Feature
 from .exploration import GO_HOME_STOP, HOME_CLICK_SEC, NAMES, WALK_PX
-from .leader import EDGE_MM, home_stop
+from .leader import EDGE_MM
 
 IDLE_MOBS = 0  # rc11 (user): a new trip only once NO monster stood within guard_steps of home (the leader)
 # 3.0-L v2: one walk click every WALK_WAIT s at least - clicks every 0.18 s each counted 2 steps that were never
@@ -133,7 +133,7 @@ class LureFeature(Feature):
             return True
         if self.ctx.state.get("leader_lost"):
             return False  # rc11: no crown for > 3 s - no trip; stand and fight what comes
-        if self.steps() > home_stop(self.ctx, GO_HOME_STOP):
+        if self.steps() > GO_HOME_STOP:
             return False  # not at the start yet: wander walks home
         now = self.clock()
         if (self._busy_t is not None and now - self._busy_t < self.account.scan.lure_idle_sec) or (
@@ -156,7 +156,7 @@ class LureFeature(Feature):
 
     def home(self):
         """Session: the walk home is over."""
-        if self.returning is not None and self.steps() <= home_stop(self.ctx, GO_HOME_STOP + 1):
+        if self.returning is not None and self.steps() <= GO_HOME_STOP:
             vec = self.ctx.state.get("leader")
             self._event("lure_home", why=self.returning, mobs_following=self.following(),
                         leader_steps=round(self.steps(), 1) if vec else None)  # offset = the leader

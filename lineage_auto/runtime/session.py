@@ -15,7 +15,7 @@ from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
 from ..features.ring_probe import RingProbeFeature
 from ..features.loot import LootFeature
-from ..features.leader import ARRIVE_STEPS, home_leave
+from ..features.leader import ARRIVE_STEPS
 from ..features.lure import LureFeature
 from ..features.survival import HealthFeature
 from ..features.targeting import TargetingFeature
@@ -42,7 +42,7 @@ HOME_IDLE_SEC = 3.0
 # PLAN 1.7: longest walk back to the hunt start after a fight (a fence may be in the way).
 GO_HOME_MAX_SEC = 20.0
 # PLAN 1.11: steps off the hunt start after a fight that are walked back before the next target.
-HOME_AFTER_FIGHT = 2
+HOME_AFTER_FIGHT = exploration.GO_HOME_START  # rc11.1: 4 steps (was 2: clicks of 2 steps overshoot)
 HOME_MAX_CLICKS = 5  # rc11: a ranged class's walk back to the leader, then it shoots again
 # The tool window taking focus stops the bot (PLAN 0.7) once the game had this long to come forward.
 FOCUS_GRACE = 2.0
@@ -68,6 +68,19 @@ RING_IDLE_SEC = 5.0
 RING_DEFEND_PX = 100
 HP_DROP_SEC = 2.0  # HP lower than a read this recent = being hit
 DEFEND_PX = 70
+
+
+# rc11.1: the minimap / crown / party panel / HUD positions are measured at 1280x960. mG1RN30H r023112 ran at
+# 1343x1007: 0 leader_seen, drift 13-20 steps. A hunt does not start on any other client size.
+CLIENT_SIZE = (1280, 960)
+CLIENT_TOL = 2
+
+
+def wrong_client_size(rect):
+    """(w, h) when the game client is not CLIENT_SIZE (+-CLIENT_TOL), else None."""
+    w, h = int(rect.w), int(rect.h)
+    ok = abs(w - CLIENT_SIZE[0]) <= CLIENT_TOL and abs(h - CLIENT_SIZE[1]) <= CLIENT_TOL
+    return None if ok else (w, h)
 
 
 class SessionState:
@@ -169,6 +182,13 @@ class AccountSession:
             return False
         if not self.ctx.cursors.ready:
             self.ctx.log("attack cursor not registered or shared with another kind -> re-register")
+            return False
+        rect = self.ctx.rect()
+        self.ctx.log(f"game window {int(rect.w)}x{int(rect.h)}")
+        bad = wrong_client_size(rect)
+        if bad:
+            self.ctx.log(f"WARNING: game window {bad[0]}x{bad[1]}, the bot needs {CLIENT_SIZE[0]}x{CLIENT_SIZE[1]} "
+                         f"(+-{CLIENT_TOL} px) - not starting")
             return False
 
         try:
@@ -470,12 +490,14 @@ class AccountSession:
         away = self.targeting.steps_from_home()
         # PLAN 1.11: after a fight, anything past HOME_AFTER_FIGHT steps is walked back before the next target
         # (20261128_142729: the elf drifted ~69 steps with 0 go_home in 905 s).
-        if (away is not None and away > home_leave(self.ctx, HOME_AFTER_FIGHT) and self.account.scan.hunt_range
+        if (away is not None and away > HOME_AFTER_FIGHT and self.account.scan.hunt_range
                 and not self.lure.active):  # PLAN 0.50: a lure trip walks home only when the lure says so
             self.ctx.state["go_home"] = True
         if not self.ctx.state.pop("go_home", False):
             return
-        deadline = time.monotonic() + GO_HOME_MAX_SEC
+        # rc11.1: within 4 steps nobody walks (a click is 2 steps: it only overshoots)
+        deadline = time.monotonic() + (0 if away is not None and away <= exploration.GO_HOME_START
+                                       else GO_HOME_MAX_SEC)
         leader = getattr(self.targeting, "leader", None)
         # rc11: a ranged class gives the walk up after HOME_MAX_CLICKS and shoots again (r010326: 21 clicks, 20 s)
         ranged = getattr(self.targeting, "ranged", None)

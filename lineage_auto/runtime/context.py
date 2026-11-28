@@ -152,7 +152,7 @@ class BotContext(HotbarPages, WalkOffset):
             rec = self.recorder
             if rec:
                 rec.count("hard_case")
-                rec.event("hard_case", point=list(point), kind=kind, src=src)
+                rec.event("hard_case", point=list(point), hc_kind=kind, src=src)  # "kind" is the event's own name
         return path
 
     @property

@@ -346,8 +346,9 @@ def test_range_walk():
     once = [img, img, shifted(img, 40, -20)] + [shifted(img, 40, -20)] * 6  # one check walks, then standing
     ctx, cf, _tg = _elf_fight(far, frames=once)
     check(ctx.recorder.kinds("range_walk"), "3.0-L v2: one drift reading of a step is a range_walk already")
-    check(ctx.account.scan.attack_range_px_learned == 180 and ctx.recorder.kinds("reach_learned"),
-          f"walked at 200 px -> reach learned {ctx.account.scan.attack_range_px_learned} px (0.9 x 200)")
+    check(ctx.account.scan.attack_range_px_learned == 0 and ctx.recorder.kinds("reach_hold")
+          and not ctx.recorder.kinds("reach_learned"),
+          "rc11.1: one range_walk at 200 px is not proof - the reach is kept (reach_hold)")
 
 
 def test_elf_far_boxes():
@@ -776,7 +777,7 @@ def test_walk_offset():
     check(src.count("self.ctx.note_walk(") == 3,
           "combat: the sidestep / detour clicks and the measured range_walk drift feed it too")
     # the go_home dead zone, and the rule that must not hold a melee class in the field
-    check(ex.GO_HOME_START == 4 and ex.GO_HOME_STOP == 1, "go_home: 4 steps out, back to 1 step")
+    check(ex.GO_HOME_START == 4 and ex.GO_HOME_STOP == 2.5, "go_home: 4 steps out, back to 2.5 steps (rc11.1)")
     esrc = open(os.path.join(ROOT, "lineage_auto", "features", "exploration.py"), encoding="utf-8").read()
     check("self.targeting.ranged()" in esrc and "and self._monster_in_reach()" in esrc,
           'the "no walk home while a monster is in reach" rule is for a ranged class only')

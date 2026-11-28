@@ -245,9 +245,10 @@ def test_hysteresis_and_cap():
         check(clicked == want, f"leader mode, {away} steps off: {'walk back' if want else 'stay (<= 4)'}")
     # the crown never gets nearer (r010326 t=25.8-45.3: 21 clicks at 2.1 steps): a ranged class stops at 5
     real_read = party_minimap.read
-    party_minimap.read = lambda fr: (7.0, 0.0)  # 3 steps E, every read
+    party_minimap.read = lambda fr: (12.0, 0.0)  # 5.2 steps E (past the 4-step dead zone), every read
     try:
         ctx.frames = [frame(ELF, 1)]
+        ctx.state["offset"] = (-12.0 * minimap.SCALE, 0.0)  # what the read sets: 5.2 steps W of the leader
         ctx.state["go_home"] = True
         ctx.input.log.clear()
         ctx.sleep = lambda t: True
@@ -323,9 +324,12 @@ def test_r232626_reach():
     walk = [img] + [shifted(img, 40 * n, -20 * n) for n in range(1, 8)]
     point = (CHAR[0] + first, CHAR[1])
     ctx, cf, tg = _elf_fight(point, frames=list(walk))
+    check(cf.last_outcome == "range_walk" and not ctx.account.scan.attack_range_px_learned,
+          f"first range_walk at {first} px: reach kept (rc11.1: one is not proof)")
+    cf._learn_reach(first, now=cf._reach_t + 40)  # a second one, another fight 40 s later
     learned = ctx.account.scan.attack_range_px_learned
-    check(cf.last_outcome == "range_walk" and learned == int(0.9 * first),
-          f"first range_walk at {first} px -> reach learned {learned} px")
+    check(learned == int(340 * (1 - cb.LEARN_DROP_MAX)),
+          f"second range_walk 40 s later -> reach {learned} px (at most -15 % of 340, not 0.9 x {first})")
     hits = [tuple(h) for r in _events(os.path.join(R232626, "frames.jsonl")) for h in r.get("hits", [])]
     tgf = TargetingFeature(ctx)
     tgf.char = CHAR

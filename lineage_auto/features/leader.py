@@ -20,22 +20,14 @@ import time
 from ..vision import minimap, party_minimap
 from ..vision.geometry import direction_index
 
+# rc11.1: for EVERY home_mode (exploration.GO_HOME_STOP / GO_HOME_START): m6TSP63T/20261129_023102 walked home
+# on the click offset, stopped only at <= 1 step, and each click counts 2 -> W/E/W/E at 1.0-1.1 for 10 s.
 ARRIVE_STEPS = 2.5
 ARRIVE_READS = 2
 LEAVE_STEPS = 4.0
 LOST_SEC = 3.0
 LEADER_PANEL_READS = 2
 EDGE_MM = 12  # minimap px (1280 grid) from the minimap edge = about to lose the crown
-
-
-def home_stop(ctx, start_stop):
-    """Steps from home that count as "there" (hysteresis: entering)."""
-    return max(start_stop, ARRIVE_STEPS) if ctx.state.get("leader_mode") else start_stop
-
-
-def home_leave(ctx, start_leave):
-    """Steps from home past which we walk back (hysteresis: leaving)."""
-    return max(start_leave, LEAVE_STEPS) if ctx.state.get("leader_mode") else start_leave
 
 
 class LeaderHome:

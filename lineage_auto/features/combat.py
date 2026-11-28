@@ -12,7 +12,7 @@ import types
 
 from ..runtime.stats import bump, kill_name
 from ..skills.policy import is_auto_enabled
-from ..vision.drift import drift_steps
+from ..vision.drift import drift_steps, reach_px
 from ..vision.geometry import blocking_figure, detour_point, park_point
 from ..vision.motion_watch import DeathWatch
 from ..winapi.cursor import CursorProbe
@@ -125,8 +125,18 @@ HAND_CLICK_SEC = 0.6
 # 38-108 px away, i.e. the picture shaking. 3.0-L v2: ONE read of >= 1 step ends the fight (two let the elf of
 # m6TSP63T/r232626 walk 4-5 steps first).
 RANGE_WALK_READS = 1
-# 3.0-L v2: the hand reach learned from a range_walk at d px = LEARN_SHARE x d (scan.attack_range_px_learned)
+# 3.0-L v2: the hand reach learned from range_walks (scan.attack_range_px_learned). rc11.1: ONE range_walk is
+# not proof (m6TSP63T/20261129_023102: 129 px, drift 4.5 -> 116 px, then every monster at 113-126 px was "out of
+# range": 389 skips, 3 kills in 154 s). It drops only when two range_walks LEARN_GAP_SEC apart (two fights) say
+# so - to LEARN_SHARE x the farther one, at most LEARN_DROP_MAX of the reach per drop, never under
+# REACH_FLOOR_PX for a bow; it climbs back REACH_RAISE per kill farther out than it, or per REACH_QUIET_SEC
+# without a range_walk, up to the class reach.
 LEARN_SHARE = 0.9
+LEARN_GAP_SEC = 30.0
+LEARN_DROP_MAX = 0.15
+REACH_FLOOR_PX = 200
+REACH_RAISE = 0.05
+REACH_QUIET_SEC = 180.0
 # 3.0-L v2: a ranged hand attack clicks only on the attack cursor (a click on the ground walks - r232626:
 # cursor_last None in all 38 fights); this many hovers in a row without it = give the lock up and rescan.
 HAND_NO_SWORD = 3
@@ -162,6 +172,8 @@ class CombatFeature(Feature):
         self._spells = 0  # spells cast in the fight under way
         self._skipped = {}  # why a slot was skipped, for the recording
         self._no_skill_said = False  # PLAN 0.44: the "no attack skill" warning is logged once
+        self._range_walks = []  # rc11.1: (time, dist) of the range_walks not used for a drop yet
+        self._reach_t = time.time()  # last range_walk / reach change
         self._mp_pending = None  # (time, key, mp_before) of the last cast, read again after MP_SETTLE
         self._cast_why = None  # PLAN 1.9: why the spell of this beat was allowed (spell_cast "why")
 
@@ -645,6 +657,8 @@ class CombatFeature(Feature):
             return self._no_spell(target, rect, char, anchor)
         self._note_lock(anchor)
         self._fight_start = started = box_t = time.time()
+        if started - self._reach_t >= REACH_QUIET_SEC:
+            self._raise_reach("quiet", started)  # rc11.1: no range_walk for 3 min - give some reach back
         self._kill_lines(during=False)
         self._dist, self._melee = math.hypot(char[0] - anchor[0], char[1] - anchor[1]), False
         self._box_gone, self._cursor_last = 0.0, None
@@ -679,6 +693,9 @@ class CombatFeature(Feature):
             kills = self._kill_lines()
             if kills:
                 kill_name(self.ctx, kills[-1][1] or "")
+                learned = self.account.scan.attack_range_px_learned
+                if self._melee and learned and self._dist > learned:
+                    self._raise_reach("kill_far")  # rc11.1: hit and killed from farther out than the reach
                 return self._finish(target, "chat_kill", anchor, kills[-1][1] or "", lines=len(kills))
             if ring:
                 # PLAN 0.46 B2.3: no box to lose - the cursor at the spot decides. A ranged class does not hold
@@ -786,15 +803,40 @@ class CombatFeature(Feature):
                 return True, i
         return False, first
 
-    def _learn_reach(self, dist):
-        """3.0-L v2: the character walked to a monster dist px away -> its hand reach is under that, for good
-        (scan.attack_range_px_learned, saved by the UI; the "measure attack range" button resets it)."""
+    def _class_reach(self):
+        return reach_px(self.targeting.attack_steps())
+
+    def _set_reach(self, px, why, now, **data):
         scan = self.account.scan
-        reach = max(MELEE_DIST, int(LEARN_SHARE * dist))
-        if not scan.attack_range_px_learned or reach < scan.attack_range_px_learned:
-            self._event("reach_learned", px=reach, was=scan.attack_range_px_learned or None, dist=round(dist))
-            self.log(f"hand reach learned: {reach} px (walked at {dist:.0f} px)")
-            scan.attack_range_px_learned = reach
+        was = scan.attack_range_px_learned or self._class_reach()
+        scan.attack_range_px_learned = 0 if px >= self._class_reach() else px  # 0 = back to the class reach
+        self._reach_t = now
+        self._event("reach_learned", px=px, was=round(was), why=why, **data)
+        self.log(f"hand reach {round(was)} -> {px} px ({why})")
+
+    def _learn_reach(self, dist, now=None):
+        """rc11.1: a range_walk at ``dist`` px. The reach drops only on the second one LEARN_GAP_SEC after an
+        earlier one (another fight), by at most LEARN_DROP_MAX, never under the floor."""
+        now = time.time() if now is None else now
+        earlier = [d for t, d in self._range_walks if now - t >= LEARN_GAP_SEC]
+        self._range_walks = [(t, d) for t, d in self._range_walks if now - t < LEARN_GAP_SEC] + [(now, dist)]
+        self._reach_t = now
+        if not earlier:
+            self._event("reach_hold", dist=round(dist), why="one range_walk is not proof")
+            return
+        floor = REACH_FLOOR_PX if self.targeting.attack_steps() > 1 else MELEE_DIST
+        cur = self.account.scan.attack_range_px_learned or self._class_reach()
+        px = max(int(LEARN_SHARE * max(earlier[-1], dist)), int(cur * (1 - LEARN_DROP_MAX)), floor)
+        self._range_walks = []
+        if px < cur:
+            self._set_reach(px, "range_walk_x2", now, dists=[round(earlier[-1]), round(dist)])
+
+    def _raise_reach(self, why, now=None):
+        """rc11.1: +REACH_RAISE of a learned reach, up to the class reach."""
+        learned = self.account.scan.attack_range_px_learned
+        if learned:
+            now = time.time() if now is None else now
+            self._set_reach(min(round(self._class_reach()), int(learned * (1 + REACH_RAISE)) + 1), why, now)
 
     def _no_spell(self, target, rect, char, anchor):
         """PLAN 0.44: "stay put" without a usable attack spell. Warn once, fight by hand what stands next to us
