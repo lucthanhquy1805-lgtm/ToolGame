@@ -80,14 +80,18 @@ class WalkOffset:
         itself is at char - offset on screen). (0, 0) before the hunt begins."""
         return self.state.get("offset") or (0.0, 0.0)
 
-    def note_walk(self, char, point, rect=None):
+    def note_walk(self, char, point, rect=None, steps=CLICK_STEPS):
         """PLAN 1.7: a walk click moves the character up to CLICK_STEPS steps toward ``point``; add that to
-        the offset so the way back to the hunt start is known without the minimap."""
+        the offset so the way back to the hunt start is known without the minimap.
+
+        PLAN 1.11: ``steps`` is how far it really went when that is known - the drift the picture shows while a
+        hand attack walks us to the monster (20261128_142729: ~69 such steps, none of them counted, so the elf
+        read 0 steps from home and never walked back)."""
         dx, dy = point[0] - char[0], point[1] - char[1]
         dist = math.hypot(dx, dy)
-        if dist < 1:
+        if dist < 1 or steps <= 0:
             return
-        moved = min(CLICK_STEPS * self.step_px(rect), dist)
+        moved = min(steps * self.step_px(rect), dist)
         ox, oy = self.offset()
         self.state["offset"] = (ox + moved * dx / dist, oy + moved * dy / dist)
 

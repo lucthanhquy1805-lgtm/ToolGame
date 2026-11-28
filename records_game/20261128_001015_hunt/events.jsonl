@@ -1,0 +1,262 @@
+{"t": 0.01, "kind": "memory", "scan": 0, "frame": null, "rss_mb": 391.6, "rises": 0}
+{"t": 0.63, "kind": "melee_attack", "scan": 1, "frame": "f_00001.jpg", "dist": 43, "target": [608, 388], "steps": 15}
+{"t": 10.11, "kind": "detect_stats", "scan": 1, "frame": "f_00009.jpg", "cpu_pct": 7, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 44, "fps": 0.02, "duty": 0.0, "boxes_per_frame": 4.0, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 44}, "fight": {"ms": 38, "fps": 0.33, "duty": 0.02, "boxes_per_frame": 4.25, "threads": 1, "max_fps": 2, "near_runs": 20, "near_ms": 22.0, "near_boxes_per_frame": 4.95, "ms_total": 60}}
+{"t": 10.68, "kind": "fight_end", "scan": 1, "frame": "f_00009.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [605, 392], "dist": 46, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 11.14, "kind": "melee_attack", "scan": 2, "frame": "f_00010.jpg", "dist": 48, "target": [603, 392], "steps": 15}
+{"t": 12.15, "kind": "kill_line", "scan": 2, "frame": "f_00011.jpg", "name": "오염된 오크 전사", "fight": "cap"}
+{"t": 21.13, "kind": "fight_end", "scan": 2, "frame": "f_00018.jpg", "outcome": "cap", "detail": "", "seconds": 10.3, "anchor": [565, 367], "dist": 89, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 21.3, "kind": "idle_gap", "scan": 3, "frame": null, "seconds": 16.1}
+{"t": 21.65, "kind": "melee_attack", "scan": 3, "frame": "f_00019.jpg", "dist": 86, "target": [569, 363], "steps": 15}
+{"t": 30.66, "kind": "fight_end", "scan": 3, "frame": "f_00026.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 9.4, "anchor": [585, 376], "dist": 67, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 31.18, "kind": "melee_attack", "scan": 4, "frame": null, "dist": 79, "target": [574, 370], "steps": 15}
+{"t": 32.33, "kind": "fight_end", "scan": 4, "frame": "f_00027.jpg", "outcome": "gone", "detail": "box gone 1.2s", "seconds": 1.5, "anchor": [574, 370], "dist": 79, "melee": true, "kill_source": "none", "box_seen_last_s": 1.2, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 32.45, "kind": "idle_gap", "scan": 5, "frame": null, "seconds": 9.5}
+{"t": 32.68, "kind": "melee_attack", "scan": 5, "frame": "f_00028.jpg", "dist": 247, "target": [898, 390], "steps": 15}
+{"t": 42.68, "kind": "fight_end", "scan": 5, "frame": "f_00036.jpg", "outcome": "cap", "detail": "", "seconds": 10.2, "anchor": [696, 383], "dist": 45, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 43.17, "kind": "melee_attack", "scan": 6, "frame": null, "dist": 49, "target": [700, 388], "steps": 15}
+{"t": 45.73, "kind": "fight_end", "scan": 6, "frame": "f_00038.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 2.9, "anchor": [693, 383], "dist": 42, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.5, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 45.86, "kind": "idle_gap", "scan": 7, "frame": null, "seconds": 10.5}
+{"t": 46.2, "kind": "melee_attack", "scan": 7, "frame": "f_00039.jpg", "dist": 62, "target": [688, 338], "steps": 15}
+{"t": 47.25, "kind": "range_walk", "scan": 7, "frame": "f_00039.jpg", "dist": 62, "drift_steps": 2.0, "attack_range": 15}
+{"t": 47.25, "kind": "fight_end", "scan": 7, "frame": "f_00039.jpg", "outcome": "range_walk", "detail": "2.0 steps walked at 62px", "seconds": 1.4, "anchor": [688, 338], "dist": 62, "melee": true, "kill_source": "none", "box_seen_last_s": 0.5, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 47.7, "kind": "melee_attack", "scan": 8, "frame": "f_00040.jpg", "dist": 206, "target": [628, 593], "steps": 15}
+{"t": 55.35, "kind": "fight_end", "scan": 8, "frame": "f_00046.jpg", "outcome": "chat_kill", "detail": "오염된 오크 궁수", "seconds": 7.9, "anchor": [651, 604], "dist": 216, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 55.7, "kind": "melee_attack", "scan": 9, "frame": null, "dist": 43, "target": [608, 388], "steps": 15}
+{"t": 64.7, "kind": "fight_end", "scan": 9, "frame": "f_00053.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 9.2, "anchor": [608, 385], "dist": 43, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 64.84, "kind": "idle_gap", "scan": 10, "frame": "f_00054.jpg", "seconds": 8.0}
+{"t": 65.22, "kind": "melee_attack", "scan": 10, "frame": "f_00054.jpg", "dist": 54, "target": [598, 399], "steps": 15}
+{"t": 67.38, "kind": "fight_end", "scan": 10, "frame": "f_00056.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 2.5, "anchor": [598, 399], "dist": 54, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 67.72, "kind": "melee_attack", "scan": 11, "frame": null, "dist": 115, "target": [698, 283], "steps": 15}
+{"t": 68.76, "kind": "range_walk", "scan": 11, "frame": "f_00057.jpg", "dist": 115, "drift_steps": 1.5, "attack_range": 15}
+{"t": 68.76, "kind": "fight_end", "scan": 11, "frame": "f_00057.jpg", "outcome": "range_walk", "detail": "1.5 steps walked at 115px", "seconds": 1.3, "anchor": [698, 283], "dist": 115, "melee": true, "kill_source": "none", "box_seen_last_s": 0.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 68.91, "kind": "idle_gap", "scan": 12, "frame": null, "seconds": 2.5}
+{"t": 69.23, "kind": "melee_attack", "scan": 12, "frame": null, "dist": 115, "target": [587, 293], "steps": 15}
+{"t": 70.16, "kind": "fight_end", "scan": 12, "frame": "f_00058.jpg", "outcome": "gone", "detail": "box gone 1.3s", "seconds": 1.3, "anchor": [587, 293], "dist": 115, "melee": true, "kill_source": "none", "box_seen_last_s": 1.3, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 70.19, "kind": "detect_stats", "scan": 12, "frame": "f_00058.jpg", "cpu_pct": 42, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "fight": {"ms": 38, "fps": 2.0, "duty": 0.12, "boxes_per_frame": 4.27, "threads": 1, "max_fps": 2, "near_runs": 120, "near_ms": 21.4, "near_boxes_per_frame": 2.3, "ms_total": 60}}
+{"t": 70.7, "kind": "melee_attack", "scan": 13, "frame": null, "dist": 197, "target": [732, 568], "steps": 15}
+{"t": 80.75, "kind": "fight_end", "scan": 13, "frame": "f_00067.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [759, 570], "dist": 212, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 80.9, "kind": "ring_probe", "scan": 14, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 82.31, "kind": "melee_attack", "scan": 15, "frame": "f_00068.jpg", "dist": 49, "target": [612, 358], "steps": 15}
+{"t": 92.22, "kind": "fight_end", "scan": 15, "frame": "f_00077.jpg", "outcome": "cap", "detail": "", "seconds": 10.1, "anchor": [601, 347], "dist": 65, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 92.4, "kind": "idle_gap", "scan": 16, "frame": null, "seconds": 11.6}
+{"t": 92.73, "kind": "melee_attack", "scan": 16, "frame": null, "dist": 71, "target": [596, 343], "steps": 15}
+{"t": 93.72, "kind": "kill_line", "scan": 16, "frame": "f_00078.jpg", "name": "오염된 오크 창병", "fight": "cap"}
+{"t": 96.25, "kind": "fight_end", "scan": 16, "frame": "f_00080.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 3.9, "anchor": [604, 348], "dist": 62, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 97.52, "kind": "ring_probe", "scan": 26, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 99.74, "kind": "ring_probe", "scan": 41, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 100.74, "kind": "melee_attack", "scan": 45, "frame": null, "dist": 298, "target": [407, 559], "steps": 15}
+{"t": 110.73, "kind": "fight_end", "scan": 45, "frame": "f_00092.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [601, 394], "dist": 50, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 111.26, "kind": "melee_attack", "scan": 46, "frame": "f_00093.jpg", "dist": 42, "target": [610, 381], "steps": 15}
+{"t": 113.79, "kind": "fight_end", "scan": 46, "frame": "f_00095.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 2.9, "anchor": [596, 395], "dist": 55, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 114.28, "kind": "melee_attack", "scan": 47, "frame": "f_00096.jpg", "dist": 44, "target": [608, 381], "steps": 15}
+{"t": 115.32, "kind": "range_walk", "scan": 47, "frame": "f_00096.jpg", "dist": 44, "drift_steps": 1.5, "attack_range": 15}
+{"t": 115.32, "kind": "fight_end", "scan": 47, "frame": "f_00096.jpg", "outcome": "range_walk", "detail": "1.5 steps walked at 44px", "seconds": 1.4, "anchor": [608, 381], "dist": 44, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 116.65, "kind": "idle_gap", "scan": 49, "frame": "f_00098.jpg", "seconds": 3.0}
+{"t": 119.14, "kind": "ring_probe", "scan": 67, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 121.15, "kind": "ring_probe", "scan": 81, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 123.18, "kind": "ring_probe", "scan": 95, "frame": "f_00104.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 125.18, "kind": "ring_probe", "scan": 109, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 125.77, "kind": "melee_attack", "scan": 110, "frame": "f_00106.jpg", "dist": 237, "target": [542, 599], "steps": 15}
+{"t": 130.25, "kind": "detect_stats", "scan": 110, "frame": "f_00109.jpg", "cpu_pct": 44, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 54, "fps": 0.52, "duty": 0.06, "boxes_per_frame": 2.74, "threads": 2, "max_fps": 2, "near_runs": 2, "near_ms": 21.2, "near_boxes_per_frame": 1.0, "ms_total": 56}, "fight": {"ms": 36, "fps": 1.48, "duty": 0.08, "boxes_per_frame": 2.24, "threads": 1, "max_fps": 2, "near_runs": 89, "near_ms": 20.3, "near_boxes_per_frame": 1.06, "ms_total": 56}}
+{"t": 135.43, "kind": "fight_end", "scan": 110, "frame": "f_00113.jpg", "outcome": "cap", "detail": "", "seconds": 10.1, "anchor": [608, 387], "dist": 43, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 135.79, "kind": "melee_attack", "scan": 111, "frame": "f_00114.jpg", "dist": 57, "target": [594, 392], "steps": 15}
+{"t": 138.29, "kind": "kill_line", "scan": 111, "frame": "f_00116.jpg", "name": "오염된 오크 창병", "fight": "cap"}
+{"t": 141.44, "kind": "fight_end", "scan": 111, "frame": "f_00119.jpg", "outcome": "gone", "detail": "box gone 1.1s", "seconds": 5.9, "anchor": [608, 381], "dist": 44, "melee": true, "kill_source": "none", "box_seen_last_s": 1.1, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 141.77, "kind": "ring_probe", "scan": 112, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 141.77, "kind": "idle_gap", "scan": 112, "frame": null, "seconds": 10.0}
+{"t": 143.83, "kind": "ring_probe", "scan": 125, "frame": "f_00121.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 145.94, "kind": "ring_probe", "scan": 138, "frame": "f_00123.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 148.13, "kind": "ring_probe", "scan": 153, "frame": "f_00125.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 149.79, "kind": "melee_attack", "scan": 163, "frame": null, "dist": 578, "target": [73, 411], "steps": 15}
+{"t": 159.85, "kind": "fight_end", "scan": 163, "frame": "f_00135.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [696, 363], "dist": 51, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 160.33, "kind": "melee_attack", "scan": 164, "frame": null, "dist": 43, "target": [694, 387], "steps": 15}
+{"t": 166.51, "kind": "fight_end", "scan": 164, "frame": "f_00141.jpg", "outcome": "chat_kill", "detail": "오염된 오크 궁수", "seconds": 6.5, "anchor": [692, 429], "dist": 58, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 166.63, "kind": "idle_gap", "scan": 165, "frame": null, "seconds": 10.5}
+{"t": 166.85, "kind": "melee_attack", "scan": 165, "frame": null, "dist": 59, "target": [696, 426], "steps": 15}
+{"t": 176.86, "kind": "fight_end", "scan": 165, "frame": "f_00149.jpg", "outcome": "cap", "detail": "", "seconds": 10.2, "anchor": [614, 343], "dist": 58, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 177.33, "kind": "melee_attack", "scan": 166, "frame": "f_00150.jpg", "dist": 37, "target": [614, 392], "steps": 15}
+{"t": 184.99, "kind": "fight_end", "scan": 166, "frame": "f_00156.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 8.0, "anchor": [610, 387], "dist": 41, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 185.12, "kind": "idle_gap", "scan": 167, "frame": null, "seconds": 10.5}
+{"t": 185.33, "kind": "melee_attack", "scan": 167, "frame": null, "dist": 46, "target": [605, 390], "steps": 15}
+{"t": 190.32, "kind": "detect_stats", "scan": 167, "frame": "f_00160.jpg", "cpu_pct": 42, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 49, "fps": 0.27, "duty": 0.03, "boxes_per_frame": 0.88, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 49}, "fight": {"ms": 36, "fps": 1.73, "duty": 0.1, "boxes_per_frame": 3.18, "threads": 1, "max_fps": 2, "near_runs": 104, "near_ms": 20.1, "near_boxes_per_frame": 2.54, "ms_total": 56}}
+{"t": 195.31, "kind": "fight_end", "scan": 167, "frame": "f_00164.jpg", "outcome": "cap", "detail": "", "seconds": 10.2, "anchor": [605, 385], "dist": 46, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 195.85, "kind": "melee_attack", "scan": 168, "frame": "f_00165.jpg", "dist": 46, "target": [605, 385], "steps": 15}
+{"t": 203.34, "kind": "fight_end", "scan": 168, "frame": "f_00171.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 7.8, "anchor": [594, 401], "dist": 58, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 203.47, "kind": "idle_gap", "scan": 169, "frame": null, "seconds": 10.5}
+{"t": 203.86, "kind": "melee_attack", "scan": 169, "frame": null, "dist": 58, "target": [594, 401], "steps": 15}
+{"t": 205.81, "kind": "fight_end", "scan": 169, "frame": "f_00173.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 2.3, "anchor": [594, 401], "dist": 58, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 208.71, "kind": "ring_probe", "scan": 186, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 210.85, "kind": "ring_probe", "scan": 198, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 212.37, "kind": "melee_attack", "scan": 205, "frame": "f_00179.jpg", "dist": 167, "target": [810, 439], "steps": 15}
+{"t": 217.38, "kind": "fight_end", "scan": 205, "frame": "f_00183.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 5.5, "anchor": [707, 385], "dist": 56, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 217.86, "kind": "melee_attack", "scan": 206, "frame": null, "dist": 41, "target": [691, 379], "steps": 15}
+{"t": 225.39, "kind": "fight_end", "scan": 206, "frame": "f_00189.jpg", "outcome": "chat_kill", "detail": "오염된 오크 창병", "seconds": 7.9, "anchor": [692, 384], "dist": 41, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 225.87, "kind": "melee_attack", "scan": 207, "frame": "f_00190.jpg", "dist": 41, "target": [692, 384], "steps": 15}
+{"t": 227.4, "kind": "fight_end", "scan": 207, "frame": "f_00191.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 1.9, "anchor": [692, 384], "dist": 41, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 227.52, "kind": "idle_gap", "scan": 208, "frame": null, "seconds": 8.0}
+{"t": 230.58, "kind": "ring_probe", "scan": 232, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 231.4, "kind": "melee_attack", "scan": 234, "frame": "f_00195.jpg", "dist": 362, "target": [304, 491], "steps": 15}
+{"t": 241.4, "kind": "fight_end", "scan": 234, "frame": "f_00203.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [596, 392], "dist": 55, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 241.88, "kind": "melee_attack", "scan": 235, "frame": null, "dist": 44, "target": [608, 381], "steps": 15}
+{"t": 248.91, "kind": "fight_end", "scan": 235, "frame": "f_00209.jpg", "outcome": "gone", "detail": "box gone 1.3s", "seconds": 7.3, "anchor": [610, 380], "dist": 42, "melee": true, "kill_source": "none", "box_seen_last_s": 1.3, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 249.45, "kind": "melee_attack", "scan": 236, "frame": "f_00210.jpg", "dist": 277, "target": [380, 443], "steps": 15}
+{"t": 250.37, "kind": "detect_stats", "scan": 236, "frame": "f_00210.jpg", "cpu_pct": 42, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 50, "fps": 0.32, "duty": 0.03, "boxes_per_frame": 0.89, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 50}, "fight": {"ms": 36, "fps": 1.68, "duty": 0.09, "boxes_per_frame": 2.15, "threads": 1, "max_fps": 2, "near_runs": 101, "near_ms": 20.0, "near_boxes_per_frame": 1.19, "ms_total": 56}}
+{"t": 256.9, "kind": "fight_end", "scan": 236, "frame": "f_00216.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 7.9, "anchor": [617, 392], "dist": 34, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 257.4, "kind": "melee_attack", "scan": 237, "frame": null, "dist": 39, "target": [612, 388], "steps": 15}
+{"t": 260.43, "kind": "fight_end", "scan": 237, "frame": "f_00219.jpg", "outcome": "gone", "detail": "box gone 1.3s", "seconds": 3.4, "anchor": [602, 397], "dist": 50, "melee": true, "kill_source": "none", "box_seen_last_s": 1.3, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 260.67, "kind": "idle_gap", "scan": 238, "frame": null, "seconds": 8.0}
+{"t": 260.93, "kind": "melee_attack", "scan": 238, "frame": null, "dist": 248, "target": [405, 417], "steps": 15}
+{"t": 270.95, "kind": "fight_end", "scan": 238, "frame": "f_00228.jpg", "outcome": "cap", "detail": "", "seconds": 10.3, "anchor": [608, 381], "dist": 44, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 271.45, "kind": "melee_attack", "scan": 239, "frame": null, "dist": 47, "target": [604, 384], "steps": 15}
+{"t": 272.59, "kind": "kill_line", "scan": 239, "frame": "f_00229.jpg", "name": "오염된 오크 창병", "fight": "cap"}
+{"t": 274.38, "kind": "fight_end", "scan": 239, "frame": "f_00231.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 3.3, "anchor": [608, 379], "dist": 44, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 274.55, "kind": "idle_gap", "scan": 240, "frame": null, "seconds": 10.5}
+{"t": 274.92, "kind": "melee_attack", "scan": 240, "frame": null, "dist": 394, "target": [261, 331], "steps": 15}
+{"t": 284.92, "kind": "fight_end", "scan": 240, "frame": "f_00240.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [601, 340], "dist": 69, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 285.46, "kind": "melee_attack", "scan": 241, "frame": "f_00241.jpg", "dist": 77, "target": [587, 345], "steps": 15}
+{"t": 288.48, "kind": "fight_end", "scan": 241, "frame": "f_00243.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 3.4, "anchor": [606, 348], "dist": 60, "melee": true, "kill_source": "corpse", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 288.6, "kind": "idle_gap", "scan": 242, "frame": null, "seconds": 10.5}
+{"t": 288.99, "kind": "melee_attack", "scan": 242, "frame": "f_00244.jpg", "dist": 110, "target": [755, 425], "steps": 15}
+{"t": 289.93, "kind": "fight_end", "scan": 242, "frame": "f_00244.jpg", "outcome": "corpse_cursor", "detail": "", "seconds": 1.3, "anchor": [755, 425], "dist": 110, "melee": true, "kill_source": "corpse", "box_seen_last_s": 0.9, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 290.6, "kind": "melee_attack", "scan": 245, "frame": null, "dist": 97, "target": [747, 401], "steps": 15}
+{"t": 300.48, "kind": "fight_end", "scan": 245, "frame": "f_00253.jpg", "outcome": "cap", "detail": "", "seconds": 10.1, "anchor": [691, 383], "dist": 40, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 300.96, "kind": "melee_attack", "scan": 246, "frame": "f_00254.jpg", "dist": 49, "target": [700, 387], "steps": 15}
+{"t": 306.91, "kind": "fight_end", "scan": 246, "frame": "f_00259.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 6.3, "anchor": [711, 361], "dist": 66, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 307.28, "kind": "ring_probe", "scan": 247, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 307.28, "kind": "idle_gap", "scan": 247, "frame": null, "seconds": 10.4}
+{"t": 309.34, "kind": "ring_probe", "scan": 258, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 310.41, "kind": "detect_stats", "scan": 264, "frame": null, "cpu_pct": 42, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 45, "fps": 0.13, "duty": 0.01, "boxes_per_frame": 0.25, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 45}, "fight": {"ms": 36, "fps": 1.87, "duty": 0.1, "boxes_per_frame": 2.18, "threads": 1, "max_fps": 2, "near_runs": 112, "near_ms": 20.5, "near_boxes_per_frame": 1.12, "ms_total": 56}}
+{"t": 311.45, "kind": "ring_probe", "scan": 270, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 313.51, "kind": "ring_probe", "scan": 282, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 315.52, "kind": "ring_probe", "scan": 296, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 317.54, "kind": "ring_probe", "scan": 310, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 319.56, "kind": "ring_probe", "scan": 324, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 321.56, "kind": "ring_probe", "scan": 338, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 323.64, "kind": "ring_probe", "scan": 353, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 325.64, "kind": "ring_probe", "scan": 367, "frame": "f_00277.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 327.78, "kind": "ring_probe", "scan": 379, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 329.91, "kind": "ring_probe", "scan": 391, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 332.02, "kind": "ring_probe", "scan": 403, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 334.12, "kind": "ring_probe", "scan": 415, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 336.22, "kind": "ring_probe", "scan": 426, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 338.35, "kind": "ring_probe", "scan": 438, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 340.35, "kind": "ring_probe", "scan": 449, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 342.48, "kind": "ring_probe", "scan": 461, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 344.5, "kind": "ring_probe", "scan": 472, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 346.53, "kind": "ring_probe", "scan": 483, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 348.54, "kind": "ring_probe", "scan": 494, "frame": "f_00298.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 350.56, "kind": "ring_probe", "scan": 505, "frame": "f_00300.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 352.67, "kind": "ring_probe", "scan": 517, "frame": "f_00302.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 354.83, "kind": "ring_probe", "scan": 529, "frame": "f_00304.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 356.97, "kind": "ring_probe", "scan": 541, "frame": "f_00306.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 359.08, "kind": "ring_probe", "scan": 553, "frame": "f_00308.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 361.25, "kind": "ring_probe", "scan": 565, "frame": "f_00310.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 363.37, "kind": "ring_probe", "scan": 577, "frame": "f_00312.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 365.37, "kind": "ring_probe", "scan": 588, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 367.37, "kind": "ring_probe", "scan": 599, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 369.5, "kind": "ring_probe", "scan": 613, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 370.48, "kind": "detect_stats", "scan": 620, "frame": null, "cpu_pct": 47, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 46, "fps": 2.0, "duty": 0.18, "boxes_per_frame": 0.27, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 46}}
+{"t": 371.51, "kind": "ring_probe", "scan": 627, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 373.56, "kind": "ring_probe", "scan": 642, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 375.67, "kind": "ring_probe", "scan": 657, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 377.68, "kind": "ring_probe", "scan": 671, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 379.76, "kind": "ring_probe", "scan": 684, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 381.9, "kind": "ring_probe", "scan": 696, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 384.01, "kind": "ring_probe", "scan": 708, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 385.99, "kind": "ring_probe", "scan": 719, "frame": "f_00333.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 388.13, "kind": "ring_probe", "scan": 731, "frame": "f_00335.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 390.31, "kind": "ring_probe", "scan": 743, "frame": "f_00337.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 392.43, "kind": "ring_probe", "scan": 755, "frame": "f_00339.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 394.55, "kind": "ring_probe", "scan": 767, "frame": "f_00341.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 396.58, "kind": "ring_probe", "scan": 778, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 398.61, "kind": "ring_probe", "scan": 790, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 400.61, "kind": "ring_probe", "scan": 804, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 402.06, "kind": "melee_attack", "scan": 811, "frame": null, "dist": 352, "target": [326, 254], "steps": 15}
+{"t": 402.61, "kind": "fight_end", "scan": 811, "frame": "f_00348.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 1.0, "anchor": [326, 254], "dist": 352, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 403.06, "kind": "melee_attack", "scan": 812, "frame": null, "dist": 309, "target": [349, 325], "steps": 15}
+{"t": 410.56, "kind": "fight_end", "scan": 812, "frame": "f_00354.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 7.8, "anchor": [612, 356], "dist": 50, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 411.1, "kind": "melee_attack", "scan": 813, "frame": null, "dist": 73, "target": [594, 342], "steps": 15}
+{"t": 414.25, "kind": "fight_end", "scan": 813, "frame": "f_00357.jpg", "outcome": "gone", "detail": "box gone 1.2s", "seconds": 3.6, "anchor": [565, 347], "dist": 95, "melee": true, "kill_source": "none", "box_seen_last_s": 1.2, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 414.37, "kind": "idle_gap", "scan": 814, "frame": null, "seconds": 8.0}
+{"t": 416.05, "kind": "ring_probe", "scan": 823, "frame": "f_00359.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 418.09, "kind": "ring_probe", "scan": 834, "frame": "f_00361.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 420.21, "kind": "ring_probe", "scan": 846, "frame": "f_00363.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 422.4, "kind": "ring_probe", "scan": 858, "frame": "f_00365.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 424.53, "kind": "ring_probe", "scan": 870, "frame": "f_00367.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 426.66, "kind": "ring_probe", "scan": 882, "frame": "f_00369.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 428.85, "kind": "ring_probe", "scan": 894, "frame": "f_00371.jpg", "why": "idle", "points": 16, "found": false}
+{"t": 430.55, "kind": "detect_stats", "scan": 907, "frame": null, "cpu_pct": 46, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 45, "fps": 1.58, "duty": 0.14, "boxes_per_frame": 0.29, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 45}, "fight": {"ms": 34, "fps": 0.42, "duty": 0.02, "boxes_per_frame": 1.08, "threads": 1, "max_fps": 2, "near_runs": 25, "near_ms": 19.5, "near_boxes_per_frame": 0.64, "ms_total": 53}}
+{"t": 430.85, "kind": "ring_probe", "scan": 908, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 432.92, "kind": "ring_probe", "scan": 923, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 435.05, "kind": "ring_probe", "scan": 938, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 437.05, "kind": "ring_probe", "scan": 952, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 439.11, "kind": "ring_probe", "scan": 967, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 441.24, "kind": "ring_probe", "scan": 982, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 443.26, "kind": "ring_probe", "scan": 996, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 444.12, "kind": "melee_attack", "scan": 998, "frame": "f_00385.jpg", "dist": 261, "target": [435, 535], "steps": 15}
+{"t": 446.05, "kind": "fight_end", "scan": 998, "frame": "f_00386.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 2.3, "anchor": [435, 535], "dist": 261, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 446.61, "kind": "melee_attack", "scan": 999, "frame": "f_00387.jpg", "dist": 148, "target": [524, 464], "steps": 15}
+{"t": 456.66, "kind": "fight_end", "scan": 999, "frame": "f_00395.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [610, 380], "dist": 42, "melee": true, "kill_source": "none", "box_seen_last_s": 0.5, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 456.81, "kind": "ring_probe", "scan": 1000, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 458.85, "kind": "ring_probe", "scan": 1007, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 460.86, "kind": "ring_probe", "scan": 1014, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 460.9, "kind": "ring_hit", "scan": 1014, "frame": null, "point": [696, 388], "dist": 45, "why": "idle"}
+{"t": 462.89, "kind": "ring_probe", "scan": 1021, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 462.93, "kind": "ring_hit", "scan": 1021, "frame": null, "point": [696, 388], "dist": 45, "why": "idle"}
+{"t": 464.92, "kind": "ring_probe", "scan": 1028, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 464.96, "kind": "ring_hit", "scan": 1028, "frame": null, "point": [696, 388], "dist": 45, "why": "idle"}
+{"t": 466.93, "kind": "ring_probe", "scan": 1035, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 466.96, "kind": "ring_hit", "scan": 1035, "frame": null, "point": [696, 388], "dist": 45, "why": "idle"}
+{"t": 467.21, "kind": "melee_attack", "scan": 1035, "frame": "f_00401.jpg", "dist": 45, "target": [696, 388], "steps": 15}
+{"t": 468.19, "kind": "range_walk", "scan": 1035, "frame": "f_00401.jpg", "dist": 45, "drift_steps": 2.0, "attack_range": 15}
+{"t": 468.19, "kind": "fight_end", "scan": 1035, "frame": "f_00401.jpg", "outcome": "range_walk", "detail": "2.0 steps walked at 45px", "seconds": 1.2, "anchor": [696, 388], "dist": 45, "melee": true, "kill_source": "none", "box_seen_last_s": 1.2, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 470.16, "kind": "melee_attack", "scan": 1047, "frame": null, "dist": 247, "target": [572, 622], "steps": 15}
+{"t": 480.13, "kind": "fight_end", "scan": 1047, "frame": "f_00411.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [610, 388], "dist": 41, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 480.67, "kind": "melee_attack", "scan": 1048, "frame": "f_00412.jpg", "dist": 43, "target": [608, 390], "steps": 15}
+{"t": 484.61, "kind": "fight_end", "scan": 1048, "frame": "f_00415.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 4.3, "anchor": [606, 387], "dist": 45, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 484.8, "kind": "idle_gap", "scan": 1049, "frame": "f_00416.jpg", "seconds": 10.5}
+{"t": 485.16, "kind": "melee_attack", "scan": 1049, "frame": "f_00416.jpg", "dist": 149, "target": [531, 300], "steps": 15}
+{"t": 490.62, "kind": "detect_stats", "scan": 1049, "frame": "f_00420.jpg", "cpu_pct": 42, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 46, "fps": 0.82, "duty": 0.07, "boxes_per_frame": 1.43, "threads": 2, "max_fps": 2, "near_runs": 0, "near_ms": 0.0, "near_boxes_per_frame": 0.0, "ms_total": 46}, "fight": {"ms": 34, "fps": 1.18, "duty": 0.06, "boxes_per_frame": 2.14, "threads": 1, "max_fps": 2, "near_runs": 71, "near_ms": 19.7, "near_boxes_per_frame": 1.23, "ms_total": 54}}
+{"t": 495.17, "kind": "fight_end", "scan": 1049, "frame": "f_00424.jpg", "outcome": "cap", "detail": "", "seconds": 10.4, "anchor": [603, 345], "dist": 64, "melee": true, "kill_source": "none", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 495.69, "kind": "melee_attack", "scan": 1050, "frame": "f_00425.jpg", "dist": 80, "target": [598, 328], "steps": 15}
+{"t": 497.34, "kind": "fight_end", "scan": 1050, "frame": "f_00426.jpg", "outcome": "gone", "detail": "box gone 1.2s", "seconds": 2.0, "anchor": [598, 328], "dist": 80, "melee": true, "kill_source": "none", "box_seen_last_s": 1.2, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 497.45, "kind": "idle_gap", "scan": 1051, "frame": null, "seconds": 10.5}
+{"t": 500.57, "kind": "ring_probe", "scan": 1075, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 502.56, "kind": "ring_probe", "scan": 1082, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 504.18, "kind": "melee_attack", "scan": 1083, "frame": "f_00431.jpg", "dist": 238, "target": [653, 626], "steps": 15}
+{"t": 510.21, "kind": "fight_end", "scan": 1083, "frame": "f_00436.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 6.4, "anchor": [645, 437], "dist": 49, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 510.71, "kind": "melee_attack", "scan": 1084, "frame": null, "dist": 45, "target": [606, 389], "steps": 15}
+{"t": 518.71, "kind": "fight_end", "scan": 1084, "frame": "f_00443.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 8.4, "anchor": [604, 393], "dist": 47, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 518.84, "kind": "idle_gap", "scan": 1085, "frame": null, "seconds": 6.5}
+{"t": 519.21, "kind": "melee_attack", "scan": 1085, "frame": null, "dist": 174, "target": [488, 448], "steps": 15}
+{"t": 528.36, "kind": "fight_end", "scan": 1085, "frame": "f_00450.jpg", "outcome": "chat_kill", "detail": "오염된 오크 궁수", "seconds": 9.5, "anchor": [491, 442], "dist": 169, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 528.55, "kind": "ring_probe", "scan": 1086, "frame": "f_00451.jpg", "why": "idle", "points": 16, "found": true}
+{"t": 530.2, "kind": "melee_attack", "scan": 1087, "frame": "f_00452.jpg", "dist": 296, "target": [937, 464], "steps": 15}
+{"t": 538.77, "kind": "fight_end", "scan": 1087, "frame": "f_00460.jpg", "outcome": "chat_kill", "detail": "오염된 오크 전사", "seconds": 9.0, "anchor": [692, 397], "dist": 42, "melee": true, "kill_source": "chat", "box_seen_last_s": 0.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 539.23, "kind": "melee_attack", "scan": 1088, "frame": null, "dist": 54, "target": [705, 392], "steps": 15}
+{"t": 540.23, "kind": "fight_end", "scan": 1088, "frame": "f_00461.jpg", "outcome": "gone", "detail": "box gone 1.0s", "seconds": 1.3, "anchor": [705, 392], "dist": 54, "melee": true, "kill_source": "none", "box_seen_last_s": 1.0, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 541.54, "kind": "idle_gap", "scan": 1090, "frame": "f_00462.jpg", "seconds": 9.0}
+{"t": 541.75, "kind": "melee_attack", "scan": 1090, "frame": "f_00462.jpg", "dist": 161, "target": [569, 527], "steps": 15}
+{"t": 550.68, "kind": "detect_stats", "scan": 1090, "frame": "f_00469.jpg", "cpu_pct": 40, "size": 640, "provider": "DmlExecutionProvider", "fight_size": 416, "near_size": 320, "search": {"ms": 46, "fps": 0.3, "duty": 0.03, "boxes_per_frame": 2.11, "threads": 2, "max_fps": 2, "near_runs": 3, "near_ms": 17.9, "near_boxes_per_frame": 1.0, "ms_total": 49}, "fight": {"ms": 34, "fps": 1.7, "duty": 0.09, "boxes_per_frame": 2.26, "threads": 1, "max_fps": 2, "near_runs": 102, "near_ms": 19.5, "near_boxes_per_frame": 1.86, "ms_total": 54}}
+{"t": 551.76, "kind": "fight_end", "scan": 1090, "frame": "f_00470.jpg", "outcome": "cap", "detail": "", "seconds": 10.2, "anchor": [594, 403], "dist": 59, "melee": true, "kill_source": "none", "box_seen_last_s": 0.3, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 553.12, "kind": "ring_probe", "scan": 1092, "frame": "f_00471.jpg", "why": "idle", "points": 16, "found": true}
+{"t": 555.12, "kind": "ring_probe", "scan": 1098, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 555.16, "kind": "ring_hit", "scan": 1098, "frame": null, "point": [651, 433], "dist": 45, "why": "idle"}
+{"t": 557.17, "kind": "ring_probe", "scan": 1104, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 559.25, "kind": "ring_probe", "scan": 1112, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 561.23, "kind": "melee_attack", "scan": 1116, "frame": null, "dist": 301, "target": [930, 500], "steps": 15}
+{"t": 569.21, "kind": "fight_end", "scan": 1116, "frame": "f_00482.jpg", "outcome": "gone", "detail": "box gone 1.4s", "seconds": 8.3, "anchor": [707, 392], "dist": 56, "melee": true, "kill_source": "none", "box_seen_last_s": 1.4, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 569.75, "kind": "melee_attack", "scan": 1117, "frame": null, "dist": 31, "target": [651, 419], "steps": 15}
+{"t": 571.76, "kind": "fight_end", "scan": 1117, "frame": "f_00484.jpg", "outcome": "gone", "detail": "box gone 1.5s", "seconds": 2.4, "anchor": [651, 419], "dist": 31, "melee": true, "kill_source": "none", "box_seen_last_s": 1.5, "cursor_last": null, "spells": 0, "skipped": {}}
+{"t": 571.88, "kind": "idle_gap", "scan": 1118, "frame": null, "seconds": 8.5}
+{"t": 573.47, "kind": "ring_probe", "scan": 1128, "frame": null, "why": "hp_falling", "points": 16, "found": true}
+{"t": 575.53, "kind": "ring_probe", "scan": 1140, "frame": null, "why": "hp_falling", "points": 16, "found": true}
+{"t": 577.57, "kind": "ring_probe", "scan": 1146, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 579.81, "kind": "ring_probe", "scan": 1158, "frame": null, "why": "idle", "points": 16, "found": false}
+{"t": 581.84, "kind": "ring_probe", "scan": 1170, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 583.94, "kind": "ring_probe", "scan": 1176, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 586.0, "kind": "ring_probe", "scan": 1182, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 588.06, "kind": "ring_probe", "scan": 1188, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 590.12, "kind": "ring_probe", "scan": 1200, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 592.11, "kind": "ring_probe", "scan": 1206, "frame": null, "why": "idle", "points": 16, "found": true}
+{"t": 594.21, "kind": "ring_probe", "scan": 1218, "frame": null, "why": "idle", "points": 16, "found": true}

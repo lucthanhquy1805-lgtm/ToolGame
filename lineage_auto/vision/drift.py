@@ -24,6 +24,20 @@ def screen_steps(dx, dy, client_w=BASE_W):
     return abs(dx) * k / CELL_DX + abs(dy) * k / CELL_DY
 
 
+STEP_PX = CELL_DX / 2  # 20 px at BASE_W: one step along a walk axis (the cell is 40 x 20)
+
+
+def reach_px(steps, client_w=BASE_W):
+    """PLAN 1.11: screen px a hand attack of ``steps`` steps reaches, in every direction.
+
+    Measured on 20261128_142729_hunt (elf bow, pairs melee_attack -> fight_end): killed while standing still at
+    296 / 322 px sideways and 269-284 px down, "out of range" at 343-364 px, the character walked at 402-445 px.
+    So the reach is a CIRCLE of about steps * 20 px (17 steps = 340 px), not the wide flat diamond that counting
+    isometric cells gives (``screen_steps``, where 15 cells sideways would be 600 px).
+    """
+    return steps * STEP_PX * (float(client_w or BASE_W) / BASE_W)
+
+
 def _play(frame):
     h, w = frame.shape[:2]
     x0, y0, x1, y1 = PLAY

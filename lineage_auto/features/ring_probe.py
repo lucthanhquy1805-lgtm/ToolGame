@@ -6,7 +6,8 @@ zone within 100 px was the worst (80% before the crop). The cursor is the only s
 
 Two triggers, both rare: HP falling with no box next to us, and standing with no target for a while. One ring
 is 8 directions x 2 radii, read like the label grid sweep (ONE cursor read per point, ~0.05 s) and the first
-sword point is then confirmed by the full probe before anything is attacked.
+sword point is then confirmed by the full probe before anything is attacked - except within NEAR_NOW_PX,
+where the ring read is the attack (PLAN 1.10).
 """
 import math
 import time
@@ -15,11 +16,16 @@ from ..vision.geometry import BOTTOM_MARGIN, EDGE_MARGIN
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
+from .targeting import NEAR_KEEP, Target
 
 DIRECTIONS = 8
 RADII = (45, 90)
 # One ring at most this often (the user: max 1 ring / 2 s).
 COOLDOWN = 2.0
+# PLAN 1.10: a sword this close is attacked on the ring read alone. On 20261128_001015 the second read
+# (targeting.probe) rejected 21 of 26 ring sightings - swords at 40-60 px, 10.5 s idle, 5 ring_hit in 98 rings -
+# and each rejection also blacklisted that very spot through _note_miss.
+NEAR_NOW_PX = NEAR_KEEP
 
 
 def ring_points(cx, cy, gw, gh, radii=RADII, directions=DIRECTIONS):
@@ -71,10 +77,13 @@ class RingProbeFeature(Feature):
         self._event("ring_probe", why=why, points=len(points), found=bool(found))
         if found is None:
             return None
-        target = self.targeting.probe([found], rect)
-        if target is None:
-            return None
         dist = math.hypot(found[0] - char[0], found[1] - char[1])
+        if dist <= NEAR_NOW_PX:
+            target = Target(found[0], found[1], *rect.to_screen(*found))
+        else:
+            target = self.targeting.probe([found], rect)
+            if target is None:
+                return None
         self.log(f"cursor ring found a monster at {found} ({dist:.0f}px, {why})")
         self._event("ring_hit", point=list(found), dist=round(dist), why=why)
         hard = getattr(self.ctx, "hard_case", None)

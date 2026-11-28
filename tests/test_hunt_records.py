@@ -211,10 +211,13 @@ class Replay:
             self._cache[name] = cv2.imread(os.path.join(self.rec, name))
         return self._cache[name]
 
-    def fights(self):
-        """[(start, end, outcome)] for every v11 attack hover the simulated bot was free for."""
+    def fights(self, window=None, ranged=False):
+        """[(start, end, outcome)] for every v11 attack hover the simulated bot was free for.
+
+        ``window`` (PLAN 1.10): (from, to) seconds of the recording, to replay one stretch of a long hunt."""
         clock, ctx, tg = self.clock, self.ctx, self.tg
-        starts = [h for h in self.hovers if h["kind"] == "attack"]
+        starts = [h for h in self.hovers if h["kind"] == "attack"
+                  and (window is None or window[0] <= h["t"] <= window[1])]
         out = []
         for i, h in enumerate(starts):
             end = starts[i + 1]["t"] if i + 1 < len(starts) else self.times[-1]
@@ -232,7 +235,11 @@ class Replay:
                     ctx.running = False
             clock.sleep = ctx.sleep = sleep
             try:
-                self.combat.engage(tg.Target(*h["point"], *h["point"]), self.rect, CHAR)
+                target = tg.Target(*h["point"], *h["point"])
+                if ranged:
+                    self.combat.engage_ranged(target, self.rect, CHAR)
+                else:
+                    self.combat.engage(target, self.rect, CHAR)
             finally:
                 clock.sleep = ctx.sleep = orig_sleep
             o = self.combat.last_outcome
@@ -275,7 +282,7 @@ def check_183803(rec):
     windows = r.fights()
     groups = r.report(windows, "139 = 133 lost + 6 corpse, median 2 s")
     assert len(groups.get("lost", [])) <= 0.3 * len(windows), groups  # v11: 96% "lost"
-    assert max(b - a for a, b, _o in windows) <= r.ctx.account.scan.melee_max_sec + 2 * BEAT_COST + 1
+    assert max(b - a for a, b, _o in windows) <= r.ctx.account.melee_cap() + 2 * BEAT_COST + 1
 
     # Wander on the minimap frames: score the 8 directions as the bot would after an empty scan.
     tgt, ctx = r.targeting, r.ctx
@@ -311,7 +318,7 @@ def check_190646(rec):
     a, b, o = stuck[0]
     print(f"   f_00340-395 fight (v11 54 s, cap): {o} after {b - a:.1f}s")
     # PLAN 0.31: in melee with the sword up -> kept until the melee cap (25 s), no longer left after 8 s
-    melee_max = r.ctx.account.scan.melee_max_sec
+    melee_max = r.ctx.account.melee_cap()
     assert b - a <= melee_max + 2 * BEAT_COST + 1 or o in r.cb.KILL_OUTCOMES, stuck
     assert max(w[1] - w[0] for w in windows) <= melee_max + 2 * BEAT_COST + 1
 
@@ -389,7 +396,7 @@ def check_092741(rec):
     print(f"   longest fight {worst:.1f}s (v14: 25.2s); box gone at the end at most {gone:.1f}s; "
           f"caps {len(caps)} (v14: 16)")
     assert gone <= r.cb.BOX_GONE_SEC + BEAT_COST + 0.5, [e for e in ends if (e.get("box_seen_last_s") or 0) > 1.5][:3]
-    assert worst <= r.ctx.account.scan.melee_max_sec + 2 * BEAT_COST + 1, worst
+    assert worst <= r.ctx.account.melee_cap() + 2 * BEAT_COST + 1, worst
     assert all(e.get("cursor_last") for e in ends), ends[:1]  # the new event keys are written
 
     # PLAN 0.32: the player had the minimap off in all 849 frames, so the walk keeps one direction for DWELL_SEC
@@ -482,7 +489,10 @@ def check_idle_101941(rec):
         cb.CROWD_SPELL_N = crowd_n
     (idle_before, spells_before), (idle_after, spells_after) = results["before"], results["after"]
     assert spells_before == 0 and spells_after >= 10, results
-    assert idle_after <= 0.9 * idle_before, results
+    # PLAN 1.10 moved this from 0.899 to 0.910: in a crowd the box of the lock can vanish while the sword
+    # cursor sits on a NEIGHBOUR, and combat._near_hold now keeps that fight up to NEAR_HOLD_SEC. One of the 75
+    # fight windows swallows the next hover (74 now) and ~2 s more of the measured idle falls inside a fight.
+    assert idle_after <= 0.92 * idle_before, results
 
 
 def check_range(rec):
@@ -574,8 +584,8 @@ def check_in_place_101941(rec):
     """PLAN 1.7: a wizard with a hunt range stands on the spot (1.2c tied this to hunt_range == 1). The recorded attack hovers become
     fights from where the character stands: no click except a spell's aimed click (the ellipse is up), spells land
     on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee class keeps only
-    what stands next to it. PLAN 1.9: a hold (hand attack) only on a monster inside the hand reach (MELEE_DIST for
-    a wizard: attack_range 1)."""
+    what stands next to it. PLAN 1.9/1.11: the hand attack is a CLICK on a monster inside the hand
+    reach (MELEE_DIST for a wizard: attack_range 1), and the button is never held."""
     import math
 
     from lineage_auto.characters.base import CombatStyle
@@ -596,18 +606,24 @@ def check_in_place_101941(rec):
     inp, cursor = r.ctx.input, r.cb.CursorProbe.current_hash
     click = inp.click_at
 
+    hand = []
+
     def checked_click(x, y):
-        if cursor() != "cast":
+        # PLAN 1.11: the hand attack of a standing class IS a click on the box, inside the hand reach
+        # (MELEE_DIST for this wizard); every other click must be a spell's aimed click, ellipse up.
+        local = (x - r.rect.x, y - r.rect.y)
+        if math.hypot(local[0] - CHAR[0], local[1] - CHAR[1]) <= r.tg.MELEE_DIST:
+            hand.append(local)
+        elif cursor() != "cast":
             bad.append(("click without the ellipse", (x, y), round(r.clock.now, 1)))
         click(x, y)
 
     holds = []
 
     def checked_hold():
-        xy = r.mouse["xy"]
-        holds.append(xy)
-        if xy is None or math.hypot(xy[0] - CHAR[0], xy[1] - CHAR[1]) > r.tg.MELEE_DIST:
-            bad.append(("hold out of the hand reach", xy, round(r.clock.now, 1)))
+        # PLAN 1.11: never - a held button drags the character after a monster that walks away.
+        holds.append(r.mouse["xy"])
+        bad.append(("held the button", r.mouse["xy"], round(r.clock.now, 1)))
 
     inp.click_at = checked_click
     inp.hold_left = checked_hold
@@ -615,8 +631,8 @@ def check_in_place_101941(rec):
     casts = [e for e in events if e["kind"] == "spell_cast" and e["ok"]]
     far = [e for e in casts if math.hypot(e["target"][0] - CHAR[0], e["target"][1] - CHAR[1]) > 2 * r.tg.MELEE_DIST]
     print(f"   stay put (wizard): {len(windows)} fights, {len(casts)} spells ({len(far)} beyond "
-          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks, {len(holds)} hand attacks (holds) in reach, "
-          f"{len(bad)} holds out of reach / clicks without the ellipse")
+          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks ({len(hand)} hand attacks in reach), "
+          f"{len(holds)} holds, {len(bad)} bad (a hold, or a click with no ellipse out of reach)")
     assert not bad, bad[:5]
     assert len(far) >= 5, (len(far), len(casts))
     # Empty screens from the start spot: the wander stands still (a fresh replay: the odometry starts at home).
@@ -664,6 +680,91 @@ def check_in_place_101941(rec):
     assert not tg.out_of_range(far_box, CHAR) and tg.out_of_range((CHAR[0] + 400, CHAR[1]), CHAR)
 
 
+def check_001015(rec):
+    """PLAN 1.10 (records_game/20261128_001015_hunt, elf, 595 s, 20 kills, DirectML): 21 of 59 fights ended
+    "gone" after 1.2-1.4 s with the monster 45-80 px away while HP fell (484.6 / 497.3 / 518.7 s, HP 173 -> 159),
+    18 ran into the flat 10 s cap, and 24 of 26 ring sightings were thrown away by the second read.
+
+    Replayed on the 480-550 s stretch with the recorded HP as the hp_falling signal:
+    - early "gone"/"vanished" next to us at least halves (the replay cursor is built from the boxes, so only
+      the hp_falling half of the rule can be exercised offline)
+    - the elf cap is the class default (25 s), so a kill that takes 8-9.5 s is never cut
+    - the ring sweep over the 500.6 / 502.6 s sword hovers opens a fight (one read, no probe veto)"""
+    import math
+
+    from lineage_auto.characters import get as get_class
+    from lineage_auto.features import ring_probe as rp
+
+    WINDOW = (480.0, 550.0)
+    r = Replay(rec)
+    elf = get_class("elf")
+    r.ctx.account.character_class = "elf"
+    r.ctx.character = elf
+    r.ctx.account.scan.hunt_range = 10  # meta.json of this recording
+    r.ctx.state["offset"] = (0.0, 0.0)
+    # PLAN 1.11: the elf class default is 17 steps = 340 px (drift.reach_px), measured on 20261128_142729
+    assert r.ctx.account.melee_cap() == 25.0 and r.ctx.account.attack_steps() == 17,         (r.ctx.account.melee_cap(), r.ctx.account.attack_steps())
+
+    # the recorded HUD HP is the hp_falling signal (the bot's own HealthFeature cannot run on saved frames)
+    hp = [(f["t"], f["hp"][0]) for f in r.frames if f.get("hp") and f["hp"][0] is not None]
+
+    def hp_falling():
+        now = r.clock.now
+        back = [v for t, v in hp if now - 2.5 <= t <= now]
+        older = [v for t, v in hp if now - 6.0 <= t < now - 2.5]
+        return bool(back and older and min(back) < max(older))
+
+    r.combat.health = types.SimpleNamespace(check_death=lambda rect: False, danger=False, just_acted=False,
+                                            hp_falling=hp_falling)
+    events = []
+    r.ctx.recorder = types.SimpleNamespace(
+        count=lambda k, n=1: None, event=lambda kind, **d: events.append(dict(d, kind=kind)),
+        fight=lambda *a: None, frame=lambda *a, **k: None, begin_scan=lambda: None, timing=lambda *a: None,
+        hover=lambda *a, **k: None, path=os.path.join(ROOT, "records_game", "_check"))
+    windows = r.fights(window=WINDOW, ranged=True)
+    ends = [e for e in events if e["kind"] == "fight_end"]
+    recorded = [h for h in read_jsonl(os.path.join(rec, "events.jsonl"))
+                if h["kind"] == "fight_end" and WINDOW[0] <= h["t"] <= WINDOW[1]]
+    was = [e for e in recorded if e["outcome"] in ("gone", "vanished")
+           and (e.get("dist") or 999) <= r.tg.NEAR_KEEP and (e.get("box_seen_last_s") or 9) < 2.0]
+    now_bad = [e for e in ends if e["outcome"] in ("gone", "vanished")
+               and (e.get("dist") or 999) <= r.tg.NEAR_KEEP and (e.get("box_seen_last_s") or 9) < 2.0]
+    print(f"== {os.path.basename(rec)} {WINDOW[0]:.0f}-{WINDOW[1]:.0f}s: {len(windows)} simulated fights; "
+          f"early 'gone' next to us: recorded {len(was)} -> replay {len(now_bad)}")
+    for e in ends:
+        print(f"   {e['outcome']:10s} {e['seconds']:5.1f}s  {e.get('dist')}px  "
+              f"box gone {e.get('box_seen_last_s')}s  home {e.get('home_steps')} steps")
+    # The replay's cursor is derived from the detections (Replay.cursor_now), so the "stale sword on the anchor"
+    # half of NEAR_HOLD_SEC cannot be simulated at all - only the hp_falling half runs here. What is left over
+    # is a beat where the recorded HP was not falling either.
+    assert 2 * len(now_bad) < len(was), (len(was), now_bad)
+    assert all(e["seconds"] <= 25.0 + 2 * BEAT_COST + 1 for e in ends), ends
+    assert all("home_steps" in e for e in ends), ends[:1]  # PLAN 1.10 B8: the new key is written
+
+    # the cursor ring: the two swords at 500.58 / 502.58 s, ~40-60 px away, had no ring_hit in the recording.
+    # The replay cursor is built from the detection boxes and there is no box at those points (that is the whole
+    # case), so the sword is taken from the RECORDING instead: the game really showed one there.
+    swords = [h for h in r.hovers if h["kind"] == "attack" and 499.0 <= h["t"] <= 503.5]
+    assert swords, "no recorded sword hover around 500 s"
+    sword_xy = tuple(swords[0]["point"])
+    r.ctx.cursors = types.SimpleNamespace(
+        is_attack=lambda h: (r.mouse["xy"] is not None
+                             and math.hypot(r.mouse["xy"][0] - sword_xy[0],
+                                            r.mouse["xy"][1] - sword_xy[1]) <= CURSOR_R),
+        is_corpse=lambda h: False, classify=lambda h, m="": h, get=lambda k: "",
+        is_registered=lambda k: False, is_cast=lambda h: False)
+    ring = rp.RingProbeFeature(r.ctx, clock=lambda: r.clock.now)
+    probed = []
+    ring.targeting = types.SimpleNamespace(probe=lambda pts, rect: probed.append(pts))
+    r.clock.now, r.ctx.running = swords[0]["t"], True  # fights() leaves the last window stopped
+    hit = ring.sweep(r.rect, CHAR, "lost_near")
+    dist = math.hypot(hit.local[0] - CHAR[0], hit.local[1] - CHAR[1]) if hit else None
+    print(f"   recorded sword {sword_xy} at {swords[0]['t']:.1f}s -> ring target {hit.local if hit else None} "
+          f"({dist and round(dist)}px, probe calls {len(probed)})")
+    assert hit is not None, "the ring must open a fight on a sword it can see"
+    assert dist <= rp.NEAR_NOW_PX and not probed, (dist, probed)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     mask = pin_fast_cores()
@@ -673,7 +774,8 @@ def main():
                         ("20261126_001245_hunt", check_001245), ("20261126_101941_hunt", check_101941),
                         ("20261126_101941_hunt", check_idle_101941),
                         ("20261126_101941_hunt", check_range), ("20261126_225217_hunt", check_walls_225217),
-                        ("20261126_101941_hunt", check_in_place_101941)):
+                        ("20261126_101941_hunt", check_in_place_101941),
+                        ("20261128_001015_hunt", check_001015)):
         rec = os.path.join(ROOT, "records_game", name)
         if not os.path.isdir(rec):
             print(f"skipped: {rec} not here")

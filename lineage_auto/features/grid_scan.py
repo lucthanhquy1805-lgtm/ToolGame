@@ -13,6 +13,11 @@ from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
 
+# PLAN 1.10: "safe spot only" was only a label on the checkbox - nothing checked it. 20261128_121828 swept
+# 18 times (80 points, ~0.93 s each) out in the field. Now it needs a quiet moment: nothing detected anywhere,
+# HP steady, and at most one sweep per COOLDOWN.
+COOLDOWN = 60.0
+
 
 def grid_points(cx, cy, gw, gh, step, radius):
     """Square grid inside a circle around (cx, cy), play area only, nearest first, centre skipped."""
@@ -29,11 +34,25 @@ def grid_points(cx, cy, gw, gh, step, radius):
 class GridScanFeature(Feature):
     key = "grid"
 
+    def safe(self):
+        """PLAN 1.10: a quiet moment - no monster in the last detection, HP steady, and COOLDOWN since the last
+        sweep. A sweep is ~1 s of not fighting, so it must never happen while something is around."""
+        state = self.ctx.state
+        if state.get("hp_falling") or state.get("mobs_seen") or state.get("mobs_near"):
+            return False
+        now = time.monotonic()
+        if now - getattr(self, "_last", -COOLDOWN) < COOLDOWN:
+            return False
+        self._last = now
+        return True
+
     def sweep(self, rect, char):
         """Hover every grid point once. Returns the number of attack-cursor points (0 when off)."""
         rec = self.ctx.recorder
         cfg = self.account.record
         if rec is None or not cfg.grid_scan:
+            return 0
+        if not self.safe():
             return 0
         points = grid_points(char[0], char[1], rect.w, rect.h, cfg.grid_step, cfg.grid_radius)
         rec.begin_scan()

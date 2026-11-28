@@ -248,6 +248,19 @@ class ExplorationFeature(Feature):
         return (walk_point(char[0], char[1], rect.w, rect.h, idx, WALK_PX), NAMES[idx], "go_home",
                 f"{NAMES[idx]} back to the start")
 
+    def walk_home(self, rect, char):
+        """PLAN 1.11: one walk click back toward the hunt start, whatever stands around.
+
+        ``wander`` refuses to walk home while a monster is in reach, which is right while hunting but left the
+        elf of 20261128_142729 ~69 steps out with 0 go_home: after a fight the way back comes first.
+        """
+        home = self._home_walk(rect, char)
+        if home is None:
+            self.ctx.sleep(CLICK_SETTLE)
+            return False
+        self._walk_click(rect, char, *home)
+        return True
+
     def wander(self, rect, char):
         """Click a nearby walk point, then return so the loop can scan at once."""
         tg = self.targeting
@@ -286,6 +299,12 @@ class ExplorationFeature(Feature):
             wx, wy = walk_point(char[0], char[1], rect.w, rect.h, dir_idx)
             name = NAMES[dir_idx]
             reason = f"{name} {why} (no minimap, {DWELL_SEC:.0f}s per direction)"
+        self._walk_click(rect, char, (wx, wy), name, why, reason)
+
+    def _walk_click(self, rect, char, point, name, why, reason):
+        """Jitter the point, keep it on this side of a fence, click it and remember the way back."""
+        wx, wy = point
+        away = self.targeting.steps_from_home() if self.targeting is not None else None
         # PLAN 0.39: a few px off the line, never across a fence the straight point avoided
         jx, jy = wx + random.randint(-JITTER_PX, JITTER_PX), wy + random.randint(-JITTER_PX, JITTER_PX)
         mm = self.targeting.minimap if self.targeting is not None else None

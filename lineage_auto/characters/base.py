@@ -80,6 +80,9 @@ class CharacterClass:
     skills: tuple = field(default_factory=tuple)
     # PLAN 1.9: steps this class hits from by hand without walking (scan.attack_range 0 = this). 1 = next to it.
     attack_range: int = 1
+    # PLAN 1.10: seconds one fight may last (scan.melee_max_sec 0 = this). 20261128_001015: an elf kill took
+    # 8-9.5 s, so the flat 10 s cut 18 of 59 fights with the monster still alive.
+    melee_max_sec: float = 10.0
 
     # Fields that change what the bot does (as opposed to how it is labelled).
     BEHAVIOUR_FIELDS = ("attack_cursor_label", "skill_interval", "max_attack_bursts", "skills")

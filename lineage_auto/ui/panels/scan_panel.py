@@ -8,6 +8,7 @@ from tkinter import ttk
 from ... import hunt_maps
 from ...config.models import ATTACK_RANGE_MAX, HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS, PROVIDERS
 from ...features import range_probe
+from ...vision import drift
 from ...vision import minimap
 from .base import Panel
 
@@ -32,7 +33,7 @@ FIELDS = (
     ("detect_threads", "scan_threads", 1, 8, 1, 1),  # PLAN 0.33: onnxruntime intra_op threads
     ("search_threads", "scan_search_threads", 1, 8, 1, 1),  # PLAN 0.34
     ("adaptive_detect", "scan_adaptive", 0, 1, 1, 1),
-    ("melee_max_sec", "scan_melee_max", 5, 120, 1, 1),
+    ("melee_max_sec", "scan_melee_max", 5, 120, 1, 1),  # PLAN 1.10: 0 saved = the class default
 )
 
 
@@ -105,6 +106,21 @@ class ScanPanel(Panel):
         self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
         self.combo_provider.grid(row=rows["adv"] + 1, column=1, sticky="w", pady=1)
         self.combo_provider.bind("<<ComboboxSelected>>", lambda _e: self.tab.request_save())
+        # PLAN 1.10: the G1RN30H config had hover_reads 6 / hover_settle 50 ms (250 ms a hover against the
+        # shipped 160 ms) with no way back short of editing the JSON.
+        self.btn_reset = ttk.Button(self.advanced, text="", command=self.reset_defaults)
+        self.btn_reset.grid(row=rows["adv"] + 2, column=0, columnspan=2, sticky="w", pady=(4, 0))
+
+    def reset_defaults(self):
+        """PLAN 1.10: every tuning value back to the shipped default. The hunting ground, the real zone and
+        everything outside ScanSettings are left alone."""
+        fresh = type(self.account.scan)()
+        for name, _key, _lo, _hi, _step, _scale in FIELDS:
+            setattr(self.account.scan, name, getattr(fresh, name))
+        self.account.scan.conf_map = ""
+        self.account.scan.detect_provider = fresh.detect_provider
+        self.load()
+        self.tab.request_save()
 
     def load_model(self):
         options = hunt_maps.variants(self.account.hunt_map)
@@ -189,23 +205,34 @@ class ScanPanel(Panel):
         ctx = self.tab.session.ctx
         try:
             ctx.window.activate()
-            steps, why, rows = range_probe.measure(ctx, stop)
+            steps, px, why, rows = range_probe.measure(ctx, stop)
         except Exception as exc:
-            steps, why, rows = None, f"error {exc}", []
+            steps, px, why, rows = None, None, f"error {exc}", []
         finally:
             ctx.input.release_all()
-        print(f"[RANGE] result {steps} ({why}) {rows}")
-        self.frame.after(0, self._range_done, steps, why)
+        print(f"[RANGE] result {steps} steps / {px} px ({why}) {rows}")
+        self.frame.after(0, self._range_done, steps, px, why)
 
-    def _range_done(self, steps, why):
+    def _range_done(self, steps, px, why):
         self._range_stop = None
         if steps is None:
             self.lbl_range.config(text=self.t("range_fail", why=why))
             return
         self.account.scan.attack_range = steps
+        self.account.scan.attack_range_px = int(px or 0)  # PLAN 1.11: keep what was really measured
         self.vars["attack_range"].set(steps)
         self.tab.request_save()
-        self.lbl_range.config(text=self.t("range_value", steps=steps))
+        self.range_label()
+
+    def range_label(self):
+        """PLAN 1.11 (user 28/11): the step count means nothing without px - one step is 20 px on screen, so
+        the elf's 17 steps are 340 px. Shows what the measure button last measured too, when there is one."""
+        steps = self.account.attack_steps()
+        width = self.tab.session.ctx.rect().w if self.tab.session.window.attached else None
+        text = self.t("range_value", steps=steps, px=f"{round(drift.reach_px(steps, width))} px")
+        if self.account.scan.attack_range_px:
+            text += "  ·  " + self.t("range_measured", px=self.account.scan.attack_range_px)
+        self.lbl_range.config(text=text)
 
     def toggle_advanced(self):
         self._adv_open = not self._adv_open
@@ -221,9 +248,13 @@ class ScanPanel(Panel):
             value = scan.conf_for(self.account.hunt_map) if name == "detect_conf" else getattr(scan, name)
             if name == "attack_range":
                 value = value or self.account.character.attack_range  # PLAN 1.9: what the bot will use
+            elif name == "melee_max_sec":
+                value = value or self.account.character.melee_max_sec  # PLAN 1.10: what the bot will use
             self.vars[name].set(int(round(value * scale)))
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
             self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
+        if self._range_stop is None:  # PLAN 1.11: the reach in use, in steps AND px
+            self.range_label()
         self.load_model()
         self.combo_provider.current(PROVIDERS.index(scan.detect_provider))
 
@@ -243,6 +274,9 @@ class ScanPanel(Panel):
                 scan.conf_map = self.account.hunt_map  # PLAN 0.27: typed for this hunting ground only
             if name == "attack_range" and not scan.attack_range and value == self.account.character.attack_range:
                 continue  # PLAN 1.9: untouched class default stays 0, so a class change still follows it
+            if (name == "melee_max_sec" and not scan.melee_max_sec
+                    and value == self.account.character.melee_max_sec):
+                continue  # PLAN 1.10: same, for the fight cap
             setattr(scan, name, value)
         if self.combo_provider.current() >= 0:
             scan.detect_provider = PROVIDERS[self.combo_provider.current()]
@@ -253,6 +287,7 @@ class ScanPanel(Panel):
             self.labels[key].config(text=self.t(key))
         self.labels["scan_model"].config(text=self.t("scan_model"))
         self.labels["scan_provider"].config(text=self.t("scan_provider"))
+        self.btn_reset.config(text=self.t("scan_reset"))
         index = self.combo_provider.current()
         self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
         if index >= 0:

@@ -26,8 +26,14 @@ def all_classes():
     return CLASSES
 
 
+# PLAN 1.10: a display name in the config must not silently read as the default class (and so as its
+# attack_range / melee_max_sec). "Elf", "elf", "요정" and "Yêu Tinh" all mean ELF.
+_BY_NAME = {n.lower(): c for c in CLASSES
+            for n in (c.key, c.name_ko, c.name_en, c.name_vi)}
+
+
 def get(key):
-    return _BY_KEY.get(key, _BY_KEY[DEFAULT_CLASS_KEY])
+    return _BY_NAME.get(str(key or "").strip().lower(), _BY_KEY[DEFAULT_CLASS_KEY])
 
 
 def keys():

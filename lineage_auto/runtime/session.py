@@ -39,6 +39,8 @@ IDLE_PAUSE = 0.05
 HOME_IDLE_SEC = 3.0
 # PLAN 1.7: longest walk back to the hunt start after a fight (a fence may be in the way).
 GO_HOME_MAX_SEC = 20.0
+# PLAN 1.11: steps off the hunt start after a fight that are walked back before the next target.
+HOME_AFTER_FIGHT = 2
 # The tool window taking focus stops the bot (PLAN 0.7) once the game had this long to come forward.
 FOCUS_GRACE = 2.0
 # Observe mode reads the player's cursor this often, so corpse / HP 0 frames are caught between regular frames.
@@ -185,7 +187,7 @@ class AccountSession:
         # remember it; every slot press from here on switches page only when it has to.
         # PLAN 1.7: the hunt starts HERE - the range, the walk back and the pull all measure from this point.
         self.ctx.state["offset"] = (0.0, 0.0)
-        for key in ("pull", "go_home", "home"):
+        for key in ("pull", "go_home", "home", "ring_first"):
             self.ctx.state.pop(key, None)
         self.ctx.state["hotbar_page"] = None
         self.ctx.goto_page(self.account.home_page or "F1")
@@ -454,9 +456,15 @@ class AccountSession:
     def _walk_home(self, rect):
         """PLAN 1.7: walk back the way we came, one click at a time, after a fight out in the field.
 
-        With a hunt range ExplorationFeature.wander only ever walks home, so this just repeats it until the
-        offset says we are there (or GO_HOME_MAX_SEC passes - a fence may be in the way).
+        PLAN 1.11: ExplorationFeature.walk_home, which walks back even with a monster in reach (wander, used
+        here before, refuses to), until the offset says we are there (or GO_HOME_MAX_SEC passes - a fence may
+        be in the way).
         """
+        away = self.targeting.steps_from_home()
+        # PLAN 1.11: after a fight, anything past HOME_AFTER_FIGHT steps is walked back before the next target
+        # (20261128_142729: the elf drifted ~69 steps with 0 go_home in 905 s).
+        if away is not None and away > HOME_AFTER_FIGHT and self.account.scan.hunt_range:
+            self.ctx.state["go_home"] = True
         if not self.ctx.state.pop("go_home", False):
             return
         deadline = time.monotonic() + GO_HOME_MAX_SEC
@@ -465,7 +473,8 @@ class AccountSession:
             away = self.targeting.steps_from_home()
             if away is None or away <= exploration.GO_HOME_STOP:
                 break
-            self.exploration.wander(rect, self.ctx.char_pos(rect))
+            if not self.exploration.walk_home(rect, self.ctx.char_pos(rect)):
+                break
         pull = self.ctx.state.get("pull")
         if pull and pull.get("until") is None:
             pull["until"] = time.monotonic() + combat.PULL_FOLLOW_SEC
@@ -607,14 +616,20 @@ class AccountSession:
                             continue
                         falling = self._hp_falling()
                         target = self.targeting.rehover_last(rect)
+                        ring_hit = False
+                        if target is None and self.ctx.state.get("ring_first") and self.ring.ready():
+                            self.ctx.state.pop("ring_first", None)
+                            # PLAN 1.10: the last fight gave up on a monster next to us while HP was falling -
+                            # it is still there with no box. Ring BEFORE acquire, which would walk to a box
+                            # 149-296 px away (20261128_001015).
+                            target = self.ring.sweep(rect, char, "lost_near")
+                            ring_hit = target is not None
                         if target is None:
                             target = self.targeting.acquire(rect, char)
                             self.exploration.observe()
                         if target is None:
                             target = self._defend(rect, char, falling)
                             ring_hit = target is not None  # PLAN 0.46: a ring target has no box to follow
-                        else:
-                            ring_hit = False
                         if target is None and time.monotonic() - last_target > RING_IDLE_SEC:
                             target = self.ring.sweep(rect, char, "idle")
                             ring_hit = target is not None

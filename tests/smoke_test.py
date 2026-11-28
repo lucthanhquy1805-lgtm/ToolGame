@@ -393,8 +393,12 @@ cb.BOX_GONE_SEC=0
 # PLAN 0.27: box gone at the lock for BOX_GONE_SEC, chat not readable -> vanished = kill
 assert fight('ground',[None,None],dies=[(900,700)])[:2]==('vanished',1)
 o=fight('ground',[(700,400)]*20,kill_at=4); assert o[:2]==('chat_kill',1) and o[2]['end_chat_kill']==1  # kill line
-# PLAN 0.32: box gone while the cursor still reads "attack" -> leave at once (v14 stood there for the melee cap)
+# PLAN 0.32: box gone while the cursor still reads "attack" -> leave (v14 stood there for the melee cap)
+cb.NEAR_HOLD_SEC=0   # PLAN 1.10's near grace off: this asserts the 0.32 rule itself
 assert fight('attack',[None]*200)[:2]==('vanished',1)
+cb.NEAR_HOLD_SEC=4.0
+# PLAN 1.10's grace itself (within NEAR_KEEP, sword or HP falling, at most NEAR_HOLD_SEC):
+# the truth table is in tests/test_attack_range.py test_near_hold - a real clock here would cost 4 s a case.
 chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)
 assert fight('ground',[],tgo=chat_ok)[0]=='gone'          # auto-to-bag server, chat read, no kill line: walked off
 chat_ok=FakeTg([None,None],[]); chat_ok.kill_watch=types.SimpleNamespace(last_lines=5,readable=True)

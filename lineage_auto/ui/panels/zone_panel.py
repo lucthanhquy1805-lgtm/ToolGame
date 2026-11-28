@@ -38,8 +38,16 @@ class ZonePanel(Panel):
         zone = monsters.for_real_map(self.real_map.get())
         self.lbl_info.config(text="")
         if zone is not None and not zone.has_model:
-            self.tab.record.no_model.set(True)
-            self.lbl_info.config(text=self.t("rec_zone_collect"))
+            if hunt_maps.model_exists(self.account.hunt_map):
+                # PLAN 1.10: the zone's own model is missing but the hunting ground already chosen HAS one.
+                # Hunt with that and say which, instead of quietly switching to data collection (G1RN30H,
+                # 28/11: hunt_map blessed_orc, record.no_model saved true, "no model for this zone" on screen).
+                self.tab.record.no_model.set(False)
+                self.lbl_info.config(text=self.t("rec_zone_fallback",
+                                                 map=self.tab.translator.map_name(hunt_maps.get(self.account.hunt_map))))
+            else:
+                self.tab.record.no_model.set(True)
+                self.lbl_info.config(text=self.t("rec_zone_collect"))
         elif zone is not None:
             # a zone that got its model drops the "no model" box ticked back when it had none
             self.tab.record.no_model.set(False)
