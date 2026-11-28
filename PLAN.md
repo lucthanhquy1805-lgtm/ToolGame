@@ -2598,6 +2598,37 @@ Mô hình bãi săn nhóm (khách 28/11): tiên/pháp sư luôn đứng gốc, �
 
 CHỜ MÁY GAME: chuyến gom thật (số theo đếm đúng khi quái đuổi sau lưng, thời gian 1 chuyến, có kẹt rào không).
 
+### 3.0-L v2 rc11 — đọc trưởng nhóm đúng (vương miện ĐÈ lên marker), mất vương miện = đứng yên  [CODE XONG 29/11, v21rc11]
+Bằng chứng rc10 (có ảnh): m6TSP63T/r010326 (elf) + mG1RN30H/r010322 (Quân Chủ), ảnh ghép mm_elf_134.png /
+mm_grid_prince.png. Vương miện vẽ ĐÈ lên marker của trưởng nhóm; trưởng nhóm đứng cạnh thì vương miện nằm trên MŨI TÊN
+CỦA MÌNH; chấm cam đứng riêng là thành viên khác. rc10 lấy chấm đó: elf t=134.8 leader_seen 31.9 bước W -> đi 25 bước
+xa pháp sư. Ban ngày vương miện chỉ đọc được 1 lần / 249 s (bắt buộc chấm cam + S <= 185 hỏng). leader_self bật sai
+trên cả 2 máy (elf t=156, Quân Chủ t=51.8).
+A. `vision/party_minimap.read` viết lại: 3 chóp vàng nhạt (H 15-35, S 50-185, V >= 190) đúng mẫu trái (-6,+2) /
+   giữa / phải (+6,+2) px minimap ở 1280, có viền tối sát chóp giữa (3x3 S max >= 150, 7x7 V min <= 60: cỏ nhìn
+   xuyên minimap tạo đúng mẫu 3 điểm nhưng không có viền); chỉ 2/3 chóp thì phải có thêm quầng chấm cam bên dưới
+   hoặc "mái" tối ban ngày phía trên (mái rạ r010322 f_00168-176 có 2 điểm nhưng không có gì). Vị trí trưởng nhóm =
+   chóp giữa + (-1, +10) (vương miện trên mũi tên của mình: (113,90) vs tâm (112,100)).
+   RECALL (nhãn từng khung, kiểm bằng mắt): elf 64/64, Quân Chủ 144/144 (f_00145-179 trưởng nhóm ngoài minimap:
+   0 đọc nhầm), r232815 2/3 (f_00001 vương miện bị chấm che gần hết) = 210/211 = 99,5 %. 0 đọc nhầm trên 1466 khung
+   minimap đi săn một mình. Elf t=132-142 giờ đọc 0,2 bước (trên mũi tên mình); r232815 f_00027 25,4 bước W.
+   `party_minimap.self_is_leader`: bảng party dưới minimap, dòng 1 luôn là mình (dòng có thanh MP), dòng cách 49 px,
+   vương miện nhỏ ~15x14 px ở x≈22 cao hơn icon dòng 10 px. 243/243 khung thật: "không phải mình".
+   `LeaderHome`: BỎ suy luận leader_self từ minimap; chỉ bảng party (2 lần đọc liên tiếp) -> start, event
+   `leader_self {source: party_panel}`. Không chắc -> giữ leader mode.
+   Mất vương miện > `LOST_SEC` 3 s -> `state["leader_lost"]`: wander không về gốc, `_walk_home` dừng, lure không đi
+   kéo (đánh quái tới gần tại chỗ). Trong 3 s đầu vẫn đi về hướng thấy cuối (offset từ lần đọc cuối).
+B. Elf: tới nơi <= 2,5 bước (2 lần đọc, lần đọc đầu đã tới thì không click nữa), đi về khi > 4 (trễ, `leader.home_stop`
+   / `home_leave`, cả HOME_AFTER_FIGHT); lớp đánh xa `_walk_home` tối đa `HOME_MAX_CLICKS` 5 rồi quay lại bắn
+   (r010326 t=25.8-45.3: 21 click ở 2,1 bước). `engage_ranged` rê `HOVER_SPOTS` (giữa, thân, đầu, hai bên; bỏ điểm
+   trong SELF_R quanh nhân vật), bắt đầu từ điểm có kiếm lần trước, click đúng điểm có kiếm; quái <= MELEE_DIST không
+   thấy kiếm vẫn click (không thể đi bộ).
+C. Kị sĩ / Quân Chủ: chuyến mới chỉ khi 0 quái trong guard_steps quanh GỐC (= trưởng nhóm) suốt lure_idle_sec
+   (`LureFeature.home_mobs`, IDLE_MOBS 0); leader_range khi > lure_steps từ vương miện / mất vương miện.
+Test: `tests/test_leader.py` (recall trên mọi khung, vị trí, cỏ, bảng party + ảnh dời vương miện lên dòng 1, lost,
+trễ + giới hạn 5 click, các điểm rê). CHỜ MÁY GAME: bảng party bị kéo chỗ khác -> không biết mình là trưởng nhóm
+(giữ leader mode); ban đêm thật với vương miện trên mũi tên mình.
+
 ### 3.0-L v2 — GỐC = TRƯỞNG NHÓM trên minimap + elf chỉ click khi có kiếm + tự học tầm bắn  [CODE XONG 28/11, v21rc10]
 Bằng chứng: records_game/mG1RN30H/r232815 (hiệp sĩ: ngay sau lure_home vương miện còn cách ~22 bước; walk_home click
 mỗi 0,18 s, mỗi click trừ 2 bước -> home_dist 31,5 -> 0 trong 3 s); m6TSP63T/r232626 (elf Lv27 rc9: walk_home

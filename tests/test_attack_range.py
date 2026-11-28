@@ -604,10 +604,17 @@ def test_lure_other_endings():
           "past lure_max_sec: time")
     # at the start: a crowd there keeps the knight home (it guards), and the range is guard_steps
     ctx, lure, clock = _lure_ctx(following=[3, 3])
+    ctx.state["char"], ctx.state["mobs_seen"] = CHAR, [(CHAR[0] + 40, CHAR[1])]
     lure.observe()
     clock[0] += 9
     lure.observe()
-    check(not lure.tick(ctx.rect(), CHAR, 100) and not lure.active, "3 monsters around the start: no new trip")
+    check(not lure.tick(ctx.rect(), CHAR, 100) and not lure.active,
+          "rc11: ONE monster within guard_steps of home: no new trip")
+    ctx.state["mobs_seen"] = [(CHAR[0] + 400, CHAR[1])]  # far outside guard_steps 4 (~92 px)
+    lure.observe()
+    clock[0] += 9
+    check(lure.tick(ctx.rect(), CHAR, 100) and lure.active, "home empty for lure_idle_sec: a trip starts")
+    lure.active = False
     check(lure.range_steps() == 4, "at the start the melee range is guard_steps 4")
     _ctx2, lure2, _c = _lure_ctx("elf")
     check(not lure2.enabled() and lure2.range_steps() is None, "an elf never lures")

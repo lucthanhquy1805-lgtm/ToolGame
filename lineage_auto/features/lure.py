@@ -22,7 +22,7 @@ from .base import Feature
 from .exploration import GO_HOME_STOP, HOME_CLICK_SEC, NAMES, WALK_PX
 from .leader import EDGE_MM, home_stop
 
-IDLE_MOBS = 2
+IDLE_MOBS = 0  # rc11 (user): a new trip only once NO monster stood within guard_steps of home (the leader)
 # 3.0-L v2: one walk click every WALK_WAIT s at least - clicks every 0.18 s each counted 2 steps that were never
 # walked (r232815: home_dist 31.5 -> 0 in 3 s, the leader still ~22 steps away).
 WALK_WAIT = HOME_CLICK_SEC
@@ -104,10 +104,20 @@ class LureFeature(Feature):
             return True
         return False
 
+    def home_mobs(self):
+        """Boxes of the last detection within guard_steps of home (the leader when seen): home is at
+        character - offset on screen."""
+        char = self.ctx.state.get("char")
+        if char is None:
+            return 0
+        ox, oy = self.ctx.offset()
+        hx, hy = char[0] - ox, char[1] - oy
+        r = self.account.scan.guard_steps * self.ctx.step_px()
+        return sum(1 for x, y in self.ctx.state.get("mobs_seen") or () if math.hypot(x - hx, y - hy) <= r)
+
     def observe(self):
-        """Every beat: remember when the start was last crowded (the next trip waits for it to be quiet)."""
-        counts = self.ctx.state.get("follow_counts") or ()
-        if not self.active and (self._busy_t is None or (counts and counts[-1] > IDLE_MOBS)):
+        """Every beat: remember when home was last busy (the next trip waits until it was empty lure_idle_sec)."""
+        if not self.active and (self._busy_t is None or self.home_mobs() > IDLE_MOBS):
             self._busy_t = self.clock()
 
     def tick(self, rect, char, hp):
@@ -121,6 +131,8 @@ class LureFeature(Feature):
                 return True
             self._walk_out(rect, char)
             return True
+        if self.ctx.state.get("leader_lost"):
+            return False  # rc11: no crown for > 3 s - no trip; stand and fight what comes
         if self.steps() > home_stop(self.ctx, GO_HOME_STOP):
             return False  # not at the start yet: wander walks home
         now = self.clock()
@@ -144,7 +156,7 @@ class LureFeature(Feature):
 
     def home(self):
         """Session: the walk home is over."""
-        if self.returning is not None and self.steps() <= GO_HOME_STOP + 1:
+        if self.returning is not None and self.steps() <= home_stop(self.ctx, GO_HOME_STOP + 1):
             vec = self.ctx.state.get("leader")
             self._event("lure_home", why=self.returning, mobs_following=self.following(),
                         leader_steps=round(self.steps(), 1) if vec else None)  # offset = the leader

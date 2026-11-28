@@ -178,7 +178,7 @@ class TargetingFeature(Feature):
         self.last_frame = None
         self.minimap = None  # vision.minimap.Minimap or None (minimap turned off in game)
         self.odo = minimap.Odometry()
-        self.leader = LeaderHome(ctx)  # 3.0-L v2: the hunt start = the party leader's crown
+        self.leader = LeaderHome(ctx, clock=self.clock)  # 3.0-L v2: the hunt start = the party leader's crown
         self.char = None
         self.kill_watch = None  # vision.name_reader.KillWatcher, set by the session (zones with chat pictures)
         self.name_reader = None  # vision.name_reader.NameReader (names over monsters), set by the session
@@ -250,7 +250,7 @@ class TargetingFeature(Feature):
         self.odo.update(self.minimap)
         self.ctx.state["minimap"] = self.minimap is not None  # PLAN 0.32: the UI warns while it is off
         if frame is not None:
-            self.leader.update(frame if self.minimap is not None else None, frame.shape[1])
+            self.leader.update(frame, frame.shape[1], minimap_on=self.minimap is not None)
         watch = self.kill_watch
         if watch is not None and frame is not None:
             names = watch.update(frame)

@@ -15,6 +15,7 @@ from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
 from ..features.ring_probe import RingProbeFeature
 from ..features.loot import LootFeature
+from ..features.leader import ARRIVE_STEPS, home_leave
 from ..features.lure import LureFeature
 from ..features.survival import HealthFeature
 from ..features.targeting import TargetingFeature
@@ -42,6 +43,7 @@ HOME_IDLE_SEC = 3.0
 GO_HOME_MAX_SEC = 20.0
 # PLAN 1.11: steps off the hunt start after a fight that are walked back before the next target.
 HOME_AFTER_FIGHT = 2
+HOME_MAX_CLICKS = 5  # rc11: a ranged class's walk back to the leader, then it shoots again
 # The tool window taking focus stops the bot (PLAN 0.7) once the game had this long to come forward.
 FOCUS_GRACE = 2.0
 # Observe mode reads the player's cursor this often, so corpse / HP 0 frames are caught between regular frames.
@@ -468,14 +470,18 @@ class AccountSession:
         away = self.targeting.steps_from_home()
         # PLAN 1.11: after a fight, anything past HOME_AFTER_FIGHT steps is walked back before the next target
         # (20261128_142729: the elf drifted ~69 steps with 0 go_home in 905 s).
-        if (away is not None and away > HOME_AFTER_FIGHT and self.account.scan.hunt_range
+        if (away is not None and away > home_leave(self.ctx, HOME_AFTER_FIGHT) and self.account.scan.hunt_range
                 and not self.lure.active):  # PLAN 0.50: a lure trip walks home only when the lure says so
             self.ctx.state["go_home"] = True
         if not self.ctx.state.pop("go_home", False):
             return
         deadline = time.monotonic() + GO_HOME_MAX_SEC
         leader = getattr(self.targeting, "leader", None)
-        while self.ctx.running and time.monotonic() < deadline:
+        # rc11: a ranged class gives the walk up after HOME_MAX_CLICKS and shoots again (r010326: 21 clicks, 20 s)
+        ranged = getattr(self.targeting, "ranged", None)
+        cap = HOME_MAX_CLICKS if callable(ranged) and ranged() and leader is not None and leader.active() else None
+        clicks = 0
+        while self.ctx.running and time.monotonic() < deadline and (cap is None or clicks < cap):
             poll_escape(self.ctx)
             seen = leader is not None and leader.active()
             if seen:  # 3.0-L v2: walk to the crown, re-read after every click (it sets the offset)
@@ -483,14 +489,18 @@ class AccountSession:
                     leader.update(self.ctx.grabber.grab_bgr(rect), rect.w)
                 except Exception:
                     seen = False
-                if leader.arrived():
-                    break
+                if leader.arrived() or leader.lost():
+                    break  # there / crown gone > LOST_SEC: stand, never walk by counted clicks
                 seen = seen and leader.vec is not None
+                if seen and leader.steps() <= ARRIVE_STEPS:
+                    self.ctx.sleep(exploration.HOME_CLICK_SEC)  # there once: no click, read again
+                    continue
             away = self.targeting.steps_from_home()
             if away is None or (away <= exploration.GO_HOME_STOP and not seen):
                 break
             if not self.exploration.walk_home(rect, self.ctx.char_pos(rect)):
                 break
+            clicks += 1
             self.ctx.sleep(exploration.HOME_CLICK_SEC)  # no stacked clicks: each one counted 2 steps never walked
         self.lure.home()
         pull = self.ctx.state.get("pull")

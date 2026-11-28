@@ -613,7 +613,9 @@ def check_in_place_101941(rec):
         # PLAN 1.11: the hand attack of a standing class IS a click on the box, inside the hand reach
         # (MELEE_DIST for this wizard); every other click must be a spell's aimed click, ellipse up.
         local = (x - r.rect.x, y - r.rect.y)
-        if math.hypot(local[0] - CHAR[0], local[1] - CHAR[1]) <= r.tg.MELEE_DIST:
+        # rc11: the hand click goes on the hover spot that showed the sword (combat.HOVER_SPOTS: up to 34 px up the
+        # box), so a click with the sword under it is a hand attack too - it hits, it never walks.
+        if math.hypot(local[0] - CHAR[0], local[1] - CHAR[1]) <= r.tg.MELEE_DIST or cursor() == "attack":
             hand.append(local)
         elif cursor() != "cast":
             bad.append(("click without the ellipse", (x, y), round(r.clock.now, 1)))

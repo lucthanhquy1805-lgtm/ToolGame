@@ -130,6 +130,10 @@ LEARN_SHARE = 0.9
 # 3.0-L v2: a ranged hand attack clicks only on the attack cursor (a click on the ground walks - r232626:
 # cursor_last None in all 38 fights); this many hovers in a row without it = give the lock up and rescan.
 HAND_NO_SWORD = 3
+# rc11: where on the box to look for the sword (offsets from the box centre, px at 1280): centre, up the body, the
+# head, both sides. r010326: 3 fights of 19-22 s on monsters 33-103 px away with no sword on the centre alone (it
+# overlaps our own character). Spots within SELF_BOX_R of the character are skipped.
+HOVER_SPOTS = ((0, 0), (0, -18), (0, -34), (-14, -10), (14, -10))
 
 
 class CombatFeature(Feature):
@@ -648,7 +652,7 @@ class CombatFeature(Feature):
         last_skill = 0.0
         ring_t, ring_strikes = started, 0
         watch = None  # PLAN 1.9/1.11: (time, frame) of the last drift check while hand-attacking
-        last_click, drifts, no_sword = 0.0, 0, 0
+        last_click, drifts, no_sword, spot = 0.0, 0, 0, 0
         hand_said = False
         self.input.release_left()
         melee_max = self.account.melee_cap()
@@ -696,24 +700,24 @@ class CombatFeature(Feature):
             if in_reach:
                 # PLAN 1.11: ONE click per HAND_CLICK_SEC on the box centre, never a held button: a hold on a
                 # monster that walks away drags the character after it. Only while the box is in the hand reach.
-                sx, sy = rect.to_screen(*anchor)
                 if now - last_click >= HAND_CLICK_SEC:
                     last_click = now
-                    self.input.move(sx, sy)
-                    time.sleep(self.account.scan.hover_settle)
-                    cursor = CursorProbe.current_hash()
-                    classify = getattr(self.ctx.cursors, "classify", None)
-                    self._cursor_last = (classify(cursor) if callable(classify) else None) or "unknown"
-                    if self.ctx.cursors.is_corpse(cursor):
+                    sword, spot = self._hover_box(rect, anchor, char, spot)
+                    if sword == "corpse":
                         return self._finish(target, "corpse_cursor", anchor)
-                    if not self.ctx.cursors.is_attack(cursor):
+                    point = (anchor[0] + HOVER_SPOTS[spot][0], anchor[1] + HOVER_SPOTS[spot][1])
+                    if not sword:
                         no_sword += 1
                         self._skipped["no_sword"] = self._skipped.get("no_sword", 0) + 1
                         if no_sword >= HAND_NO_SWORD:
                             return self._finish(target, "lost", anchor,
                                                 f"{no_sword} hovers without the attack cursor, no click")
-                        continue
-                    no_sword = 0
+                        if self._dist > MELEE_DIST:
+                            continue  # a click on the ground walks: never
+                        point = anchor  # rc11: next to us a click cannot walk anywhere - hit it
+                    else:
+                        no_sword = 0
+                    sx, sy = rect.to_screen(*point)
                     if not hand_said:
                         hand_said = True
                         self._event("melee_attack", dist=round(self._dist), target=list(anchor),
@@ -760,6 +764,27 @@ class CombatFeature(Feature):
             watch, drifts = None, 0  # the cast moved the mouse: a fresh drift baseline on the next beat
             self._note_lock(anchor)
         return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
+
+    def _hover_box(self, rect, anchor, char, first):
+        """rc11: hover the box's spots, starting with the one that showed the sword last, until the cursor is the
+        sword (or a corpse). -> (True / False / "corpse", spot index)."""
+        classify = getattr(self.ctx.cursors, "classify", None)
+        order = [(first + i) % len(HOVER_SPOTS) for i in range(len(HOVER_SPOTS))]
+        tried = False
+        for i in order:
+            x, y = anchor[0] + HOVER_SPOTS[i][0], anchor[1] + HOVER_SPOTS[i][1]
+            if math.hypot(x - char[0], y - char[1]) <= SELF_BOX_R and (tried or i != order[-1]):
+                continue  # on our own character: its cursor is never the monster's
+            tried = True
+            self.input.move(*rect.to_screen(x, y))
+            time.sleep(self.account.scan.hover_settle)
+            cursor = CursorProbe.current_hash()
+            self._cursor_last = (classify(cursor) if callable(classify) else None) or "unknown"
+            if self.ctx.cursors.is_corpse(cursor):
+                return "corpse", i
+            if self.ctx.cursors.is_attack(cursor):
+                return True, i
+        return False, first
 
     def _learn_reach(self, dist):
         """3.0-L v2: the character walked to a monster dist px away -> its hand reach is under that, for good

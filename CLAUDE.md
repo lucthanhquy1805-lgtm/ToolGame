@@ -58,10 +58,13 @@ The dev machine has no game; the bot will run on a separate game PC.
   walks home only past `exploration.IN_PLACE_DRIFT` steps, stands still without the minimap
   (`check_in_place_101941`).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
-- Party leader home (3.0-L v2): `python tests/test_leader.py` — `vision/party_minimap.read` (crown + orange dot on the
-  minimap, records_game/mG1RN30H/r232815), `features/leader.LeaderHome` sets the walk offset from the crown
-  (`scan.home_mode` leader/start), lure `leader_range`, 0.7 s per walk click, elf hand clicks only on the attack
-  cursor, `scan.attack_range_px_learned` (0.9 x the range_walk distance) caps `in_hand_reach`.
+- Party leader home (3.0-L v2, rc11): `python tests/test_leader.py` — `vision/party_minimap.read` (the crown's 3 points
+  + dark outline, drawn ON the leader's marker - on OUR arrow when the leader stands by; recall printed over every
+  frame of m6TSP63T/r010326 + mG1RN30H/r010322 + r232815), `self_is_leader` (party panel crown on row 1 = us),
+  `features/leader.LeaderHome` sets the walk offset from the crown (`scan.home_mode` leader/start), crown unseen
+  > 3 s = `state["leader_lost"]` (stand), arrive 2.5 / leave 4 steps, ranged `_walk_home` <= 5 clicks, lure
+  `leader_range` + a trip only once 0 boxes stood within guard_steps of the leader, 0.7 s per walk click, elf hand
+  clicks only on the attack cursor (`combat.HOVER_SPOTS`), `scan.attack_range_px_learned` caps `in_hand_reach`.
 - Potions (PLAN 1.4b): `python tests/test_potions.py` (records_game/20261127_003555_hunt). Waits up to
   `PotionSetting.COOLDOWN_MAX` 3600 s (UI: seconds or minutes); `vision/hotbar.py` reads the open page and an
   empty ITEM slot (dark, p99 < `EMPTY_V`); `HealthFeature._out_of_potions` stops pressing a slot that reads empty

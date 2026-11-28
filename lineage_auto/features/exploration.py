@@ -27,7 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
-from .leader import home_stop
+from .leader import home_leave, home_stop
 from .targeting import MELEE_DIST
 
 CLICK_SETTLE = 0.05
@@ -276,13 +276,13 @@ class ExplorationFeature(Feature):
             # home only starts past GO_HOME_START steps (odometry / click noise alone read 3-7 steps).
             # A monster in reach comes first - but a melee class walking back from a pull must keep going,
             # or the monster it just pulled would hold it in the field forever (PLAN 1.7).
-            if away is None or (self.targeting is not None and self.targeting.ranged()
-                                and self._monster_in_reach()):
-                self._homing = False
+            if away is None or self.ctx.state.get("leader_lost") or (
+                    self.targeting is not None and self.targeting.ranged() and self._monster_in_reach()):
+                self._homing = False  # rc11: the crown gone > 3 s = stand, never walk by counted clicks
             elif self._homing:
                 self._homing = away > home_stop(self.ctx, GO_HOME_STOP)
             else:
-                self._homing = away > GO_HOME_START
+                self._homing = away > home_leave(self.ctx, GO_HOME_START)
             if not self._homing:
                 self.ctx.sleep(CLICK_SETTLE)
                 return
