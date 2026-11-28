@@ -275,6 +275,7 @@ class ScanSettings:
     # range" button. Spells only with MP >= spell_min_mp_pct, in danger / a crowd, or on a monster outside
     # the hand reach (combat._spell_why).
     attack_range: int = 0
+    attack_range_px: int = 0  # PLAN 1.11: measured by the Hunt tab button, px
     spell_min_mp_pct: int = 70
 
     @staticmethod
@@ -321,6 +322,9 @@ class ScanSettings:
             pull_mode=bool(data.get("pull_mode", True)),
             step_mm=_step_mm(data.get("step_mm", 0.0)),
             attack_range=min(ATTACK_RANGE_MAX, max(0, int(data.get("attack_range", 0)))),
+            # PLAN 1.11: what the "measure the attack range" button really measured, in screen px (0 = never
+            # measured). Only shown / recorded - the limit the bot uses is attack_range in steps.
+            attack_range_px=max(0, int(data.get("attack_range_px", 0))),
             spell_min_mp_pct=min(100, max(0, int(data.get("spell_min_mp_pct", 70)))),
             detect_provider=(data.get("detect_provider") if data.get("detect_provider") in PROVIDERS else "auto"),
             **cls._detect_v15(data),

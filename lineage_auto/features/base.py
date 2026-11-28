@@ -37,7 +37,7 @@ class Feature:
 
         A self-cast press is meant to need no click, so an ellipse right after one is cancelled at once with a
         right click (ESC is the stop key, a left click would walk the character). True = it was cancelled."""
-        classify = getattr(self.ctx.cursors, "classify", None)
+        classify = getattr(getattr(self.ctx, "cursors", None), "classify", None)
         if not callable(classify) or classify(CursorProbe.current_hash()) != "cast":
             return False
         self.input.click_right()

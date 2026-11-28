@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from ... import hunt_maps, monsters
+from ...vision import drift
 from .base import Panel
 from .control_panel import STATE_LABELS
 
@@ -100,8 +101,10 @@ class StatusPanel(Panel):
         device = info.get("device") or ""
         where = "GPU" if "dml" in device.lower() or "cuda" in device.lower() else "CPU" if device else "-"
         ms = info.get("ms")
+        steps = self.account.attack_steps()
+        # PLAN 1.11: steps alone told the user nothing - show what they are worth on screen (elf 17 = 340 px)
         line = self.t("status_detect", where=where, ms="-" if ms is None else int(ms),
-                      steps=self.account.attack_steps())
+                      steps=steps, px=f"{round(drift.reach_px(steps, info.get('width')))} px")
         # PLAN 1.10 B8: hunt range 0 has no start point, so nothing ever walks back - say so, it is a choice.
         return line + "  ·  " + self.t("status_free_hunt" if not self.account.scan.hunt_range
                                        else "status_home_range", steps=self.account.scan.hunt_range)

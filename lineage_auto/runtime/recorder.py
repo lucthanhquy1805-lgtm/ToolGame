@@ -24,7 +24,7 @@ from dataclasses import asdict
 import cv2
 
 from .. import app_paths, hunt_maps, monsters
-from ..vision import minimap, yolox_mobs
+from ..vision import drift, minimap, yolox_mobs
 from ..vision.name_reader import NIGHT_BRIGHTNESS
 from ..winapi.cursor import CursorProbe, image_print, save_png
 
@@ -139,8 +139,10 @@ class Recorder:
             # default, which is what 20261128_001015's "attack_range: 0" hid).
             "attack_range": {
                 "steps": account.attack_steps(),
-                "px": (round(account.attack_steps() * minimap.step_px(rect.w, account.scan.step_mm))
-                       if rect is not None else None),
+                # PLAN 1.11: the reach on SCREEN (steps * 20 px, vision/drift.reach_px - the old figure here
+                # read the MINIMAP step), plus whatever the "measure the attack range" button last measured.
+                "px": round(drift.reach_px(account.attack_steps(), rect.w if rect is not None else None)),
+                "measured_px": account.scan.attack_range_px or None,
                 "from": "config" if account.scan.attack_range else f"class {account.character.key}",
             },
             "melee_max_sec": account.melee_cap(),  # PLAN 1.10: 0 in scan = the class default

@@ -584,8 +584,8 @@ def check_in_place_101941(rec):
     """PLAN 1.7: a wizard with a hunt range stands on the spot (1.2c tied this to hunt_range == 1). The recorded attack hovers become
     fights from where the character stands: no click except a spell's aimed click (the ellipse is up), spells land
     on monsters well beyond melee reach, and the wander never clicks on an empty screen. A melee class keeps only
-    what stands next to it. PLAN 1.9: a hold (hand attack) only on a monster inside the hand reach (MELEE_DIST for
-    a wizard: attack_range 1)."""
+    what stands next to it. PLAN 1.9/1.11: the hand attack is a CLICK on a monster inside the hand
+    reach (MELEE_DIST for a wizard: attack_range 1), and the button is never held."""
     import math
 
     from lineage_auto.characters.base import CombatStyle
@@ -606,18 +606,24 @@ def check_in_place_101941(rec):
     inp, cursor = r.ctx.input, r.cb.CursorProbe.current_hash
     click = inp.click_at
 
+    hand = []
+
     def checked_click(x, y):
-        if cursor() != "cast":
+        # PLAN 1.11: the hand attack of a standing class IS a click on the box, inside the hand reach
+        # (MELEE_DIST for this wizard); every other click must be a spell's aimed click, ellipse up.
+        local = (x - r.rect.x, y - r.rect.y)
+        if math.hypot(local[0] - CHAR[0], local[1] - CHAR[1]) <= r.tg.MELEE_DIST:
+            hand.append(local)
+        elif cursor() != "cast":
             bad.append(("click without the ellipse", (x, y), round(r.clock.now, 1)))
         click(x, y)
 
     holds = []
 
     def checked_hold():
-        xy = r.mouse["xy"]
-        holds.append(xy)
-        if xy is None or math.hypot(xy[0] - CHAR[0], xy[1] - CHAR[1]) > r.tg.MELEE_DIST:
-            bad.append(("hold out of the hand reach", xy, round(r.clock.now, 1)))
+        # PLAN 1.11: never - a held button drags the character after a monster that walks away.
+        holds.append(r.mouse["xy"])
+        bad.append(("held the button", r.mouse["xy"], round(r.clock.now, 1)))
 
     inp.click_at = checked_click
     inp.hold_left = checked_hold
@@ -625,8 +631,8 @@ def check_in_place_101941(rec):
     casts = [e for e in events if e["kind"] == "spell_cast" and e["ok"]]
     far = [e for e in casts if math.hypot(e["target"][0] - CHAR[0], e["target"][1] - CHAR[1]) > 2 * r.tg.MELEE_DIST]
     print(f"   stay put (wizard): {len(windows)} fights, {len(casts)} spells ({len(far)} beyond "
-          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks, {len(holds)} hand attacks (holds) in reach, "
-          f"{len(bad)} holds out of reach / clicks without the ellipse")
+          f"{2 * r.tg.MELEE_DIST} px), {len(r.clicks)} clicks ({len(hand)} hand attacks in reach), "
+          f"{len(holds)} holds, {len(bad)} bad (a hold, or a click with no ellipse out of reach)")
     assert not bad, bad[:5]
     assert len(far) >= 5, (len(far), len(casts))
     # Empty screens from the start spot: the wander stands still (a fresh replay: the odometry starts at home).
@@ -696,7 +702,8 @@ def check_001015(rec):
     r.ctx.character = elf
     r.ctx.account.scan.hunt_range = 10  # meta.json of this recording
     r.ctx.state["offset"] = (0.0, 0.0)
-    assert r.ctx.account.melee_cap() == 25.0 and r.ctx.account.attack_steps() == 15,         (r.ctx.account.melee_cap(), r.ctx.account.attack_steps())
+    # PLAN 1.11: the elf class default is 17 steps = 340 px (drift.reach_px), measured on 20261128_142729
+    assert r.ctx.account.melee_cap() == 25.0 and r.ctx.account.attack_steps() == 17,         (r.ctx.account.melee_cap(), r.ctx.account.attack_steps())
 
     # the recorded HUD HP is the hp_falling signal (the bot's own HealthFeature cannot run on saved frames)
     hp = [(f["t"], f["hp"][0]) for f in r.frames if f.get("hp") and f["hp"][0] is not None]

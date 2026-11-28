@@ -8,6 +8,7 @@ from tkinter import ttk
 from ... import hunt_maps
 from ...config.models import ATTACK_RANGE_MAX, HUNT_RANGES, INPUT_SIZES, MAX_PROBE_POINTS, PROVIDERS
 from ...features import range_probe
+from ...vision import drift
 from ...vision import minimap
 from .base import Panel
 
@@ -204,23 +205,34 @@ class ScanPanel(Panel):
         ctx = self.tab.session.ctx
         try:
             ctx.window.activate()
-            steps, why, rows = range_probe.measure(ctx, stop)
+            steps, px, why, rows = range_probe.measure(ctx, stop)
         except Exception as exc:
-            steps, why, rows = None, f"error {exc}", []
+            steps, px, why, rows = None, None, f"error {exc}", []
         finally:
             ctx.input.release_all()
-        print(f"[RANGE] result {steps} ({why}) {rows}")
-        self.frame.after(0, self._range_done, steps, why)
+        print(f"[RANGE] result {steps} steps / {px} px ({why}) {rows}")
+        self.frame.after(0, self._range_done, steps, px, why)
 
-    def _range_done(self, steps, why):
+    def _range_done(self, steps, px, why):
         self._range_stop = None
         if steps is None:
             self.lbl_range.config(text=self.t("range_fail", why=why))
             return
         self.account.scan.attack_range = steps
+        self.account.scan.attack_range_px = int(px or 0)  # PLAN 1.11: keep what was really measured
         self.vars["attack_range"].set(steps)
         self.tab.request_save()
-        self.lbl_range.config(text=self.t("range_value", steps=steps))
+        self.range_label()
+
+    def range_label(self):
+        """PLAN 1.11 (user 28/11): the step count means nothing without px - one step is 20 px on screen, so
+        the elf's 17 steps are 340 px. Shows what the measure button last measured too, when there is one."""
+        steps = self.account.attack_steps()
+        width = self.tab.session.ctx.rect().w if self.tab.session.window.attached else None
+        text = self.t("range_value", steps=steps, px=f"{round(drift.reach_px(steps, width))} px")
+        if self.account.scan.attack_range_px:
+            text += "  ·  " + self.t("range_measured", px=self.account.scan.attack_range_px)
+        self.lbl_range.config(text=text)
 
     def toggle_advanced(self):
         self._adv_open = not self._adv_open
@@ -241,6 +253,8 @@ class ScanPanel(Panel):
             self.vars[name].set(int(round(value * scale)))
         if self._measure is None:  # PLAN 1.2: the step in use (measured or the default)
             self.lbl_step.config(text=self.t("step_value", px=f"{scan.step_mm or minimap.STEP_MM:.1f}"))
+        if self._range_stop is None:  # PLAN 1.11: the reach in use, in steps AND px
+            self.range_label()
         self.load_model()
         self.combo_provider.current(PROVIDERS.index(scan.detect_provider))
 

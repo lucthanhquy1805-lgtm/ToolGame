@@ -17,6 +17,8 @@ ELF = CharacterClass(
     name_en="Elf",
     name_vi="Yêu Tinh",
     style=CombatStyle.HYBRID,
-    attack_range=15,  # PLAN 1.9: bow, ~80 % of the screen (10-25 steps)
+    # PLAN 1.11: 17 steps = 340 px on screen (vision/drift.reach_px), measured on 20261128_142729_hunt: the
+    # bow killed while standing still out to 322 px and read "out of range" at 343-364 px.
+    attack_range=17,
     melee_max_sec=25.0,  # PLAN 1.10: a bow kill took 8-9.5 s on 20261128_001015; 10 s cut 18 of 59 fights
 )

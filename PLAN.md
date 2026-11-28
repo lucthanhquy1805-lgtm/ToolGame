@@ -2495,3 +2495,57 @@ Replay 480–550 s của 001015 cần `frames.jsonl` + ảnh f_00404–f_00468 (
    gần hiện ra thì **đánh 1 phát cho nó theo luôn rồi tiếp tục về gốc** (`pulled`, `_start_follow_watch` đặt
    lên con gần đó), event `pull_interrupt {why, dist, lock_dist, hits}`. Chỉ khi **HP đang tụt** mới rơi về
    nhánh switch cũ và đánh tại chỗ.
+
+## PLAN 1.11 — 20261128_142729_hunt (elf, rc8, 905 s, 22 kill): tiên bị kéo đi, không về gốc
+
+16. **Tầm cung elf: ĐO THẬT từ bản ghi** (cặp `melee_attack` -> `fight_end` của 142729, 118 trận tay):
+   - **bắn chết khi đứng yên**: 36-307 px, xa nhất 367 px (bốn con cuối: 281 / 284 / 296 / 307);
+   - **"out of range"** (`lost`): 343 px; khách báo 364 px;
+   - **nhân vật bị đi** (`range_walk`): 402 / 428 / 445 px (22/33 `range_walk` còn lại là quái ≤ 100 px — bắt
+     nhầm, xem mục 18).
+   -> Tầm hiệu lực là **hình tròn ~340 px**, không phải hình thoi của phép đếm ô. Nay
+   `drift.reach_px(bước, w)` = **bước × 20 px** và `in_hand_reach` so **khoảng cách thẳng** với nó (không bao
+   giờ nhỏ hơn `MELEE_DIST` 70 px, để lớp cận chiến 2 bước vẫn đánh con sát bên). Mặc định class **elf = 17
+   bước = 340 px** (trước 15). Với bản ghi: 13/118 trận bị từ chối (đều > 340 px), giữ 19/20 kill (mất con
+   367 px), 3 trận đi thật 402-445 px bị chặn. Chỉnh được 1-25 bước trong UI (25 = 500 px).
+17b. **"Đánh quái ngoài tầm" (phân tích cũ, giữ lại để không lặp)**: `drift.screen_steps` đếm **ô (cell)**, 1 ô = 40 x 20 px,
+   nên 15 bước ≈ **600 px ngang / 300 px dọc** (khách: cung bắn ~80% màn hình). 118/118 `melee_attack` của
+   bản ghi, kể cả 19 con ở 305-592 px, **đều nằm trong tầm** — mặc định tầm elf và event `steps: 15` đều
+   đúng. Mình có thử giới hạn px tròn (310 px) rồi **bỏ** theo đúng ý khách: nó sẽ làm elf bỏ quái thật sự
+   trong tầm. Cái giữ nhân vật đứng yên là mục 17 (click thay vì giữ chuột) + mục 18 (`range_walk`).
+   Để đo được về sau, UI và meta nay ghi rõ số px hiệu lực (mục 22).
+17. **Lớp đánh xa không giữ chuột nữa**: `engage_ranged` nay **click đơn vào tâm box mỗi
+   `HAND_CLICK_SEC` 0,6 s** (trước đây `_hold_and_drag` + `input.move` bám theo box → giữ chuột trên quái
+   đang chạy làm nhân vật tự đi theo). Box ra khỏi tầm tay = **ngừng click, không đuổi** (đã có nhánh
+   `elif watch is not None`), không bao giờ giữ nút.
+18. **`range_walk` bắt nhầm**: 33 trận, 30 trận ở 38-108 px (quái sát bên — ảnh rung/quái di chuyển, không
+   phải mình đi). Nay chỉ kết luận "đã đi" khi `dist > NEAR_KEEP` (100 px) **và** trôi > `RANGE_WALK_STEPS`
+   trong `RANGE_WALK_READS` = **2 lần đo liên tiếp** (event thêm `reads`).
+19. **Không về gốc (0 `go_home` dù trôi ~69 bước)** — hai nguyên nhân:
+   a. Lớp đánh xa không cộng dồn offset bao giờ: `engage_ranged` không gọi `note_walk`/`note_arrival`, nên
+      các bước trôi của `range_walk` mất sạch, `steps_from_home()` ≈ 0. Nay `range_walk` thật gọi
+      `ctx.note_walk(char, anchor, rect, steps=<trôi đo được>)` (tham số `steps` mới của `WalkOffset.note_walk`)
+      và đặt `go_home` ngay.
+   b. `wander` **từ chối** về gốc khi còn quái trong tầm (đúng khi đang săn, nhưng sau trận thì sai) và
+      `session._walk_home` lại gọi `wander`. Nay có `ExplorationFeature.walk_home()` — một click về gốc bất
+      chấp quái quanh đó — và `_walk_home` dùng nó; sau **mỗi** trận, lệch > `HOME_AFTER_FIGHT` 2 bước
+      (và có `hunt_range` > 0) là về gốc trước khi chọn mục tiêu mới. `home_steps` đã có trong `fight_end`
+      từ 1.10.
+20. Test: `test_attack_range.py` — `test_reach_142729` (118 `melee_attack` thật của bản ghi: không con nào
+   ngoài tầm; 22/33 `range_walk` ở ≤ 100 px nay không còn tính), `test_range_walk` (đi thật → `range_walk` + offset +
+   `go_home`; cùng độ trôi ở 60 px → không; 1 lần đo → không), `test_engage_hand_first` / `test_elf_far_boxes`
+   (click chứ không giữ chuột), `test_walk_home_after_fight` (`wander` không về, `walk_home` về).
+   **Chưa có ảnh của 142729 trên laptop** nên chưa chạy replay khung hình được; ba điều kiện khách yêu cầu
+   đều đã được chốt bằng test trên `events.jsonl` + test đơn vị.
+21. Sửa kèm: `Feature.cancel_aim` dùng `getattr(self.ctx, "cursors", None)` — ở 7892592 nó làm `smoke_test`
+   đứt ở dòng 108 (test double của HealthFeature không có `cursors`).
+22. **Ghi rõ số px (theo yêu cầu khách 28/11)**:
+   - `drift.reach_px(bước, w)` -> px. Tab Chính: "Nhận diện: GPU · 44 ms · Tầm đánh: 15 bước
+     ≈ 340 px" (`detect_info` thêm `width`); tab Hunt cạnh nút đo: "Tầm đánh = 17 bước ≈ 340 px (đã lưu)".
+   - Nút **"Đo tầm đánh"** vẫn đo theo đúng cách này (click đơn + kiểm tra trôi màn hình) và nay lưu **px đo
+     thật**: `range_probe.measure` sắp xếp/đo theo px, trả về `(bước, px, lý do, rows)`
+     (mỗi row có `px`), lưu vào `scan.attack_range_px` (0 = chưa đo) và hiện "đo thật N px" cạnh nhãn.
+     `meta.json`: `attack_range {steps, px: [ngang, dọc], measured_px, from}`.
+   - Tối đa vẫn **25 bước** (`ATTACK_RANGE_MAX` 25, UI 1-25) - đã đúng từ 1.9.
+   - `out_of_range_skip` nay có **event** (1 dòng mỗi lượt quét, không phải mỗi box - 142729 bỏ 1198 box):
+     `{n, nearest, farthest, dists[:5], steps, kept}`, để đo lại tầm từ bản ghi sau này.

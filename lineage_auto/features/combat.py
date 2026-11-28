@@ -118,6 +118,12 @@ CROWD_MP_FLOOR = HEAL_MP_RESERVE
 # (game steps, vision/drift) = the character walked to the monster -> out of the hand reach, stop (range_walk).
 DRIFT_CHECK_SEC = 0.8
 RANGE_WALK_STEPS = 1.0
+# PLAN 1.11: a ranged class clicks the box once per HAND_CLICK_SEC instead of holding the button - holding it on
+# a monster that walks away drags the character along (20261128_142729: the elf would not stand still).
+HAND_CLICK_SEC = 0.6
+# PLAN 1.11: the drift must say "walked" this many checks in a row, and only for a monster farther than
+# NEAR_KEEP: 26 of the 33 range_walks of 20261128_142729 were monsters 38-108 px away, i.e. the picture shaking.
+RANGE_WALK_READS = 2
 
 
 class CombatFeature(Feature):
@@ -610,13 +616,14 @@ class CombatFeature(Feature):
     def engage_ranged(self, target, rect, char, ring=False):
         """PLAN 1.2c / 1.9: fight the lock from where we stand.
 
-        PLAN 1.9: a lock inside the hand reach (targeting.in_hand_reach: scan.attack_range steps) is attacked by
-        hand - hold + drag on it, like melee, the bow included - and spells only join when ``_spell_why`` allows
-        (MP >= scan.spell_min_mp_pct, danger, a crowd). Outside the hand reach only spells reach it (the aiming
-        ellipse is required); none ready = wait, never a click. A hand attack that makes the PICTURE move more
-        than RANGE_WALK_STEPS (the character walked: the monster was out of reach after all) is stopped at once,
-        the spot blacklisted, event ``range_walk``. Ends on a kill line, the box gone, the lock out of reach
-        (PLAN 1.7) or the fight cap."""
+        PLAN 1.9/1.11: a lock inside the hand reach (targeting.in_hand_reach: scan.attack_range steps) is
+        attacked by hand - one click per HAND_CLICK_SEC on the box, never a held button - and spells only join
+        when ``_spell_why`` allows (MP >= scan.spell_min_mp_pct, danger, a crowd). Outside the hand reach only
+        spells reach it (the aiming ellipse is required); none ready = wait, never a click. A hand attack that makes the PICTURE move more
+        than RANGE_WALK_STEPS on RANGE_WALK_READS checks in a row, for a monster farther than NEAR_KEEP (the
+        character walked: the monster was out of reach after all) is stopped at once, those steps are added to
+        the walk offset, the spot is blacklisted and we go home, event ``range_walk``. Ends on a kill line, the
+        box gone, the lock out of reach (PLAN 1.7) or the fight cap."""
         self.last_outcome = None
         skills, interval = self.active_skills(), self.character.skill_interval
         anchor = target.local
@@ -633,7 +640,8 @@ class CombatFeature(Feature):
         self._spells, self._skipped = 0, {}
         last_skill = 0.0
         ring_t, ring_strikes = started, 0
-        hold = None  # PLAN 1.9: (time, frame) of the hand attack under way / of the last drift check
+        watch = None  # PLAN 1.9/1.11: (time, frame) of the last drift check while hand-attacking
+        last_click, drifts = 0.0, 0
         hand_said = False
         self.input.release_left()
         melee_max = self.account.melee_cap()
@@ -681,34 +689,41 @@ class CombatFeature(Feature):
                 return self._finish(target, "lost", anchor, f"out of range at {self._dist:.0f}px")
             in_reach = self.targeting.in_hand_reach(anchor, char, rect)
             if in_reach:
-                # PLAN 1.9: hand attack from where we stand
+                # PLAN 1.11: ONE click per HAND_CLICK_SEC on the box centre, never a held button: a hold on a
+                # monster that walks away drags the character after it. Only while the box is in the hand reach.
                 sx, sy = rect.to_screen(*anchor)
-                if hold is None:
+                if now - last_click >= HAND_CLICK_SEC:
                     if not hand_said:
                         hand_said = True
                         self._event("melee_attack", dist=round(self._dist), target=list(anchor),
                                     steps=self.targeting.attack_steps())
-                    self._hold_and_drag(sx, sy)
-                    hold = (now, self._grab(rect))
-                    self._melee = True
-                else:
-                    self.input.move(sx, sy)  # follow the box with the button held
-                    if now - hold[0] >= DRIFT_CHECK_SEC:
-                        frame = self._grab(rect)
-                        walked = drift_steps(hold[1], frame) if hold[1] is not None else None
-                        if walked is not None and walked > RANGE_WALK_STEPS:
-                            self.input.release_left()
+                    self.input.click_at(sx, sy)
+                    last_click, self._melee = now, True
+                    if watch is None:
+                        watch = (now, self._grab(rect))
+                if watch is not None and now - watch[0] >= DRIFT_CHECK_SEC:
+                    frame = self._grab(rect)
+                    walked = drift_steps(watch[1], frame) if watch[1] is not None else None
+                    if walked is not None and walked > RANGE_WALK_STEPS and self._dist > NEAR_KEEP:
+                        drifts += 1
+                        if drifts >= RANGE_WALK_READS:
+                            # PLAN 1.11: it really walked - stop the walk with a click where we stand (a click
+                            # starts a walk that a release cannot stop), count the steps and go back.
+                            self.input.click_at(*rect.to_screen(*char))
+                            self.ctx.note_walk(char, anchor, rect, steps=walked * RANGE_WALK_READS)
+                            self.ctx.state["go_home"] = True
                             self.targeting.block(anchor)
                             self._event("range_walk", dist=round(self._dist), drift_steps=round(walked, 1),
-                                        attack_range=self.targeting.attack_steps())
+                                        reads=drifts, attack_range=self.targeting.attack_steps())
                             return self._finish(target, "range_walk", anchor,
                                                 f"{walked:.1f} steps walked at {self._dist:.0f}px")
-                        hold = (now, frame)
+                    else:
+                        drifts = 0
+                    watch = (now, frame)
                 if self.ctx.cursors.is_corpse(CursorProbe.current_hash()):
                     return self._finish(target, "corpse_cursor", anchor)
-            elif hold is not None:
-                self.input.release_left()  # it walked out of the hand reach: never follow it
-                hold = None
+            elif watch is not None:
+                watch, drifts = None, 0  # out of the hand reach: stop clicking, never chase it
             paused = now < self.ctx.state.get("skill_pause_until", 0.0)
             if paused:
                 self._skipped["paused"] = self._skipped.get("paused", 0) + 1
@@ -722,7 +737,7 @@ class CombatFeature(Feature):
                 self._skipped["mp_empty"] = self._skipped.get("mp_empty", 0) + 1
                 continue
             anchor, _fired, _hold = self._cast_at_target(key, rect, char, anchor, mp_before=mp)
-            hold = None  # the cast released the button; the next beat holds again when still in reach
+            watch, drifts = None, 0  # the cast moved the mouse: a fresh drift baseline on the next beat
             self._note_lock(anchor)
         return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
 

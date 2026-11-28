@@ -16,7 +16,7 @@ import cv2
 from .. import hunt_maps
 from ..characters.base import HOTKEYS, CombatStyle
 from ..skills.policy import is_auto_enabled
-from ..vision.drift import screen_steps
+from ..vision.drift import reach_px, screen_steps
 from ..vision.geometry import DEFENSE_RADIUS, play_max_radius
 from ..vision.motion_watch import roi_motion_score
 from ..vision import minimap, yolox_mobs
@@ -403,8 +403,7 @@ class TargetingFeature(Feature):
         """PLAN 1.9: a hand attack (click / hold) on this point hits from where we stand.
 
         One step = the melee rule (MELEE_DIST: an adjacent monster's box sits up to ~1.5 cells away on screen);
-        more = the bow, counted in game cells on the isometric screen (vision/drift.screen_steps) + half a cell
-        for where the box centre sits on the monster."""
+        more = the bow, a circle of ``steps`` * 20 px measured on a real hunt (vision/drift.reach_px)."""
         char = char or self.char
         if char is None:
             return False
@@ -412,7 +411,10 @@ class TargetingFeature(Feature):
         if steps <= 1:
             return math.hypot(local[0] - char[0], local[1] - char[1]) <= MELEE_DIST
         rect = rect or self.ctx.rect()
-        return screen_steps(local[0] - char[0], local[1] - char[1], rect.w) <= steps + 0.5
+        # PLAN 1.11: measured on 20261128_142729 (see drift.reach_px) - the reach is a circle of steps * 20 px,
+        # never smaller than the melee rule (a 2-step melee class still hits what stands next to it).
+        return (math.hypot(local[0] - char[0], local[1] - char[1])
+                <= max(MELEE_DIST, reach_px(steps, rect.w)))
 
     def out_of_range(self, local, char=None):
         """Point the bot must not take as a target (False when nothing limits it).
@@ -585,6 +587,7 @@ class TargetingFeature(Feature):
             rec.frame(frame, hits, char=char, detect_ms=detect_ms, extra=self._rec_extra())
         near = lambda p: math.hypot(p[0] - char[0], p[1] - char[1]) <= NEAR_KEEP  # noqa: E731
         self._near_hit = any(near(p) for p in hits)
+        skipped_px = []  # PLAN 1.11: how far the boxes the range dropped really were, to measure the reach later
         for tx, ty in hits:
             # Corpse skipping is disabled (see mark_corpse); kept as a hook.
             if self._is_corpse_blob((tx, ty)):
@@ -596,6 +599,7 @@ class TargetingFeature(Feature):
                 self.last_skipped += 1
                 if rec:
                     rec.count("out_of_range_skip")
+                    skipped_px.append(round(math.hypot(tx - char[0], ty - char[1])))
                 continue
             if not near((tx, ty)) and (self._recent_miss((tx, ty)) or self.is_blocked((tx, ty))):
                 self.last_skipped += 1
@@ -608,6 +612,12 @@ class TargetingFeature(Feature):
             # Straight-line test only: a BFS per box would cost up to ~30 ms each.
             # PLAN 0.31: never ahead of a monster next to the character.
             unique.sort(key=lambda p: not near(p) and not self.minimap.clear_to(char, p))  # stable: nearest first
+        if skipped_px:
+            # PLAN 1.11 (user 28/11): one line per scan, not per box - 20261128_142729 skipped 1198 boxes in
+            # 905 s and nothing said how far away they were, so nobody could tell a right skip from a wrong one.
+            rec.event("out_of_range_skip", n=len(skipped_px), nearest=min(skipped_px),
+                      farthest=max(skipped_px), dists=sorted(skipped_px)[:5], steps=self.attack_steps(),
+                      kept=len(unique))
         self.last_monsters = list(unique)  # real boxes only: closer_than / the crowd rules read this
         self.last_figures = list(figures)
         self.last_dies = list(dies)

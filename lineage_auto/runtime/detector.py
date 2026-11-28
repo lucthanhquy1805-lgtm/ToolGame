@@ -271,7 +271,8 @@ class DetectorThread:
                     # PLAN 1.10 B6: what the main tab shows (the game PC cannot read the log while hunting).
                     slowest = max(data.values(), key=lambda b: b["ms_total"], default=None)
                     ctx.state["detect_info"] = {"device": self.device, "size": self.size,
-                                                "ms": slowest["ms_total"] if slowest else None}
+                                                "ms": slowest["ms_total"] if slowest else None,
+                                                "width": rect.w}  # PLAN 1.11: px per step scales with it
                     if stats["search"]["n"]:
                         self._step_down(stats["search"]["ms"] / stats["search"]["n"])
                     if rec is not None:
