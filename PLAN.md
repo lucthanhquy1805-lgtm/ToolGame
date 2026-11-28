@@ -2598,6 +2598,36 @@ Mô hình bãi săn nhóm (khách 28/11): tiên/pháp sư luôn đứng gốc, �
 
 CHỜ MÁY GAME: chuyến gom thật (số theo đếm đúng khi quái đuổi sau lưng, thời gian 1 chuyến, có kẹt rào không).
 
+### 3.0-L v2 — GỐC = TRƯỞNG NHÓM trên minimap + elf chỉ click khi có kiếm + tự học tầm bắn  [CODE XONG 28/11, v21rc10]
+Bằng chứng: records_game/mG1RN30H/r232815 (hiệp sĩ: ngay sau lure_home vương miện còn cách ~22 bước; walk_home click
+mỗi 0,18 s, mỗi click trừ 2 bước -> home_dist 31,5 -> 0 trong 3 s); m6TSP63T/r232626 (elf Lv27 rc9: walk_home
+10,9 -> 1,2 trong 1,1 s, pos minimap trôi 20-25 bước; cursor_last None ở cả 38 trận; range_walk ở 140-318 px).
+1. `vision/party_minimap.read(frame)`: vương miện = điểm vàng nhạt (H 15-35, S 50-185, V >= 190) + BẮT BUỘC có chấm cam
+   (S >= 190) trong 14 px; trả (dx, dy) px minimap (lưới 1280) tới CHẤM trưởng nhóm. Vương miện vẽ cạnh trên chấm, lúc
+   trái lúc phải (r232815 / r201748), nên đo tới chấm: f_00027 = 22,2 bước, f_00030 = 19,0 (ước lượng 25-27 của khách
+   là tới vương miện), f_00001 1,6, f_00021 None. 0 dương tính giả trên 350 ảnh minimap không có nhóm (cỏ, tên vàng).
+2. `features/leader.LeaderHome` (trong targeting, mọi class, `scan.home_mode` "leader" mặc định / "start"; cần
+   hunt_range > 0): mỗi lần thấy vương miện thì GHI ĐÈ walk offset = nhân vật - trưởng nhóm, nên phạm vi, guard_steps,
+   giới hạn pull_start, wander về gốc, `_walk_home` đều đo từ trưởng nhóm. Không thấy -> offset cộng dồn tiếp từ lần
+   đọc cuối (= đi về hướng thấy cuối, rồi về offset). Tới nơi = 2 lần đọc liên tiếp <= 2 bước (nhóm đứng chồng nhau
+   đọc ~1,6 bước, nên "đã ở gốc" = 2 bước khi có vương miện: `leader.home_stop`). Vương miện đi theo mình >= 8 bước
+   = mình là trưởng nhóm -> WARNING + `leader_self`, quay về điểm bắt đầu (offset tính lại bằng cộng dồn).
+   Event `leader_seen {steps, dir}` mỗi lần thấy lại.
+3. Lure: `lure_steps` mặc định 10, tối đa 15 (config cũ 30 -> 15); trên chuyến, vương miện > lure_steps hoặc sát mép
+   minimap (`EDGE_MM` 12) hoặc mất -> `lure_return why=leader_range`; `lure_home` kèm `leader_steps`.
+4. Không click dồn: `_walk_home` chờ `exploration.HOME_CLICK_SEC` 0,7 s sau mỗi click và đọc lại vương miện; wander về
+   gốc và lure đi ra cũng tối đa 1 click / 0,7 s (không chặn nhịp quét).
+5. Elf/pháp sư đánh tay (`engage_ranged`): rê lên box, đọc con trỏ; chỉ click khi là kiếm; `HAND_NO_SWORD` 3 lần không
+   kiếm -> bỏ khoá ("lost"), quét lại. `cursor_last` giờ có giá trị.
+6. range_walk: 1 lần đọc drift >= 1 bước là dừng ngay (RANGE_WALK_READS 2 -> 1, vẫn bỏ quái < NEAR_KEEP). Tầm tay học
+   được `scan.attack_range_px_learned` = min(cũ, 0,9 x d) (>= MELEE_DIST), chặn `in_hand_reach`; event `reach_learned`;
+   tab Săn hiện "học được N px" cạnh Tầm đánh, UI lưu config khi đổi; nút "Đo tầm đánh" xoá giá trị học.
+7. Test: `tests/test_leader.py` (4 ảnh r232815, không dương tính giả, offset theo trưởng nhóm, leader_range, walk_home tới
+   vương miện 1 click / 0,7 s, tự là trưởng nhóm, r232626: 0 click khi con trỏ != kiếm, học 169 px sau range_walk 188 px,
+   203/251 box của bản ghi bị out_of_range). test_attack_range cập nhật (1 lần drift, lure 0,7 s, config).
+shortcut: home_mode chưa có ô trên UI (chỉ config: "start" để tắt). Tầm học chỉ giảm; đo lại bằng nút để reset.
+CHỜ MÁY GAME: vương miện ban đêm / khi minimap đổi độ trong suốt; tốc độ đi thật (0,7 s/click có đủ 2 bước không).
+
 ### 1.12 KHOÁ BƯỚC MINIMAP  [XONG 28/11]
 Máy DESKTOP-6TSP63T lưu `step_mm` 6.6 (đo sai; đúng là ~2.3) -> phạm vi săn / go_home lệch ~3 lần.
 - `minimap.STEP_MM_RANGE` (1.0, 20.0) -> (1.8, 2.8). Khi đọc config, `step_mm` ngoài khoảng -> 0 = mặc định

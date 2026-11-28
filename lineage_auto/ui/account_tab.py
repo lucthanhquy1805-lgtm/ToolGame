@@ -207,6 +207,11 @@ class AccountTab:
         running = self.session.running
         self.control.show_state(self.session.state, running)
         self.stats.refresh()  # PLAN 4.1
+        learned = self.account.scan.attack_range_px_learned
+        if learned != getattr(self, "_learned_shown", learned):  # 3.0-L v2: the hunt learned a shorter reach
+            self.scan.range_label()
+            self.request_save()
+        self._learned_shown = learned
         try:
             for panel in self.panels():
                 panel.set_busy(running)

@@ -282,11 +282,14 @@ class ScanSettings:
     # HP under pull_abort_hp). At home only monsters within guard_steps of the start; a new trip once the start
     # had <= 2 boxes around for lure_idle_sec.
     lure_mobs: int = 10
-    lure_steps: int = 30
+    lure_steps: int = 10  # 3.0-L v2: steps from the LEADER (max 15: the caster's sight)
     lure_max_sec: float = 60.0
     pull_abort_hp: int = 50
     lure_idle_sec: float = 8.0
     guard_steps: int = 4
+    # 3.0-L v2: "leader" = the hunt start is the party leader's crown on the minimap (vision/party_minimap), read
+    # every scan, dead reckoning only while it is not seen; "start" = where the hunt began (the old way).
+    home_mode: str = "leader"
     # PLAN 1.2: minimap px of one step, measured with the Hunt tab button; 0 = minimap.STEP_MM.
     # (v21rc1 saved client px under "step_px": that key is no longer read.)
     step_mm: float = 0.0
@@ -296,6 +299,8 @@ class ScanSettings:
     # the hand reach (combat._spell_why).
     attack_range: int = 0
     attack_range_px: int = 0  # PLAN 1.11: measured by the Hunt tab button, px
+    # 3.0-L v2: 0.9 x the nearest range_walk distance (px) of this character; caps the hand reach. 0 = none yet
+    attack_range_px_learned: int = 0
     spell_min_mp_pct: int = 70
 
     @staticmethod
@@ -341,16 +346,18 @@ class ScanSettings:
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
             pull_mode=bool(data.get("pull_mode", True)),
             lure_mobs=min(30, max(1, int(data.get("lure_mobs", 10)))),
-            lure_steps=min(60, max(5, int(data.get("lure_steps", 30)))),
+            lure_steps=min(15, max(5, int(data.get("lure_steps", 10)))),
             lure_max_sec=min(600.0, max(10.0, float(data.get("lure_max_sec", 60.0)))),
             pull_abort_hp=min(90, max(10, int(data.get("pull_abort_hp", 50)))),
             lure_idle_sec=min(60.0, max(3.0, float(data.get("lure_idle_sec", 8.0)))),
             guard_steps=min(20, max(1, int(data.get("guard_steps", 4)))),
+            home_mode="start" if data.get("home_mode") == "start" else "leader",
             step_mm=_step_mm(data.get("step_mm", 0.0)),
             attack_range=min(ATTACK_RANGE_MAX, max(0, int(data.get("attack_range", 0)))),
             # PLAN 1.11: what the "measure the attack range" button really measured, in screen px (0 = never
             # measured). Only shown / recorded - the limit the bot uses is attack_range in steps.
             attack_range_px=max(0, int(data.get("attack_range_px", 0))),
+            attack_range_px_learned=max(0, int(data.get("attack_range_px_learned", 0))),
             spell_min_mp_pct=min(100, max(0, int(data.get("spell_min_mp_pct", 70)))),
             detect_provider=(data.get("detect_provider") if data.get("detect_provider") in PROVIDERS else "auto"),
             **cls._detect_v15(data),

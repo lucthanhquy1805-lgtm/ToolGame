@@ -535,6 +535,7 @@ def check_range(rec):
         r.ctx.state["offset"] = (6.0 * step, 0.0)
         tgt.last_monsters = []
         for _ in range(6):
+            expl._home_t = None  # 3.0-L v2: one homing click per HOME_CLICK_SEC - these are 0.7 s apart
             expl.wander(r.rect, CHAR)
         left = tgt.steps_from_home()
         print(f"   pushed 6 steps off: {len(events)} walks, {left:.1f} steps left, "

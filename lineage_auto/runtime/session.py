@@ -474,13 +474,24 @@ class AccountSession:
         if not self.ctx.state.pop("go_home", False):
             return
         deadline = time.monotonic() + GO_HOME_MAX_SEC
+        leader = getattr(self.targeting, "leader", None)
         while self.ctx.running and time.monotonic() < deadline:
             poll_escape(self.ctx)
+            seen = leader is not None and leader.active()
+            if seen:  # 3.0-L v2: walk to the crown, re-read after every click (it sets the offset)
+                try:
+                    leader.update(self.ctx.grabber.grab_bgr(rect), rect.w)
+                except Exception:
+                    seen = False
+                if leader.arrived():
+                    break
+                seen = seen and leader.vec is not None
             away = self.targeting.steps_from_home()
-            if away is None or away <= exploration.GO_HOME_STOP:
+            if away is None or (away <= exploration.GO_HOME_STOP and not seen):
                 break
             if not self.exploration.walk_home(rect, self.ctx.char_pos(rect)):
                 break
+            self.ctx.sleep(exploration.HOME_CLICK_SEC)  # no stacked clicks: each one counted 2 steps never walked
         self.lure.home()
         pull = self.ctx.state.get("pull")
         if pull and pull.get("until") is None:

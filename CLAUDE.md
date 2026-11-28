@@ -58,6 +58,10 @@ The dev machine has no game; the bot will run on a separate game PC.
   walks home only past `exploration.IN_PLACE_DRIFT` steps, stands still without the minimap
   (`check_in_place_101941`).
   Zone for chat/names at hunt start: `session._zone_catalog` (map name on screen > saved real_map > hunt map's zone).
+- Party leader home (3.0-L v2): `python tests/test_leader.py` — `vision/party_minimap.read` (crown + orange dot on the
+  minimap, records_game/mG1RN30H/r232815), `features/leader.LeaderHome` sets the walk offset from the crown
+  (`scan.home_mode` leader/start), lure `leader_range`, 0.7 s per walk click, elf hand clicks only on the attack
+  cursor, `scan.attack_range_px_learned` (0.9 x the range_walk distance) caps `in_hand_reach`.
 - Potions (PLAN 1.4b): `python tests/test_potions.py` (records_game/20261127_003555_hunt). Waits up to
   `PotionSetting.COOLDOWN_MAX` 3600 s (UI: seconds or minutes); `vision/hotbar.py` reads the open page and an
   empty ITEM slot (dark, p99 < `EMPTY_V`); `HealthFeature._out_of_potions` stops pressing a slot that reads empty

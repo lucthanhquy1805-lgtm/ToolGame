@@ -166,6 +166,7 @@ class Tg:
         self.ctx, self.point, self.kill_after, self.pops = ctx, point, kill_after, 0
         self.scan, self.character = ctx.account.scan, ctx.character
         self.char, self.blocked, self.kill_watch, self.last_monsters = CHAR, [], None, [point]
+        self.leader = None  # 3.0-L v2: no crown on these doubles
 
     attack_steps = TargetingFeature.attack_steps
     in_hand_reach = TargetingFeature.in_hand_reach
@@ -328,15 +329,15 @@ def _elf_fight(point, frames=None, kill_after=None, cap=5.0):
 
 
 def test_range_walk():
-    """PLAN 1.11: only a monster past NEAR_KEEP, and only when the drift says "walked" twice in a row."""
+    """PLAN 1.11: only a monster past NEAR_KEEP. 3.0-L v2: ONE drift reading of >= 1 step ends it at once."""
     img = texture()
     walk = [img] + [shifted(img, 40 * n, -20 * n) for n in range(1, 8)]  # 2 steps per check, non stop
     far = (CHAR[0] + 200, CHAR[1])
     ctx, cf, tg = _elf_fight(far, frames=list(walk))
     rw = ctx.recorder.kinds("range_walk")
-    check(cf.last_outcome == "range_walk" and rw and rw[0]["drift_steps"] >= 1.5 and rw[0]["reads"] == 2
+    check(cf.last_outcome == "range_walk" and rw and rw[0]["drift_steps"] >= 1.5 and rw[0]["reads"] == 1
           and tg.blocked == [far], "a hand attack that keeps walking ends as range_walk, spot blacklisted")
-    check(ctx.state.get("go_home") and tg.steps_from_home() > 2,
+    check(ctx.state.get("go_home") and tg.steps_from_home() >= 1.5,
           f"the walked steps feed the offset ({tg.steps_from_home():.1f}) and go_home is set")
     near = (CHAR[0] + 60, CHAR[1])
     ctx, cf, _tg = _elf_fight(near, frames=list(walk))
@@ -344,7 +345,9 @@ def test_range_walk():
           "the same drift with the monster 60 px away is not a range_walk")
     once = [img, img, shifted(img, 40, -20)] + [shifted(img, 40, -20)] * 6  # one check walks, then standing
     ctx, cf, _tg = _elf_fight(far, frames=once)
-    check(not ctx.recorder.kinds("range_walk"), "one drift reading alone is not a range_walk")
+    check(ctx.recorder.kinds("range_walk"), "3.0-L v2: one drift reading of a step is a range_walk already")
+    check(ctx.account.scan.attack_range_px_learned == 180 and ctx.recorder.kinds("reach_learned"),
+          f"walked at 200 px -> reach learned {ctx.account.scan.attack_range_px_learned} px (0.9 x 200)")
 
 
 def test_elf_far_boxes():
@@ -542,6 +545,9 @@ def test_pull_crowd_r201820():
     check(not [x for x in ctx.input.log if x[0] == "click"], "HP 50 % + 3 monsters: no retreat click")
     check(not lure.after_hit(50) and lure.active and not ctx.state.get("go_home"),
           "3 following < 10, HP 50 % (not under pull_abort_hp 50): the trip goes on")
+    check(lure.tick(ctx.rect(), CHAR, 50) and not [x for x in ctx.input.log if x[0] == "click"],
+          "3.0-L v2: the last walk-out click was < 0.7 s ago: no stacked click")
+    clock[0] += 1
     check(lure.tick(ctx.rect(), CHAR, 50) and [x for x in ctx.input.log if x[0] == "click"]
           and not ctx.recorder.kinds("lure_return"), "no target: one more walk click out, no lure_return")
 
@@ -616,12 +622,16 @@ def test_lure_config():
     """PLAN 0.50: a config saved before 0.50 has no lure keys -> the defaults; typed values are clamped."""
     old = ScanSettings.from_dict({"hunt_range": 10, "pull_mode": True})
     check((old.lure_mobs, old.lure_steps, old.lure_max_sec, old.pull_abort_hp, old.lure_idle_sec, old.guard_steps)
-          == (10, 30, 60.0, 50, 8.0, 4), "old config: lure_mobs 10, 30 steps, 60 s, HP 50 %, idle 8 s, guard 4")
-    big = ScanSettings.from_dict({"lure_mobs": 99, "pull_abort_hp": 0})
-    check(big.lure_mobs == 30 and big.pull_abort_hp == 10, "lure_mobs 1-30, pull_abort_hp 10-90")
+          == (10, 10, 60.0, 50, 8.0, 4), "old config: lure_mobs 10, 10 steps (3.0-L v2), 60 s, HP 50 %, idle 8 s, guard 4")
+    check(old.home_mode == "leader" and old.attack_range_px_learned == 0, "3.0-L v2: home_mode leader, nothing learned")
+    big = ScanSettings.from_dict({"lure_mobs": 99, "pull_abort_hp": 0, "lure_steps": 30, "home_mode": "x"})
+    check(big.lure_mobs == 30 and big.pull_abort_hp == 10 and big.lure_steps == 15 and big.home_mode == "leader",
+          "lure_mobs 1-30, pull_abort_hp 10-90, lure_steps 5-15 (the rc9 default 30 reads as 15)")
     acc = AccountSettings()
-    acc.scan.lure_mobs = 15
-    check(AccountSettings.from_dict(acc.to_dict()).scan.lure_mobs == 15, "lure_mobs survives a save / load")
+    acc.scan.lure_mobs, acc.scan.home_mode, acc.scan.attack_range_px_learned = 15, "start", 126
+    back = AccountSettings.from_dict(acc.to_dict()).scan
+    check((back.lure_mobs, back.home_mode, back.attack_range_px_learned) == (15, "start", 126),
+          "lure_mobs / home_mode / learned reach survive a save / load")
     from lineage_auto.ui import i18n
     for lang in ("ko", "en", "vi"):
         check(all(k in i18n.I18N[lang] for k in ("scan_lure_mobs", "scan_lure_steps", "scan_pull_abort_hp",

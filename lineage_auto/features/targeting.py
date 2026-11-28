@@ -24,6 +24,7 @@ from ..vision.yolox_mobs import detect_centers
 from ..winapi.cursor import CursorProbe
 from ..winapi.hotkeys import poll_escape
 from .base import Feature
+from .leader import LeaderHome
 
 MOTION_SETTLE = 0.05
 # Gap between the two frames of the (legacy) motion grab.
@@ -177,6 +178,7 @@ class TargetingFeature(Feature):
         self.last_frame = None
         self.minimap = None  # vision.minimap.Minimap or None (minimap turned off in game)
         self.odo = minimap.Odometry()
+        self.leader = LeaderHome(ctx)  # 3.0-L v2: the hunt start = the party leader's crown
         self.char = None
         self.kill_watch = None  # vision.name_reader.KillWatcher, set by the session (zones with chat pictures)
         self.name_reader = None  # vision.name_reader.NameReader (names over monsters), set by the session
@@ -247,6 +249,8 @@ class TargetingFeature(Feature):
         self.minimap = minimap.read(frame)
         self.odo.update(self.minimap)
         self.ctx.state["minimap"] = self.minimap is not None  # PLAN 0.32: the UI warns while it is off
+        if frame is not None:
+            self.leader.update(frame if self.minimap is not None else None, frame.shape[1])
         watch = self.kill_watch
         if watch is not None and frame is not None:
             names = watch.update(frame)
@@ -416,8 +420,10 @@ class TargetingFeature(Feature):
         rect = rect or self.ctx.rect()
         # PLAN 1.11: measured on 20261128_142729 (see drift.reach_px) - the reach is a circle of steps * 20 px,
         # never smaller than the melee rule (a 2-step melee class still hits what stands next to it).
-        return (math.hypot(local[0] - char[0], local[1] - char[1])
-                <= max(MELEE_DIST, reach_px(steps, rect.w)))
+        reach = max(MELEE_DIST, reach_px(steps, rect.w))
+        learned = self.scan.attack_range_px_learned  # 3.0-L v2: where this character really walked off
+        return math.hypot(local[0] - char[0], local[1] - char[1]) <= (
+            min(reach, max(MELEE_DIST, learned)) if learned else reach)
 
     def out_of_range(self, local, char=None):
         """Point the bot must not take as a target (False when nothing limits it).
@@ -495,6 +501,7 @@ class TargetingFeature(Feature):
         """Drop leftover lock from a previous run (tool left open overnight)."""
         self.clear_lock()
         self.reset_misses()
+        self.leader.on_start()
         self.last_scan_points = 0
         self.last_monsters = []
         self.last_figures = []

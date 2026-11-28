@@ -121,9 +121,15 @@ RANGE_WALK_STEPS = 1.0
 # PLAN 1.11: a ranged class clicks the box once per HAND_CLICK_SEC instead of holding the button - holding it on
 # a monster that walks away drags the character along (20261128_142729: the elf would not stand still).
 HAND_CLICK_SEC = 0.6
-# PLAN 1.11: the drift must say "walked" this many checks in a row, and only for a monster farther than
-# NEAR_KEEP: 26 of the 33 range_walks of 20261128_142729 were monsters 38-108 px away, i.e. the picture shaking.
-RANGE_WALK_READS = 2
+# PLAN 1.11: only for a monster farther than NEAR_KEEP: 26 of the 33 range_walks of 20261128_142729 were monsters
+# 38-108 px away, i.e. the picture shaking. 3.0-L v2: ONE read of >= 1 step ends the fight (two let the elf of
+# m6TSP63T/r232626 walk 4-5 steps first).
+RANGE_WALK_READS = 1
+# 3.0-L v2: the hand reach learned from a range_walk at d px = LEARN_SHARE x d (scan.attack_range_px_learned)
+LEARN_SHARE = 0.9
+# 3.0-L v2: a ranged hand attack clicks only on the attack cursor (a click on the ground walks - r232626:
+# cursor_last None in all 38 fights); this many hovers in a row without it = give the lock up and rescan.
+HAND_NO_SWORD = 3
 
 
 class CombatFeature(Feature):
@@ -642,7 +648,7 @@ class CombatFeature(Feature):
         last_skill = 0.0
         ring_t, ring_strikes = started, 0
         watch = None  # PLAN 1.9/1.11: (time, frame) of the last drift check while hand-attacking
-        last_click, drifts = 0.0, 0
+        last_click, drifts, no_sword = 0.0, 0, 0
         hand_said = False
         self.input.release_left()
         melee_max = self.account.melee_cap()
@@ -692,18 +698,34 @@ class CombatFeature(Feature):
                 # monster that walks away drags the character after it. Only while the box is in the hand reach.
                 sx, sy = rect.to_screen(*anchor)
                 if now - last_click >= HAND_CLICK_SEC:
+                    last_click = now
+                    self.input.move(sx, sy)
+                    time.sleep(self.account.scan.hover_settle)
+                    cursor = CursorProbe.current_hash()
+                    classify = getattr(self.ctx.cursors, "classify", None)
+                    self._cursor_last = (classify(cursor) if callable(classify) else None) or "unknown"
+                    if self.ctx.cursors.is_corpse(cursor):
+                        return self._finish(target, "corpse_cursor", anchor)
+                    if not self.ctx.cursors.is_attack(cursor):
+                        no_sword += 1
+                        self._skipped["no_sword"] = self._skipped.get("no_sword", 0) + 1
+                        if no_sword >= HAND_NO_SWORD:
+                            return self._finish(target, "lost", anchor,
+                                                f"{no_sword} hovers without the attack cursor, no click")
+                        continue
+                    no_sword = 0
                     if not hand_said:
                         hand_said = True
                         self._event("melee_attack", dist=round(self._dist), target=list(anchor),
                                     steps=self.targeting.attack_steps())
                     self.input.click_at(sx, sy)
-                    last_click, self._melee = now, True
+                    self._melee = True
                     if watch is None:
                         watch = (now, self._grab(rect))
                 if watch is not None and now - watch[0] >= DRIFT_CHECK_SEC:
                     frame = self._grab(rect)
                     walked = drift_steps(watch[1], frame) if watch[1] is not None else None
-                    if walked is not None and walked > RANGE_WALK_STEPS and self._dist > NEAR_KEEP:
+                    if walked is not None and walked >= RANGE_WALK_STEPS and self._dist > NEAR_KEEP:
                         drifts += 1
                         if drifts >= RANGE_WALK_READS:
                             # PLAN 1.11: it really walked - stop the walk with a click where we stand (a click
@@ -714,13 +736,12 @@ class CombatFeature(Feature):
                             self.targeting.block(anchor)
                             self._event("range_walk", dist=round(self._dist), drift_steps=round(walked, 1),
                                         reads=drifts, attack_range=self.targeting.attack_steps())
+                            self._learn_reach(self._dist)
                             return self._finish(target, "range_walk", anchor,
                                                 f"{walked:.1f} steps walked at {self._dist:.0f}px")
                     else:
                         drifts = 0
                     watch = (now, frame)
-                if self.ctx.cursors.is_corpse(CursorProbe.current_hash()):
-                    return self._finish(target, "corpse_cursor", anchor)
             elif watch is not None:
                 watch, drifts = None, 0  # out of the hand reach: stop clicking, never chase it
             paused = now < self.ctx.state.get("skill_pause_until", 0.0)
@@ -739,6 +760,16 @@ class CombatFeature(Feature):
             watch, drifts = None, 0  # the cast moved the mouse: a fresh drift baseline on the next beat
             self._note_lock(anchor)
         return self._finish(target, "cap" if self.ctx.running else "stopped", anchor if self.ctx.running else None)
+
+    def _learn_reach(self, dist):
+        """3.0-L v2: the character walked to a monster dist px away -> its hand reach is under that, for good
+        (scan.attack_range_px_learned, saved by the UI; the "measure attack range" button resets it)."""
+        scan = self.account.scan
+        reach = max(MELEE_DIST, int(LEARN_SHARE * dist))
+        if not scan.attack_range_px_learned or reach < scan.attack_range_px_learned:
+            self._event("reach_learned", px=reach, was=scan.attack_range_px_learned or None, dist=round(dist))
+            self.log(f"hand reach learned: {reach} px (walked at {dist:.0f} px)")
+            scan.attack_range_px_learned = reach
 
     def _no_spell(self, target, rect, char, anchor):
         """PLAN 0.44: "stay put" without a usable attack spell. Warn once, fight by hand what stands next to us

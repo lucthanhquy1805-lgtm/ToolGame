@@ -27,6 +27,7 @@ import cv2
 from ..vision.geometry import WALK_DIRECTIONS, direction_index, walk_point
 from ..vision.motion_watch import roi_motion_score
 from .base import Feature
+from .leader import home_stop
 from .targeting import MELEE_DIST
 
 CLICK_SETTLE = 0.05
@@ -46,6 +47,7 @@ MAX_RADIUS_MM = 120  # ~1200 client px from the start position (PLAN 1.2: scan.h
 GO_HOME_START = 4  # steps (2 walk clicks)
 GO_HOME_STOP = 1
 WALK_PX = 160  # client px of one walk click
+HOME_CLICK_SEC = 0.7  # 3.0-L v2: m6TSP63T/r232626 clicked home every ~0.2 s, each counted 2 steps never walked
 W_HEAT, W_FRONTIER, W_INNER, W_OUT = 1.5, 1.0, 0.6, 2.0
 # PLAN 0.32, no minimap: hold one direction this long, call it blocked when the screen changed less than
 # BLOCK_MOTION (mean gray difference of a 64x48 thumbnail) over the last BLOCK_SEC, and avoid a blocked
@@ -123,6 +125,7 @@ class ExplorationFeature(Feature):
         self._epoch = None
         self._keep = None  # (direction index, until) of the minimap walk being held (PLAN 0.39)
         self._homing = False  # PLAN 0.44: walking back to the start, until nearly there
+        self._home_t = None  # 3.0-L v2: last homing click (one per HOME_CLICK_SEC, never stacked)
 
     def on_stop(self):
         self.on_start()
@@ -277,16 +280,21 @@ class ExplorationFeature(Feature):
                                 and self._monster_in_reach()):
                 self._homing = False
             elif self._homing:
-                self._homing = away > GO_HOME_STOP
+                self._homing = away > home_stop(self.ctx, GO_HOME_STOP)
             else:
                 self._homing = away > GO_HOME_START
             if not self._homing:
                 self.ctx.sleep(CLICK_SETTLE)
                 return
+            now = time.monotonic()
+            if self._home_t is not None and now - self._home_t < HOME_CLICK_SEC:
+                self.ctx.sleep(CLICK_SETTLE)  # the last click is still being walked: scan meanwhile
+                return
             home = self._home_walk(rect, char)
             if home is None:
                 self.ctx.sleep(CLICK_SETTLE)  # "stay put" never wanders blindly, not even to get home
                 return
+            self._home_t = now
         else:
             home = None  # no range = the old free hunt: wander
         smart = None if home is not None else self._smart(rect, char)

@@ -20,7 +20,7 @@ FIELDS = (
     ("hunt_range", "scan_range", 0, HUNT_RANGES[-1], HUNT_RANGES, 1),  # PLAN 1.2
     ("pull_mode", "scan_pull", 0, 1, 1, 1),  # PLAN 1.7
     ("lure_mobs", "scan_lure_mobs", 1, 30, 1, 1),  # PLAN 0.50: knight / prince gather trip
-    ("lure_steps", "scan_lure_steps", 5, 60, 1, 1),
+    ("lure_steps", "scan_lure_steps", 5, 15, 1, 1),
     ("pull_abort_hp", "scan_pull_abort_hp", 10, 90, 5, 1),
     ("lure_max_sec", "scan_lure_max", 10, 600, 10, 1),
     ("lure_idle_sec", "scan_lure_idle", 3, 60, 1, 1),
@@ -236,6 +236,7 @@ class ScanPanel(Panel):
             return
         self.account.scan.attack_range = steps
         self.account.scan.attack_range_px = int(px or 0)  # PLAN 1.11: keep what was really measured
+        self.account.scan.attack_range_px_learned = 0  # 3.0-L v2: a fresh measurement replaces what was learned
         self.vars["attack_range"].set(steps)
         self.tab.request_save()
         self.range_label()
@@ -248,6 +249,8 @@ class ScanPanel(Panel):
         text = self.t("range_value", steps=steps, px=f"{round(drift.reach_px(steps, width))} px")
         if self.account.scan.attack_range_px:
             text += "  ·  " + self.t("range_measured", px=self.account.scan.attack_range_px)
+        if self.account.scan.attack_range_px_learned:
+            text += "  ·  " + self.t("range_learned", px=self.account.scan.attack_range_px_learned)
         self.lbl_range.config(text=text)
 
     def toggle_advanced(self):
