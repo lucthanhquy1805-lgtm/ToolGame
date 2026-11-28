@@ -68,6 +68,8 @@ SPELL_FAIL_STRIKES = 3
 # hover_confirm_rate 0, 0 fights with 118 boxes within 230 px. This many "cast" reads in a row with no cast of
 # ours running = the client is stuck: right-click to cancel (ESC is the stop key, a left click would walk).
 CAST_STUCK_READS = 5
+# PLAN 0.50: a box this close to the character on a lure trip is a monster following us (lure.following)
+FOLLOW_PX = 150
 # PLAN 0.31: a box centred this close to the character is the character itself (223510: 22 fights "sword=no" there).
 # PLAN 0.33: 30, not 25 — 112040 switched 4 times to a box 26 px from the character (its own sprite).
 SELF_R = 30
@@ -160,6 +162,7 @@ class TargetingFeature(Feature):
     def __init__(self, ctx, clock=time.time):
         super().__init__(ctx)
         self.clock = clock
+        self.lure = None  # PLAN 0.50: LureFeature (session) - sets the melee range while gathering
         self.last_scan_points = 0
         self.last_monsters = []
         self.last_near = []  # PLAN 0.46 B2.1: extra candidates from the native-resolution near crop
@@ -433,6 +436,12 @@ class TargetingFeature(Feature):
             return (char is not None and math.hypot(local[0] - char[0], local[1] - char[1]) > self.shot_reach()
                     and not self.in_hand_reach(local, char))
         steps = self.scan.hunt_range
+        lure = self.lure.range_steps() if self.lure is not None else None
+        if lure:  # PLAN 0.50: guard_steps around the start, lure_steps out on a trip
+            steps = lure
+            if self.lure.active and char is not None and math.hypot(
+                    local[0] - char[0], local[1] - char[1]) <= FOLLOW_PX:
+                return True  # one we already gathered: it follows, it gets no more hits
         if not steps:
             return False
         away = self.from_home(local, char)
@@ -570,6 +579,8 @@ class TargetingFeature(Feature):
         self.ctx.state["mobs_near"] = [p for p in hits
                                        if math.hypot(p[0] - char[0], p[1] - char[1]) <= MELEE_DIST]
         if new:
+            n = sum(1 for p in hits if math.hypot(p[0] - char[0], p[1] - char[1]) <= FOLLOW_PX)
+            self.ctx.state["follow_counts"] = list(self.ctx.state.get("follow_counts") or ())[-1:] + [n]
             self.tracked = self._update_tracks(hits)
             self.see(frame, char)
         return frame, hits, figures, dies, detect_ms

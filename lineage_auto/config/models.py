@@ -267,6 +267,16 @@ class ScanSettings:
     # PLAN 1.7: with a hunt range, a melee class walks out, hits the monster once or twice so it follows,
     # and walks back to the start instead of killing it out in the field.
     pull_mode: bool = True
+    # PLAN 0.50 / 3.0-L: the pull is a GATHER trip (features/lure.py): walk out up to lure_steps, hit every new
+    # monster once or twice so it follows, walk home with lure_mobs following (or past lure_steps / lure_max_sec /
+    # HP under pull_abort_hp). At home only monsters within guard_steps of the start; a new trip once the start
+    # had <= 2 boxes around for lure_idle_sec.
+    lure_mobs: int = 10
+    lure_steps: int = 30
+    lure_max_sec: float = 60.0
+    pull_abort_hp: int = 50
+    lure_idle_sec: float = 8.0
+    guard_steps: int = 4
     # PLAN 1.2: minimap px of one step, measured with the Hunt tab button; 0 = minimap.STEP_MM.
     # (v21rc1 saved client px under "step_px": that key is no longer read.)
     step_mm: float = 0.0
@@ -320,6 +330,12 @@ class ScanSettings:
             adaptive_detect=bool(data.get("adaptive_detect", True)),
             hunt_range=min(HUNT_RANGES[-1], max(0, int(data.get("hunt_range", 0)))),
             pull_mode=bool(data.get("pull_mode", True)),
+            lure_mobs=min(30, max(1, int(data.get("lure_mobs", 10)))),
+            lure_steps=min(60, max(5, int(data.get("lure_steps", 30)))),
+            lure_max_sec=min(600.0, max(10.0, float(data.get("lure_max_sec", 60.0)))),
+            pull_abort_hp=min(90, max(10, int(data.get("pull_abort_hp", 50)))),
+            lure_idle_sec=min(60.0, max(3.0, float(data.get("lure_idle_sec", 8.0)))),
+            guard_steps=min(20, max(1, int(data.get("guard_steps", 4)))),
             step_mm=_step_mm(data.get("step_mm", 0.0)),
             attack_range=min(ATTACK_RANGE_MAX, max(0, int(data.get("attack_range", 0)))),
             # PLAN 1.11: what the "measure the attack range" button really measured, in screen px (0 = never

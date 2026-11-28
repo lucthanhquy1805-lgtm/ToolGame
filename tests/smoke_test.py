@@ -218,6 +218,8 @@ sess.ctx=tctx; sess.account=tctx.account; sess.state=SessionState.RUNNING; sess.
 from lineage_auto.features.grid_scan import GridScanFeature
 sess.grid=GridScanFeature(tctx)
 sess.cure=sess.health=sess.buff=sess.combat=sess.loot=Noop(); sess.exploration=Expl(); sess.targeting=tf
+from lineage_auto.features.lure import LureFeature
+sess.lure=LureFeature(tctx)  # PLAN 0.50 (off: no hunt range)
 orig_acquire=tf.acquire
 def counted(r,c): calls.append('scan'); return orig_acquire(r,c)
 tf.acquire=counted
@@ -802,19 +804,14 @@ cd=DCtx(acc_d,100); hd=HealthFeature(cd)
 assert hd.tick(cd.rect())==100 and not hd.danger and not cd.input.log
 cd.hp_reader.v=75                                                  # -25 % inside DANGER_WINDOW
 assert hd.tick(cd.rect())==75 and hd.danger and cd.input.log==[('dbl','F5')], cd.input.log
-cd.state['mobs_near']=[(700,380),(690,420),(690,340)]              # the crowd alone is danger too
+cd.state['mobs_near']=[(700,380),(690,420),(690,340)]              # PLAN 0.50: a crowd is no danger at all
 cd.hp_reader.v=100; hd._hp_log=[]; hd._danger_until=0.0
-assert hd.tick(cd.rect())==100 and hd.danger and len(cd.input.clicks)==1, cd.input.clicks
-assert cd.input.clicks[0][0]<640 and cd.input.log==[('dbl','F5')], cd.input.clicks  # away, no heal at full HP
-hd.tick(cd.rect()); assert len(cd.input.clicks)==1                                  # one step per cooldown
-hd._last_retreat=0.0; cd.state['fight_until']=time.monotonic()+5
-hd.tick(cd.rect()); assert len(cd.input.clicks)==1                 # never while a fight holds the mouse
-# PLAN 0.40 (user 26/11): at 오크의 땅 the crowd alone is not danger - only the HP burst (keep v20's 5.25 kills/min)
-cd.state.pop('fight_until'); hd._last_retreat=0.0; hd._danger_until=0.0; acc_d.hunt_map='blessed_orc'
-assert hd.tick(cd.rect())==100 and not hd.danger and len(cd.input.clicks)==1, cd.input.clicks
+assert hd.tick(cd.rect())==100 and not hd.danger and not cd.input.clicks, cd.input.clicks
+cd.hp_reader.v=75                                                  # a burst with the crowd: heal, never a step away
+assert hd.tick(cd.rect())==75 and hd.danger and not cd.input.clicks and cd.input.log[-1]==('dbl','F5'), cd.input.log
 acc_t=AccountSettings(); acc_t.health.return_town=True; acc_t.health.use_potion=False
 ct=DCtx(acc_t,100); ct.can_cast=lambda i,r=None: False; ht=HealthFeature(ct)   # MP gone, no potion
 ht.tick(ct.rect()); ct.hp_reader.v=75
 assert ht.tick(ct.rect())==75 and ht.returned and ct.input.log==[('press','F8')], ct.input.log
-print('0.40: danger heal / step back / early town OK')
+print('0.40/0.50: danger heal (no step back) / early town OK')
 print('ALL SMOKE TESTS PASSED')

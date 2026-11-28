@@ -1,8 +1,6 @@
 """Keep the character alive: heal skill, potion, death detection."""
-import math
 import time
 
-from .. import hunt_maps
 from ..runtime.stats import bump
 from ..skills.policy import HEAL_SKILL_ID
 from ..vision import hotbar
@@ -36,12 +34,10 @@ DEATH_SNAPSHOTS = 3
 # (fallen_blessed), everywhere else only the HP burst counts.
 DANGER_DROP_PCT = 20
 DANGER_WINDOW = 2.0
-DANGER_MOBS = 3
+DANGER_MOBS = 3  # PLAN 0.50: no longer danger - only combat._spell_why's "crowd" (spells allowed)
 DANGER_HOLD = 3.0  # the emergency stays on this long after the last burst
 DANGER_HEAL_PCT = 90  # healing at (nearly) full HP only burns the MP this ground is short of
 DANGER_RETURN_PCT = 80  # danger + nothing left to heal with = return scroll now, before HP < 50 %
-RETREAT_PX = 120
-RETREAT_COOLDOWN = 1.5
 # PLAN 1.4b (20261127_003555_hunt: F1+F6 held 2 mana potions, both gone at 137 s, then pressed every 1.5 s for
 # 12 minutes): an extra potion whose hotbar slot reads empty on EMPTY_READS pictures EMPTY_READ_SEC apart is
 # marked out and never pressed again until the slot shows an item (looked at every RECHECK_SEC) or the next start.
@@ -75,7 +71,6 @@ class HealthFeature(Feature):
         self.hud_lost = False
         self._danger_until = 0.0
         self._hp_log = []
-        self._last_retreat = 0.0
         self._hud_t = 0.0  # PLAN 0.3: when the HUD HP numbers were last read, and whether HP was low then
         self._hud_low = False
 
@@ -117,9 +112,10 @@ class HealthFeature(Feature):
         if hp:
             self._hp_log = [e for e in self._hp_log if now - e[0] <= DANGER_WINDOW] + [(now, hp)]
             drop = max(e[1] for e in self._hp_log) - hp
-            crowd = hunt_maps.get(self.account.hunt_map).mp_hungry
-            mobs = len(self.ctx.state.get("mobs_near") or ()) if crowd else 0
-            if drop >= DANGER_DROP_PCT or mobs >= DANGER_MOBS:
+            mobs = len(self.ctx.state.get("mobs_near") or ())
+            # PLAN 0.50 (m6TSP63T/r195240: danger at HP 100, drop 0, 3 mobs -> 11 retreats, 0 fights): a crowd
+            # is NOT danger (group hunt: the knight brings it to the archer on purpose); only an HP burst is.
+            if drop >= DANGER_DROP_PCT:
                 if now >= self._danger_until:
                     self.log(f"danger: {hp}% hp (-{drop}% in {DANGER_WINDOW:.0f}s), {mobs} monsters next to us")
                     # PLAN 0.47: one event per episode (191624 wrote 11 "danger" fight endings for one burst)
@@ -133,13 +129,12 @@ class HealthFeature(Feature):
         return self.danger
 
     def _emergency(self, rect, hp):
-        """Heal / drink at once, then back out of the crowd; to town while HP is high if nothing can heal."""
+        """Heal / drink at once and keep fighting (PLAN 0.50: no class steps back any more); to town while HP is
+        high if nothing can heal."""
         if hp and hp < DANGER_HEAL_PCT:
             self._recover(hp)
             if self._no_heal_left() and hp < DANGER_RETURN_PCT and self.settings.return_town:
                 self._go_town(hp, why="danger, nothing left to heal with")
-                return
-        self._retreat(rect)
 
     def _no_heal_left(self):
         """No heal spell castable (MP) and no HP potion configured."""
@@ -148,33 +143,6 @@ class HealthFeature(Feature):
         if self.settings.use_potion:
             return False
         return not any(p.enabled and p.stat == "hp" for p in self.settings.potions)
-
-    def _retreat(self, rect):
-        """One step straight away from the monsters next to the character (never while a fight holds the mouse).
-
-        shortcut: the step is only clamped into the client area, not checked against the minimap; upgrade to
-        targeting.route() if the character starts backing into fences."""
-        mobs = self.ctx.state.get("mobs_near") or ()
-        now = time.time()
-        if not mobs or now - self._last_retreat < RETREAT_COOLDOWN:
-            return
-        if time.monotonic() < self.ctx.state.get("fight_until", 0.0):  # combat writes it on the monotonic clock
-            return
-        char = self.ctx.char_pos(rect)
-        mx = sum(p[0] for p in mobs) / len(mobs)
-        my = sum(p[1] for p in mobs) / len(mobs)
-        dx, dy = char[0] - mx, char[1] - my
-        n = math.hypot(dx, dy) or 1.0
-        x = min(max(char[0] + dx / n * RETREAT_PX, 40), rect.w - 40)
-        y = min(max(char[1] + dy / n * RETREAT_PX, 40), rect.h - 40)
-        self.log(f"danger: stepping back from {len(mobs)} monsters to ({x:.0f}, {y:.0f})")
-        self._last_retreat = now
-        self.input.release_left()
-        self.input.click_at(*rect.to_screen(int(x), int(y)))
-        bump(self.ctx, "retreat")
-        rec = getattr(self.ctx, "recorder", None)
-        if rec:
-            rec.count("retreat")
 
     def _extra_potions(self, hp, rect=None):
         """PLAN 1.4: drink the first due extra potion (slot order = priority), one per tick."""

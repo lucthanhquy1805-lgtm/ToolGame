@@ -455,8 +455,211 @@ def test_danger_once():
     check(len(ctx.recorder.kinds("danger")) == 1 and hf.danger and ctx.state["hp_falling"],
           "one danger event per burst, hp_falling set")
     src = open(os.path.join(ROOT, "lineage_auto", "runtime", "session.py"), encoding="utf-8").read()
-    check('if getattr(self.health, "danger", False):' in src.split("def _run(self)")[1].split("acquire")[0],
-          "session: no target taken while the danger flag holds")
+    check('"danger"' not in src.split("def _run(self)")[1].split("acquire")[0],
+          "session: danger no longer pauses the hunt (PLAN 0.50: heal and keep fighting)")
+
+
+def _crowd(n, dx=50):
+    return [(CHAR[0] + dx + 8 * i, CHAR[1] + (-1) ** i * 10 * i) for i in range(n)]
+
+
+def test_crowd_r195240():
+    """PLAN 0.50 (records_game/m6TSP63T/r195240, rc8, elf Lv27, fallen_blessed): `danger` at t=0.1 with hp 100,
+    drop 0, mobs 3 -> 11 retreats in 17 s, 0 fights. A crowd is no danger any more and nobody steps back."""
+    ctx = Ctx("elf")
+    ctx.account.hunt_map, ctx.account.scan.hunt_range = "fallen_blessed", 10
+    ctx.account.health.use_skill = False
+    ctx.account.scan.melee_max_sec = 5.0
+    ctx.frames = [texture()]
+    hp = [100]
+    ctx.read_hp = lambda rect: hp[0]
+    mobs = _crowd(3)
+    ctx.state["mobs_near"] = mobs
+    hf = HealthFeature(ctx)
+    for _ in range(5):
+        hf.tick(ctx.rect())
+    clicks = lambda: [x for x in ctx.input.log if x[0] == "click"]
+    check(not hf.danger and not ctx.recorder.kinds("danger") and not clicks(),
+          "HP 100, drop 0, 3 monsters next to the elf: no danger, no step, no move")
+    tg = Tg(ctx, mobs[0], kill_after=3)
+    cf = cb.CombatFeature(ctx, health=hf, targeting=tg)
+    cb.CursorProbe.current_hash = staticmethod(lambda: "sword")
+    cf.engage(types.SimpleNamespace(local=mobs[0], screen=ctx.rect().to_screen(*mobs[0])), ctx.rect(), CHAR)
+    check(cf.last_outcome == "chat_kill" and ctx.recorder.kinds("melee_attack"),
+          f"the elf shoots the crowd from where it stands ({cf.last_outcome})")
+    check(cf._spell_why(50, True) == "crowd", "the crowd still unlocks the spells (_spell_why crowd)")
+    ctx.input.log.clear()
+    for v in (100, 74, 70):  # an HP burst: danger = heal / potion, never a step away
+        hp[0] = v
+        hf.tick(ctx.rect())
+    check(hf.danger and not clicks(), "HP burst -26 %: danger, and still no step away (no _retreat any more)")
+    check(not hasattr(hf, "_retreat"), "HealthFeature._retreat is gone for every class")
+    tg2 = Tg(ctx, mobs[0], kill_after=3)
+    cf2 = cb.CombatFeature(ctx, health=hf, targeting=tg2)
+    cf2.engage(types.SimpleNamespace(local=mobs[0], screen=ctx.rect().to_screen(*mobs[0])), ctx.rect(), CHAR)
+    check(cf2.last_outcome == "chat_kill", f"danger no longer ends / blocks the fight ({cf2.last_outcome})")
+
+
+def _lure_ctx(cls="knight", following=(), offset=(0.0, 0.0), **scan):
+    from lineage_auto.features.lure import LureFeature
+    ctx = Ctx(cls)
+    s = ctx.account.scan
+    s.hunt_range, s.pull_mode = 10, True
+    values = dict(lure_mobs=10, lure_steps=30, lure_max_sec=60.0, pull_abort_hp=50, lure_idle_sec=8.0,
+                  guard_steps=4)
+    values.update(scan)
+    for k, v in values.items():
+        setattr(s, k, v)
+    ctx.state["offset"] = offset
+    ctx.state["follow_counts"] = list(following)
+    clock = [1000.0]
+    lure = LureFeature(ctx, exploration=ex.ExplorationFeature(ctx), clock=lambda: clock[0])
+    return ctx, lure, clock
+
+
+def _start_trip(ctx, lure, clock):
+    keep = ctx.state["follow_counts"]
+    ctx.state["follow_counts"] = []
+    lure.observe()
+    clock[0] += 9  # quiet for more than lure_idle_sec
+    check(lure.tick(ctx.rect(), CHAR, 100) and lure.active, "at the start, quiet 9 s -> a lure trip starts")
+    check(ctx.recorder.kinds("lure_start"), "lure_start recorded")
+    ctx.state["follow_counts"] = keep
+
+
+def test_pull_crowd_r201820():
+    """PLAN 0.50 (records_game/mG1RN30H/r201820, prince, pull_mode, hunt_range 10): danger mobs=3 at HP 50 % ->
+    17 retreats in 27 s, never home. Now no retreat: it is gathering, 3 < lure_mobs 10, so it goes on."""
+    ctx, lure, clock = _lure_ctx("prince")
+    _start_trip(ctx, lure, clock)
+    hp = [50]
+    ctx.read_hp = lambda rect: hp[0]
+    ctx.state["mobs_near"] = _crowd(3)
+    ctx.state["follow_counts"] = [3, 3]
+    ctx.input.log.clear()
+    hf = HealthFeature(ctx)
+    hf.tick(ctx.rect())
+    check(not [x for x in ctx.input.log if x[0] == "click"], "HP 50 % + 3 monsters: no retreat click")
+    check(not lure.after_hit(50) and lure.active and not ctx.state.get("go_home"),
+          "3 following < 10, HP 50 % (not under pull_abort_hp 50): the trip goes on")
+    check(lure.tick(ctx.rect(), CHAR, 50) and [x for x in ctx.input.log if x[0] == "click"]
+          and not ctx.recorder.kinds("lure_return"), "no target: one more walk click out, no lure_return")
+
+
+def test_lure_count():
+    """PLAN 0.50: the knight gathers 3 -> 6 -> 10 followers (two scans each) and walks home at lure_mobs."""
+    ctx, lure, clock = _lure_ctx()
+    _start_trip(ctx, lure, clock)
+    for n in (3, 6):
+        ctx.state["follow_counts"] = [n, n]
+        check(not lure.after_hit(100), f"{n} following: hit it and go on")
+    ctx.state["follow_counts"] = [6, 10]
+    check(not lure.after_hit(100), "10 on one scan only (6 on the one before) is not 10 yet")
+    ctx.state["follow_counts"] = [10, 10]
+    check(lure.after_hit(100) and ctx.state.get("go_home") and not lure.active, "10 on two scans -> home")
+    ret = ctx.recorder.kinds("lure_return")
+    check(ret and ret[-1]["why"] == "count" and ret[-1]["mobs_following"] == 10, f"lure_return {ret[-1:]}")
+    hits = ctx.recorder.kinds("lure_hit")
+    check([h["mobs_following"] for h in hits] == [3, 6, 6, 10], f"lure_hit mobs_following {hits}")
+    # the session's walk home (the real AccountSession._walk_home on doubles)
+    from lineage_auto.runtime.session import AccountSession
+    tg = Tg(ctx, (CHAR[0] + 60, CHAR[1]))
+    tg.ctx = ctx
+    tg.steps_from_home = types.MethodType(TargetingFeature.steps_from_home, tg)
+    tg.step_px = types.MethodType(TargetingFeature.step_px, tg)
+    tg.minimap = None
+    ctx.state["offset"] = (12 * ctx.step_px(), 0.0)
+    expl = ex.ExplorationFeature(ctx, targeting=tg)
+    st = types.SimpleNamespace(ctx=ctx, account=ctx.account, targeting=tg, exploration=expl, lure=lure)
+    ctx.input.log.clear()
+    AccountSession._walk_home(st, ctx.rect())
+    walks = [x for x in ctx.input.log if x[0] == "click"]
+    check(len(walks) >= 5 and tg.steps_from_home() <= ex.GO_HOME_STOP and ctx.recorder.kinds("lure_home"),
+          f"walk_home: {len(walks)} clicks back, lure_home recorded")
+    src = open(os.path.join(ROOT, "lineage_auto", "runtime", "session.py"), encoding="utf-8").read()
+    check("if self.lure.tick(rect, char, " in src,
+          "the session asks the lure before it wanders")
+
+
+def test_lure_other_endings():
+    """PLAN 0.50: 9 followers at lure_steps -> steps; HP 45 % -> hp; lure_mobs 20 with 15 -> go on; time."""
+    ctx, lure, clock = _lure_ctx(following=[9, 9])
+    _start_trip(ctx, lure, clock)
+    ctx.state["offset"] = (30 * ctx.step_px(), 0.0)
+    check(lure.after_hit(100) and ctx.recorder.kinds("lure_return")[-1]["why"] == "steps", "9 at 30 steps: steps")
+    ctx, lure, clock = _lure_ctx(following=[4, 4])
+    _start_trip(ctx, lure, clock)
+    check(lure.after_hit(45) and ctx.recorder.kinds("lure_return")[-1]["why"] == "hp", "HP 45 %: hp")
+    ctx, lure, clock = _lure_ctx(following=[15, 15], lure_mobs=20)
+    _start_trip(ctx, lure, clock)
+    check(not lure.after_hit(100) and lure.active, "lure_mobs 20 with 15 following: keeps gathering")
+    clock[0] += 61
+    check(lure.tick(ctx.rect(), CHAR, 100) and ctx.recorder.kinds("lure_return")[-1]["why"] == "time",
+          "past lure_max_sec: time")
+    # at the start: a crowd there keeps the knight home (it guards), and the range is guard_steps
+    ctx, lure, clock = _lure_ctx(following=[3, 3])
+    lure.observe()
+    clock[0] += 9
+    lure.observe()
+    check(not lure.tick(ctx.rect(), CHAR, 100) and not lure.active, "3 monsters around the start: no new trip")
+    check(lure.range_steps() == 4, "at the start the melee range is guard_steps 4")
+    _ctx2, lure2, _c = _lure_ctx("elf")
+    check(not lure2.enabled() and lure2.range_steps() is None, "an elf never lures")
+    tgf = TargetingFeature(ctx)
+    tgf.lure, tgf.char = lure, CHAR
+    lure.active = True
+    check(tgf.out_of_range((CHAR[0] + 80, CHAR[1]), CHAR) and not tgf.out_of_range((CHAR[0] + 200, CHAR[1]), CHAR),
+          "on a trip a box within FOLLOW_PX is a follower (skipped), a new one 200 px off is a target")
+
+
+def test_lure_config():
+    """PLAN 0.50: a config saved before 0.50 has no lure keys -> the defaults; typed values are clamped."""
+    old = ScanSettings.from_dict({"hunt_range": 10, "pull_mode": True})
+    check((old.lure_mobs, old.lure_steps, old.lure_max_sec, old.pull_abort_hp, old.lure_idle_sec, old.guard_steps)
+          == (10, 30, 60.0, 50, 8.0, 4), "old config: lure_mobs 10, 30 steps, 60 s, HP 50 %, idle 8 s, guard 4")
+    big = ScanSettings.from_dict({"lure_mobs": 99, "pull_abort_hp": 0})
+    check(big.lure_mobs == 30 and big.pull_abort_hp == 10, "lure_mobs 1-30, pull_abort_hp 10-90")
+    acc = AccountSettings()
+    acc.scan.lure_mobs = 15
+    check(AccountSettings.from_dict(acc.to_dict()).scan.lure_mobs == 15, "lure_mobs survives a save / load")
+    from lineage_auto.ui import i18n
+    for lang in ("ko", "en", "vi"):
+        check(all(k in i18n.I18N[lang] for k in ("scan_lure_mobs", "scan_lure_steps", "scan_pull_abort_hp",
+                                                  "scan_lure_max", "scan_lure_idle", "scan_guard_steps")),
+              f"lure labels in {lang}")
+    check(i18n.I18N["vi"]["scan_lure_mobs"] == "Số quái gom rồi kéo về", "VI label as asked")
+
+
+def _lure_engage(following):
+    ctx, lure, clock = _lure_ctx(following=following)
+    _start_trip(ctx, lure, clock)
+    ctx.account.scan.melee_max_sec = 5.0
+    ctx.frames = [texture()]
+    ctx.state["offset"] = (8 * ctx.step_px(), 0.0)
+    p = (CHAR[0] + 40, CHAR[1])
+    tg = Tg(ctx, p)
+    tg.in_place = tg.ranged = lambda: False
+    tg.from_home = types.MethodType(TargetingFeature.from_home, tg)
+    tg.step_px = types.MethodType(TargetingFeature.step_px, tg)
+    tg.closer_than = lambda *a, **k: None
+    tg.track_current = lambda rect, a, char=None: types.SimpleNamespace(
+        local=p, local_x=p[0], local_y=p[1], screen=ctx.rect().to_screen(*p))
+    cf = cb.CombatFeature(ctx, targeting=tg)
+    cf.lure = lure
+    cb.CursorProbe.current_hash = staticmethod(lambda: "sword")
+    cf.engage(types.SimpleNamespace(local=p, screen=ctx.rect().to_screen(*p)), ctx.rect(), CHAR)
+    return ctx, cf, [e["kind"] for e in ctx.recorder.events if e["kind"].startswith(("pull", "lure"))]
+
+
+def test_lure_engage():
+    """PLAN 0.50: a real knight engage on a lure trip - PULL_HITS hits, never killed, then the lure decides."""
+    ctx, cf, kinds = _lure_engage([2, 2])
+    check(cf.last_outcome == "pulled" and kinds.count("pull_hit") == cb.PULL_HITS and "lure_hit" in kinds
+          and not ctx.state.get("go_home") and not ctx.state.get("pull"),
+          f"2 following: {cb.PULL_HITS} hits, lure_hit, the trip goes on (no 1.7 follow watch) {kinds}")
+    ctx, cf, kinds = _lure_engage([10, 10])
+    check(cf.last_outcome == "pulled" and kinds[-1] == "lure_return" and ctx.state.get("go_home"),
+          f"10 following: the same hits, then lure_return + go_home {kinds}")
 
 
 def test_class_cap():

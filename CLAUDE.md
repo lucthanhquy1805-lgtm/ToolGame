@@ -181,11 +181,13 @@ Each iteration, while holding the mouse arbiter:
    PLAN 0.40: no click at all when the minimap route to the target reads "blocked" (outcome `wall`, spot
    blacklisted); the minimap cannot see a fence under ~70 px (inside the character arrow), so a lock within
    `NEAR_FIGHT_DIST` with the attack cursor on a live box gets `NEAR_UNREACH_SEC` 4 s (a hand kill takes 3.8 s)
-   instead of 1.5 s, and a 10 s cap that never reached melee is blacklisted too. Safety: HP -20% in 2 s or
-   >= 3 boxes within MELEE_DIST (`state["mobs_near"]`, written by `targeting._detect`; the crowd half of the rule
-   only runs on an `mp_hungry` hunt map, so 오크의 땅 keeps v20's kill rate) = danger -> heal/potion at
-   once under 90% HP, one 120 px step away from the crowd, the fight ends (`danger`); nothing left to heal with
-   (no MP, no HP potion) under 80% HP = return scroll. `HuntMap.mp_hungry` warns when no MP potion is on.
+   instead of 1.5 s, and a 10 s cap that never reached melee is blacklisted too. Safety (PLAN 0.50): HP -20% in
+   2 s = danger -> heal/potion at once under 90% HP and KEEP FIGHTING (no class ever steps back, danger never ends
+   or blocks a fight; a crowd is not danger, it only unlocks spells via `_spell_why` "crowd"); nothing left to heal
+   with (no MP, no HP potion) under 80% HP = return scroll. `HuntMap.mp_hungry` warns when no MP potion is on.
+   PLAN 0.50 gather (`features/lure.py`, melee + pull_mode + hunt_range): guard `scan.guard_steps` at home, trips
+   out to `scan.lure_steps` giving each new monster PULL_HITS, home with `scan.lure_mobs` following (2 scans,
+   `targeting.FOLLOW_PX`) / steps / `lure_max_sec` / HP < `pull_abort_hp`; tests in `tests/test_attack_range.py`.
 
 ## Conventions / gotchas
 - Features only talk to their `BotContext`; never reach for globals. That is what makes

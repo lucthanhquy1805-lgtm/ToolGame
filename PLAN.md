@@ -1387,7 +1387,7 @@ Người dùng cần cả 4 việc: đi theo trưởng nhóm · đánh cùng m�
 - Thứ tự trước đó: v18 (orc_v2 + nhận elip nhiều biến thể) → duyệt nhãn orc tím + train orc_v3 (8 bản ghi records_game/spring_summer_autumn) → dữ liệu nhóm → 3.0.
 
 
-#### 3.0 CHỐT MÔ HÌNH NHÓM CỐ ĐỊNH (khách chốt 27/11 — thay e3 ở trên; 3.0-L/3.0-P KẾ HOẠCH, CHƯA CODE)
+#### 3.0 CHỐT MÔ HÌNH NHÓM CỐ ĐỊNH (khách chốt 27/11 — thay e3 ở trên; 3.0-L ĐÃ CODE ở PLAN 0.50 (28/11, bản cuối: GOM nhiều con, xem đó), 3.0-P KẾ HOẠCH)
 Mỗi máy 1 bot, mỗi class một vai, ĐIỂM GỐC CHUNG = chỗ cả nhóm đứng (điểm bắt đầu săn, `ctx.state["home"]`).
 
 | Class | Vị trí | Việc chính | Việc phụ |
@@ -2559,3 +2559,41 @@ Replay 480–550 s của 001015 cần `frames.jsonl` + ảnh f_00404–f_00468 (
    - Tối đa vẫn **25 bước** (`ATTACK_RANGE_MAX` 25, UI 1-25) - đã đúng từ 1.9.
    - `out_of_range_skip` nay có **event** (1 dòng mỗi lượt quét, không phải mỗi box - 142729 bỏ 1198 box):
      `{n, nearest, farthest, dists[:5], steps, kept}`, để đo lại tầm từ bản ghi sau này.
+
+## PLAN 0.50 — không ai bỏ chạy + hiệp sĩ/Quân Chủ GOM quái về gốc (3.0-L bản cuối)  [CODE XONG 28/11, v21rc9]
+
+Bằng chứng:
+- records_game/m6TSP63T/r195240 (rc8, elf Lv27, fallen_blessed): `danger` t=0.1, hp 100, drop 0, mobs 3; 11 retreat
+  trong 17 s, 0 trận. Luật đông quái của 0.40 (>= DANGER_MOBS box trong MELEE_DIST = danger) + `_retreat` 120 px
+  mỗi 1,5 s + combat "danger, not starting a fight" + session bỏ nhịp khi danger => nhân vật chỉ đi thẳng.
+- records_game/mG1RN30H/r201820 (prince, pull_mode, hunt_range 10): danger mobs 3 lúc HP 50 %, 17 retreat / 27 s,
+  không về gốc.
+
+Mô hình bãi săn nhóm (khách 28/11): tiên/pháp sư luôn đứng gốc, đông quái là bình thường (hiệp sĩ kéo về cho họ đánh).
+1. KHÔNG class nào bỏ chạy: `HealthFeature._retreat` (+ RETREAT_PX / RETREAT_COOLDOWN) đã xoá. Danger = chỉ HP tụt
+   >= DANGER_DROP_PCT trong DANGER_WINDOW -> hồi máu/uống bình ngay (< 90 %), về làng nếu hết cách hồi (< 80 %), và
+   TIẾP TỤC ĐÁNH: combat không còn kết thúc / chặn trận vì danger, session không bỏ nhịp. `DANGER_MOBS` chỉ còn ở
+   `combat._spell_why` ("crowd" -> cho dùng phép). Counter `retreat` trên tab Thống kê giữ lại (sẽ luôn 0).
+2. GOM QUÁI (`features/lure.py`, LureFeature; bật khi class cận chiến + pull_mode + hunt_range > 0):
+   - Ở gốc: chỉ nhận quái trong `scan.guard_steps` (4) bước quanh gốc (`targeting.out_of_range`). Chuyến mới khi quanh
+     gốc <= 2 box suốt `scan.lure_idle_sec` (8 s) và HP >= `pull_abort_hp` -> `lure_start {dir, idle_s}`; hướng = 8
+     hướng xoay vòng, mỗi chuyến +1.
+   - Trên đường: tầm = `scan.lure_steps` (30) bước từ gốc; mỗi con MỚI đánh PULL_HITS (2) phát rồi thôi (`lure_hit
+     {mobs_following}`), box trong FOLLOW_PX 150 px quanh nhân vật là con đang theo -> không nhận làm mục tiêu, combat
+     không switch sang nó, `_defend` / vòng rê tắt khi đang gom. Không có mục tiêu -> 1 click đi tiếp theo hướng.
+   - Đếm số theo: `targeting._detect` ghi `state["follow_counts"]` (2 ảnh mới gần nhất); số theo = min của 2.
+   - Về gốc (`lure_return {why, mobs_following, steps}`, đi bộ bằng `session._walk_home`, không đánh dọc đường):
+     why=count khi số theo >= `scan.lure_mobs` (10, 1–30); steps khi hết lure_steps; time khi quá `lure_max_sec`
+     (60 s); hp khi HP < `pull_abort_hp` (50 %). Tới gốc -> `lure_home`, đứng đánh cùng nhóm.
+   - Thay 1.7 (một con mỗi chuyến + follow watch) khi LureFeature được nối (session); combat không có lure (test cũ)
+     giữ hành vi 1.7.
+   - Tab Săn: "Số quái gom rồi kéo về" / số bước gom / HP quay về cạnh "Kéo quái"; thời gian gom / chờ yên / bán kính
+     giữ gốc ở Nâng cao. i18n ko/en/vi. Config cũ không có khoá -> mặc định.
+   - shortcut: đi gom không xem minimap tìm rào (lure_max_sec chặn chuyến kẹt); con chặn đường về không có xử lý
+     riêng (click đi bộ trúng quái = 1 phát). Nâng cấp nếu bản ghi cho thấy chuyến kết thúc "time" nhiều.
+3. Test: `tests/test_attack_range.py` test_crowd_r195240, test_pull_crowd_r201820, test_lure_count (3->6->10, why=count,
+   `_walk_home` thật, lure_home), test_lure_other_endings (steps / hp / lure_mobs 20 với 15 / time / gốc đông /
+   guard_steps / elf không gom / bỏ qua con đang theo), test_lure_config, test_lure_engage (engage hiệp sĩ thật: 2 phát,
+   lure_hit, không follow watch; 10 theo -> lure_return + go_home). smoke 0.40 cập nhật; test_near_blind theo 1.10 #5.
+
+CHỜ MÁY GAME: chuyến gom thật (số theo đếm đúng khi quái đuổi sau lưng, thời gian 1 chuyến, có kẹt rào không).

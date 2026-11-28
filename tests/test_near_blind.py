@@ -140,8 +140,9 @@ def test_ring_sweep_and_cooldown():
     try:
         target = ring.sweep(FakeRect(), (640, 380), "idle")
         check(target is not None, "ring finds the monster the model has no box for")
-        check(ring.targeting.probed and ring.targeting.probed[0] == sword_at,
-              "the ring hit is re-confirmed with the full probe", str(ring.targeting.probed))
+        # PLAN 1.10 #5: a sword within NEAR_NOW_PX (every ring point is 45 / 90 px) is attacked on the ring read
+        check(not ring.targeting.probed and target.local == sword_at,
+              "a ring hit within NEAR_NOW_PX is taken without a second probe", str(ring.targeting.probed))
         check(ctx.input.released == 1, "the ring releases the mouse first")
         check(ctx.hard and ctx.hard[0][1] == "ring", "a ring hit saves a hard case", str(ctx.hard))
         check(ring.sweep(FakeRect(), (640, 380), "idle") is None, "a second ring inside the cooldown is blocked")

@@ -19,6 +19,12 @@ FIELDS = (
     ("max_probe_points", "scan_points", 1, MAX_PROBE_POINTS, 1, 1),
     ("hunt_range", "scan_range", 0, HUNT_RANGES[-1], HUNT_RANGES, 1),  # PLAN 1.2
     ("pull_mode", "scan_pull", 0, 1, 1, 1),  # PLAN 1.7
+    ("lure_mobs", "scan_lure_mobs", 1, 30, 1, 1),  # PLAN 0.50: knight / prince gather trip
+    ("lure_steps", "scan_lure_steps", 5, 60, 1, 1),
+    ("pull_abort_hp", "scan_pull_abort_hp", 10, 90, 5, 1),
+    ("lure_max_sec", "scan_lure_max", 10, 600, 10, 1),
+    ("lure_idle_sec", "scan_lure_idle", 3, 60, 1, 1),
+    ("guard_steps", "scan_guard_steps", 1, 20, 1, 1),
     ("attack_range", "scan_attack_range", 1, ATTACK_RANGE_MAX, 1, 1),  # PLAN 1.9: 0 saved = the class default
     ("spell_min_mp_pct", "scan_spell_mp", 0, 100, 5, 1),  # PLAN 1.9
     ("miss_ttl", "scan_miss_ttl", 0, 30, 1, 1),
@@ -38,7 +44,8 @@ FIELDS = (
 
 
 # Shown at once; the rest (timings, threshold) sits in the collapsed "Advanced" box (UI v7).
-BASIC = ("misses_before_wander", "max_probe_points", "hunt_range", "pull_mode", "attack_range",
+BASIC = ("misses_before_wander", "max_probe_points", "hunt_range", "pull_mode", "lure_mobs", "lure_steps",
+         "pull_abort_hp", "attack_range",
          "spell_min_mp_pct")
 
 # PLAN 1.2 step calibration: the player walks this many steps between the two presses while the tool

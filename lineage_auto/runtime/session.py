@@ -15,6 +15,7 @@ from ..features.exploration import ExplorationFeature
 from ..features.grid_scan import GridScanFeature
 from ..features.ring_probe import RingProbeFeature
 from ..features.loot import LootFeature
+from ..features.lure import LureFeature
 from ..features.survival import HealthFeature
 from ..features.targeting import TargetingFeature
 from ..vision.geometry import play_max_radius
@@ -96,6 +97,9 @@ class AccountSession:
         )
         self.exploration = ExplorationFeature(self.ctx, health=self.health, targeting=self.targeting)
         self.loot = LootFeature(self.ctx, targeting=self.targeting)
+        # PLAN 0.50: a melee class with pull_mode gathers monsters and walks them home to the group
+        self.lure = LureFeature(self.ctx, exploration=self.exploration)
+        self.combat.lure = self.targeting.lure = self.lure
         self.grid = GridScanFeature(self.ctx)
         # PLAN 0.46 B2.3: the cursor ring - the only sensor that sees a monster the model has no box for.
         self.ring = RingProbeFeature(self.ctx)
@@ -125,7 +129,8 @@ class AccountSession:
         return self._thread is not None and self._thread.is_alive() and self.ctx.running
 
     def _features(self):
-        return (self.health, self.targeting, self.buff, self.cure, self.combat, self.exploration, self.loot)
+        return (self.health, self.targeting, self.buff, self.cure, self.combat, self.exploration, self.loot,
+                self.lure)
 
     def _set_state(self, state):
         self.state = state
@@ -187,7 +192,7 @@ class AccountSession:
         # remember it; every slot press from here on switches page only when it has to.
         # PLAN 1.7: the hunt starts HERE - the range, the walk back and the pull all measure from this point.
         self.ctx.state["offset"] = (0.0, 0.0)
-        for key in ("pull", "go_home", "home", "ring_first"):
+        for key in ("pull", "go_home", "home", "ring_first", "follow_counts"):
             self.ctx.state.pop(key, None)
         self.ctx.state["hotbar_page"] = None
         self.ctx.goto_page(self.account.home_page or "F1")
@@ -463,7 +468,8 @@ class AccountSession:
         away = self.targeting.steps_from_home()
         # PLAN 1.11: after a fight, anything past HOME_AFTER_FIGHT steps is walked back before the next target
         # (20261128_142729: the elf drifted ~69 steps with 0 go_home in 905 s).
-        if away is not None and away > HOME_AFTER_FIGHT and self.account.scan.hunt_range:
+        if (away is not None and away > HOME_AFTER_FIGHT and self.account.scan.hunt_range
+                and not self.lure.active):  # PLAN 0.50: a lure trip walks home only when the lure says so
             self.ctx.state["go_home"] = True
         if not self.ctx.state.pop("go_home", False):
             return
@@ -475,6 +481,7 @@ class AccountSession:
                 break
             if not self.exploration.walk_home(rect, self.ctx.char_pos(rect)):
                 break
+        self.lure.home()
         pull = self.ctx.state.get("pull")
         if pull and pull.get("until") is None:
             pull["until"] = time.monotonic() + combat.PULL_FOLLOW_SEC
@@ -609,15 +616,12 @@ class AccountSession:
                             break
 
                         self.buff.tick(rect)
-                        if getattr(self.health, "danger", False):
-                            # PLAN 0.47: health heals / steps back while the flag holds (DANGER_HOLD); a fight
-                            # opened now would end 0.1 s later as "danger" again (191624: 11 for one burst).
-                            self.ctx.sleep(IDLE_PAUSE)
-                            continue
+                        # PLAN 0.50: danger no longer pauses the hunt - health heals / drinks, we keep fighting
                         falling = self._hp_falling()
                         target = self.targeting.rehover_last(rect)
                         ring_hit = False
-                        if target is None and self.ctx.state.get("ring_first") and self.ring.ready():
+                        luring = self.lure.active  # PLAN 0.50: the boxes around us are the ones we gathered
+                        if target is None and self.ctx.state.get("ring_first") and self.ring.ready() and not luring:
                             self.ctx.state.pop("ring_first", None)
                             # PLAN 1.10: the last fight gave up on a monster next to us while HP was falling -
                             # it is still there with no box. Ring BEFORE acquire, which would walk to a box
@@ -627,10 +631,11 @@ class AccountSession:
                         if target is None:
                             target = self.targeting.acquire(rect, char)
                             self.exploration.observe()
-                        if target is None:
+                            self.lure.observe()
+                        if target is None and not luring:
                             target = self._defend(rect, char, falling)
                             ring_hit = target is not None  # PLAN 0.46: a ring target has no box to follow
-                        if target is None and time.monotonic() - last_target > RING_IDLE_SEC:
+                        if target is None and time.monotonic() - last_target > RING_IDLE_SEC and not luring:
                             target = self.ring.sweep(rect, char, "idle")
                             ring_hit = target is not None
                         self._idle_watch(char, falling)
@@ -658,7 +663,10 @@ class AccountSession:
                             self.targeting.reset_misses()
                             if time.monotonic() - last_target > HOME_IDLE_SEC:
                                 self.ctx.goto_page(self.account.home_page)
-                            self.exploration.wander(rect, char)
+                            if self.lure.tick(rect, char, getattr(self.health, "last_hp", None)):
+                                self._walk_home(rect)  # only walks when the lure just turned for home
+                            else:
+                                self.exploration.wander(rect, char)
 
                     time.sleep(IDLE_PAUSE)
                 except Exception as exc:  # PLAN 0.38: one bad beat must not end a 24/7 run

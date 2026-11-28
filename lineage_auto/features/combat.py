@@ -135,6 +135,7 @@ class CombatFeature(Feature):
         self.targeting = targeting
         self.buff = buff
         self.cure = cure
+        self.lure = None  # PLAN 0.50: LureFeature (session); None = the 1.7 one-monster pull trip
         self.last_outcome = None
         self.last_anchor = None  # client point of the lock when the fight ended (the corpse for loot)
         self.last_world = None
@@ -656,8 +657,6 @@ class CombatFeature(Feature):
                 self.cure.tick(rect)
             if self.health and self.health.check_death(rect):
                 return self._finish(None, "town" if getattr(self.health, "returned", False) else "char_dead")
-            if self.health is not None and getattr(self.health, "danger", False):
-                return self._finish(target, "danger", anchor)
             time.sleep(BURST_INTERVAL)
             self._check_mp_pending(rect)
             updated = self.targeting.track_current(rect, anchor, char=char) if self.targeting else None
@@ -803,11 +802,21 @@ class CombatFeature(Feature):
         return True
 
     def _pull_danger(self):
-        """HP falling or a crowd around us: a pull trip is abandoned at once (PLAN 1.7)."""
+        """A pull trip is abandoned (walk home, never a flight): PLAN 1.7 HP falling; PLAN 0.50 with the lure
+        (monsters following us hit us on purpose) only HP under scan.pull_abort_hp. A crowd is no reason."""
+        if self.lure is not None:
+            hp = getattr(self.health, "last_hp", None)
+            return f"hp {hp}%" if hp and hp < self.account.scan.pull_abort_hp else ""
         if self.health is not None and getattr(self.health, "hp_falling", bool)():
             return "hp falling"
-        near = len(self.ctx.state.get("mobs_near") or ())
-        return f"{near} monsters next to us" if near >= DANGER_MOBS else ""
+        return ""
+
+    def _lure_hit(self, anchor, char):
+        """A pull hit landed: the 1.7 trip goes home and waits for it; the lure (0.50) decides whether to go on."""
+        if self.lure is None:
+            self._start_follow_watch(anchor, char)
+        else:
+            self.lure.after_hit(getattr(self.health, "last_hp", None))
 
     def engage(self, target, rect, char, force_melee=False, ring=False):
         """Attack until death/lost/stop. Always hold+drag on entry.
@@ -847,8 +856,6 @@ class CombatFeature(Feature):
                 and self.targeting.route(anchor)[0] == "blocked"):
             self.targeting.block(anchor)
             return self._finish(target, "wall", anchor, f"{self._dist:.0f}px, no way on the minimap")
-        if self.health is not None and getattr(self.health, "danger", False):
-            return self._finish(target, "danger", anchor, "not starting a fight")  # PLAN 0.40
         self._detour_if_blocked(rect, char, target)
         self._hold_and_drag(screen_x, screen_y)
 
@@ -880,9 +887,7 @@ class CombatFeature(Feature):
 
                 if self.health and getattr(self.health, "just_acted", False):
                     self._rearm(screen_x, screen_y)
-                # PLAN 0.40: a damage burst / a crowd next to us: leave the fight so health can step back.
-                if self.health is not None and getattr(self.health, "danger", False):
-                    return self._finish(target, "danger", anchor)
+                # PLAN 0.50: danger no longer ends a fight - health heals / drinks and we keep hitting.
 
                 time.sleep(BURST_INTERVAL)
                 self._check_mp_pending(rect)
@@ -968,8 +973,10 @@ class CombatFeature(Feature):
                 # PLAN 0.39 / 6: leave a living lock only for a monster hitting us while the lock is not next to us
                 # PLAN 0.43: being hit switches to anything within NEAR_KEEP, not only to a much nearer box.
                 hurt = self.health is not None and getattr(self.health, "hp_falling", bool)()
+                # PLAN 0.50: on a lure trip the monsters around us are the ones we gathered - never switch to them
                 closer = (self.targeting.closer_than(anchor, char, hurt=hurt)
-                          if self.targeting is not None and dist > MELEE_DIST else None)
+                          if self.targeting is not None and dist > MELEE_DIST
+                          and not (pull and self.lure is not None) else None)
                 if closer is not None and pull and not hurt and self._confirm_switch(rect, closer):
                     # PLAN 1.10 [a]: on a pull trip a nearer monster must not start a fight out in the field
                     # (20261128_123218: 3 of 4 trips cut at 13.2 / 18.7 / 38.1 s). Hit it once so it follows
@@ -981,7 +988,7 @@ class CombatFeature(Feature):
                     self._event("pull_interrupt", why="closer", dist=round(
                         math.hypot(closer[0] - char[0], closer[1] - char[1])), lock_dist=round(dist),
                         hits=pull_hits)
-                    self._start_follow_watch(closer, char)
+                    self._lure_hit(closer, char)
                     return self._finish(target, "pulled", closer, f"closer monster pulled too, {pull_hits} hits")
                 if closer is not None and self._confirm_switch(rect, closer):
                     # PLAN 0.31 / 2: always the nearest -> fight the one next to us; rehover_last confirms it.
@@ -994,15 +1001,19 @@ class CombatFeature(Feature):
                 if pull:
                     reason = self._pull_danger()
                     if reason:
-                        self._event("pull_return", why="danger", detail=reason, hits=pull_hits)
-                        self.ctx.state["go_home"] = True
+                        if self.lure is not None:
+                            self.lure.go_home("hp")
+                        else:
+                            self._event("pull_return", why="danger", detail=reason, hits=pull_hits)
+                            self.ctx.state["go_home"] = True
                         return self._finish(target, "pull_danger", anchor, reason)
                     if melee:
                         pull_hits += 1
                         self._event("pull_hit", n=pull_hits, cursor=self._cursor_last, dist=round(dist))
                         if pull_hits >= PULL_HITS:
-                            self._event("pull_return", why="hits", detail="", hits=pull_hits)
-                            self._start_follow_watch(anchor, char)
+                            if self.lure is None:
+                                self._event("pull_return", why="hits", detail="", hits=pull_hits)
+                            self._lure_hit(anchor, char)
                             return self._finish(target, "pulled", anchor, f"{pull_hits} hits")
                 if melee:
                     fight_progress_t = progress_t = now  # hitting it: never no_progress / side step / unreachable
