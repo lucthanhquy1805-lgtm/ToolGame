@@ -2363,7 +2363,7 @@ Sửa: `targeting.has_spell()` (cùng điều kiện `combat.active_skills`: b�
 `out_of_range` = ngoài `in_hand_reach`, và `exploration._monster_in_reach` cũng vậy (quái 300 px không giữ chân
 caster ở chỗ cũ nữa). Test: `test_attack_range.test_no_spell_reach`, `test_hunt_records.check_in_place_101941`.
 
-### 0.48 DETECT TRÊN GPU BẰNG DIRECTML (không CUDA)  [CODE + ĐO PC NHÀ 27/11, v21rc8 — CHỜ SỐ MÁY GAME]
+### 0.48 DETECT TRÊN GPU BẰNG DIRECTML (không CUDA)  [XONG 28/11, v21rc8 — ĐẠT TRÊN MÁY GAME]
 Máy game: i5-4440 (4 nhân/4 luồng, Haswell, không có nhân P/E) ~56% khi game + bot; GTX 1050 Ti 4 GB (DX12), game ~38%.
 v3.0.0 chỉ dùng CPU, docstring gốc ghi "driver mismatch made GPU boxes unstable" -> phải so box với CPU.
 - Cấu hình `scan.detect_provider`: "auto" (mặc định) / "cpu" / "gpu"; tab Săn > Nâng cao "Thiết bị nhận diện".
@@ -2398,3 +2398,13 @@ game cho luôn số: dòng log `[detect] <model>: DirectML x ms, CPU y ms` + met
 NGHIỆM THU trên máy game: provider = Dml, ms_total search/fight thấp hơn rc7, process cpu% giảm rõ, game không giật
 hơn (GPU game 38% + bot); nếu game giật -> chọn "CPU" trong tab Nâng cao (không cần build mới).
 Test: `python tests/test_provider.py` (fallback/gpu/cpu, config, box DML == CPU), `test_attack_range.test_near_due`.
+
+SỐ MÁY GAME (28/11, rc8, elf, 오크의 땅, input 416 lưu, auto -> DmlExecutionProvider; 20261128_000131_hunt 114 s +
+20261128_001015_hunt 594 s):
+- Đua lúc nạp (`provider_probe`, DML / CPU ms): 640 41,5 / 268; 416 14,7-22 / 109-111; 320 14,3 / 35,1.
+- Mỗi phút (detect_stats, cả tiền xử lý): search 640 (elf trên DML) 44-57 ms (rc6: 416 CPU 108); fight 34-38 ms;
+  crop gần 19,5-22 ms (rc6 CPU 78-87) chạy mọi lượt trận (~120/phút); fight ms_total 53-56 (rc6 183).
+- CPU tiến trình 40-47% (rc6 67%, rc5 50%). Game không báo giật.
+- Trận (001015, 59): 14 chat_kill + 2 corpse, 21 gone, 18 cap, 4 range_walk; giết bằng cung mất 6-9,5 s. 18 cap
+  đều ở 40-70 px, box còn: sau cap bot khoá lại đúng con đó (< 10 px) và thường xong trong ~3 s -> cap 10 s chỉ
+  cắt ngắn, không mất quái. Nếu muốn bớt: tăng "melee_max_sec" (tab Săn > Nâng cao) lên 15 cho tiên, không cần build.
