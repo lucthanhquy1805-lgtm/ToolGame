@@ -96,6 +96,19 @@ def main():
             threading.Event(), 10.0
         tab.scan._finish_measure()  # 1 px / 10 steps = 0.1 px per step: a misread, keep the measured value
         assert tab.account.scan.step_mm == 2.3 and "0.1" in tab.scan.lbl_step.cget("text")
+        tab.scan._odo, tab.scan._measure, tab.scan._scale = types.SimpleNamespace(pos=(66.0, 0.0)), \
+            threading.Event(), 10.0
+        tab.scan._finish_measure()  # PLAN 1.12: 6.6 px per step (DESKTOP-6TSP63T): error, not saved
+        assert tab.account.scan.step_mm == 2.3 and "6.6" in tab.scan.lbl_step.cget("text")
+        tab.scan._odo, tab.scan._measure, tab.scan._scale = types.SimpleNamespace(pos=(24.0, 0.0)), \
+            threading.Event(), 10.0
+        tab.scan._finish_measure()  # 2.4 is inside 1.8-2.8: saved
+        assert tab.account.scan.step_mm == 2.4, tab.account.scan.step_mm
+        assert tab.scan.btn_step.master.master is tab.scan.advanced  # PLAN 1.12: under Advanced
+        tab.scan.btn_step_default.invoke()
+        assert tab.account.scan.step_mm == 0.0 and "2.3" in tab.scan.lbl_step.cget("text")
+        assert "2.3" in tab.scan.btn_step_default.cget("text")
+        tab.account.scan.step_mm = 2.3
         tab.scan._odo, tab.scan._measure = None, threading.Event()
         tab.scan._finish_measure()  # the minimap was off the whole time
         assert tab.account.scan.step_mm == 2.3

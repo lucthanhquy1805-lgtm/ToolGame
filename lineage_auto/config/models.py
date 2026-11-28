@@ -219,9 +219,19 @@ PROVIDERS = ("auto", "cpu", "gpu")  # PLAN 0.48: ScanSettings.detect_provider
 
 
 def _step_mm(value):
-    """PLAN 1.2: a saved step outside minimap.STEP_MM_RANGE (1-20 minimap px) is a misread -> the default."""
-    value = float(value)
-    return value if 1.0 <= value <= 20.0 else 0.0
+    """PLAN 1.12: a saved step outside minimap.STEP_MM_RANGE (1.8-2.8 minimap px) is a misread -> 0 = the default
+    minimap.STEP_MM. 0 / missing = the default too."""
+    from ..vision.minimap import STEP_MM_RANGE
+
+    value = float(value or 0.0)
+    if value and not STEP_MM_RANGE[0] <= value <= STEP_MM_RANGE[1]:
+        msg = f"[STEP] bỏ giá trị đo sai {value} (ngoài {STEP_MM_RANGE[0]}-{STEP_MM_RANGE[1]}), dùng mặc định"
+        try:
+            print(msg)  # session_log is utf-8; a cp1252 console must not break loading the config
+        except UnicodeEncodeError:
+            print(msg.encode("ascii", "replace").decode())
+        return 0.0
+    return value
 
 
 @dataclass
@@ -563,7 +573,8 @@ class AccountSettings:
             "hunt_map": self.hunt_map,
             "cursor_hashes": dict(self.cursor_hashes),
             "health": asdict(self.health),
-            "scan": asdict(self.scan),
+            # PLAN 1.12: step_mm 0 = the default, not written (only a measured step is saved)
+            "scan": {k: v for k, v in asdict(self.scan).items() if k != "step_mm" or v},
             "loot": asdict(self.loot),
             "record": asdict(self.record),
             "attack_skills": {k: asdict(v) for k, v in self.attack_skills.items()},

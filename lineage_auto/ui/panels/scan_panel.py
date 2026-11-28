@@ -65,14 +65,6 @@ class ScanPanel(Panel):
         self.frame.pack(fill="x", padx=8, pady=3)
         basic = ttk.Frame(self.frame)
         basic.pack(fill="x")
-        # PLAN 1.2: measure one step against the minimap, so the game PC needs no new build.
-        self._odo = self._measure = self._scale = None
-        step = ttk.Frame(self.frame)
-        step.pack(fill="x", pady=(2, 0))
-        self.btn_step = ttk.Button(step, text="", command=self.toggle_measure)
-        self.btn_step.pack(side="left")
-        self.lbl_step = ttk.Label(step, text="")
-        self.lbl_step.pack(side="left", padx=6)
         # PLAN 1.9: measure the hand attack reach on live monsters
         self._range_stop = None
         reach = ttk.Frame(self.frame)
@@ -113,6 +105,16 @@ class ScanPanel(Panel):
         self.combo_provider["values"] = [self.t(f"provider_{p}") for p in PROVIDERS]
         self.combo_provider.grid(row=rows["adv"] + 1, column=1, sticky="w", pady=1)
         self.combo_provider.bind("<<ComboboxSelected>>", lambda _e: self.tab.request_save())
+        # PLAN 1.2 / 1.12: measure one step against the minimap (Advanced: a wrong value skews range / go_home)
+        self._odo = self._measure = self._scale = None
+        step = ttk.Frame(self.advanced)
+        step.grid(row=rows["adv"] + 2, column=0, columnspan=2, sticky="w", pady=(2, 0))
+        self.btn_step = ttk.Button(step, text="", command=self.toggle_measure)
+        self.btn_step.pack(side="left")
+        self.btn_step_default = ttk.Button(step, text="", command=self.default_step)
+        self.btn_step_default.pack(side="left", padx=(4, 0))
+        self.lbl_step = ttk.Label(step, text="")
+        self.lbl_step.pack(side="left", padx=6)
         # PLAN 1.10: the G1RN30H config had hover_reads 6 / hover_settle 50 ms (250 ms a hover against the
         # shipped 160 ms) with no way back short of editing the JSON.
         self.btn_reset = ttk.Button(self.advanced, text="", command=self.reset_defaults)
@@ -188,13 +190,20 @@ class ScanPanel(Panel):
         if not lo <= px <= hi:
             self.lbl_step.config(text=self.t("step_bad", px=f"{px:.1f}"))
             print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps = {px:.1f} px/step, "
-                  f"outside {lo:.0f}-{hi:.0f}: nothing saved")
+                  f"outside {lo}-{hi}: nothing saved")
             return
         self.account.scan.step_mm = round(px, 1)
         self.tab.request_save()
         self.lbl_step.config(text=self.t("step_value", px=f"{px:.1f}"))
         print(f"[STEP] {dist:.1f} minimap px over {MEASURE_STEPS} steps = {px:.1f} minimap px per step, "
               f"saved to the config")
+
+    def default_step(self):
+        """PLAN 1.12: forget a measured step, back to minimap.STEP_MM."""
+        self.account.scan.step_mm = 0.0
+        self.tab.request_save()
+        self.lbl_step.config(text=self.t("step_value", px=f"{minimap.STEP_MM:.1f}"))
+        print(f"[STEP] back to the default {minimap.STEP_MM} minimap px per step")
 
     def toggle_range(self):
         """PLAN 1.9: start the attack range measurement (features/range_probe), or cancel it."""
@@ -300,6 +309,7 @@ class ScanPanel(Panel):
         if index >= 0:
             self.combo_provider.current(index)
         self.btn_step.config(text=self.t("step_done" if self._measure is not None else "step_measure"))
+        self.btn_step_default.config(text=self.t("step_default", px=f"{minimap.STEP_MM:.1f}"))
         if self._measure is None:
             self.lbl_step.config(
                 text=self.t("step_value", px=f"{self.account.scan.step_mm or minimap.STEP_MM:.1f}"))
@@ -310,6 +320,7 @@ class ScanPanel(Panel):
         for spin in self.spins:
             spin.config(state="disabled" if running else "normal")
         self.btn_step.config(state="disabled" if running else "normal")
+        self.btn_step_default.config(state="disabled" if running else "normal")
         self.btn_range.config(state="disabled" if running else "normal")
         self.combo_provider.config(state="disabled" if running else "readonly")
         if running:

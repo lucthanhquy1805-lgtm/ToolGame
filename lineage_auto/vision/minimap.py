@@ -42,7 +42,7 @@ def step_px(client_w, step_mm=None):
     One walk click moves two steps (records_game/20261126_192615_observe: 10 clicks = 20 steps).
     """
     return (step_mm or STEP_MM) * SCALE * client_w / BASE_W
-STEP_MM_RANGE = (1.0, 20.0)  # a measurement outside this is a misread, not a step
+STEP_MM_RANGE = (1.8, 2.8)  # PLAN 1.12: outside = a misread (DESKTOP-6TSP63T saved 6.6: range/go_home ~3x off)
 # Odometry features (PLAN 1.2b): the minimap is see-through, so its gray level follows the game scene under
 # it; only the small dark marks of the map (black-hat) are kept, the arrow in the middle is masked out.
 ODO_HAT = 11  # black-hat kernel, minimap px: dark marks smaller than this

@@ -80,8 +80,21 @@ def test_reject():
 def test_saved_values():
     assert ScanSettings.from_dict({"step_px": 48.0}).step_mm == 0.0  # v21rc1 client px: not read
     assert ScanSettings.from_dict({"step_mm": 2.3}).step_mm == 2.3
-    assert ScanSettings.from_dict({"step_mm": 33.0}).step_mm == 0.0  # outside 1-20: a misread
+    assert ScanSettings.from_dict({"step_mm": 33.0}).step_mm == 0.0  # outside 1.8-2.8: a misread
     assert ScanSettings.from_dict({"step_mm": 0.4}).step_mm == 0.0
+    # PLAN 1.12: DESKTOP-6TSP63T saved 6.6 -> the default 2.3 is what the bot uses
+    assert ScanSettings.from_dict({"step_mm": 6.6}).step_mm == 0.0
+    assert minimap.step_px(1280, ScanSettings.from_dict({"step_mm": 6.6}).step_mm) == minimap.step_px(1280, 2.3)
+    assert ScanSettings.from_dict({"step_mm": 2.4}).step_mm == 2.4
+    from lineage_auto.config.models import AccountSettings
+    assert "step_mm" not in AccountSettings().to_dict()["scan"]  # a new config does not write the default
+    real = os.path.join(ROOT, "records_game", "m6TSP63T", "lineage_auto_config.json")
+    if os.path.isfile(real):  # the config of that PC as it came back
+        import json
+        from lineage_auto.config.models import AppSettings
+        app = AppSettings.from_dict(json.load(open(real, encoding="utf-8")))
+        assert all(a.scan.step_mm == 0.0 for a in app.accounts), [a.scan.step_mm for a in app.accounts]
+        print("   DESKTOP-6TSP63T config: step_mm 6.6 -> default 2.3")
 
 
 if __name__ == "__main__":

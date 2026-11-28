@@ -2597,3 +2597,11 @@ Mô hình bãi săn nhóm (khách 28/11): tiên/pháp sư luôn đứng gốc, �
    lure_hit, không follow watch; 10 theo -> lure_return + go_home). smoke 0.40 cập nhật; test_near_blind theo 1.10 #5.
 
 CHỜ MÁY GAME: chuyến gom thật (số theo đếm đúng khi quái đuổi sau lưng, thời gian 1 chuyến, có kẹt rào không).
+
+### 1.12 KHOÁ BƯỚC MINIMAP  [XONG 28/11]
+Máy DESKTOP-6TSP63T lưu `step_mm` 6.6 (đo sai; đúng là ~2.3) -> phạm vi săn / go_home lệch ~3 lần.
+- `minimap.STEP_MM_RANGE` (1.0, 20.0) -> (1.8, 2.8). Khi đọc config, `step_mm` ngoài khoảng -> 0 = mặc định
+  `minimap.STEP_MM` 2.3, log "[STEP] bỏ giá trị đo sai X". Config mới / mặc định không ghi `step_mm` (chỉ lưu bước đã đo).
+- Nút "Đo bước" chuyển vào mục Nâng cao của tab Săn + nút "Mặc định (2.3)". Đo ra ngoài [1.8, 2.8] -> báo lỗi, không lưu.
+- Test: `tests/test_odometry.py` (6.6 -> 2.3 hiệu lực, 2.4 giữ, config thật records_game/m6TSP63T), `tests/test_ui.py`
+  (đo 6.6 không lưu, đo 2.4 lưu, nút Mặc định, khối đo nằm trong Nâng cao).
