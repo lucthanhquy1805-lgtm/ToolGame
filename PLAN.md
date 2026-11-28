@@ -9,6 +9,32 @@ Quy tắc làm việc cho Claude Code:
 - Vòng lặp dài phải gọi `poll_escape(ctx)` và kiểm tra `ctx.running` để ESC luôn dừng được.
 - Việc nào cần ảnh/tọa độ thật từ game: làm phần code + chỗ cấu hình, đánh dấu "CẦN DỮ LIỆU GAME".
 
+## VIỆC TIẾP (ưu tiên, mới nhất ở trên)
+
+### ƯU TIÊN 1 — PLAN 3.1 VÒNG TỰ HỌC: orc_v3 -> orc_v4 từ hard case thật (hoàn thiện mục 5/6 của 0.46)
+Mục tiêu: model `fallen_blessed` (orc_v3) -> orc_v4, huấn luyện thêm từ hard case thật của 2 máy game; CHỈ thay khi
+đo tốt hơn. Dữ liệu: zip "Xuất dữ liệu học" của DESKTOP-6TSP63T (elf) và DESKTOP-G1RN30H (Quân Chủ), đặt ở
+`records_game/hard_cases/<máy>_<ngày>.zip`.
+- [x] 1. Thống kê (`train/hard_cases_prep.py`): theo máy / ngày-đêm / nguồn (probe, ring, chat_kill) / bãi; trùng lặp
+      chính xác (md5: một ca có trong 2 lần xuất) và gần trùng (dHash 64 bit <= 6 bit + điểm <= 48 px).
+- [x] 2. Nhãn bán tự động (cùng script): điểm con trỏ = chắc chắn có quái -> model hiện tại ở conf 0,05: box chứa
+      điểm (gần tâm nhất), hoặc box duy nhất cách điểm <= 24 px (điểm là mũi chuột, hình quái rộng hơn box: ca thử
+      lệch 7-33 px) -> "auto" (todo=false); không có -> box ước lượng HC_BOX 57x95 -> "review". Quái khác trong
+      khung = box của model >= 0,3. Bộ TEST cố định = 20 % ca cuối theo thời gian của mỗi máy, LUÔN duyệt tay (nhãn
+      của model cũ sẽ chấm thiên vị model cũ). Khung bình thường = 15 % số ca train, lấy từ 217 khung ĐÃ DUYỆT của
+      các bản ghi fallen_blessed (không cần duyệt). Chạy lại không ghi đè khung đã duyệt. Test:
+      `tests/test_hard_cases_prep.py`. Chạy thử trên zip dựng từ 2 bản quan sát orc tím (120 điểm con trỏ): 23 ca
+      duy nhất, 17 auto, 6 cần duyệt (test 4) - ca thử không phải ca khó thật (model đã thấy, conf 0,8), tỉ lệ auto
+      thật sẽ thấp hơn.
+- [ ] 3. `label_tool --review` cho phần "cần duyệt" — BÁO SỐ ẢNH + THỜI GIAN TRƯỚC (7,5-11 s/ảnh, số đo trên 827
+      ảnh đã duyệt). Lệnh: `python tests/label_tool.py records_game/hard_cases/work/<máy> --review`.
+- [ ] 4. Train orc_v4 (docs/TRAINING.md, `train_orc.ps1`, từ trọng số orc_v3), export 640/416/320. KHÔNG train khi
+      chưa duyệt nhãn.
+- [ ] 5. Nghiệm thu `train/compare_models.py` + `tests/eval_near_recall.py` trên bộ test cố định: chỉ thay khi recall
+      quái gần TĂNG, box sai KHÔNG tăng, ms <= 1,2 lần. Bảng trước/sau theo ngày/đêm.
+- [ ] 6. Đạt -> đóng gói vào build (orc_v3 vẫn chọn được ở Quét -> Nâng cao -> Model).
+- [ ] 7. Vòng lặp 1 lệnh (gộp zip -> nhãn -> train -> so sánh) mỗi ~300 ca mới; docs/TRAINING.md mục 7.
+
 ## DANH SÁCH VIỆC TỔNG (nguồn sự thật duy nhất — đánh dấu [x] khi xong)
 Chi tiết từng việc nằm ở các mục bên dưới VÀ ở mục "Câu trả lời của người dùng" (A1–A10, bổ sung lần 2)
 cùng 3.5. Khi tóm tắt tiến độ phải đi theo danh sách này, không chỉ theo tiêu đề giai đoạn.
